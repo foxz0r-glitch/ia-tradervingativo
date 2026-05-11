@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { MessageCircle } from "lucide-react";
 
-const PROXY_URL = "https://bot.virtuspro.online/api/register";
+const PROXY_URL = "https://bot.tradervingativo.pro/api/register";
 
 // Formats a Brazilian mobile number progressively as the user types.
 // Output: "(XX) XXXXX-XXXX" (max 11 digits).
