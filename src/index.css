@@ -1,0 +1,595 @@
+@font-face {
+  font-family: "Anthropic Sans";
+  src: url(https://assets-proxy.anthropic.com/claude-ai/v2/assets/v1/cc27851ad-CFxw3nG7.woff2) format("woff2");
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+  font-feature-settings: "dlig" 0;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CasaTrade Bot — Virtus-style Dark Trading Dashboard
+   Inspired by virtus-trade-nexus design system.
+   All colors are HSL.
+*/
+
+@layer base {
+  :root {
+    /* Core palette — deep navy + emerald green */
+    --background: 220 25% 5%;             /* #0a0d12 */
+    --foreground: 210 40% 98%;
+
+    --card: 220 22% 8%;                   /* #10141b */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 22% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 160 84% 39%;               /* emerald #10b981 */
+    --primary-foreground: 220 25% 5%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 160 60% 45%;
+    --accent-foreground: 220 25% 5%;
+
+    --destructive: 0 72% 51%;             /* red */
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 160 84% 39%;
+    --success-foreground: 220 25% 5%;
+
+    --warning: 38 92% 55%;                /* amber */
+    --warning-foreground: 220 25% 5%;
+
+    --info: 217 91% 60%;                  /* blue accent */
+    --info-foreground: 210 40% 98%;
+
+    --border: 217 33% 15%;
+    --input: 217 33% 15%;
+    --ring: 160 84% 39%;
+
+    --radius: 0.75rem;
+
+    /* Chart specific */
+    --bull: 160 84% 39%;
+    --bear: 0 72% 51%;
+    --mm5: 160 84% 45%;
+    --mm10: 38 92% 55%;
+
+    /* Gradients & FX */
+    --gradient-primary: linear-gradient(135deg, hsl(160 84% 39%), hsl(160 60% 45%));
+    --gradient-card: linear-gradient(135deg, hsl(220 22% 8% / 0.8), hsl(217 33% 17% / 0.4));
+    --gradient-progress: linear-gradient(90deg, hsl(160 84% 30%) 0%, hsl(160 84% 45%) 55%, hsl(150 90% 60%) 100%);
+
+    --shadow-glow: 0 0 30px hsl(160 84% 39% / 0.3);
+    --shadow-glow-red: 0 0 24px hsl(0 72% 51% / 0.35);
+    --shadow-card: 0 10px 40px hsl(220 25% 5% / 0.5);
+
+    --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 220 25% 5%; /* #0A0C10 */
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 160 84% 39%;
+    --sidebar-primary-foreground: 220 25% 5%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 15%;
+    --sidebar-ring: 160 84% 39%;
+  }
+
+  .dark {
+    --background: 220 25% 5%;
+    --foreground: 210 40% 98%;
+    --card: 220 22% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 220 22% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 220 25% 5%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 160 60% 45%;
+    --accent-foreground: 220 25% 5%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 15%;
+    --input: 217 33% 15%;
+    --ring: 160 84% 39%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, hsl(160 84% 39% / 0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, hsl(217 91% 60% / 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .ct-card {
+    @apply relative overflow-hidden rounded-[var(--radius)] border border-border;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Glow variants — colored radial glow seeping from bottom-left of the card */
+  .ct-card-green {
+    @apply ct-card border-[hsl(160_84%_39%/0.25)];
+    background:
+      radial-gradient(120% 80% at 0% 100%, hsl(160 84% 39% / 0.18), transparent 60%),
+      var(--gradient-card);
+  }
+  .ct-card-blue {
+    @apply ct-card border-[hsl(217_91%_60%/0.3)];
+    background:
+      radial-gradient(120% 80% at 0% 100%, hsl(217 91% 60% / 0.18), transparent 60%),
+      var(--gradient-card);
+  }
+  .ct-card-orange {
+    @apply ct-card border-[hsl(25_95%_55%/0.3)];
+    background:
+      radial-gradient(120% 80% at 0% 100%, hsl(25 95% 55% / 0.18), transparent 60%),
+      var(--gradient-card);
+  }
+  .ct-card-violet {
+    @apply ct-card border-[hsl(265_85%_65%/0.3)];
+    background:
+      radial-gradient(120% 80% at 0% 100%, hsl(265 85% 65% / 0.18), transparent 60%),
+      var(--gradient-card);
+  }
+
+  .ct-label {
+    @apply text-xs font-medium text-muted-foreground;
+    letter-spacing: 0.01em;
+  }
+
+  .ct-value {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    @apply text-foreground;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  .ct-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ct-input {
+    @apply w-full rounded-lg border border-border bg-[hsl(217_33%_12%)] px-3 py-2 text-sm
+           text-foreground placeholder:text-muted-foreground
+           focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50
+           transition-[box-shadow,border-color] duration-200;
+  }
+
+  .ct-select {
+    @apply ct-input appearance-none pr-8;
+    background-image: linear-gradient(45deg, transparent 50%, hsl(var(--muted-foreground)) 50%),
+                      linear-gradient(135deg, hsl(var(--muted-foreground)) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  .ct-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+           border transition-all duration-200 select-none;
+    letter-spacing: 0.01em;
+  }
+
+  .ct-btn-start {
+    @apply ct-btn border-transparent text-primary-foreground
+           hover:shadow-[var(--shadow-glow)] active:scale-[0.98];
+    background: var(--gradient-primary);
+  }
+
+  .ct-btn-stop {
+    @apply ct-btn border-[hsl(var(--destructive)/0.6)] text-[hsl(var(--destructive))]
+           bg-[hsl(var(--destructive)/0.08)]
+           hover:bg-[hsl(var(--destructive)/0.18)] hover:shadow-[var(--shadow-glow-red)]
+           active:scale-[0.98];
+  }
+
+  .ct-btn-ghost {
+    @apply ct-btn border-border text-muted-foreground bg-transparent
+           hover:text-foreground hover:border-primary/40 hover:bg-[hsl(var(--secondary)/0.5)];
+  }
+
+  .ct-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-semibold;
+    background: hsl(var(--card));
+    transition: var(--transition-smooth);
+  }
+
+  .ct-pill[data-state="running"] {
+    @apply border-[hsl(var(--success)/0.5)] text-[hsl(var(--success))];
+    box-shadow: var(--shadow-glow);
+  }
+
+  .ct-pill[data-state="stopped"] {
+    @apply border-[hsl(var(--destructive)/0.5)] text-[hsl(var(--destructive))];
+  }
+
+  .ct-dot {
+    @apply inline-block h-2 w-2 rounded-full bg-muted-foreground;
+    transition: var(--transition-smooth);
+  }
+
+  .ct-dot[data-state="online"],
+  .ct-dot[data-state="running"] {
+    @apply bg-[hsl(var(--success))];
+    box-shadow: 0 0 0 0 hsl(var(--success) / 0.7);
+    animation: ct-pulse 1.8s infinite;
+  }
+
+  .ct-dot[data-state="offline"],
+  .ct-dot[data-state="stopped"] {
+    @apply bg-[hsl(var(--destructive))];
+  }
+
+  .ct-progress {
+    @apply relative h-2 w-full overflow-hidden rounded-full bg-[hsl(217_33%_15%)];
+  }
+
+  .ct-progress-fill {
+    @apply h-full rounded-full transition-[width] duration-500 ease-out;
+    background: var(--gradient-progress);
+    width: 0%;
+  }
+
+  .ct-rsi-fill {
+    @apply h-full rounded-full transition-[width] duration-500 ease-out;
+    background: linear-gradient(90deg, hsl(var(--success)) 0%, hsl(38 92% 55%) 50%, hsl(var(--destructive)) 100%);
+    width: 0%;
+  }
+
+  .ct-log-line {
+    @apply px-3 py-1 text-xs leading-relaxed border-l-2 border-transparent;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* ===========================
+     Botões refinados (premium)
+     =========================== */
+  .btn-premium {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold tracking-tight transition-all duration-200 ease-out;
+    @apply overflow-hidden isolate;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    letter-spacing: -0.01em;
+  }
+  .btn-premium::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0) 45%);
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .btn-premium::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.25);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .btn-premium > * { position: relative; z-index: 3; }
+  .btn-premium:hover { transform: translateY(-1px); }
+  .btn-premium:active { transform: translateY(0); filter: brightness(0.96); }
+  .btn-premium:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none !important;
+    filter: grayscale(0.2);
+  }
+
+  .btn-emerald {
+    background: linear-gradient(180deg, hsl(160 84% 48%), hsl(160 84% 36%));
+    color: hsl(220 30% 6%);
+    box-shadow: 0 6px 20px hsl(160 84% 40% / 0.35), 0 0 0 1px hsl(160 84% 30% / 0.5);
+  }
+  .btn-emerald:hover {
+    box-shadow: 0 10px 28px hsl(160 84% 40% / 0.5), 0 0 0 1px hsl(160 84% 35% / 0.7);
+  }
+  .btn-emerald:focus-visible { @apply ring-[hsl(160_84%_45%)]; }
+
+  .btn-danger {
+    background: linear-gradient(180deg, hsl(350 90% 62%), hsl(350 80% 48%));
+    color: #fff;
+    box-shadow: 0 6px 20px hsl(350 80% 50% / 0.4), 0 0 0 1px hsl(350 80% 42% / 0.55);
+  }
+  .btn-danger:hover {
+    box-shadow: 0 10px 28px hsl(350 80% 50% / 0.55), 0 0 0 1px hsl(350 80% 45% / 0.75);
+  }
+  .btn-danger:focus-visible { @apply ring-[hsl(350_85%_60%)]; }
+
+  .btn-violet {
+    background: linear-gradient(180deg, hsl(270 85% 65%), hsl(265 85% 50%));
+    color: #fff;
+    box-shadow: 0 6px 22px hsl(265 85% 50% / 0.45), 0 0 0 1px hsl(265 80% 45% / 0.6);
+  }
+  .btn-violet:hover {
+    box-shadow: 0 12px 32px hsl(265 85% 50% / 0.6), 0 0 0 1px hsl(265 80% 50% / 0.8);
+  }
+  .btn-violet:focus-visible { @apply ring-[hsl(270_85%_65%)]; }
+
+  .btn-blue {
+    background: linear-gradient(180deg, hsl(217 91% 65%), hsl(217 91% 50%));
+    color: #fff;
+    box-shadow: 0 6px 20px hsl(217 91% 55% / 0.4), 0 0 0 1px hsl(217 91% 45% / 0.6);
+  }
+  .btn-blue:hover {
+    box-shadow: 0 10px 28px hsl(217 91% 55% / 0.55), 0 0 0 1px hsl(217 91% 50% / 0.8);
+  }
+  .btn-blue:focus-visible { @apply ring-[hsl(217_91%_60%)]; }
+
+  .btn-ghost-outline {
+    @apply border border-border/70 bg-card/40 text-foreground backdrop-blur-sm;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+  }
+  .btn-ghost-outline:hover {
+    @apply border-primary/60 bg-primary/10 text-primary;
+  }
+  .btn-ghost-outline:focus-visible { @apply ring-primary/60; }
+
+  /* ===========================
+     Rank card (sidebar) hover FX
+     =========================== */
+  .rank-card {
+    cursor: default;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.4s ease;
+    will-change: transform;
+  }
+  .rank-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--rank-color) 30%, transparent) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.05),
+      0 0 0 1px color-mix(in srgb, var(--rank-color) 18%, transparent),
+      0 8px 22px -12px color-mix(in srgb, var(--rank-color) 55%, transparent),
+      0 0 18px -8px color-mix(in srgb, var(--rank-color) 45%, transparent) !important;
+  }
+  .rank-card:hover .rank-shine {
+    left: 130% !important;
+    opacity: 1 !important;
+  }
+  .rank-card:hover .rank-halo {
+    opacity: 0.7 !important;
+  }
+  .rank-card:hover .rank-img {
+    transform: scale(1.06) rotate(-3deg);
+    filter: drop-shadow(0 0 11px color-mix(in srgb, var(--rank-color) 75%, transparent)) drop-shadow(0 0 3px color-mix(in srgb, var(--rank-color) 55%, transparent)) !important;
+  }
+  /* Glow ambiente sutil contínuo */
+  @keyframes rank-pulse {
+    0%, 100% { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--rank-color) 45%, transparent)); }
+    50%      { filter: drop-shadow(0 0 11px color-mix(in srgb, var(--rank-color) 65%, transparent)); }
+  }
+  .rank-img {
+    animation: rank-pulse 3.2s ease-in-out infinite;
+  }
+  .rank-card:hover .rank-img {
+    animation: none;
+  }
+
+  /* Streak fire flicker */
+  @keyframes streak-flicker {
+    0%, 100% {
+      box-shadow: 0 0 10px -2px rgba(251,146,60,0.55), inset 0 1px 0 rgba(255,200,120,0.18);
+      transform: translateY(0);
+    }
+    50% {
+      box-shadow: 0 0 16px -1px rgba(251,146,60,0.9), 0 0 24px -6px rgba(239,68,68,0.55), inset 0 1px 0 rgba(255,220,160,0.3);
+      transform: translateY(-0.5px);
+    }
+  }
+  .streak-flame {
+    animation: streak-flicker 2.4s ease-in-out infinite;
+  }
+  .streak-flame > span:first-child {
+    animation: streak-flicker 1.6s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@keyframes ct-pulse {
+  0%   { box-shadow: 0 0 0 0 hsl(var(--success) / 0.6); }
+  70%  { box-shadow: 0 0 0 8px hsl(var(--success) / 0); }
+  100% { box-shadow: 0 0 0 0 hsl(var(--success) / 0); }
+}
+
+@keyframes ct-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.45; }
+}
+
+.animate-blink {
+  animation: ct-blink 1.2s ease-in-out infinite;
+}
+
+/* ───────────── Custom Scrollbars (Harmônico com tema) ───────────── */
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: hsl(160 84% 45% / 0.6) hsl(220 22% 8% / 0.5);
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+*::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, hsl(220 25% 6% / 0.65), hsl(220 22% 9% / 0.65));
+  border-radius: 10px;
+  border-left: 1px solid hsl(160 84% 39% / 0.06);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    hsl(160 84% 50% / 0.7),
+    hsl(160 70% 38% / 0.85)
+  );
+  border-radius: 10px;
+  border: 3px solid hsl(220 25% 5% / 0.7);
+  background-clip: padding-box;
+  min-height: 48px;
+  box-shadow: inset 0 1px 0 hsl(160 84% 75% / 0.28), 0 0 0 1px hsl(160 84% 30% / 0.25);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    hsl(160 84% 58%),
+    hsl(160 70% 42%)
+  );
+  background-clip: padding-box;
+  border: 3px solid hsl(220 25% 5% / 0.7);
+  box-shadow: inset 0 1px 0 hsl(160 84% 82% / 0.45), 0 0 14px hsl(160 84% 45% / 0.6);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: hsl(160 84% 50%);
+  background-clip: padding-box;
+  border: 3px solid hsl(220 25% 5% / 0.7);
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Variante fina para áreas internas (listas, dropdowns) */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  border: 2px solid hsl(220 25% 5% / 0.5);
+}
+
+/* Scroll mais largo e suave para o histórico de operações */
+.ops-scroll {
+  scroll-behavior: smooth;
+  scrollbar-width: auto;
+  scrollbar-color: hsl(160 84% 45% / 0.55) hsl(220 22% 8% / 0.4);
+}
+.ops-scroll::-webkit-scrollbar {
+  width: 14px;
+}
+.ops-scroll::-webkit-scrollbar-track {
+  background: hsl(220 22% 8% / 0.5);
+  border-radius: 10px;
+  margin: 6px 0;
+}
+.ops-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, hsl(160 84% 45% / 0.7), hsl(160 60% 35% / 0.8));
+  border-radius: 10px;
+  border: 3px solid hsl(220 25% 5% / 0.6);
+  background-clip: padding-box;
+  min-height: 40px;
+}
+.ops-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, hsl(160 84% 55%), hsl(160 70% 42%));
+  background-clip: padding-box;
+  border: 3px solid hsl(220 25% 5% / 0.6);
+  box-shadow: 0 0 10px hsl(160 84% 45% / 0.5);
+}
+
+/* ───────────── Number input spinners (refined) ───────────── */
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+/* WebKit: hide native spinners and replace with a custom subtle chevron */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  width: 22px;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+.input-number-wrap {
+  position: relative;
+}
+.input-number-wrap > input[type="number"] {
+  padding-right: 30px;
+}
+.input-number-wrap::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 10px;
+  height: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, hsl(var(--muted-foreground)) 50%),
+    linear-gradient(-45deg, transparent 50%, hsl(var(--muted-foreground)) 50%),
+    linear-gradient(-45deg, hsl(var(--muted-foreground)) 50%, transparent 50%),
+    linear-gradient(45deg, hsl(var(--muted-foreground)) 50%, transparent 50%);
+  background-position:
+    0 3px, 6px 3px,
+    0 9px, 6px 9px;
+  background-size: 5px 4px;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.input-number-wrap:hover::after {
+  opacity: 1;
+}

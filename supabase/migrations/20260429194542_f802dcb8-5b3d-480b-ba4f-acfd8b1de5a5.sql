@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS idx_user_xp_total_xp ON user_xp (total_xp DESC);

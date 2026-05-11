@@ -1,0 +1,1 @@
+UPDATE auth.users SET raw_user_meta_data = raw_user_meta_data - 'avatar_url' WHERE email = 'hypadinho@proton.me';

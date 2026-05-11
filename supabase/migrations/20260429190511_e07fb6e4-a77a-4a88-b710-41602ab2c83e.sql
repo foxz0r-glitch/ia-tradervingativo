@@ -1,0 +1,1 @@
+ALTER TABLE public.user_xp ADD COLUMN IF NOT EXISTS display_name text;
