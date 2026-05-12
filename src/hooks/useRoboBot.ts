@@ -45,9 +45,10 @@ export function useRoboBot(callbacks: BotCallbacks) {
     ws.addEventListener('open', () => {
       callbacksRef.current.onConnect()
     })
-    ws.addEventListener('close', () => {
+    ws.addEventListener('close', (event) => {
       callbacksRef.current.onDisconnect()
       if (destroyedRef.current) return
+      if (event.code === 4001) return  // sem conta na corretora — não reconectar
       if (reconnectRef.current) clearTimeout(reconnectRef.current)
       reconnectRef.current = setTimeout(connect, 3000)
     })
