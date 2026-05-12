@@ -39,7 +39,7 @@ export function useRoboBot(callbacks: BotCallbacks) {
 
   const connect = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return
-    const ws = new WebSocket('wss://bot.virtuspro.online')
+    const ws = new WebSocket('wss://bot.tradervingativo.pro')
     wsRef.current = ws
 
     ws.addEventListener('open', () => {
