@@ -632,7 +632,7 @@ const Index = () => {
           setRodando(false);
           toast.success("🎯 Meta atingida! Robô pausado automaticamente.", {
             duration: 5000,
-            style: { background: "hsl(160 84% 18%)", color: "hsl(160 84% 85%)", border: "1px solid hsl(160 84% 35%)" },
+            style: { background: "hsl(139 80% 18%)", color: "hsl(139 80% 85%)", border: "1px solid hsl(139 80% 35%)" },
           });
           setSummaryReason("meta");
           setSummaryOpen(true);
@@ -689,7 +689,7 @@ const Index = () => {
       toast.success(`✅ Sessão Demo encerrada — Resultado: ${fmtBRL(sessionTotal)}`, {
         id: toastId,
         duration: 6000,
-        style: { background: "hsl(160 84% 18%)", color: "hsl(160 84% 85%)", border: "1px solid hsl(160 84% 35%)" },
+        style: { background: "hsl(139 80% 18%)", color: "hsl(139 80% 85%)", border: "1px solid hsl(139 80% 35%)" },
       });
     } else {
       toast.error(`❌ Sessão Demo encerrada — Resultado: ${fmtBRL(sessionTotal)}`, {
@@ -874,15 +874,15 @@ const Index = () => {
         <header className="mb-8">
           {/* Eyebrow estilo Ranking */}
           <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-[12.5%]">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(160_84%_45%/0.6)]" />
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(139_80%_45%/0.6)]" />
             <span className="inline-flex items-center gap-2">
-              <Hexagon className="h-2.5 w-2.5 text-[hsl(160_84%_60%)]" fill="currentColor" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.42em] text-[hsl(160_84%_65%)]">
+              <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.42em] text-[hsl(139_80%_65%)]">
                 COCKPIT DO TRADER
               </span>
-              <Hexagon className="h-2.5 w-2.5 text-[hsl(160_84%_60%)]" fill="currentColor" />
+              <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
             </span>
-            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[hsl(160_84%_45%/0.6)]" />
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[hsl(139_80%_45%/0.6)]" />
           </div>
 
           {/* Status conexão */}
@@ -936,10 +936,10 @@ const Index = () => {
                     {/* Saldo — card inteiro abre o popup de depósito */}
                     <DepositButton variant="wallet-card">
                       <span className="relative leading-tight">
-                        <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(160_50%_70%)]">
+                        <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(139_50%_70%)]">
                           <span className="relative flex h-1.5 w-1.5">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(160_84%_55%)] opacity-75" />
-                            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_55%)]" />
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_55%)] opacity-75" />
+                            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_55%)]" />
                           </span>
                           Saldo
                         </span>
@@ -952,7 +952,7 @@ const Index = () => {
                               </span>
                             </>
                           ) : (
-                            <span className="text-xl font-extrabold tracking-tight tabular-nums text-[#3ddc97] drop-shadow-[0_0_12px_hsl(160_84%_50%/0.55)] sm:text-[22px]">
+                            <span className="text-xl font-extrabold tracking-tight tabular-nums text-[#3ddc97] drop-shadow-[0_0_12px_hsl(139_80%_50%/0.55)] sm:text-[22px]">
                               {saldo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                             </span>
                           )}
@@ -971,7 +971,7 @@ const Index = () => {
                   onClick={() => setInfoOpen(true)}
                   aria-label="Saiba mais sobre o ativo"
                   title="Saiba mais sobre o ativo"
-                  className="group absolute left-3 top-3 z-10 inline-flex h-8 items-center gap-1.5 rounded-lg border border-border/70 bg-black/70 px-3 text-[11px] font-semibold text-foreground backdrop-blur-md transition-all hover:border-primary/50 hover:bg-black/85 hover:shadow-[0_0_18px_-4px_hsl(160_84%_39%/0.6)] active:translate-y-px"
+                  className="group absolute left-3 top-3 z-10 inline-flex h-8 items-center gap-1.5 rounded-lg border border-border/70 bg-black/70 px-3 text-[11px] font-semibold text-foreground backdrop-blur-md transition-all hover:border-primary/50 hover:bg-black/85 hover:shadow-[0_0_18px_-4px_hsl(139_80%_39%/0.6)] active:translate-y-px"
                 >
                   <HelpCircle className="h-3.5 w-3.5 text-[#3ddc97]" strokeWidth={2.5} />
                   <span>Sobre o ativo</span>
@@ -1012,12 +1012,12 @@ const Index = () => {
             {/* Seleção de IA — Minimal Slate 2x2 */}
             <div className="ct-card w-full shrink-0 !overflow-visible px-4 pt-4 pb-5 sm:px-5">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(160_84%_50%/0.28)] via-[hsl(160_84%_40%/0.14)] to-[hsl(160_84%_30%/0.04)] text-[hsl(160_84%_75%)] ring-1 ring-[hsl(160_84%_55%/0.45)] shadow-[inset_0_1px_0_hsl(160_84%_85%/0.20),0_0_14px_-4px_hsl(160_84%_50%/0.8)]">
+                <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(139_80%_50%/0.28)] via-[hsl(139_80%_40%/0.14)] to-[hsl(139_80%_30%/0.04)] text-[hsl(139_80%_75%)] ring-1 ring-[hsl(139_80%_55%/0.45)] shadow-[inset_0_1px_0_hsl(139_80%_85%/0.20),0_0_14px_-4px_hsl(139_80%_50%/0.8)]">
                   <Bot className="h-[15px] w-[15px]" strokeWidth={2.2} />
-                  <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_60%)] shadow-[0_0_6px_hsl(160_84%_55%)]" />
+                  <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_6px_hsl(139_80%_55%)]" />
                 </span>
                 <div className="flex flex-col leading-none">
-                  <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_60%)]">IA · Engine</span>
+                  <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">IA · Engine</span>
                   <span className="mt-1 text-[15px] font-black tracking-tight text-foreground">Modelo de Inteligência</span>
                 </div>
               </div>
@@ -1042,7 +1042,7 @@ const Index = () => {
                       aria-disabled={blocked}
                       className={`group relative flex min-w-0 items-center gap-2 rounded-xl px-2.5 py-2.5 text-left transition-all ${
                         selected
-                          ? "bg-[hsl(160_84%_45%/0.10)] ring-1 ring-inset ring-[hsl(160_84%_50%/0.55)]"
+                          ? "bg-[hsl(139_80%_45%/0.10)] ring-1 ring-inset ring-[hsl(139_80%_50%/0.55)]"
                           : "ring-1 ring-inset ring-border/40 hover:ring-border"
                       } ${blocked ? "cursor-not-allowed pointer-events-none" : ""} ${
                         blocked && !selected ? "opacity-50" : ""
@@ -1058,7 +1058,7 @@ const Index = () => {
                       <span
                         className={`h-2 w-2 shrink-0 rounded-full transition-all ${
                           selected
-                            ? "bg-[hsl(160_84%_55%)] shadow-[0_0_8px_hsl(160_84%_55%)]"
+                            ? "bg-[hsl(139_80%_55%)] shadow-[0_0_8px_hsl(139_80%_55%)]"
                             : "bg-muted-foreground/20"
                         }`}
                       />
@@ -1110,7 +1110,7 @@ const Index = () => {
             <div className="ct-label flex items-center gap-2">
               <GraduationCap className="h-4 w-4 text-white" /> Progresso do Curso
             </div>
-            <div className="ct-value mt-3 text-3xl font-bold text-[hsl(160_84%_45%)] sm:text-4xl">
+            <div className="ct-value mt-3 text-3xl font-bold text-[hsl(139_80%_45%)] sm:text-4xl">
               67%
             </div>
             <div className="ct-progress mt-3">
@@ -1126,13 +1126,13 @@ const Index = () => {
             </div>
             {saldo == null ? (
               <div className="mt-3 flex items-center gap-2.5">
-                <Loader2 className="h-7 w-7 animate-spin text-[hsl(160_84%_45%)]" />
+                <Loader2 className="h-7 w-7 animate-spin text-[hsl(139_80%_45%)]" />
                 <span className="text-base font-semibold text-muted-foreground">
                   Carregando...
                 </span>
               </div>
             ) : (
-              <div className="ct-value mt-3 text-3xl font-bold text-[hsl(160_84%_45%)] sm:text-4xl">
+              <div className="ct-value mt-3 text-3xl font-bold text-[hsl(139_80%_45%)] sm:text-4xl">
                 {saldo.toLocaleString("pt-BR", {
                   style: "currency",
                   currency: "BRL",
@@ -1287,7 +1287,7 @@ function StatsSummary({ stats, sentiment }: { stats: any; sentiment: boolean | n
     `${n > 0 ? "+" : ""}${Number(n).toFixed(2)}%`;
   const colorOf = (n: number) =>
     n > 0
-      ? "text-[hsl(160_84%_45%)]"
+      ? "text-[hsl(139_80%_45%)]"
       : n < 0
       ? "text-[hsl(0_84%_60%)]"
       : "text-muted-foreground";

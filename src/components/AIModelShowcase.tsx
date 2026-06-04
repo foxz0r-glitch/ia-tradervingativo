@@ -13,12 +13,12 @@ type ModelKey = "claude" | "gpt5" | "gemini" | "grok3";
 
 const MODELS: { key: ModelKey; label: string; sub: string; icon: string; accent: string }[] = [
   { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon, accent: "25 95% 55%" },
-  { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon, accent: "160 84% 45%" },
+  { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon, accent: "139 80% 45%" },
   { key: "gemini", label: "Gemini", sub: "Google", icon: geminiIcon, accent: "217 91% 60%" },
   { key: "grok3", label: "Grok 3", sub: "xAI", icon: grokIcon, accent: "280 70% 60%" },
 ];
 
-const PRIMARY = "160 84% 45%";
+const PRIMARY = "139 80% 45%";
 
 function Frame({
   title,
@@ -59,7 +59,7 @@ function VariantGlass() {
               onClick={() => setSel(m.key)}
               className={`group relative flex items-center gap-3 overflow-hidden rounded-2xl border px-4 py-3.5 text-left backdrop-blur-md transition-all ${
                 selected
-                  ? "border-[hsl(160_84%_50%)] bg-[hsl(160_84%_45%/0.08)] shadow-[0_0_0_1px_hsl(160_84%_50%),0_8px_28px_-12px_hsl(160_84%_45%/0.6)]"
+                  ? "border-[hsl(139_80%_50%)] bg-[hsl(139_80%_45%/0.08)] shadow-[0_0_0_1px_hsl(139_80%_50%),0_8px_28px_-12px_hsl(139_80%_45%/0.6)]"
                   : "border-border/50 bg-card/30 hover:border-border hover:bg-card/50"
               }`}
             >
@@ -75,7 +75,7 @@ function VariantGlass() {
                 <div className="mt-0.5 truncate text-[11px] text-muted-foreground">{m.sub}</div>
               </div>
               {selected && (
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[hsl(160_84%_45%)] text-[hsl(160_30%_8%)]">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[hsl(139_80%_45%)] text-[hsl(139_30%_8%)]">
                   <Check className="h-3 w-3" strokeWidth={3} />
                 </span>
               )}
@@ -93,7 +93,7 @@ function VariantNeon() {
   return (
     <div className="ct-card px-5 py-5">
       <div className="ct-label mb-4 flex items-center gap-2">
-        <Zap className="h-3.5 w-3.5 text-[hsl(160_84%_55%)]" />
+        <Zap className="h-3.5 w-3.5 text-[hsl(139_80%_55%)]" />
         MODELO DE INTELIGÊNCIA
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -106,8 +106,8 @@ function VariantNeon() {
               onClick={() => setSel(m.key)}
               className={`group relative overflow-hidden rounded-xl border px-4 py-3 text-left transition-all ${
                 selected
-                  ? "border-[hsl(160_84%_55%/0.7)] bg-[hsl(160_84%_45%/0.08)]"
-                  : "border-border/40 bg-muted/5 hover:border-[hsl(160_84%_45%/0.4)]"
+                  ? "border-[hsl(139_80%_55%/0.7)] bg-[hsl(139_80%_45%/0.08)]"
+                  : "border-border/40 bg-muted/5 hover:border-[hsl(139_80%_45%/0.4)]"
               }`}
               style={
                 selected
@@ -170,7 +170,7 @@ function VariantPremium() {
               onClick={() => setSel(m.key)}
               className={`group relative flex flex-col gap-2 overflow-hidden rounded-2xl border p-3 text-left transition-all ${
                 selected
-                  ? "border-[hsl(160_84%_50%)] bg-gradient-to-br from-[hsl(160_84%_45%/0.12)] to-transparent"
+                  ? "border-[hsl(139_80%_50%)] bg-gradient-to-br from-[hsl(139_80%_45%/0.12)] to-transparent"
                   : "border-border/50 hover:border-border hover:bg-muted/10"
               }`}
             >
@@ -179,7 +179,7 @@ function VariantPremium() {
                   <img src={m.icon} alt={m.label} className="h-full w-full object-cover" />
                 </span>
                 {selected && (
-                  <span className="rounded-full border border-[hsl(160_84%_50%/0.5)] bg-[hsl(160_84%_45%/0.12)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[hsl(160_84%_70%)]">
+                  <span className="rounded-full border border-[hsl(139_80%_50%/0.5)] bg-[hsl(139_80%_45%/0.12)] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[hsl(139_80%_70%)]">
                     Ativa
                   </span>
                 )}
@@ -215,7 +215,7 @@ function VariantMinimal() {
               onClick={() => setSel(m.key)}
               className={`group relative flex items-center gap-3 rounded-xl px-3 py-3 text-left transition-all ${
                 selected
-                  ? "bg-[hsl(160_84%_45%/0.10)] ring-1 ring-inset ring-[hsl(160_84%_50%/0.55)]"
+                  ? "bg-[hsl(139_80%_45%/0.10)] ring-1 ring-inset ring-[hsl(139_80%_50%/0.55)]"
                   : "ring-1 ring-inset ring-border/40 hover:ring-border"
               }`}
             >
@@ -228,7 +228,7 @@ function VariantMinimal() {
               </div>
               <span
                 className={`h-2 w-2 shrink-0 rounded-full transition-all ${
-                  selected ? "bg-[hsl(160_84%_55%)] shadow-[0_0_8px_hsl(160_84%_55%)]" : "bg-muted-foreground/20"
+                  selected ? "bg-[hsl(139_80%_55%)] shadow-[0_0_8px_hsl(139_80%_55%)]" : "bg-muted-foreground/20"
                 }`}
               />
             </button>
@@ -249,12 +249,12 @@ function VariantHex() {
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(160 84% 60%) 1px, transparent 1px), linear-gradient(90deg, hsl(160 84% 60%) 1px, transparent 1px)",
+            "linear-gradient(hsl(139 80% 60%) 1px, transparent 1px), linear-gradient(90deg, hsl(139 80% 60%) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
       <div className="relative ct-label mb-4 flex items-center gap-2">
-        <Hexagon className="h-3.5 w-3.5 text-[hsl(160_84%_55%)]" />
+        <Hexagon className="h-3.5 w-3.5 text-[hsl(139_80%_55%)]" />
         MODELO DE INTELIGÊNCIA
       </div>
       <div className="relative grid grid-cols-2 gap-3">

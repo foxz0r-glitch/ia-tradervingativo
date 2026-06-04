@@ -170,11 +170,11 @@ export function AppSidebar() {
                     <span className="text-[18px] font-black tracking-tight text-foreground">
                       Painel
                     </span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(160_84%_60%)]">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(139_80%_60%)]">
                       / nav
                     </span>
                   </div>
-                  <div className="mt-2 h-px w-full bg-gradient-to-r from-[hsl(160_84%_45%/0.55)] via-[hsl(160_84%_45%/0.15)] to-transparent" />
+                  <div className="mt-2 h-px w-full bg-gradient-to-r from-[hsl(139_80%_45%/0.55)] via-[hsl(139_80%_45%/0.15)] to-transparent" />
                 </div>
               )}
 
@@ -198,7 +198,7 @@ export function AppSidebar() {
                           className={`pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover/menu:opacity-100 ${active ? "!opacity-100" : ""}`}
                           style={{
                             background:
-                              "linear-gradient(135deg, hsl(160 84% 55% / 0.6), hsl(160 84% 45% / 0.15) 35%, hsl(0 0% 100% / 0.04) 70%, transparent)",
+                              "linear-gradient(135deg, hsl(139 80% 55% / 0.6), hsl(139 80% 45% / 0.15) 35%, hsl(0 0% 100% / 0.04) 70%, transparent)",
                             padding: 1,
                             WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
                             WebkitMaskComposite: "xor",
@@ -210,8 +210,8 @@ export function AppSidebar() {
                           aria-hidden
                           className={`pointer-events-none absolute inset-0 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
                             active
-                              ? "bg-[linear-gradient(135deg,hsl(160_84%_45%/0.16),hsl(160_84%_30%/0.04)_55%,transparent)]"
-                              : "bg-[hsl(0_0%_100%/0.015)] opacity-0 group-hover/menu:opacity-100 group-hover/menu:bg-[linear-gradient(135deg,hsl(160_84%_45%/0.07),transparent)]"
+                              ? "bg-[linear-gradient(135deg,hsl(139_80%_45%/0.16),hsl(139_80%_30%/0.04)_55%,transparent)]"
+                              : "bg-[hsl(0_0%_100%/0.015)] opacity-0 group-hover/menu:opacity-100 group-hover/menu:bg-[linear-gradient(135deg,hsl(139_80%_45%/0.07),transparent)]"
                           }`}
                         />
                         {/* outer glow (active) */}
@@ -220,7 +220,7 @@ export function AppSidebar() {
                             aria-hidden
                             className="pointer-events-none absolute -inset-px rounded-2xl opacity-70 blur-[10px]"
                             style={{
-                              background: "linear-gradient(120deg, hsl(160 84% 50% / 0.35), transparent 65%)",
+                              background: "linear-gradient(120deg, hsl(139 80% 50% / 0.35), transparent 65%)",
                             }}
                           />
                         )}
@@ -230,8 +230,8 @@ export function AppSidebar() {
                             aria-hidden
                             className="pointer-events-none absolute -left-[14px] top-1/2 flex h-2 w-2 -translate-y-1/2 items-center justify-center"
                           >
-                            <span className="absolute h-2 w-2 animate-ping rounded-full bg-[hsl(160_84%_55%)] opacity-50" />
-                            <span className="relative h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_60%)] shadow-[0_0_10px_hsl(160_84%_55%)]" />
+                            <span className="absolute h-2 w-2 animate-ping rounded-full bg-[hsl(139_80%_55%)] opacity-50" />
+                            <span className="relative h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_10px_hsl(139_80%_55%)]" />
                           </span>
                         )}
 
@@ -239,15 +239,15 @@ export function AppSidebar() {
                         <span
                           className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
                             active
-                              ? "text-[hsl(160_84%_75%)]"
-                              : "text-muted-foreground group-hover/menu:text-[hsl(160_84%_72%)] group-hover/menu:scale-105"
+                              ? "text-[hsl(139_80%_75%)]"
+                              : "text-muted-foreground group-hover/menu:text-[hsl(139_80%_72%)] group-hover/menu:scale-105"
                           }`}
                         >
                           <item.icon className={collapsed ? "h-[21px] w-[21px]" : "h-[19px] w-[19px]"} strokeWidth={active ? 2.4 : 1.85} />
                           {active && (
                             <span
                               aria-hidden
-                              className="absolute inset-0 -z-10 rounded-xl bg-[radial-gradient(circle_at_center,hsl(160_84%_50%/0.35),transparent_70%)] blur-[2px]"
+                              className="absolute inset-0 -z-10 rounded-xl bg-[radial-gradient(circle_at_center,hsl(139_80%_50%/0.35),transparent_70%)] blur-[2px]"
                             />
                           )}
                         </span>
@@ -267,14 +267,14 @@ export function AppSidebar() {
                         {!collapsed && active && (
                           <span
                             aria-hidden
-                            className="relative ml-auto flex h-5 animate-fade-in items-center rounded-md border border-[hsl(160_84%_50%/0.4)] bg-[hsl(160_84%_45%/0.12)] px-1.5 text-[8.5px] font-black uppercase tracking-[0.18em] text-[hsl(160_84%_72%)] [animation-duration:220ms]"
+                            className="relative ml-auto flex h-5 animate-fade-in items-center rounded-md border border-[hsl(139_80%_50%/0.4)] bg-[hsl(139_80%_45%/0.12)] px-1.5 text-[8.5px] font-black uppercase tracking-[0.18em] text-[hsl(139_80%_72%)] [animation-duration:220ms]"
                           >
                             on
                           </span>
                         )}
                         {!collapsed && !active && (
                           <ChevronRight
-                            className="relative ml-auto h-3.5 w-3.5 shrink-0 -translate-x-2 text-[hsl(160_84%_60%)] opacity-0 transition-all duration-300 group-hover/menu:translate-x-0 group-hover/menu:opacity-100"
+                            className="relative ml-auto h-3.5 w-3.5 shrink-0 -translate-x-2 text-[hsl(139_80%_60%)] opacity-0 transition-all duration-300 group-hover/menu:translate-x-0 group-hover/menu:opacity-100"
                             strokeWidth={2.4}
                           />
                         )}

@@ -22,7 +22,7 @@ const MODELS: {
   invert?: boolean;
 }[] = [
   { key: "claude", label: "Claude", sub: "Anthropic", dot: "hsl(25 95% 55%)", icon: claudeIcon, bg: "#F1F1EE" },
-  { key: "gpt5", label: "GPT-5", sub: "OpenAI", dot: "hsl(160 84% 45%)", icon: gptIcon, bg: "#10A37F", invert: true },
+  { key: "gpt5", label: "GPT-5", sub: "OpenAI", dot: "hsl(139 80% 45%)", icon: gptIcon, bg: "#10A37F", invert: true },
   { key: "gemini", label: "Gemini", sub: "Google", dot: "hsl(217 91% 60%)", icon: geminiIcon, bg: "#FFFFFF" },
   { key: "grok3", label: "Grok 3", sub: "xAI", dot: "hsl(220 10% 80%)", icon: grokIcon, bg: "#000000" },
 ];
@@ -176,7 +176,7 @@ export function AIConfigPanel({
                     onClick={() => handleSelectModel(m.key)}
                     className={`group relative flex items-center gap-2.5 rounded-lg border px-3 py-2.5 text-left transition-all ${
                       selected
-                        ? "border-[hsl(160_84%_45%)] bg-[hsl(160_84%_45%/0.08)] shadow-[0_0_0_1px_hsl(160_84%_45%/0.4)]"
+                        ? "border-[hsl(139_80%_45%)] bg-[hsl(139_80%_45%/0.08)] shadow-[0_0_0_1px_hsl(139_80%_45%/0.4)]"
                         : "border-border/60 bg-muted/10 hover:border-border hover:bg-muted/20"
                     }`}
                   >
@@ -247,12 +247,12 @@ export function AIConfigPanel({
       {showControls && (
         <div className={`flex flex-1 flex-col ${showModels ? "mt-5" : ""}`}>
           <div className="mb-3 flex items-center gap-2.5">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(160_84%_50%/0.28)] via-[hsl(160_84%_40%/0.14)] to-[hsl(160_84%_30%/0.04)] text-[hsl(160_84%_75%)] ring-1 ring-[hsl(160_84%_55%/0.45)] shadow-[inset_0_1px_0_hsl(160_84%_85%/0.20),0_0_14px_-4px_hsl(160_84%_50%/0.8)]">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(139_80%_50%/0.28)] via-[hsl(139_80%_40%/0.14)] to-[hsl(139_80%_30%/0.04)] text-[hsl(139_80%_75%)] ring-1 ring-[hsl(139_80%_55%/0.45)] shadow-[inset_0_1px_0_hsl(139_80%_85%/0.20),0_0_14px_-4px_hsl(139_80%_50%/0.8)]">
               <Settings2 className="h-[15px] w-[15px]" strokeWidth={2.2} />
-              <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_60%)] shadow-[0_0_6px_hsl(160_84%_55%)]" />
+              <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_6px_hsl(139_80%_55%)]" />
             </span>
             <div className="flex flex-col leading-none">
-              <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_60%)]">Cockpit do Trader</span>
+              <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">Cockpit do Trader</span>
               <span className="mt-1 text-[15px] font-black tracking-tight text-foreground">Planejamento Estratégico</span>
             </div>
           </div>
@@ -266,7 +266,7 @@ export function AIConfigPanel({
                   Valor
                 </Label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-bold text-[hsl(160_84%_60%)]">
+                  <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-bold text-[hsl(139_80%_60%)]">
                     $
                   </span>
                   <Input
@@ -290,7 +290,7 @@ export function AIConfigPanel({
                   Meta
                 </Label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[hsl(160_84%_60%)]">
+                  <span className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-[hsl(139_80%_60%)]">
                     R$
                   </span>
                   <Input
@@ -341,7 +341,7 @@ export function AIConfigPanel({
                     }}
                     className={`rounded-md px-2 py-0.5 text-[10px] font-semibold tabular-nums transition-all ${
                       active
-                        ? "bg-[hsl(160_84%_45%/0.18)] text-[hsl(160_84%_70%)] ring-1 ring-[hsl(160_84%_45%/0.45)]"
+                        ? "bg-[hsl(139_80%_45%/0.18)] text-[hsl(139_80%_70%)] ring-1 ring-[hsl(139_80%_45%/0.45)]"
                         : "bg-muted/20 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                     }`}
                   >
@@ -354,7 +354,7 @@ export function AIConfigPanel({
             {/* Expiração */}
             <div className="flex flex-col gap-1.5">
               <Label className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                <Clock4 className="h-3 w-3 text-[hsl(160_84%_60%)]" strokeWidth={2.4} />
+                <Clock4 className="h-3 w-3 text-[hsl(139_80%_60%)]" strokeWidth={2.4} />
                 Expiração da operação
               </Label>
               <div className="flex flex-nowrap gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -367,7 +367,7 @@ export function AIConfigPanel({
                       onClick={() => setExpiracao(opt.v)}
                       className={`shrink-0 rounded-md px-2.5 py-1 text-[11px] font-semibold tabular-nums transition-all ${
                         active
-                          ? "bg-[hsl(160_84%_45%/0.18)] text-[hsl(160_84%_70%)] ring-1 ring-[hsl(160_84%_45%/0.45)] shadow-[0_0_10px_-3px_hsl(160_84%_45%/0.6)]"
+                          ? "bg-[hsl(139_80%_45%/0.18)] text-[hsl(139_80%_70%)] ring-1 ring-[hsl(139_80%_45%/0.45)] shadow-[0_0_10px_-3px_hsl(139_80%_45%/0.6)]"
                           : "bg-muted/20 text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                       }`}
                     >
@@ -402,7 +402,7 @@ export function AIConfigPanel({
             <button
               type="button"
               onClick={() => setStrategyOpen(true)}
-              className="group inline-flex items-center justify-center gap-2 rounded-lg border border-border/60 bg-gradient-to-b from-muted/15 to-muted/5 py-2.5 text-[12px] font-bold uppercase tracking-[0.14em] text-foreground/90 transition-all hover:-translate-y-0.5 hover:border-[hsl(160_84%_45%/0.5)] hover:bg-[hsl(160_84%_45%/0.08)] hover:text-[hsl(160_84%_70%)] hover:shadow-[0_0_18px_-6px_hsl(160_84%_45%/0.7)]"
+              className="group inline-flex items-center justify-center gap-2 rounded-lg border border-border/60 bg-gradient-to-b from-muted/15 to-muted/5 py-2.5 text-[12px] font-bold uppercase tracking-[0.14em] text-foreground/90 transition-all hover:-translate-y-0.5 hover:border-[hsl(139_80%_45%/0.5)] hover:bg-[hsl(139_80%_45%/0.08)] hover:text-[hsl(139_80%_70%)] hover:shadow-[0_0_18px_-6px_hsl(139_80%_45%/0.7)]"
             >
               <Layers className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" strokeWidth={2.4} />
               Estratégia
@@ -412,7 +412,7 @@ export function AIConfigPanel({
                 type="button"
                 onClick={onStart}
                 disabled={!canStart}
-                className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-[hsl(160_84%_50%/0.7)] bg-gradient-to-r from-[hsl(160_84%_30%/0.35)] via-[hsl(160_84%_40%/0.45)] to-[hsl(160_84%_30%/0.35)] px-5 py-4 text-base font-black uppercase tracking-[0.22em] text-[hsl(160_84%_75%)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_30px_-4px_hsl(160_84%_50%/0.85)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-[hsl(139_80%_50%/0.7)] bg-gradient-to-r from-[hsl(139_80%_30%/0.35)] via-[hsl(139_80%_40%/0.45)] to-[hsl(139_80%_30%/0.35)] px-5 py-4 text-base font-black uppercase tracking-[0.22em] text-[hsl(139_80%_75%)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_30px_-4px_hsl(139_80%_50%/0.85)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Play className="h-4 w-4" fill="currentColor" />
                 <span>Ligar IA</span>

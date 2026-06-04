@@ -32,13 +32,13 @@ function PremiumShell({
   const tokens =
     accent === "primary"
       ? {
-          border: "hsl(160 84% 45% / 0.28)",
+          border: "hsl(139 80% 45% / 0.28)",
           shadow:
-            "0 0 60px -12px hsl(160 84% 45% / 0.45), inset 0 1px 0 hsl(160 84% 60% / 0.12)",
-          glowA: "hsl(160 84% 45% / 0.18)",
-          glowB: "hsl(160 84% 60% / 0.08)",
+            "0 0 60px -12px hsl(139 80% 45% / 0.45), inset 0 1px 0 hsl(139 80% 60% / 0.12)",
+          glowA: "hsl(139 80% 45% / 0.18)",
+          glowB: "hsl(139 80% 60% / 0.08)",
           stripe:
-            "linear-gradient(90deg, transparent, hsl(160 84% 55% / 0.55), transparent)",
+            "linear-gradient(90deg, transparent, hsl(139 80% 55% / 0.55), transparent)",
         }
       : {
           border: "hsl(38 92% 55% / 0.30)",
@@ -172,7 +172,7 @@ export function DemoModeModal({
             {/* CTAs */}
             <div className="grid grid-cols-2 gap-3 p-4">
               <span className="h-3.5" aria-hidden />
-              <span className="self-end whitespace-nowrap text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(160_84%_70%)]/80">
+              <span className="self-end whitespace-nowrap text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(139_80%_70%)]/80">
                 COMECE LUCRAR AGORA
               </span>
               <Button
@@ -210,12 +210,12 @@ export function DemoModeModal({
               <div
                 className="flex h-11 w-11 items-center justify-center rounded-lg border"
                 style={{
-                  borderColor: "hsl(160 84% 45% / 0.35)",
-                  background: "hsl(160 84% 25% / 0.18)",
-                  boxShadow: "0 0 18px -6px hsl(160 84% 50% / 0.6)",
+                  borderColor: "hsl(139 80% 45% / 0.35)",
+                  background: "hsl(139 80% 25% / 0.18)",
+                  boxShadow: "0 0 18px -6px hsl(139 80% 50% / 0.6)",
                 }}
               >
-                <Zap className="h-5 w-5 fill-[hsl(160_84%_65%)] text-[hsl(160_84%_65%)]" />
+                <Zap className="h-5 w-5 fill-[hsl(139_80%_65%)] text-[hsl(139_80%_65%)]" />
               </div>
               <div className="leading-tight">
                 <div className="text-base font-black uppercase tracking-tight text-foreground">
@@ -223,8 +223,8 @@ export function DemoModeModal({
                 </div>
                 <div className="mt-0.5 flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(160_84%_55%)] opacity-75" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_55%)]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_55%)] opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_55%)]" />
                   </span>
                   Modo Simulação
                 </div>
@@ -247,8 +247,8 @@ export function DemoModeModal({
             <div
               className="ct-mono mt-2 text-4xl font-black leading-none tabular-nums"
               style={{
-                color: "hsl(160 84% 70%)",
-                textShadow: "0 0 22px hsl(160 84% 50% / 0.7)",
+                color: "hsl(139 80% 70%)",
+                textShadow: "0 0 22px hsl(139 80% 50% / 0.7)",
               }}
             >
               {sessionsLeft}
@@ -281,9 +281,9 @@ export function DemoModeModal({
                           background: "hsl(220 15% 12% / 0.5)",
                         }
                       : {
-                          borderColor: "hsl(160 84% 45% / 0.30)",
-                          background: "hsl(160 84% 25% / 0.10)",
-                          boxShadow: "0 0 14px -6px hsl(160 84% 50% / 0.4)",
+                          borderColor: "hsl(139 80% 45% / 0.30)",
+                          background: "hsl(139 80% 25% / 0.10)",
+                          boxShadow: "0 0 14px -6px hsl(139 80% 50% / 0.4)",
                         }
                   }
                 >
@@ -305,8 +305,8 @@ export function DemoModeModal({
                     style={
                       !isUsed
                         ? {
-                            color: "hsl(160 84% 72%)",
-                            textShadow: "0 0 12px hsl(160 84% 50% / 0.6)",
+                            color: "hsl(139 80% 72%)",
+                            textShadow: "0 0 12px hsl(139 80% 50% / 0.6)",
                           }
                         : undefined
                     }
@@ -321,16 +321,16 @@ export function DemoModeModal({
           {/* CTAs */}
           <div className="grid grid-cols-2 gap-3 p-4">
             <span className="h-3.5" aria-hidden />
-            <span className="self-end whitespace-nowrap text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(160_84%_70%)]/80">
+            <span className="self-end whitespace-nowrap text-center text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(139_80%_70%)]/80">
               ou opere em conta real
             </span>
             <Button
               onClick={onStartDemo}
               disabled={running}
               variant="outline"
-              className="group relative h-12 w-full justify-center gap-2 overflow-hidden rounded-xl border border-[hsl(160_84%_45%/0.5)] bg-secondary/40 px-3 text-[12px] font-black uppercase tracking-wider text-foreground transition-all duration-500 ease-out hover:border-[hsl(160_84%_45%/0.8)] hover:bg-secondary/60 hover:text-foreground"
+              className="group relative h-12 w-full justify-center gap-2 overflow-hidden rounded-xl border border-[hsl(139_80%_45%/0.5)] bg-secondary/40 px-3 text-[12px] font-black uppercase tracking-wider text-foreground transition-all duration-500 ease-out hover:border-[hsl(139_80%_45%/0.8)] hover:bg-secondary/60 hover:text-foreground"
             >
-              <Zap className="h-4 w-4 text-[hsl(160_84%_65%)]" />
+              <Zap className="h-4 w-4 text-[hsl(139_80%_65%)]" />
               <span>Iniciar Demo</span>
               <span className="ct-mono opacity-70">
                 {sessionsLeft}/{DEMO_MAX_SESSIONS}

@@ -32,8 +32,8 @@ import RankingBg from "./ranking/_RankingBg";
 function xpBarGradient(pct: number): string {
   if (pct < 25) return "linear-gradient(90deg, #ef4444, #f97316)";
   if (pct < 50) return "linear-gradient(90deg, #f97316, #eab308)";
-  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(160 84% 50%))";
-  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(160 84% 55%))";
+  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(139 80% 50%))";
+  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(139 80% 55%))";
 }
 
 /** Cor da posição:
@@ -68,10 +68,10 @@ function RankingRow({
 
   return (
     <div
-      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(160_84%_45%/0.5)] ${podiumShiftClass(pos)} ${
+      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(139_80%_45%/0.5)] ${podiumShiftClass(pos)} ${
         isMe
-          ? "border-[hsl(160_84%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(160_84%_45%/0.7)]"
-          : "border-border/50 hover:border-[hsl(160_84%_45%/0.4)]"
+          ? "border-[hsl(139_80%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(139_80%_45%/0.7)]"
+          : "border-border/50 hover:border-[hsl(139_80%_45%/0.4)]"
       }`}
       style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
@@ -104,7 +104,7 @@ function RankingRow({
             {name}
           </span>
           {isMe && (
-            <span className="rounded-md bg-[hsl(160_84%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
+            <span className="rounded-md bg-[hsl(139_80%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
               VOCÊ
             </span>
           )}
@@ -142,7 +142,7 @@ function RankingRow({
             </span>
           )}
         </div>
-        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(160_84%_70%)]">
+        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(139_80%_70%)]">
           {fmt(row.total_xp)}
         </div>
       </div>
@@ -197,14 +197,14 @@ export default function Ranking14() {
             style={{
               background:
                 "linear-gradient(160deg, hsl(220 22% 8% / 0.92), hsl(220 25% 6% / 0.88))",
-              border: "1px solid hsl(160 84% 45% / 0.25)",
+              border: "1px solid hsl(139 80% 45% / 0.25)",
               boxShadow:
-                "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 50px -18px hsl(160 84% 45% / 0.55)",
+                "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 50px -18px hsl(139 80% 45% / 0.55)",
             }}
           >
             {/* topo: linha decorativa + chips */}
-            <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, hsl(160 84% 60% / 0.7), transparent)" }} />
-            <span aria-hidden className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle, hsl(160 84% 50% / 0.28), transparent 65%)", filter: "blur(40px)" }} />
+            <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, hsl(139 80% 60% / 0.7), transparent)" }} />
+            <span aria-hidden className="pointer-events-none absolute -right-24 -top-20 h-72 w-72 rounded-full" style={{ background: "radial-gradient(circle, hsl(139 80% 50% / 0.28), transparent 65%)", filter: "blur(40px)" }} />
 
             <div className="relative px-6 pb-6 pt-7 md:px-10">
               {/* Cabeçalho topo: chips temporada + restante */}
@@ -213,10 +213,10 @@ export default function Ranking14() {
                   <span
                     className="rounded-md border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.28em]"
                     style={{
-                      borderColor: "hsl(160 84% 45% / 0.45)",
-                      background: "hsl(160 84% 39% / 0.12)",
-                      color: "hsl(160 84% 70%)",
-                      boxShadow: "0 0 14px -6px hsl(160 84% 45% / 0.7)",
+                      borderColor: "hsl(139 80% 45% / 0.45)",
+                      background: "hsl(139 80% 39% / 0.12)",
+                      color: "hsl(139 80% 70%)",
+                      boxShadow: "0 0 14px -6px hsl(139 80% 45% / 0.7)",
                     }}
                   >
                     TEMPORADA #01
@@ -252,8 +252,8 @@ export default function Ranking14() {
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
                       width: `${season.pct}%`,
-                      background: "linear-gradient(90deg, hsl(160 84% 30%), hsl(160 84% 50%), hsl(150 90% 65%))",
-                      boxShadow: "0 0 16px hsl(160 84% 45% / 0.8)",
+                      background: "linear-gradient(90deg, hsl(139 80% 30%), hsl(139 80% 50%), hsl(144 100% 65%))",
+                      boxShadow: "0 0 16px hsl(139 80% 45% / 0.8)",
                     }}
                   />
                   {[
@@ -269,14 +269,14 @@ export default function Ranking14() {
                         <div
                           className="h-3.5 w-3.5 rounded-full border-2"
                           style={{
-                            background: reached ? "hsl(160 84% 50%)" : "hsl(220 22% 14%)",
-                            borderColor: reached ? "hsl(150 90% 65%)" : "hsl(220 14% 28%)",
-                            boxShadow: reached ? "0 0 10px hsl(160 84% 50%)" : undefined,
+                            background: reached ? "hsl(139 80% 50%)" : "hsl(220 22% 14%)",
+                            borderColor: reached ? "hsl(144 100% 65%)" : "hsl(220 14% 28%)",
+                            boxShadow: reached ? "0 0 10px hsl(139 80% 50%)" : undefined,
                           }}
                         />
                         <span
                           className={`absolute left-1/2 top-5 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold uppercase tracking-widest ${
-                            reached ? "text-[hsl(160_84%_70%)]" : "text-muted-foreground/60"
+                            reached ? "text-[hsl(139_80%_70%)]" : "text-muted-foreground/60"
                           }`}
                         >
                           {cp.label}
@@ -427,13 +427,13 @@ export default function Ranking14() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.max(0, i - 1))}
                     disabled={mvpIdx === 0}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Temporada anterior"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(160_84%_60%)]">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(139_80%_60%)]">
                       Temporada
                     </div>
                     <div className="text-base font-bold capitalize text-foreground">
@@ -447,7 +447,7 @@ export default function Ranking14() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.min(mvpSeasons.length - 1, i + 1))}
                     disabled={mvpIdx >= mvpSeasons.length - 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Próxima temporada"
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -558,7 +558,7 @@ export default function Ranking14() {
                                 </div>
                                 <div
                                   className="text-2xl font-black tabular-nums"
-                                  style={{ color: "#6EE7B7", textShadow: "0 0 10px hsl(160 84% 45% / 0.55)" }}
+                                  style={{ color: "#6bffa6", textShadow: "0 0 10px hsl(139 80% 45% / 0.55)" }}
                                 >
                                   {fmt(r.total_xp)}
                                 </div>

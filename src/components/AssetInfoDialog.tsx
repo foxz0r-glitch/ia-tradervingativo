@@ -568,7 +568,7 @@ function fmtPrice(n: number | undefined | null): string {
 }
 function pctColor(n: number | undefined | null): string {
   if (n == null) return "text-muted-foreground";
-  if (n > 0) return "text-[hsl(160_84%_45%)]";
+  if (n > 0) return "text-[hsl(139_80%_45%)]";
   if (n < 0) return "text-[hsl(0_84%_60%)]";
   return "text-muted-foreground";
 }
@@ -601,7 +601,7 @@ function StatsTab({ stats }: { stats: any }) {
               className={cn(
                 "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider",
                 bullish
-                  ? "bg-[hsl(160_84%_45%/0.15)] text-[hsl(160_84%_45%)] border border-[hsl(160_84%_45%/0.4)]"
+                  ? "bg-[hsl(139_80%_45%/0.15)] text-[hsl(139_80%_45%)] border border-[hsl(139_80%_45%/0.4)]"
                   : "bg-[hsl(0_84%_60%/0.15)] text-[hsl(0_84%_60%)] border border-[hsl(0_84%_60%/0.4)]",
               )}
             >
@@ -617,7 +617,7 @@ function StatsTab({ stats }: { stats: any }) {
           <>
             <div className="relative h-3 w-full overflow-hidden rounded-full bg-muted/40">
               <div
-                className="absolute inset-y-0 left-0 bg-[hsl(160_84%_45%)]"
+                className="absolute inset-y-0 left-0 bg-[hsl(139_80%_45%)]"
                 style={{ width: `${Math.max(0, Math.min(100, buy))}%` }}
               />
               <div
@@ -626,7 +626,7 @@ function StatsTab({ stats }: { stats: any }) {
               />
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] font-semibold ct-mono tabular-nums">
-              <span className="text-[hsl(160_84%_45%)]">Buy {buy.toFixed(0)}%</span>
+              <span className="text-[hsl(139_80%_45%)]">Buy {buy.toFixed(0)}%</span>
               <span className="text-[hsl(0_84%_60%)]">{sell.toFixed(0)}% Sell</span>
             </div>
           </>
@@ -659,7 +659,7 @@ function StatsTab({ stats }: { stats: any }) {
               <span className="text-right text-muted-foreground">
                 <span className="text-[hsl(0_84%_60%)]">{fmtPrice(r.low)}</span>
                 <span className="mx-1.5 text-border">–</span>
-                <span className="text-[hsl(160_84%_45%)]">{fmtPrice(r.high)}</span>
+                <span className="text-[hsl(139_80%_45%)]">{fmtPrice(r.high)}</span>
               </span>
             )}
           </div>

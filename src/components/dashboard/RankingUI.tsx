@@ -29,7 +29,7 @@ export function RCard({
     <div
       className={cn(
         "relative overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 backdrop-blur-md transition-all duration-300",
-        hover && "hover:-translate-y-0.5 hover:shadow-[0_8px_30px_-12px_hsl(160_84%_45%/0.5)]",
+        hover && "hover:-translate-y-0.5 hover:shadow-[0_8px_30px_-12px_hsl(139_80%_45%/0.5)]",
         accent ? "" : "border-border/50",
         className,
       )}
@@ -48,7 +48,7 @@ export function RCard({
 /** Eyebrow tag estilo ranking (pequeno chip uppercase com tracking grande) */
 export function REyebrow({
   children,
-  color = "hsl(160 84% 65%)",
+  color = "hsl(139 80% 65%)",
   className,
   hex = true,
 }: {
@@ -60,7 +60,7 @@ export function REyebrow({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border bg-[hsl(160_84%_45%/0.08)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.32em]",
+        "inline-flex items-center gap-1.5 rounded-full border bg-[hsl(139_80%_45%/0.08)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.32em]",
         className,
       )}
       style={{ color, borderColor: `${color}66` }}
@@ -74,7 +74,7 @@ export function REyebrow({
 /** Header decorativo central com linhas em ambos os lados */
 export function RDivider({
   children,
-  color = "hsl(160 84% 65%)",
+  color = "hsl(139 80% 65%)",
 }: {
   children?: React.ReactNode;
   color?: string;
@@ -99,7 +99,7 @@ export function RKpi({
   label,
   value,
   icon,
-  accent = "hsl(160 84% 60%)",
+  accent = "hsl(139 80% 60%)",
   className,
 }: {
   label: string;
@@ -131,8 +131,8 @@ export function RKpi({
 export function xpBarGradient(pct: number): string {
   if (pct < 25) return "linear-gradient(90deg, #ef4444, #f97316)";
   if (pct < 50) return "linear-gradient(90deg, #f97316, #eab308)";
-  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(160 84% 50%))";
-  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(160 84% 55%))";
+  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(139 80% 50%))";
+  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(139 80% 55%))";
 }
 
 /** Barra fina de progresso XP (formato ranking) */
@@ -144,7 +144,7 @@ export function RXpBar({ pct }: { pct: number }) {
         style={{
           width: `${Math.min(100, Math.max(0, pct))}%`,
           background: xpBarGradient(pct),
-          boxShadow: "0 0 10px hsl(160 84% 45% / 0.5)",
+          boxShadow: "0 0 10px hsl(139 80% 45% / 0.5)",
         }}
       />
     </div>
@@ -157,7 +157,7 @@ export function RSectionHeader({
   title,
   highlight,
   subtitle,
-  color = "hsl(160 84% 65%)",
+  color = "hsl(139 80% 65%)",
 }: {
   eyebrow: string;
   title: string;
@@ -178,7 +178,7 @@ export function RSectionHeader({
           <span
             className="text-gradient-primary"
             style={{
-              background: "linear-gradient(135deg, hsl(160 84% 60%), hsl(150 90% 55%))",
+              background: "linear-gradient(135deg, hsl(139 80% 60%), hsl(144 100% 55%))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",

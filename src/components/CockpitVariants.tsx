@@ -42,7 +42,7 @@ type PresetKey = "conservadora" | "moderada" | "agressiva" | "scalper" | "custom
 const PRESETS: Record<Exclude<PresetKey, "custom">, {
   name: string; desc: string; expiracao: number; maxLoss: number; color: string;
 }> = {
-  conservadora: { name: "Conservadora", desc: "Operações longas, baixo risco", expiracao: 300, maxLoss: 1, color: "hsl(160 84% 60%)" },
+  conservadora: { name: "Conservadora", desc: "Operações longas, baixo risco", expiracao: 300, maxLoss: 1, color: "hsl(139 80% 60%)" },
   moderada:     { name: "Moderada",     desc: "Equilíbrio entre risco e retorno", expiracao: 60,  maxLoss: 2, color: "hsl(190 90% 60%)" },
   agressiva:    { name: "Agressiva",    desc: "Mais entradas, gale ampliado",      expiracao: 30,  maxLoss: 3, color: "hsl(280 90% 70%)" },
   scalper:      { name: "Scalper",      desc: "Curtíssimo prazo, alta frequência", expiracao: 10,  maxLoss: 2, color: "hsl(40 95% 60%)" },
@@ -103,7 +103,7 @@ function LigarIA({ canStart, canStop, onStart, onStop }: Pick<Props, "canStart" 
         type="button"
         onClick={onStart}
         disabled={!canStart}
-        className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-[hsl(160_84%_50%/0.55)] bg-gradient-to-r from-[hsl(160_84%_30%/0.35)] via-[hsl(160_84%_40%/0.45)] to-[hsl(160_84%_30%/0.35)] px-5 py-4 text-base font-black uppercase tracking-[0.22em] text-[hsl(160_84%_75%)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_18px_-6px_hsl(160_84%_50%/0.5)] disabled:cursor-not-allowed disabled:opacity-50"
+        className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl border border-[hsl(139_80%_50%/0.55)] bg-gradient-to-r from-[hsl(139_80%_30%/0.35)] via-[hsl(139_80%_40%/0.45)] to-[hsl(139_80%_30%/0.35)] px-5 py-4 text-base font-black uppercase tracking-[0.22em] text-[hsl(139_80%_75%)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_18px_-6px_hsl(139_80%_50%/0.5)] disabled:cursor-not-allowed disabled:opacity-50"
       >
         <Play className="h-4 w-4" fill="currentColor" />
         <span>Ligar IA</span>
@@ -126,12 +126,12 @@ function VariantHeader({ index, title, sub, icon: Ic = Settings2 }: { index: num
   return (
     <div className="mb-4 flex items-center justify-between gap-3">
       <div className="flex items-center gap-2.5">
-        <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(160_84%_50%/0.28)] via-[hsl(160_84%_40%/0.14)] to-[hsl(160_84%_30%/0.04)] text-[hsl(160_84%_75%)] ring-1 ring-[hsl(160_84%_55%/0.45)] shadow-[inset_0_1px_0_hsl(160_84%_85%/0.20),0_0_14px_-4px_hsl(160_84%_50%/0.8)]">
+        <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(139_80%_50%/0.28)] via-[hsl(139_80%_40%/0.14)] to-[hsl(139_80%_30%/0.04)] text-[hsl(139_80%_75%)] ring-1 ring-[hsl(139_80%_55%/0.45)] shadow-[inset_0_1px_0_hsl(139_80%_85%/0.20),0_0_14px_-4px_hsl(139_80%_50%/0.8)]">
           <Ic className="h-[15px] w-[15px]" strokeWidth={2.2} />
-          <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_60%)] shadow-[0_0_6px_hsl(160_84%_55%)]" />
+          <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_6px_hsl(139_80%_55%)]" />
         </span>
         <div className="flex flex-col leading-none">
-          <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_60%)]">{title}</span>
+          <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">{title}</span>
           <span className="mt-1 text-[15px] font-black tracking-tight text-foreground">{sub}</span>
         </div>
       </div>
@@ -144,7 +144,7 @@ function VariantHeader({ index, title, sub, icon: Ic = Settings2 }: { index: num
 function InvestmentControl({
   value, setValue, min, max,
 }: { value: number; setValue: (n: number) => void; min: number; max: number }) {
-  const accent = "hsl(160 84% 65%)";
+  const accent = "hsl(139 80% 65%)";
   const vRef = useRef(value);
   useEffect(() => { vRef.current = value; });
 
@@ -303,7 +303,7 @@ function Sliders3({ p }: { p: Props }) {
         value={p.valorEntrada} setValue={p.setValorEntrada}
         min={2} max={maxEntrada}
       />
-      <ProSlider label="Meta" icon={TrendingUp} accent="hsl(160 84% 65%)"
+      <ProSlider label="Meta" icon={TrendingUp} accent="hsl(139 80% 65%)"
         value={p.meta} setValue={p.setMeta}
         min={2} max={maxMeta} step={1} prefix="$ " />
       <ProSlider label="Stop Loss" icon={TrendingDown} accent="hsl(0 84% 70%)"
@@ -321,7 +321,7 @@ function StrategyBadges({
   return (
     <div className="mb-4 grid grid-cols-3 gap-2">
       <ReadBadge icon={Layers} label="Estratégia" value={strategyName} accent={accent} />
-      <ReadBadge icon={Clock4} label="Expiração"  value={expLabel}     accent="hsl(160 84% 65%)" />
+      <ReadBadge icon={Clock4} label="Expiração"  value={expLabel}     accent="hsl(139 80% 65%)" />
       <ReadBadge icon={Shield} label="Proteção"   value={`${maxLoss}x`} accent="hsl(0 84% 70%)" />
     </div>
   );
@@ -362,8 +362,8 @@ function PresetPicker({
           return (
             <button key={k} type="button" onClick={() => setSelected(k)}
               className={`rounded-lg border px-2.5 py-2 text-left transition-all ${active
-                ? "border-[hsl(160_84%_45%/0.55)] bg-[hsl(160_84%_45%/0.14)] shadow-[0_0_14px_-4px_hsl(160_84%_45%/0.6)]"
-                : "border-border/50 bg-muted/10 hover:border-[hsl(160_84%_45%/0.35)]"}`}>
+                ? "border-[hsl(139_80%_45%/0.55)] bg-[hsl(139_80%_45%/0.14)] shadow-[0_0_14px_-4px_hsl(139_80%_45%/0.6)]"
+                : "border-border/50 bg-muted/10 hover:border-[hsl(139_80%_45%/0.35)]"}`}>
               <div className="text-[11px] font-black uppercase tracking-wider text-foreground">{p.name}</div>
               <div className="truncate text-[9.5px] text-muted-foreground">{p.desc}</div>
             </button>
@@ -401,8 +401,8 @@ function ExpGrid({ exp, setExp }: { exp: number; setExp: (n: number) => void }) 
         return (
           <button key={opt.v} type="button" onClick={() => setExp(opt.v)}
             className={`rounded-lg border px-2 py-2 text-[12px] font-bold tabular-nums transition-all ${active
-              ? "border-[hsl(160_84%_45%/0.55)] bg-[hsl(160_84%_45%/0.18)] text-[hsl(160_84%_72%)] shadow-[0_0_14px_-4px_hsl(160_84%_45%/0.7)]"
-              : "border-border/50 bg-muted/10 text-muted-foreground hover:border-[hsl(160_84%_45%/0.35)] hover:text-foreground"}`}>
+              ? "border-[hsl(139_80%_45%/0.55)] bg-[hsl(139_80%_45%/0.18)] text-[hsl(139_80%_72%)] shadow-[0_0_14px_-4px_hsl(139_80%_45%/0.7)]"
+              : "border-border/50 bg-muted/10 text-muted-foreground hover:border-[hsl(139_80%_45%/0.35)] hover:text-foreground"}`}>
             {opt.label}
           </button>
         );
@@ -430,7 +430,7 @@ function GaleStepper({ value, setValue }: { value: number; setValue: (n: number)
 }
 
 function DialogShell({
-  title, sub, accent = "hsl(160 84% 60%)", icon: Ic, children,
+  title, sub, accent = "hsl(139 80% 60%)", icon: Ic, children,
   className = "", contentClassName = "",
 }: {
   title: string; sub: string; accent?: string; icon: any;
@@ -527,14 +527,14 @@ type DlgProps = {
 // V1 — Mission Brief (esmerald)
 function DialogV1({ p, s, onClose }: DlgProps) {
   return (
-    <DialogShell title="Briefing da Estratégia" sub="Mission Brief" icon={Layers} accent="hsl(160 84% 60%)">
+    <DialogShell title="Briefing da Estratégia" sub="Mission Brief" icon={Layers} accent="hsl(139 80% 60%)">
       <PresetPicker
         selected={s.draftPreset} setSelected={s.setDraftPreset}
         customName={s.draftCustomName} setCustomName={s.setDraftCustomName}
-        accent="hsl(160 84% 65%)"
+        accent="hsl(139 80% 65%)"
       />
       <section className="space-y-2 border-t border-border/40 pt-4">
-        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(160_84%_65%)]">
+        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[hsl(139_80%_65%)]">
           <Clock4 className="h-3 w-3" /> Expiração da operação
         </div>
         <ExpGrid exp={s.draftExp} setExp={s.setDraftExp} />
@@ -549,7 +549,7 @@ function DialogV1({ p, s, onClose }: DlgProps) {
         </p>
       </section>
       <button onClick={() => { s.save(); onClose(); }}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-[hsl(160_84%_50%/0.6)] bg-gradient-to-r from-[hsl(160_84%_30%/0.3)] to-[hsl(160_84%_40%/0.4)] py-3 text-[12px] font-black uppercase tracking-[0.18em] text-[hsl(160_84%_75%)] transition hover:shadow-[0_0_22px_-4px_hsl(160_84%_50%/0.7)]">
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-[hsl(139_80%_50%/0.6)] bg-gradient-to-r from-[hsl(139_80%_30%/0.3)] to-[hsl(139_80%_40%/0.4)] py-3 text-[12px] font-black uppercase tracking-[0.18em] text-[hsl(139_80%_75%)] transition hover:shadow-[0_0_22px_-4px_hsl(139_80%_50%/0.7)]">
         <Check className="h-4 w-4" /> Salvar estratégia
       </button>
     </DialogShell>
@@ -602,9 +602,9 @@ function DialogV2({ p, s, onClose }: DlgProps) {
 function DialogV3({ p, s, onClose }: DlgProps) {
   return (
     <DialogShell title="Quantum Console" sub="Terminal Mode" icon={Cpu} accent="hsl(140 80% 60%)" contentClassName="font-mono">
-      <div className="rounded-xl border border-[hsl(160_84%_45%/0.3)] bg-[#06080b] p-4 text-[12px] text-[hsl(160_84%_70%)] shadow-[inset_0_0_30px_hsl(160_84%_50%/0.05)]">
-        <div className="mb-3 flex items-center gap-2 border-b border-[hsl(160_84%_45%/0.2)] pb-2 text-[10px] uppercase tracking-widest opacity-70">
-          <span className="h-2 w-2 rounded-full bg-[hsl(160_84%_50%)] shadow-[0_0_8px_hsl(160_84%_50%)]" />
+      <div className="rounded-xl border border-[hsl(139_80%_45%/0.3)] bg-[#06080b] p-4 text-[12px] text-[hsl(139_80%_70%)] shadow-[inset_0_0_30px_hsl(139_80%_50%/0.05)]">
+        <div className="mb-3 flex items-center gap-2 border-b border-[hsl(139_80%_45%/0.2)] pb-2 text-[10px] uppercase tracking-widest opacity-70">
+          <span className="h-2 w-2 rounded-full bg-[hsl(139_80%_50%)] shadow-[0_0_8px_hsl(139_80%_50%)]" />
           strategy.config &gt; ready
         </div>
         <div className="space-y-3">
@@ -678,22 +678,22 @@ function DialogV4({ p, s, onClose }: DlgProps) {
 function DialogV5({ p, s, onClose }: DlgProps) {
   const [step, setStep] = useState(0);
   return (
-    <DialogShell title="Wizard Estratégico" sub={`Passo ${step + 1} de 3`} icon={Activity} accent="hsl(160 84% 60%)">
+    <DialogShell title="Wizard Estratégico" sub={`Passo ${step + 1} de 3`} icon={Activity} accent="hsl(139 80% 60%)">
       <div className="flex items-center gap-2">
         {[0, 1, 2].map((i) => (
-          <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= step ? "bg-[hsl(160_84%_50%)] shadow-[0_0_8px_hsl(160_84%_45%)]" : "bg-muted/30"}`} />
+          <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= step ? "bg-[hsl(139_80%_50%)] shadow-[0_0_8px_hsl(139_80%_45%)]" : "bg-muted/30"}`} />
         ))}
       </div>
       {step === 0 && (
         <PresetPicker
           selected={s.draftPreset} setSelected={s.setDraftPreset}
           customName={s.draftCustomName} setCustomName={s.setDraftCustomName}
-          accent="hsl(160 84% 65%)"
+          accent="hsl(139 80% 65%)"
         />
       )}
       {step === 1 && (
         <section className="space-y-3">
-          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[hsl(160_84%_65%)]">
+          <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[hsl(139_80%_65%)]">
             <Clock4 className="h-3.5 w-3.5" /> Tempo da operação
           </div>
           <ExpGrid exp={s.draftExp} setExp={s.setDraftExp} />
@@ -716,12 +716,12 @@ function DialogV5({ p, s, onClose }: DlgProps) {
         )}
         {step < 2 ? (
           <button onClick={() => setStep(step + 1)}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[hsl(160_84%_50%/0.6)] bg-gradient-to-r from-[hsl(160_84%_30%/0.3)] to-[hsl(160_84%_40%/0.4)] py-3 text-[12px] font-black uppercase tracking-[0.18em] text-[hsl(160_84%_75%)] transition hover:shadow-[0_0_22px_-4px_hsl(160_84%_50%/0.7)]">
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[hsl(139_80%_50%/0.6)] bg-gradient-to-r from-[hsl(139_80%_30%/0.3)] to-[hsl(139_80%_40%/0.4)] py-3 text-[12px] font-black uppercase tracking-[0.18em] text-[hsl(139_80%_75%)] transition hover:shadow-[0_0_22px_-4px_hsl(139_80%_50%/0.7)]">
             Próximo <Zap className="h-4 w-4" />
           </button>
         ) : (
           <button onClick={() => { s.save(); onClose(); }}
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[hsl(160_84%_50%/0.6)] bg-gradient-to-r from-[hsl(160_84%_30%/0.3)] to-[hsl(160_84%_40%/0.4)] py-3 text-[12px] font-black uppercase tracking-[0.18em] text-[hsl(160_84%_75%)] transition hover:shadow-[0_0_22px_-4px_hsl(160_84%_50%/0.7)]">
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[hsl(139_80%_50%/0.6)] bg-gradient-to-r from-[hsl(139_80%_30%/0.3)] to-[hsl(139_80%_40%/0.4)] py-3 text-[12px] font-black uppercase tracking-[0.18em] text-[hsl(139_80%_75%)] transition hover:shadow-[0_0_22px_-4px_hsl(139_80%_50%/0.7)]">
             <Check className="h-4 w-4" /> Concluir
           </button>
         )}
@@ -756,7 +756,7 @@ function makeVariant(
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="group inline-flex items-center justify-center gap-2 rounded-xl border border-border/60 bg-gradient-to-b from-muted/15 to-muted/5 py-3 text-[12px] font-bold uppercase tracking-[0.14em] text-foreground/90 transition-all hover:-translate-y-0.5 hover:border-[hsl(160_84%_45%/0.5)] hover:bg-[hsl(160_84%_45%/0.08)] hover:text-[hsl(160_84%_70%)] hover:shadow-[0_0_18px_-6px_hsl(160_84%_45%/0.7)]"
+                className="group inline-flex items-center justify-center gap-2 rounded-xl border border-border/60 bg-gradient-to-b from-muted/15 to-muted/5 py-3 text-[12px] font-bold uppercase tracking-[0.14em] text-foreground/90 transition-all hover:-translate-y-0.5 hover:border-[hsl(139_80%_45%/0.5)] hover:bg-[hsl(139_80%_45%/0.08)] hover:text-[hsl(139_80%_70%)] hover:shadow-[0_0_18px_-6px_hsl(139_80%_45%/0.7)]"
               >
                 <Layers className="h-3.5 w-3.5 transition-transform group-hover:rotate-12" strokeWidth={2.4} />
                 Estratégia

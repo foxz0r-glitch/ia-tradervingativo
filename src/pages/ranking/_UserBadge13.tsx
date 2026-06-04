@@ -22,9 +22,9 @@ export default function UserBadge13({ position }: { position?: number | null }) 
       style={{
         background:
           "linear-gradient(180deg, hsl(220 25% 7% / 0.96), hsl(220 22% 9% / 0.92))",
-        border: "1px solid hsl(160 84% 45% / 0.28)",
+        border: "1px solid hsl(139 80% 45% / 0.28)",
         boxShadow:
-          "inset 0 1px 0 hsl(160 84% 60% / 0.12), 0 0 28px -12px hsl(160 84% 45% / 0.55)",
+          "inset 0 1px 0 hsl(139 80% 60% / 0.12), 0 0 28px -12px hsl(139 80% 45% / 0.55)",
         ["--rank-color" as any]: c,
       }}
     >
@@ -123,7 +123,7 @@ export default function UserBadge13({ position }: { position?: number | null }) 
           className="absolute inset-y-0 left-0"
           style={{
             width: `${data.progressPercent}%`,
-            background: `linear-gradient(90deg, ${c}, hsl(160 84% 60%), hsl(150 90% 65%))`,
+            background: `linear-gradient(90deg, ${c}, hsl(139 80% 60%), hsl(144 100% 65%))`,
             boxShadow: `0 0 10px ${c}cc`,
             transition: "width 0.8s cubic-bezier(0.22,1,0.36,1)",
           }}

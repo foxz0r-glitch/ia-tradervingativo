@@ -14,7 +14,7 @@ export const DashboardBackground = () => {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 90% 60% at 50% -10%, hsl(160 60% 12% / 0.55), transparent 60%), radial-gradient(ellipse 70% 50% at 100% 100%, hsl(150 70% 10% / 0.35), transparent 60%), radial-gradient(ellipse 70% 50% at 0% 100%, hsl(170 60% 10% / 0.30), transparent 60%), hsl(220 25% 4%)",
+            "radial-gradient(ellipse 90% 60% at 50% -10%, hsl(139 60% 12% / 0.55), transparent 60%), radial-gradient(ellipse 70% 50% at 100% 100%, hsl(144 70% 10% / 0.35), transparent 60%), radial-gradient(ellipse 70% 50% at 0% 100%, hsl(170 60% 10% / 0.30), transparent 60%), hsl(220 25% 4%)",
         }}
       />
       {/* aurora superior */}
@@ -22,7 +22,7 @@ export const DashboardBackground = () => {
         className="absolute -top-24 left-1/2 h-[640px] w-[1200px] -translate-x-1/2 rounded-[50%] opacity-60"
         style={{
           background:
-            "radial-gradient(ellipse, hsl(160 84% 45% / 0.18) 0%, hsl(150 90% 55% / 0.10) 35%, transparent 70%)",
+            "radial-gradient(ellipse, hsl(139 80% 45% / 0.18) 0%, hsl(144 100% 55% / 0.10) 35%, transparent 70%)",
           filter: "blur(60px)",
         }}
       />
@@ -30,14 +30,14 @@ export const DashboardBackground = () => {
       <div
         className="absolute -left-40 top-1/3 h-[480px] w-[480px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(160 84% 45% / 0.18), transparent 60%)",
+          background: "radial-gradient(circle, hsl(139 80% 45% / 0.18), transparent 60%)",
           filter: "blur(100px)",
         }}
       />
       <div
         className="absolute -right-32 top-1/2 h-[420px] w-[420px] rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(150 90% 55% / 0.14), transparent 60%)",
+          background: "radial-gradient(circle, hsl(144 100% 55% / 0.14), transparent 60%)",
           filter: "blur(110px)",
         }}
       />
@@ -54,7 +54,7 @@ export const DashboardBackground = () => {
         className="absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(160 84% 60% / 0.5) 1px, transparent 1px), linear-gradient(90deg, hsl(160 84% 60% / 0.5) 1px, transparent 1px)",
+            "linear-gradient(hsl(139 80% 60% / 0.5) 1px, transparent 1px), linear-gradient(90deg, hsl(139 80% 60% / 0.5) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           maskImage:
             "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 80%)",

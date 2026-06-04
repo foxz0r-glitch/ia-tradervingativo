@@ -58,7 +58,7 @@ export function OperationSummaryDialog({
       : {
           text: "Operação Finalizada",
           cls: positive
-            ? "bg-[hsl(160_84%_30%/0.25)] text-[hsl(160_84%_55%)]"
+            ? "bg-[hsl(139_80%_30%/0.25)] text-[hsl(139_80%_55%)]"
             : "bg-[hsl(0_84%_40%/0.25)] text-[hsl(0_84%_65%)]",
         };
 
@@ -81,7 +81,7 @@ export function OperationSummaryDialog({
 
           <div
             className={`ct-mono text-4xl font-extrabold tabular-nums sm:text-5xl ${
-              positive ? "text-[hsl(160_84%_55%)]" : "text-[hsl(0_84%_65%)]"
+              positive ? "text-[hsl(139_80%_55%)]" : "text-[hsl(0_84%_65%)]"
             }`}
           >
             {fmtBRL(totalPnl)}
@@ -94,12 +94,12 @@ export function OperationSummaryDialog({
           </p>
 
           <div className="grid w-full grid-cols-2 gap-3">
-            <div className="flex items-center justify-between rounded-lg border border-[hsl(160_84%_45%/0.3)] bg-[hsl(160_84%_45%/0.08)] px-3 py-2.5">
+            <div className="flex items-center justify-between rounded-lg border border-[hsl(139_80%_45%/0.3)] bg-[hsl(139_80%_45%/0.08)] px-3 py-2.5">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-[hsl(160_84%_55%)]" />
+                <CheckCircle2 className="h-4 w-4 text-[hsl(139_80%_55%)]" />
                 <span className="text-xs font-semibold text-muted-foreground">Acertos</span>
               </div>
-              <span className="ct-mono text-lg font-bold text-[hsl(160_84%_55%)]">{ganhos}</span>
+              <span className="ct-mono text-lg font-bold text-[hsl(139_80%_55%)]">{ganhos}</span>
             </div>
             <div className="flex items-center justify-between rounded-lg border border-[hsl(0_84%_60%/0.3)] bg-[hsl(0_84%_60%/0.08)] px-3 py-2.5">
               <div className="flex items-center gap-2">
@@ -134,7 +134,7 @@ export function OperationSummaryDialog({
               onNewOperation?.();
               onOpenChange(false);
             }}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[hsl(160_84%_40%)] to-[hsl(160_84%_50%)] px-4 py-3 text-sm font-bold text-white shadow-[0_4px_16px_hsl(160_84%_40%/0.35)] transition-transform hover:scale-[1.01]"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[hsl(139_80%_40%)] to-[hsl(139_80%_50%)] px-4 py-3 text-sm font-bold text-white shadow-[0_4px_16px_hsl(139_80%_40%/0.35)] transition-transform hover:scale-[1.01]"
           >
             Nova operação
           </button>

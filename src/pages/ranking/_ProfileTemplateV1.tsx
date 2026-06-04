@@ -93,7 +93,7 @@ function MiniKpi({
   );
 }
 
-function BlockTitle({ children, color = "hsl(160 84% 60%)", glow = false }: { children: React.ReactNode; color?: string; glow?: boolean }) {
+function BlockTitle({ children, color = "hsl(139 80% 60%)", glow = false }: { children: React.ReactNode; color?: string; glow?: boolean }) {
   return (
     <div className="mb-4 flex items-center gap-3">
       <span
@@ -151,7 +151,7 @@ function ScoreRing({ score, accent }: { score: number; accent: string }) {
 }
 
 /* ============== TEMPLATE V1 ============== */
-export default function ProfileTemplateV1({ row, name, mock, position, accent = "hsl(160 84% 60%)" }: TplProps) {
+export default function ProfileTemplateV1({ row, name, mock, position, accent = "hsl(139 80% 60%)" }: TplProps) {
   const xpPctLevel = Math.min(100, Math.max(0, Math.round(((mock.xp_to_next_level - 1200) / mock.xp_to_next_level) * 100)));
   const remainingXp = Math.max(0, mock.xp_to_next_level - Math.floor(mock.xp_to_next_level * (xpPctLevel / 100)));
 
@@ -249,7 +249,7 @@ export default function ProfileTemplateV1({ row, name, mock, position, accent = 
           </div>
 
           <div className="flex flex-wrap gap-1.5 pt-1">
-            <Pill color="hsl(160 84% 60%)">#{mock.global_pos} Rank na Temporada</Pill>
+            <Pill color="hsl(139 80% 60%)">#{mock.global_pos} Rank na Temporada</Pill>
             <Pill color={XP_ACCENT}>{fmt(row.total_xp)} XP acumulada</Pill>
             <Pill color={TOP_ACCENT}>Top {mock.percentil_top}% trader</Pill>
           </div>
@@ -442,7 +442,7 @@ export default function ProfileTemplateV1({ row, name, mock, position, accent = 
               <div className="h-full rounded-full"
                 style={{
                   width: `${m.pct}%`,
-                  background: m.pct >= 100 ? "hsl(160 84% 50%)" : `linear-gradient(90deg, ${accent}, hsl(160 84% 60%))`,
+                  background: m.pct >= 100 ? "hsl(139 80% 50%)" : `linear-gradient(90deg, ${accent}, hsl(139 80% 60%))`,
                 }} />
             </div>
             <div className="w-12 text-right text-[11px] tabular-nums text-muted-foreground">{m.status}</div>
@@ -456,7 +456,7 @@ export default function ProfileTemplateV1({ row, name, mock, position, accent = 
               <div className="h-full rounded-full"
                 style={{
                   width: `${m.pct}%`,
-                  background: m.pct >= 100 ? "hsl(160 84% 50%)" : `linear-gradient(90deg, ${accent}, hsl(160 84% 60%))`,
+                  background: m.pct >= 100 ? "hsl(139 80% 50%)" : `linear-gradient(90deg, ${accent}, hsl(139 80% 60%))`,
                 }} />
             </div>
             <div className="w-12 text-right text-[11px] tabular-nums text-muted-foreground">{m.status}</div>

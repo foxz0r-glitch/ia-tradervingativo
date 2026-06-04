@@ -34,8 +34,8 @@ import RankingBg from "./ranking/_RankingBg";
 function xpBarGradient(pct: number): string {
   if (pct < 25) return "linear-gradient(90deg, #ef4444, #f97316)";
   if (pct < 50) return "linear-gradient(90deg, #f97316, #eab308)";
-  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(160 84% 50%))";
-  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(160 84% 55%))";
+  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(139 80% 50%))";
+  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(139 80% 55%))";
 }
 
 /** Cor da posição:
@@ -70,10 +70,10 @@ function RankingRow({
 
   return (
     <div
-      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(160_84%_45%/0.5)] ${podiumShiftClass(pos)} ${
+      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(139_80%_45%/0.5)] ${podiumShiftClass(pos)} ${
         isMe
-          ? "border-[hsl(160_84%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(160_84%_45%/0.7)]"
-          : "border-border/50 hover:border-[hsl(160_84%_45%/0.4)]"
+          ? "border-[hsl(139_80%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(139_80%_45%/0.7)]"
+          : "border-border/50 hover:border-[hsl(139_80%_45%/0.4)]"
       }`}
       style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
@@ -106,7 +106,7 @@ function RankingRow({
             {name}
           </span>
           {isMe && (
-            <span className="rounded-md bg-[hsl(160_84%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
+            <span className="rounded-md bg-[hsl(139_80%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
               VOCÊ
             </span>
           )}
@@ -144,7 +144,7 @@ function RankingRow({
             </span>
           )}
         </div>
-        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(160_84%_70%)]">
+        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(139_80%_70%)]">
           {fmt(row.total_xp)}
         </div>
       </div>
@@ -195,10 +195,10 @@ export default function Ranking11() {
             className="relative overflow-hidden rounded-3xl backdrop-blur-md"
             style={{
               background:
-                "linear-gradient(140deg, hsl(220 25% 6% / 0.92) 0%, hsl(160 60% 7% / 0.55) 55%, hsl(220 22% 8% / 0.92) 100%)",
-              border: "1px solid hsl(160 84% 45% / 0.25)",
+                "linear-gradient(140deg, hsl(220 25% 6% / 0.92) 0%, hsl(139 60% 7% / 0.55) 55%, hsl(220 22% 8% / 0.92) 100%)",
+              border: "1px solid hsl(139 80% 45% / 0.25)",
               boxShadow:
-                "inset 0 1px 0 hsl(160 84% 60% / 0.16), 0 0 60px -22px hsl(160 84% 45% / 0.55)",
+                "inset 0 1px 0 hsl(139 80% 60% / 0.16), 0 0 60px -22px hsl(139 80% 45% / 0.55)",
             }}
           >
             {/* halos decorativos */}
@@ -206,7 +206,7 @@ export default function Ranking11() {
               aria-hidden
               className="pointer-events-none absolute -left-24 -top-28 h-72 w-72 rounded-full"
               style={{
-                background: "radial-gradient(circle, hsl(160 84% 50% / 0.32), transparent 65%)",
+                background: "radial-gradient(circle, hsl(139 80% 50% / 0.32), transparent 65%)",
                 filter: "blur(40px)",
               }}
             />
@@ -214,7 +214,7 @@ export default function Ranking11() {
               aria-hidden
               className="pointer-events-none absolute -right-24 -bottom-28 h-72 w-72 rounded-full"
               style={{
-                background: "radial-gradient(circle, hsl(150 90% 55% / 0.22), transparent 65%)",
+                background: "radial-gradient(circle, hsl(144 100% 55% / 0.22), transparent 65%)",
                 filter: "blur(40px)",
               }}
             />
@@ -224,24 +224,24 @@ export default function Ranking11() {
               className="pointer-events-none absolute inset-x-0 top-0 h-px"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, hsl(160 84% 60% / 0.7), transparent)",
+                  "linear-gradient(90deg, transparent, hsl(139 80% 60% / 0.7), transparent)",
               }}
             />
 
             <div className="relative px-6 py-8 md:px-10 md:py-10">
               {/* eyebrow */}
               <div className="mb-4 flex items-center justify-center gap-3">
-                <span className="h-px w-10 bg-gradient-to-r from-transparent to-[hsl(160_84%_45%/0.55)]" />
-                <span className="inline-flex items-center gap-2 rounded-full border border-[hsl(160_84%_45%/0.45)] bg-[hsl(160_84%_39%/0.12)] px-3 py-1">
+                <span className="h-px w-10 bg-gradient-to-r from-transparent to-[hsl(139_80%_45%/0.55)]" />
+                <span className="inline-flex items-center gap-2 rounded-full border border-[hsl(139_80%_45%/0.45)] bg-[hsl(139_80%_39%/0.12)] px-3 py-1">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_70%)]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_70%)]">
                     Temporada · {season.monthName} {season.year}
                   </span>
                 </span>
-                <span className="h-px w-10 bg-gradient-to-l from-transparent to-[hsl(160_84%_45%/0.55)]" />
+                <span className="h-px w-10 bg-gradient-to-l from-transparent to-[hsl(139_80%_45%/0.55)]" />
               </div>
 
               {/* Título */}
@@ -256,19 +256,19 @@ export default function Ranking11() {
               <div className="mx-auto mt-8 grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-4">
                 {/* Temporada #01 */}
                 <div
-                  className="group/stat relative overflow-hidden rounded-2xl border border-[hsl(160_84%_45%/0.3)] px-4 py-3.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(160_84%_55%/0.55)]"
+                  className="group/stat relative overflow-hidden rounded-2xl border border-[hsl(139_80%_45%/0.3)] px-4 py-3.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(139_80%_55%/0.55)]"
                   style={{
                     background:
-                      "linear-gradient(135deg, hsl(160 84% 39% / 0.16), hsl(160 84% 30% / 0.04))",
+                      "linear-gradient(135deg, hsl(139 80% 39% / 0.16), hsl(139 80% 30% / 0.04))",
                     boxShadow:
-                      "inset 0 1px 0 hsl(160 84% 60% / 0.18), 0 0 20px -12px hsl(160 84% 45% / 0.6)",
+                      "inset 0 1px 0 hsl(139 80% 60% / 0.18), 0 0 20px -12px hsl(139 80% 45% / 0.6)",
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(160_84%_45%/0.4)] bg-[hsl(160_84%_39%/0.18)]">
-                      <Calendar className="h-3.5 w-3.5 text-[hsl(160_84%_70%)]" />
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(139_80%_45%/0.4)] bg-[hsl(139_80%_39%/0.18)]">
+                      <Calendar className="h-3.5 w-3.5 text-[hsl(139_80%_70%)]" />
                     </span>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.28em] text-[hsl(160_84%_60%)]">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.28em] text-[hsl(139_80%_60%)]">
                       Temporada
                     </span>
                   </div>
@@ -310,25 +310,25 @@ export default function Ranking11() {
 
                 {/* Progresso % */}
                 <div
-                  className="group/stat relative overflow-hidden rounded-2xl border border-[hsl(150_90%_50%/0.3)] px-4 py-3.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(150_90%_60%/0.55)]"
+                  className="group/stat relative overflow-hidden rounded-2xl border border-[hsl(144_100%_50%/0.3)] px-4 py-3.5 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(144_100%_60%/0.55)]"
                   style={{
                     background:
-                      "linear-gradient(135deg, hsl(150 90% 45% / 0.14), hsl(160 84% 30% / 0.04))",
+                      "linear-gradient(135deg, hsl(144 100% 45% / 0.14), hsl(139 80% 30% / 0.04))",
                     boxShadow:
-                      "inset 0 1px 0 hsl(150 90% 60% / 0.18), 0 0 20px -12px hsl(150 90% 50% / 0.55)",
+                      "inset 0 1px 0 hsl(144 100% 60% / 0.18), 0 0 20px -12px hsl(144 100% 50% / 0.55)",
                   }}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(150_90%_50%/0.4)] bg-[hsl(150_90%_50%/0.16)]">
-                      <Sparkles className="h-3.5 w-3.5 text-[hsl(150_90%_70%)]" />
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-[hsl(144_100%_50%/0.4)] bg-[hsl(144_100%_50%/0.16)]">
+                      <Sparkles className="h-3.5 w-3.5 text-[hsl(144_100%_70%)]" />
                     </span>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.28em] text-[hsl(150_90%_65%)]">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.28em] text-[hsl(144_100%_65%)]">
                       Progresso
                     </span>
                   </div>
                   <div className="mt-1.5 text-2xl font-black tabular-nums leading-none text-foreground">
                     {Math.round(season.pct)}
-                    <span className="text-[hsl(150_90%_65%)] text-base">%</span>
+                    <span className="text-[hsl(144_100%_65%)] text-base">%</span>
                   </div>
                   <div className="mt-1 text-[10px] uppercase tracking-widest text-muted-foreground">
                     Concluído
@@ -366,7 +366,7 @@ export default function Ranking11() {
               <div className="mx-auto mt-6 max-w-5xl">
                 <div className="mb-1.5 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                   <span>Início</span>
-                  <span className="text-[hsl(160_84%_60%)]">Você está aqui</span>
+                  <span className="text-[hsl(139_80%_60%)]">Você está aqui</span>
                   <span>Final</span>
                 </div>
                 <div
@@ -378,8 +378,8 @@ export default function Ranking11() {
                     style={{
                       width: `${season.pct}%`,
                       background:
-                        "linear-gradient(90deg, hsl(160 84% 30%), hsl(160 84% 45%), hsl(150 90% 60%))",
-                      boxShadow: "0 0 16px hsl(160 84% 45% / 0.6)",
+                        "linear-gradient(90deg, hsl(139 80% 30%), hsl(139 80% 45%), hsl(144 100% 60%))",
+                      boxShadow: "0 0 16px hsl(139 80% 45% / 0.6)",
                       transition: "width 1s cubic-bezier(0.22,1,0.36,1)",
                     }}
                   />
@@ -389,8 +389,8 @@ export default function Ranking11() {
                     style={{ left: `${season.pct}%`, transform: "translate(-50%, -50%)" }}
                   >
                     <div
-                      className="h-4 w-4 rounded-full border-2 border-[hsl(160_84%_70%)] bg-[hsl(220_25%_6%)]"
-                      style={{ boxShadow: "0 0 14px hsl(160 84% 50% / 0.95)" }}
+                      className="h-4 w-4 rounded-full border-2 border-[hsl(139_80%_70%)] bg-[hsl(220_25%_6%)]"
+                      style={{ boxShadow: "0 0 14px hsl(139 80% 50% / 0.95)" }}
                     />
                   </div>
                 </div>
@@ -404,8 +404,8 @@ export default function Ranking11() {
                 style={{
                   width: `${season.pct}%`,
                   background:
-                    "linear-gradient(90deg, hsl(160 84% 30%), hsl(160 84% 55%), hsl(150 90% 65%))",
-                  boxShadow: "0 0 12px hsl(160 84% 50% / 0.9)",
+                    "linear-gradient(90deg, hsl(139 80% 30%), hsl(139 80% 55%), hsl(144 100% 65%))",
+                  boxShadow: "0 0 12px hsl(139 80% 50% / 0.9)",
                 }}
               />
             </div>
@@ -552,13 +552,13 @@ export default function Ranking11() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.max(0, i - 1))}
                     disabled={mvpIdx === 0}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Temporada anterior"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(160_84%_60%)]">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(139_80%_60%)]">
                       Temporada
                     </div>
                     <div className="text-base font-bold capitalize text-foreground">
@@ -572,7 +572,7 @@ export default function Ranking11() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.min(mvpSeasons.length - 1, i + 1))}
                     disabled={mvpIdx >= mvpSeasons.length - 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Próxima temporada"
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -683,7 +683,7 @@ export default function Ranking11() {
                                 </div>
                                 <div
                                   className="text-2xl font-black tabular-nums"
-                                  style={{ color: "#6EE7B7", textShadow: "0 0 10px hsl(160 84% 45% / 0.55)" }}
+                                  style={{ color: "#6bffa6", textShadow: "0 0 10px hsl(139 80% 45% / 0.55)" }}
                                 >
                                   {fmt(r.total_xp)}
                                 </div>

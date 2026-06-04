@@ -123,7 +123,7 @@ export default function Ranking01() {
         @keyframes r1-scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
         .r1-scan::before {
           content: ""; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(180deg, transparent, hsl(160 84% 50% / 0.06), transparent);
+          background: linear-gradient(180deg, transparent, hsl(139 80% 50% / 0.06), transparent);
           height: 120px; animation: r1-scan 6s linear infinite; mix-blend-mode: screen;
         }
         .clip-hud { clip-path: polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px); }

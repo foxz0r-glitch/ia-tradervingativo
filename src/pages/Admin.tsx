@@ -41,7 +41,7 @@ const RANK_TIER_COLOR: Record<string, string> = {
   "Ouro I": "hsl(45 90% 55%)", "Ouro II": "hsl(45 95% 58%)", "Ouro III": "hsl(45 100% 62%)",
   "AK I": "hsl(20 90% 55%)", "AK II": "hsl(20 95% 58%)", "AK Cruzada": "hsl(15 95% 60%)",
   "Xerife": "hsl(280 80% 60%)", "Águia I": "hsl(200 90% 60%)", "Águia II": "hsl(200 95% 65%)",
-  "Supremo": "hsl(160 84% 50%)", "Global": "hsl(50 100% 60%)",
+  "Supremo": "hsl(139 80% 50%)", "Global": "hsl(50 100% 60%)",
 };
 
 const PLAN_STYLES: Record<string, { label: string; cls: string }> = {
@@ -202,7 +202,7 @@ const OverviewTab = () => {
 
   const metrics = [
     { label: "Total de Usuários", value: stats.total, icon: Users, color: "hsl(200 90% 60%)" },
-    { label: "Ativos (7 dias)", value: stats.active, icon: Sparkles, color: "hsl(160 84% 50%)" },
+    { label: "Ativos (7 dias)", value: stats.active, icon: Sparkles, color: "hsl(139 80% 50%)" },
     { label: "Ranks Distribuídos", value: stats.ranksCount, icon: Award, color: "hsl(45 95% 58%)" },
     { label: "XP Total", value: stats.totalXp.toLocaleString("pt-BR"), icon: Trophy, color: "hsl(280 80% 60%)" },
   ];
@@ -1930,7 +1930,7 @@ const GamificationTab = () => {
     { label: "XP da Temporada", value: gamStats.seasonXp.toLocaleString("pt-BR"), icon: Zap, color: "hsl(50 100% 60%)" },
     { label: "Streaks Ativos", value: gamStats.activeStreaks, icon: Flame, color: "hsl(20 90% 60%)" },
     { label: "Badges Conquistados", value: gamStats.badgesEarned, icon: Gift, color: "hsl(280 80% 60%)" },
-    { label: "Missões Completas", value: gamStats.missionsCompleted, icon: Star, color: "hsl(160 84% 50%)" },
+    { label: "Missões Completas", value: gamStats.missionsCompleted, icon: Star, color: "hsl(139 80% 50%)" },
   ];
 
   return (

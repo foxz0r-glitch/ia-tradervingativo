@@ -86,13 +86,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <SidebarTrigger className="shrink-0 text-muted-foreground hover:text-foreground" />
               <div className="hidden items-center gap-3 sm:flex">
                 <span className="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center self-center">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(160_84%_50%)] opacity-70" />
-                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[hsl(160_84%_50%)] shadow-[0_0_12px_hsl(160_84%_50%)]" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_50%)] opacity-70" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[hsl(139_80%_50%)] shadow-[0_0_12px_hsl(139_80%_50%)]" />
                 </span>
                 <div className="flex items-center gap-2.5 leading-none">
                   <span className="inline-flex items-center text-[18px] font-extrabold uppercase tracking-[0.22em] leading-none">
                     <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">IA</span>
-                    <span className="ml-1.5 bg-gradient-to-r from-[hsl(160_84%_55%)] via-[hsl(160_84%_45%)] to-[hsl(160_84%_38%)] bg-clip-text text-transparent drop-shadow-[0_0_8px_hsl(160_84%_45%/0.45)]">Vingativa</span>
+                    <span className="ml-1.5 bg-gradient-to-r from-[hsl(139_80%_55%)] via-[hsl(139_80%_45%)] to-[hsl(139_80%_38%)] bg-clip-text text-transparent drop-shadow-[0_0_8px_hsl(139_80%_45%/0.45)]">Vingativa</span>
                   </span>
                 </div>
                 <AdminHeaderLink />

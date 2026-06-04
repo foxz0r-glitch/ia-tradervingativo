@@ -20,7 +20,7 @@ export default function UserBadge12({ position }: { position?: number | null }) 
       className="rank-card group relative overflow-hidden rounded-2xl backdrop-blur-md"
       style={{
         background:
-          "linear-gradient(135deg, hsl(220 25% 6% / 0.92) 0%, hsl(220 22% 9% / 0.88) 60%, hsl(160 60% 8% / 0.85) 100%)",
+          "linear-gradient(135deg, hsl(220 25% 6% / 0.92) 0%, hsl(220 22% 9% / 0.88) 60%, hsl(139 60% 8% / 0.85) 100%)",
         border: `1px solid ${c}40`,
         boxShadow: `0 0 1px ${c}80, inset 0 1px 0 rgba(255,255,255,0.05), 0 12px 36px -18px ${c}aa`,
         ["--rank-color" as any]: c,
@@ -46,7 +46,7 @@ export default function UserBadge12({ position }: { position?: number | null }) 
             className="absolute inset-0 -z-10 m-auto h-[72px] w-[72px]"
             style={{
               clipPath: "polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)",
-              background: `linear-gradient(135deg, ${c}, hsl(160 84% 50%))`,
+              background: `linear-gradient(135deg, ${c}, hsl(139 80% 50%))`,
               filter: `drop-shadow(0 0 16px ${c}aa)`,
             }}
           />
@@ -105,7 +105,7 @@ export default function UserBadge12({ position }: { position?: number | null }) 
               className="absolute inset-y-0 left-0 rounded-full"
               style={{
                 width: `${data.progressPercent}%`,
-                background: `linear-gradient(90deg, ${c}, hsl(160 84% 60%), hsl(150 90% 65%))`,
+                background: `linear-gradient(90deg, ${c}, hsl(139 80% 60%), hsl(144 100% 65%))`,
                 boxShadow: `0 0 10px ${c}cc`,
                 transition: "width 0.8s cubic-bezier(0.22,1,0.36,1)",
               }}

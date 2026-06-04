@@ -49,7 +49,7 @@ const MISSION_TYPE_LABEL: Record<string, string> = {
 };
 
 const MISSION_TYPE_COLOR: Record<string, string> = {
-  daily:     "hsl(160 84% 45%)",
+  daily:     "hsl(139 80% 45%)",
   weekly:    "#60A5FA",
   permanent: "#FBBF24",
 };
@@ -72,7 +72,7 @@ function StatCard({
   color?: string;
   icon?: React.ReactNode;
 }) {
-  const c = color ?? "hsl(160 84% 45%)";
+  const c = color ?? "hsl(139 80% 45%)";
   return (
     <div
       style={{
@@ -165,7 +165,7 @@ export default function UserProfileDrawer({ userId, displayName, meId, onClose, 
   const { data, loading, error } = useUserProfile(userId, isOwn);
   const [tab, setTab] = useState<Tab>("perfil");
 
-  const c = data ? rankInfo(data.current_rank).color : "hsl(160 84% 45%)";
+  const c = data ? rankInfo(data.current_rank).color : "hsl(139 80% 45%)";
   const img = data ? rankImg(data.current_rank) : "";
 
   // Level progress
@@ -280,7 +280,7 @@ export default function UserProfileDrawer({ userId, displayName, meId, onClose, 
                     {displayName}
                   </div>
                   {isOwn && (
-                    <span style={{ fontSize: 9, fontWeight: 800, background: "hsl(160 84% 39%)", color: "#fff", borderRadius: 4, padding: "1px 6px", marginTop: 4, display: "inline-block" }}>
+                    <span style={{ fontSize: 9, fontWeight: 800, background: "hsl(139 80% 39%)", color: "#fff", borderRadius: 4, padding: "1px 6px", marginTop: 4, display: "inline-block" }}>
                       VOCÊ
                     </span>
                   )}
@@ -307,7 +307,7 @@ export default function UserProfileDrawer({ userId, displayName, meId, onClose, 
               {/* Chips */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
                 {[
-                  { label: `Nível ${data.level}`, color: "hsl(160 84% 45%)", icon: <Zap className="h-3 w-3" /> },
+                  { label: `Nível ${data.level}`, color: "hsl(139 80% 45%)", icon: <Zap className="h-3 w-3" /> },
                   { label: data.current_rank, color: c, icon: <Crown className="h-3 w-3" /> },
                   { label: `Top ${data.top_pct}% trader`, color: "#FBBF24", icon: <Trophy className="h-3 w-3" /> },
                   ...(data.streak_days > 0 ? [{ label: `${data.streak_days} dias streak`, color: "#F97316", icon: <Flame className="h-3 w-3" /> }] : []),
@@ -381,11 +381,11 @@ export default function UserProfileDrawer({ userId, displayName, meId, onClose, 
                           <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.14em" }}>
                             Nível (XP)
                           </span>
-                          <span style={{ fontSize: 13, fontWeight: 800, color: "hsl(160 84% 55%)", fontVariantNumeric: "tabular-nums" }}>
+                          <span style={{ fontSize: 13, fontWeight: 800, color: "hsl(139 80% 55%)", fontVariantNumeric: "tabular-nums" }}>
                             Lv {lvl}
                           </span>
                         </div>
-                        <ProgressBar pct={lvlPct} color="hsl(160 84% 45%)" height={6} />
+                        <ProgressBar pct={lvlPct} color="hsl(139 80% 45%)" height={6} />
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 5, fontSize: 10, color: "rgba(255,255,255,0.4)", fontVariantNumeric: "tabular-nums" }}>
                           <span>{Math.round(lvlPct)}% · {fmt(data.total_xp - lvlXpMin)} XP</span>
                           <span>{fmt(lvlXpMax - data.total_xp)} XP restantes</span>
@@ -418,13 +418,13 @@ export default function UserProfileDrawer({ userId, displayName, meId, onClose, 
                       <StatCard
                         label="XP Temporada"
                         value={fmt(data.season_xp)}
-                        color="hsl(160 84% 45%)"
+                        color="hsl(139 80% 45%)"
                         icon={<Zap className="h-3 w-3" />}
                       />
                       <StatCard
                         label="XP Acumulada"
                         value={fmt(data.total_xp)}
-                        color="hsl(160 84% 45%)"
+                        color="hsl(139 80% 45%)"
                         icon={<Zap className="h-3 w-3" />}
                       />
                       <StatCard

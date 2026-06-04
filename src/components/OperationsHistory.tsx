@@ -115,8 +115,8 @@ function OperationDetailPopover({ op }: { op: Operation }) {
   const [fa, fb] = pairFlags(op.symbol);
   const cleanSymbol = op.symbol.replace(/-OTC$/i, "");
   const isCall = op.direction === "call";
-  const pnlColor = isDraw ? "#9ca3af" : isWin ? "hsl(160 84% 70%)" : "hsl(0 84% 72%)";
-  const pnlGlow  = isDraw ? "rgba(156,163,175,0.4)" : isWin ? "hsl(160 84% 50%)" : "hsl(0 84% 55%)";
+  const pnlColor = isDraw ? "#9ca3af" : isWin ? "hsl(139 80% 70%)" : "hsl(0 84% 72%)";
+  const pnlGlow  = isDraw ? "rgba(156,163,175,0.4)" : isWin ? "hsl(139 80% 50%)" : "hsl(0 84% 55%)";
   const pnlSign  = isDraw ? "" : isWin ? "+" : "-";
   const payout   = op.payout ?? 0;
   const payoutStr = isDraw ? "(0%)" : `(${payout > 0 ? "+" : ""}${payout}%)`;
@@ -128,15 +128,15 @@ function OperationDetailPopover({ op }: { op: Operation }) {
     : (op.date || "—");
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-[hsl(160_84%_45%/0.25)]"
-      style={{ background: "linear-gradient(180deg, hsl(220 22% 9% / 0.98), hsl(220 25% 6% / 0.99))", boxShadow: "0 0 40px -12px hsl(160 84% 45% / 0.4), inset 0 1px 0 hsl(160 84% 60% / 0.1)" }}>
+    <div className="overflow-hidden rounded-2xl border border-[hsl(139_80%_45%/0.25)]"
+      style={{ background: "linear-gradient(180deg, hsl(220 22% 9% / 0.98), hsl(220 25% 6% / 0.99))", boxShadow: "0 0 40px -12px hsl(139 80% 45% / 0.4), inset 0 1px 0 hsl(139 80% 60% / 0.1)" }}>
       <div className="flex items-center justify-between gap-3 border-b border-border/40 bg-gradient-to-r from-card/80 via-card/40 to-transparent px-4 py-3">
         <div className="flex items-center gap-2.5">
           <PairFlags a={fa} b={fb} ringClass="ring-[#0d0d14]" />
           <div className="leading-tight">
             <div className="text-sm font-black tracking-tight text-foreground">{cleanSymbol}</div>
             <div className="mt-0.5 flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-              <Hexagon className="h-2 w-2 text-[hsl(160_84%_60%)]" fill="currentColor" /> Operação Encerrada
+              <Hexagon className="h-2 w-2 text-[hsl(139_80%_60%)]" fill="currentColor" /> Operação Encerrada
             </div>
           </div>
         </div>
@@ -184,10 +184,10 @@ function DetailRow({ icon, label, value, mono, accent }: { icon: React.ReactNode
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border/20 py-2 last:border-0">
       <div className="flex items-center gap-1.5 text-[11px] font-semibold text-muted-foreground">
-        <span className={cn(accent ? "text-[hsl(160_84%_60%)]" : "text-muted-foreground/70")}>{icon}</span>
+        <span className={cn(accent ? "text-[hsl(139_80%_60%)]" : "text-muted-foreground/70")}>{icon}</span>
         {label}
       </div>
-      <span className={cn("text-[12px] font-bold text-foreground", mono && "ct-mono tabular-nums", accent && "text-[hsl(160_84%_75%)]")}>
+      <span className={cn("text-[12px] font-bold text-foreground", mono && "ct-mono tabular-nums", accent && "text-[hsl(139_80%_75%)]")}>
         {value}
       </span>
     </div>
@@ -202,7 +202,7 @@ function OperationRow({ op, nested = false }: { op: Operation; nested?: boolean 
   const resultBadge = isDraw
     ? "bg-[hsl(220_10%_25%/0.7)] text-[#9ca3af]"
     : isWin
-    ? "bg-[hsl(160_84%_25%/0.55)] text-[#3ddc97]"
+    ? "bg-[hsl(139_80%_25%/0.55)] text-[#3ddc97]"
     : "bg-[hsl(0_84%_30%/0.55)] text-[#ff4d6d]";
   const resultLabel = isDraw ? "EMPATE" : isWin ? "GAIN" : "LOSS";
   const valueColor  = isDraw ? "text-[#9ca3af]" : isWin ? "text-[#3ddc97]" : "text-[#ff4d6d]";
@@ -267,7 +267,7 @@ function SessionGroupRow({ group, open, onToggle }: { group: SessionGroupData; o
   const wr          = group.ops.length > 0 ? Math.round((group.wins / group.ops.length) * 100) : 0;
   const pnlColor    = isPositive ? "text-[#3ddc97]" : "text-[#ff4d6d]";
   const wrHex       = isPositive ? "#3ddc97" : "#ff4d6d";
-  const accentHsl   = isPositive ? "hsl(160 84% 50%)" : "hsl(0 84% 55%)";
+  const accentHsl   = isPositive ? "hsl(139 80% 50%)" : "hsl(0 84% 55%)";
   const pnlSign     = group.totalPnl >= 0 ? "+" : "-";
   const d           = new Date(group.startTs);
   const sessionDate = `${String(d.getDate()).padStart(2,"0")} ${MONTHS_PT[d.getMonth()]}`;
@@ -311,7 +311,7 @@ function SessionGroupRow({ group, open, onToggle }: { group: SessionGroupData; o
             {group.aiModel && (
               <>
                 <span className="opacity-30">·</span>
-                <span className="font-semibold" style={{ color: "hsl(160 84% 62%)" }}>
+                <span className="font-semibold" style={{ color: "hsl(139 80% 62%)" }}>
                   {AI_LABELS[group.aiModel] ?? group.aiModel}
                 </span>
               </>
@@ -414,12 +414,12 @@ export function OperationsHistory({ operations, sessionStart = null, sessionStar
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border/60 px-5 py-3.5">
         <div className="flex items-center gap-2.5">
-          <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(160_84%_50%/0.28)] via-[hsl(160_84%_40%/0.14)] to-[hsl(160_84%_30%/0.04)] text-[hsl(160_84%_75%)] ring-1 ring-[hsl(160_84%_55%/0.45)] shadow-[inset_0_1px_0_hsl(160_84%_85%/0.20),0_0_14px_-4px_hsl(160_84%_50%/0.8)]">
+          <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(139_80%_50%/0.28)] via-[hsl(139_80%_40%/0.14)] to-[hsl(139_80%_30%/0.04)] text-[hsl(139_80%_75%)] ring-1 ring-[hsl(139_80%_55%/0.45)] shadow-[inset_0_1px_0_hsl(139_80%_85%/0.20),0_0_14px_-4px_hsl(139_80%_50%/0.8)]">
             <History className="h-[15px] w-[15px]" strokeWidth={2.2} />
-            <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_60%)] shadow-[0_0_6px_hsl(160_84%_55%)]" />
+            <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_6px_hsl(139_80%_55%)]" />
           </span>
           <div className="flex flex-col leading-none">
-            <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_60%)]">Trades</span>
+            <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">Trades</span>
             <h2 className="mt-1 text-[15px] font-black tracking-tight text-foreground">Histórico</h2>
           </div>
         </div>
@@ -428,7 +428,7 @@ export function OperationsHistory({ operations, sessionStart = null, sessionStar
           {displayOps.length > 0 && (
             <>
               <span className="opacity-40">·</span>
-              <span className="text-[hsl(160_84%_65%)]">{wr}% WR</span>
+              <span className="text-[hsl(139_80%_65%)]">{wr}% WR</span>
             </>
           )}
         </div>
@@ -444,10 +444,10 @@ export function OperationsHistory({ operations, sessionStart = null, sessionStar
                 className={cn(
                   "rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-[0.16em] transition-all",
                   active
-                    ? "text-[hsl(220_25%_8%)] shadow-[0_0_14px_-4px_hsl(160_84%_50%/0.7),inset_0_1px_0_rgba(255,255,255,0.2)]"
+                    ? "text-[hsl(220_25%_8%)] shadow-[0_0_14px_-4px_hsl(139_80%_50%/0.7),inset_0_1px_0_rgba(255,255,255,0.2)]"
                     : "text-muted-foreground hover:text-foreground",
                 )}
-                style={active ? { background: "linear-gradient(135deg, hsl(160 84% 60%), hsl(160 84% 50%))" } : undefined}
+                style={active ? { background: "linear-gradient(135deg, hsl(139 80% 60%), hsl(139 80% 50%))" } : undefined}
               >
                 {label}
               </button>

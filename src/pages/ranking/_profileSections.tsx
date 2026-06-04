@@ -65,7 +65,7 @@ const STREAK_ACCENT = "hsl(25 95% 53%)";
 /* ---------- chips e helpers ---------- */
 export function Tag({
   children,
-  color = "hsl(160 84% 65%)",
+  color = "hsl(139 80% 65%)",
   variant = "soft",
 }: {
   children: React.ReactNode;
@@ -88,7 +88,7 @@ export function Tag({
 
 export function SectionTitle({
   children,
-  color = "hsl(160 84% 65%)",
+  color = "hsl(139 80% 65%)",
 }: {
   children: React.ReactNode;
   color?: string;
@@ -111,7 +111,7 @@ export function SectionTitle({
 }
 
 export function SubKpi({
-  label, value, color = "hsl(160 84% 70%)", small,
+  label, value, color = "hsl(139 80% 70%)", small,
 }: { label: string; value: React.ReactNode; color?: string; small?: string }) {
   return (
     <div className="rounded-xl border border-border/50 bg-card/40 px-3 py-2.5 backdrop-blur-md">
@@ -175,7 +175,7 @@ export function nextRankOf(current: string): string {
 
 /* ---------- HEADER (rank badge acima + nome, sem avatar) ---------- */
 export function HeaderBlock({
-  row, name, accent = "hsl(160 84% 60%)",
+  row, name, accent = "hsl(139 80% 60%)",
 }: TplProps) {
   return (
     <div className="relative">
@@ -257,7 +257,7 @@ function HeaderChips({ row, mock, accent }: { row: RankingRow; mock: ProfileMock
 }
 
 /* ---------- duas barras "Nível" e "Patente" ---------- */
-export function ProgressBlock({ row, mock, accent = "hsl(160 84% 55%)" }: TplProps) {
+export function ProgressBlock({ row, mock, accent = "hsl(139 80% 55%)" }: TplProps) {
   // Level L occupies [(L-1)²×50, L²×50) XP — width = 50×(2L-1)
   const levelWidth = Math.max(1, 50 * (2 * mock.level - 1));
   const remainingXp = mock.xp_to_next_level; // already computed from formula in buildProfileMock
@@ -315,7 +315,7 @@ export function ProgressBlock({ row, mock, accent = "hsl(160 84% 55%)" }: TplPro
 }
 
 /* ---------- RANKING & HISTÓRICO ---------- */
-export function RankingBlock({ row, mock, accent = "hsl(160 84% 65%)" }: TplProps) {
+export function RankingBlock({ row, mock, accent = "hsl(139 80% 65%)" }: TplProps) {
   const rc = mock.rank_change;
   const rankChangeEl: ReactNode = rc === null
     ? <span className="text-muted-foreground/50">sem histórico</span>
@@ -386,7 +386,7 @@ export function RankingBlock({ row, mock, accent = "hsl(160 84% 65%)" }: TplProp
 }
 
 /* ---------- PERFORMANCE ---------- */
-export function PerformanceBlock({ mock, userId, accent = "hsl(160 84% 65%)" }: TplProps) {
+export function PerformanceBlock({ mock, userId, accent = "hsl(139 80% 65%)" }: TplProps) {
   const [period, setPeriod] = useState<StatsPeriod>("Total");
   const { data: stats } = useProfileStats(userId ?? null, period);
 
@@ -458,7 +458,7 @@ export function PerformanceBlock({ mock, userId, accent = "hsl(160 84% 65%)" }: 
 }
 
 /* ---------- SCORE BREAKDOWN ---------- */
-export function ScoreBreakdownBlock({ mock, accent = "hsl(160 84% 65%)" }: TplProps) {
+export function ScoreBreakdownBlock({ mock, accent = "hsl(139 80% 65%)" }: TplProps) {
   const items: { label: string; v: [number, number]; color: string }[] = [
     { label: "Winrate", v: mock.score_winrate, color: "#22c55e" },
     { label: "Financeiro", v: mock.score_financeiro, color: "#8b5cf6" },
@@ -595,7 +595,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   social: Sparkles,
 };
 
-export function BadgesBlock({ mock, accent = "hsl(160 84% 65%)", isOwner, isAdmin, realBadges, onToggleEquip }: TplProps) {
+export function BadgesBlock({ mock, accent = "hsl(139 80% 65%)", isOwner, isAdmin, realBadges, onToggleEquip }: TplProps) {
   const [equipping, setEquipping] = useState<string | null>(null);
   useEffect(() => { setEquipping(null); }, [realBadges]);
 
@@ -718,7 +718,7 @@ export function BadgesBlock({ mock, accent = "hsl(160 84% 65%)", isOwner, isAdmi
                               {b.title}
                             </div>
                             {b.equipped && (
-                              <span className="text-[8px] font-bold" style={{ color: "hsl(160 84% 65%)" }}>● equipado</span>
+                              <span className="text-[8px] font-bold" style={{ color: "hsl(139 80% 65%)" }}>● equipado</span>
                             )}
                             {canEquip && (
                               <span className="text-[8px] text-muted-foreground/50">toque p/ equipar</span>
@@ -779,7 +779,7 @@ export function BadgesBlock({ mock, accent = "hsl(160 84% 65%)", isOwner, isAdmi
 }
 
 /* ---------- ESTRATÉGIAS ---------- */
-export function StrategiesBlock({ mock, userId, isOwner, accent = "hsl(160 84% 65%)" }: TplProps) {
+export function StrategiesBlock({ mock, userId, isOwner, accent = "hsl(139 80% 65%)" }: TplProps) {
   const { data: real, create, remove } = useUserStrategies(userId ?? null);
   const { maxEstrategias } = usePlan();
   const [adding, setAdding]   = useState(false);
@@ -1087,7 +1087,7 @@ export function StrategiesBlock({ mock, userId, isOwner, accent = "hsl(160 84% 6
 }
 
 /* ---------- COMUNIDADE ---------- */
-export function CommunityBlock({ mock, accent = "hsl(160 84% 65%)" }: TplProps) {
+export function CommunityBlock({ mock, accent = "hsl(139 80% 65%)" }: TplProps) {
   return (
     <section>
       <SectionTitle color={accent}>Comunidade</SectionTitle>
@@ -1111,7 +1111,7 @@ export function CommunityBlock({ mock, accent = "hsl(160 84% 65%)" }: TplProps) 
 }
 
 /* ---------- MISSÕES ---------- */
-export function MissionsBlock({ mock, accent = "hsl(160 84% 65%)", isOwner, isAdmin }: TplProps) {
+export function MissionsBlock({ mock, accent = "hsl(139 80% 65%)", isOwner, isAdmin }: TplProps) {
   if (!isOwner && !isAdmin) return null;
   const renderRow = (m: { title: string; pct: number; status: string }) => (
     <div key={m.title} className="flex items-center gap-3 py-1.5">
@@ -1121,7 +1121,7 @@ export function MissionsBlock({ mock, accent = "hsl(160 84% 65%)", isOwner, isAd
           className="h-full rounded-full"
           style={{
             width: `${m.pct}%`,
-            background: m.pct >= 100 ? "hsl(160 84% 50%)" : `linear-gradient(90deg, ${accent}, hsl(160 84% 60%))`,
+            background: m.pct >= 100 ? "hsl(139 80% 50%)" : `linear-gradient(90deg, ${accent}, hsl(139 80% 60%))`,
           }}
         />
       </div>
@@ -1140,7 +1140,7 @@ export function MissionsBlock({ mock, accent = "hsl(160 84% 65%)", isOwner, isAd
 }
 
 /* ---------- PRIVACIDADE ---------- */
-export function PrivacyBlock({ accent = "hsl(160 84% 65%)" }: { accent?: string }) {
+export function PrivacyBlock({ accent = "hsl(139 80% 65%)" }: { accent?: string }) {
   return (
     <section>
       <SectionTitle color={accent}>Privacidade</SectionTitle>

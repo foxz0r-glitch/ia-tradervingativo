@@ -32,8 +32,8 @@ import RankingBg from "./ranking/_RankingBg";
 function xpBarGradient(pct: number): string {
   if (pct < 25) return "linear-gradient(90deg, #ef4444, #f97316)";
   if (pct < 50) return "linear-gradient(90deg, #f97316, #eab308)";
-  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(160 84% 50%))";
-  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(160 84% 55%))";
+  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(139 80% 50%))";
+  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(139 80% 55%))";
 }
 
 /** Cor da posição:
@@ -68,10 +68,10 @@ function RankingRow({
 
   return (
     <div
-      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(160_84%_45%/0.5)] ${podiumShiftClass(pos)} ${
+      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(139_80%_45%/0.5)] ${podiumShiftClass(pos)} ${
         isMe
-          ? "border-[hsl(160_84%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(160_84%_45%/0.7)]"
-          : "border-border/50 hover:border-[hsl(160_84%_45%/0.4)]"
+          ? "border-[hsl(139_80%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(139_80%_45%/0.7)]"
+          : "border-border/50 hover:border-[hsl(139_80%_45%/0.4)]"
       }`}
       style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
@@ -104,7 +104,7 @@ function RankingRow({
             {name}
           </span>
           {isMe && (
-            <span className="rounded-md bg-[hsl(160_84%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
+            <span className="rounded-md bg-[hsl(139_80%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
               VOCÊ
             </span>
           )}
@@ -142,7 +142,7 @@ function RankingRow({
             </span>
           )}
         </div>
-        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(160_84%_70%)]">
+        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(139_80%_70%)]">
           {fmt(row.total_xp)}
         </div>
       </div>
@@ -197,9 +197,9 @@ export default function Ranking13() {
             style={{
               background:
                 "linear-gradient(180deg, hsl(220 25% 6% / 0.96), hsl(220 22% 8% / 0.92))",
-              border: "1px solid hsl(160 84% 45% / 0.3)",
+              border: "1px solid hsl(139 80% 45% / 0.3)",
               boxShadow:
-                "inset 0 1px 0 hsl(160 84% 60% / 0.15), 0 0 36px -14px hsl(160 84% 45% / 0.55)",
+                "inset 0 1px 0 hsl(139 80% 60% / 0.15), 0 0 36px -14px hsl(139 80% 45% / 0.55)",
             }}
           >
             {/* status bar terminal */}
@@ -227,11 +227,11 @@ export default function Ranking13() {
             {/* Bloco título */}
             <div className="grid grid-cols-1 items-end gap-4 px-5 py-5 md:grid-cols-[1fr_auto] md:px-7">
               <div>
-                <div className="font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_60%)]">
+                <div className="font-mono text-[10px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">
                   &gt; SEASON.LOAD( "{season.monthName}_{season.year}" )
                 </div>
                 <h1 className="mt-1 font-mono text-4xl font-black uppercase tracking-tight text-foreground md:text-5xl">
-                  RANKING<span className="text-[hsl(160_84%_60%)]">_</span><span className="text-gradient-primary">VINGATIVA</span>
+                  RANKING<span className="text-[hsl(139_80%_60%)]">_</span><span className="text-gradient-primary">VINGATIVA</span>
                 </h1>
                 <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground md:text-[11px]">
                   // TOP 50 TRADERS · A ELITE DO MERCADO
@@ -251,7 +251,7 @@ export default function Ranking13() {
             <div className="grid grid-cols-4 divide-x divide-border/40 border-y border-border/40 bg-[hsl(220_22%_5%/0.4)]">
               <div className="px-4 py-2.5">
                 <div className="font-mono text-[8px] font-bold uppercase tracking-[0.3em] text-muted-foreground">SEASON</div>
-                <div className="mt-0.5 font-mono text-lg font-black tabular-nums text-[hsl(160_84%_70%)]">#01</div>
+                <div className="mt-0.5 font-mono text-lg font-black tabular-nums text-[hsl(139_80%_70%)]">#01</div>
               </div>
               <div className="px-4 py-2.5">
                 <div className="font-mono text-[8px] font-bold uppercase tracking-[0.3em] text-muted-foreground">LAP</div>
@@ -283,8 +283,8 @@ export default function Ranking13() {
                 className="h-full"
                 style={{
                   width: `${season.pct}%`,
-                  background: "linear-gradient(90deg, #10b981, #34d399, #6ee7b7)",
-                  boxShadow: "0 0 10px #10b981",
+                  background: "linear-gradient(90deg, #1ae65c, #6bffa6, #6bffa6)",
+                  boxShadow: "0 0 10px #1ae65c",
                 }}
               />
             </div>
@@ -415,13 +415,13 @@ export default function Ranking13() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.max(0, i - 1))}
                     disabled={mvpIdx === 0}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Temporada anterior"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(160_84%_60%)]">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(139_80%_60%)]">
                       Temporada
                     </div>
                     <div className="text-base font-bold capitalize text-foreground">
@@ -435,7 +435,7 @@ export default function Ranking13() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.min(mvpSeasons.length - 1, i + 1))}
                     disabled={mvpIdx >= mvpSeasons.length - 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Próxima temporada"
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -546,7 +546,7 @@ export default function Ranking13() {
                                 </div>
                                 <div
                                   className="text-2xl font-black tabular-nums"
-                                  style={{ color: "#6EE7B7", textShadow: "0 0 10px hsl(160 84% 45% / 0.55)" }}
+                                  style={{ color: "#6bffa6", textShadow: "0 0 10px hsl(139 80% 45% / 0.55)" }}
                                 >
                                   {fmt(r.total_xp)}
                                 </div>

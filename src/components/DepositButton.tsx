@@ -71,11 +71,11 @@ export const DepositButton = ({ variant = "default", children, label }: DepositB
           onClick={handleDepositar}
           title="Depositar"
           aria-label="Depositar"
-          className="group relative flex items-center gap-3 overflow-hidden rounded-xl border border-[hsl(160_84%_45%/0.35)] bg-gradient-to-br from-[hsl(160_84%_30%/0.25)] via-[hsl(160_84%_22%/0.15)] to-[hsl(160_84%_18%/0.05)] px-3.5 py-2 text-left shadow-[inset_0_1px_0_hsl(160_84%_70%/0.18),0_0_30px_-10px_hsl(160_84%_45%/0.65)] transition-all hover:border-[hsl(160_84%_50%/0.55)] hover:shadow-[inset_0_1px_0_hsl(160_84%_70%/0.25),0_0_36px_-8px_hsl(160_84%_50%/0.8)] active:translate-y-px"
+          className="group relative flex items-center gap-3 overflow-hidden rounded-xl border border-[hsl(139_80%_45%/0.35)] bg-gradient-to-br from-[hsl(139_80%_30%/0.25)] via-[hsl(139_80%_22%/0.15)] to-[hsl(139_80%_18%/0.05)] px-3.5 py-2 text-left shadow-[inset_0_1px_0_hsl(139_80%_70%/0.18),0_0_30px_-10px_hsl(139_80%_45%/0.65)] transition-all hover:border-[hsl(139_80%_50%/0.55)] hover:shadow-[inset_0_1px_0_hsl(139_80%_70%/0.25),0_0_36px_-8px_hsl(139_80%_50%/0.8)] active:translate-y-px"
         >
-          <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[hsl(160_84%_70%/0.7)] to-transparent" />
+          <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-[hsl(139_80%_70%/0.7)] to-transparent" />
           <span className="pointer-events-none absolute -inset-y-4 -left-1/3 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent transition-transform duration-700 group-hover:translate-x-[400%]" />
-          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[hsl(160_84%_45%)] to-[hsl(160_84%_30%)] text-[hsl(160_30%_8%)] shadow-[inset_0_1px_0_hsl(160_84%_75%/0.6),0_4px_10px_-2px_hsl(160_84%_39%/0.6)] transition-all group-hover:from-[hsl(160_84%_52%)] group-hover:to-[hsl(160_84%_36%)] group-hover:shadow-[inset_0_1px_0_hsl(160_84%_80%/0.7),0_6px_16px_-2px_hsl(160_84%_45%/0.8)]">
+          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[hsl(139_80%_45%)] to-[hsl(139_80%_30%)] text-[hsl(139_30%_8%)] shadow-[inset_0_1px_0_hsl(139_80%_75%/0.6),0_4px_10px_-2px_hsl(139_80%_39%/0.6)] transition-all group-hover:from-[hsl(139_80%_52%)] group-hover:to-[hsl(139_80%_36%)] group-hover:shadow-[inset_0_1px_0_hsl(139_80%_80%/0.7),0_6px_16px_-2px_hsl(139_80%_45%/0.8)]">
             <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
             <Wallet className="h-4 w-4 transition-transform duration-300 group-hover:scale-0 group-hover:opacity-0" strokeWidth={2.5} />
             <Plus className="absolute h-[18px] w-[18px] scale-0 opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 group-hover:rotate-90" strokeWidth={2.75} />
@@ -88,7 +88,7 @@ export const DepositButton = ({ variant = "default", children, label }: DepositB
           onClick={handleDepositar}
           title="Depositar"
           aria-label="Depositar"
-          className="group relative inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-[hsl(160_84%_45%)] to-[hsl(160_84%_34%)] text-[hsl(160_30%_8%)] shadow-[0_4px_14px_-2px_hsl(160_84%_39%/0.55),inset_0_1px_0_hsl(160_84%_75%/0.5)] transition-all hover:from-[hsl(160_84%_50%)] hover:to-[hsl(160_84%_38%)] hover:shadow-[0_6px_20px_-2px_hsl(160_84%_45%/0.75),inset_0_1px_0_hsl(160_84%_80%/0.6)] active:translate-y-px"
+          className="group relative inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-b from-[hsl(139_80%_45%)] to-[hsl(139_80%_34%)] text-[hsl(139_30%_8%)] shadow-[0_4px_14px_-2px_hsl(139_80%_39%/0.55),inset_0_1px_0_hsl(139_80%_75%/0.5)] transition-all hover:from-[hsl(139_80%_50%)] hover:to-[hsl(139_80%_38%)] hover:shadow-[0_6px_20px_-2px_hsl(139_80%_45%/0.75),inset_0_1px_0_hsl(139_80%_80%/0.6)] active:translate-y-px"
         >
           <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
           <Plus className="h-5 w-5" strokeWidth={2.75} />
@@ -99,7 +99,7 @@ export const DepositButton = ({ variant = "default", children, label }: DepositB
           onClick={handleDepositar}
           title="Depositar"
           aria-label="Depositar"
-          className="group relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[hsl(160_84%_45%)] to-[hsl(160_84%_30%)] text-[hsl(160_30%_8%)] shadow-[inset_0_1px_0_hsl(160_84%_75%/0.6),0_4px_10px_-2px_hsl(160_84%_39%/0.6)] transition-all hover:from-[hsl(160_84%_52%)] hover:to-[hsl(160_84%_36%)] hover:shadow-[inset_0_1px_0_hsl(160_84%_80%/0.7),0_6px_16px_-2px_hsl(160_84%_45%/0.8)] active:translate-y-px"
+          className="group relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[hsl(139_80%_45%)] to-[hsl(139_80%_30%)] text-[hsl(139_30%_8%)] shadow-[inset_0_1px_0_hsl(139_80%_75%/0.6),0_4px_10px_-2px_hsl(139_80%_39%/0.6)] transition-all hover:from-[hsl(139_80%_52%)] hover:to-[hsl(139_80%_36%)] hover:shadow-[inset_0_1px_0_hsl(139_80%_80%/0.7),0_6px_16px_-2px_hsl(139_80%_45%/0.8)] active:translate-y-px"
         >
           <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
           <Wallet className="h-4 w-4 transition-transform duration-300 group-hover:scale-0 group-hover:opacity-0" strokeWidth={2.5} />
@@ -109,7 +109,7 @@ export const DepositButton = ({ variant = "default", children, label }: DepositB
         <button
           type="button"
           onClick={handleDepositar}
-          className="group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-lg border border-[hsl(160_84%_50%/0.6)] bg-gradient-to-b from-[hsl(160_84%_44%)] to-[hsl(160_84%_32%)] px-4 text-sm font-semibold text-[hsl(160_30%_8%)] shadow-[0_4px_14px_-4px_hsl(160_84%_39%/0.6),inset_0_1px_0_hsl(160_84%_78%/0.5)] transition-all duration-300 hover:from-[hsl(160_84%_50%)] hover:to-[hsl(160_84%_36%)] hover:border-[hsl(160_84%_55%/0.8)] hover:shadow-[0_6px_22px_-4px_hsl(160_84%_45%/0.8),inset_0_1px_0_hsl(160_84%_82%/0.6)] active:translate-y-px"
+          className="group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-lg border border-[hsl(139_80%_50%/0.6)] bg-gradient-to-b from-[hsl(139_80%_44%)] to-[hsl(139_80%_32%)] px-4 text-sm font-semibold text-[hsl(139_30%_8%)] shadow-[0_4px_14px_-4px_hsl(139_80%_39%/0.6),inset_0_1px_0_hsl(139_80%_78%/0.5)] transition-all duration-300 hover:from-[hsl(139_80%_50%)] hover:to-[hsl(139_80%_36%)] hover:border-[hsl(139_80%_55%/0.8)] hover:shadow-[0_6px_22px_-4px_hsl(139_80%_45%/0.8),inset_0_1px_0_hsl(139_80%_82%/0.6)] active:translate-y-px"
         >
           {/* top shine */}
           <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />

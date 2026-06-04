@@ -214,7 +214,7 @@ export default function Ranking10() {
                       </span>
                       <div className="flex items-center justify-end gap-2">
                         <svg width="48" height="20" viewBox="0 0 88 24" className="opacity-70">
-                          <path d={sparkPath} fill="none" stroke={positive ? "#10B981" : "#EF4444"} strokeWidth="1.5" />
+                          <path d={sparkPath} fill="none" stroke={positive ? "#1ae65c" : "#EF4444"} strokeWidth="1.5" />
                         </svg>
                         <span className={`text-xs font-black tabular-nums ${positive ? "text-emerald-400" : "text-red-400"}`}>
                           {positive ? "+" : ""}

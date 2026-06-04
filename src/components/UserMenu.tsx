@@ -246,7 +246,7 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
                 {avatarUrl ? (
                   <AvatarImage src={avatarUrl} className="object-cover" />
                 ) : null}
-                <AvatarFallback className="bg-gradient-to-br from-[hsl(160_84%_30%)] to-[hsl(160_84%_18%)] text-sm font-bold text-[hsl(160_84%_85%)]">
+                <AvatarFallback className="bg-gradient-to-br from-[hsl(139_80%_30%)] to-[hsl(139_80%_18%)] text-sm font-bold text-[hsl(139_80%_85%)]">
                   {initials}
                 </AvatarFallback>
               </Avatar>
@@ -263,7 +263,7 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
           align={align}
           sideOffset={sideOffset}
           alignOffset={alignOffset}
-          className="relative w-[660px] overflow-hidden rounded-2xl border border-[hsl(160_84%_45%/0.25)] p-0 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+          className="relative w-[660px] overflow-hidden rounded-2xl border border-[hsl(139_80%_45%/0.25)] p-0 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl"
           style={{
             background: "linear-gradient(180deg, hsl(220 22% 9% / 0.92), hsl(220 25% 6% / 0.94))",
           }}
@@ -272,7 +272,7 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
           <div className="pointer-events-none absolute -left-20 -top-20 h-56 w-56 rounded-full bg-primary/15 blur-3xl" />
           <div className="pointer-events-none absolute -right-16 top-24 h-44 w-44 rounded-full bg-[hsl(217_91%_60%/0.12)] blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,hsl(160_84%_45%/0.06),transparent_60%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,hsl(139_80%_45%/0.06),transparent_60%)]" />
 
           {/* Body: 2 columns */}
           <div className="relative grid grid-cols-[1.2fr_1.05fr] gap-0">
@@ -340,8 +340,8 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
                     className="h-full rounded-full"
                     style={{
                       width: `${score}%`,
-                      background: "linear-gradient(90deg, hsl(160 84% 55%), #eab308, #f97316, #ef4444)",
-                      boxShadow: "0 0 8px hsl(160 84% 55% / 0.55)",
+                      background: "linear-gradient(90deg, hsl(139 80% 55%), #eab308, #f97316, #ef4444)",
+                      boxShadow: "0 0 8px hsl(139 80% 55% / 0.55)",
                     }}
                   />
                 </div>

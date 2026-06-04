@@ -41,7 +41,7 @@ function ProfileShell({
 
 /* === A — Estrutura ChatGPT (ímpar #1, accent esmeralda padrão) === */
 export function ProfileTemplateA(props: TplProps) {
-  const accent = "hsl(160 84% 60%)";
+  const accent = "hsl(139 80% 60%)";
   return (
     <ChatGPTShell accent={accent}>
       <ChatGPTBlock>
@@ -64,7 +64,7 @@ export function ProfileTemplateA(props: TplProps) {
    Inspirado na imagem-referência v2: fundo neutro escuro, cartões em
    blocos separados com leve borda, sem gradiente colorido. */
 export function ProfileTemplateB(props: TplProps) {
-  const accent = "hsl(160 70% 55%)";
+  const accent = "hsl(139 70% 55%)";
   return (
     <ChatGPTShell accent={accent}>
       <ChatGPTBlock>

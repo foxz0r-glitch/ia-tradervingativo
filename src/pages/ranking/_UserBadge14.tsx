@@ -21,7 +21,7 @@ export default function UserBadge14({ position }: { position?: number | null }) 
       style={{
         background:
           "linear-gradient(115deg, hsl(220 22% 8% / 0.92), hsl(220 25% 6% / 0.88))",
-        border: "1px solid hsl(160 84% 45% / 0.22)",
+        border: "1px solid hsl(139 80% 45% / 0.22)",
         boxShadow: `0 12px 36px -18px ${c}80, inset 0 1px 0 rgba(255,255,255,0.04)`,
         ["--rank-color" as any]: c,
       }}
@@ -31,7 +31,7 @@ export default function UserBadge14({ position }: { position?: number | null }) 
         aria-hidden
         className="absolute inset-y-0 left-0 w-1.5"
         style={{
-          background: `linear-gradient(180deg, ${c}, hsl(160 84% 60%), ${c})`,
+          background: `linear-gradient(180deg, ${c}, hsl(139 80% 60%), ${c})`,
           boxShadow: `0 0 18px ${c}88`,
         }}
       />
@@ -41,7 +41,7 @@ export default function UserBadge14({ position }: { position?: number | null }) 
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
           background:
-            "repeating-linear-gradient(45deg, hsl(160 84% 60%) 0 1px, transparent 1px 14px)",
+            "repeating-linear-gradient(45deg, hsl(139 80% 60%) 0 1px, transparent 1px 14px)",
         }}
       />
 
@@ -64,7 +64,7 @@ export default function UserBadge14({ position }: { position?: number | null }) 
           {/* Selo "verificado" */}
           <span
             className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-background"
-            style={{ background: `linear-gradient(135deg, ${c}, hsl(160 84% 50%))` }}
+            style={{ background: `linear-gradient(135deg, ${c}, hsl(139 80% 50%))` }}
           >
             <ShieldCheck className="h-3 w-3 text-background" strokeWidth={3} />
           </span>
@@ -100,7 +100,7 @@ export default function UserBadge14({ position }: { position?: number | null }) 
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{
                     width: `${data.progressPercent}%`,
-                    background: `linear-gradient(90deg, ${c}, hsl(160 84% 60%), hsl(150 90% 65%))`,
+                    background: `linear-gradient(90deg, ${c}, hsl(139 80% 60%), hsl(144 100% 65%))`,
                     boxShadow: `0 0 10px ${c}cc`,
                     transition: "width 0.8s cubic-bezier(0.22,1,0.36,1)",
                   }}
@@ -146,7 +146,7 @@ export default function UserBadge14({ position }: { position?: number | null }) 
           style={{
             borderColor: `${c}55`,
             background: `linear-gradient(135deg, ${c}25, transparent)`,
-            color: "hsl(160 84% 80%)",
+            color: "hsl(139 80% 80%)",
             boxShadow: `0 4px 14px -6px ${c}aa`,
           }}
         >

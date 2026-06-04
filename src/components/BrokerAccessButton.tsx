@@ -64,7 +64,7 @@ export const BrokerAccessButton = () => {
       <button
         type="button"
         onClick={handleAcessar}
-        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-border/70 bg-secondary/40 px-4 text-sm font-semibold text-foreground transition-all duration-500 ease-out hover:border-primary/50 hover:bg-secondary hover:shadow-[0_0_24px_-4px_hsl(160_84%_39%/0.65)] active:translate-y-px"
+        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-border/70 bg-secondary/40 px-4 text-sm font-semibold text-foreground transition-all duration-500 ease-out hover:border-primary/50 hover:bg-secondary hover:shadow-[0_0_24px_-4px_hsl(139_80%_39%/0.65)] active:translate-y-px"
       >
         <TrendingUp className="h-4 w-4 text-[#3ddc97]" strokeWidth={2.5} />
         Acessar Broker
@@ -78,13 +78,13 @@ export const BrokerAccessButton = () => {
           </DialogDescription>
           <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/95 backdrop-blur-xl">
             <div className="pointer-events-none absolute inset-0">
-              <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-[hsl(160_84%_39%/0.18)] blur-3xl" />
+              <div className="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-[hsl(139_80%_39%/0.18)] blur-3xl" />
               <div className="absolute -right-16 top-32 h-56 w-56 rounded-full bg-primary/15 blur-3xl" />
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
             </div>
 
             <div className="relative flex flex-col items-center px-6 pt-8 pb-2 text-center">
-              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[hsl(160_84%_39%/0.15)] text-[#3ddc97] shadow-[inset_0_0_0_1px_hsl(160_84%_45%/0.3)]">
+              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[hsl(139_80%_39%/0.15)] text-[#3ddc97] shadow-[inset_0_0_0_1px_hsl(139_80%_45%/0.3)]">
                 <TrendingUp className="h-6 w-6" strokeWidth={2.4} />
               </div>
 

@@ -231,7 +231,7 @@ const Profile = () => {
                   className="flex h-[120px] w-[120px] items-center justify-center overflow-hidden rounded-full bg-[hsl(217_33%_12%)]"
                   style={
                     avatarUrl
-                      ? { border: "1px solid hsl(160, 84%, 45%)" }
+                      ? { border: "1px solid hsl(139, 80%, 45%)" }
                       : undefined
                   }
                 >

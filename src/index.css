@@ -93,7 +93,7 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-image:
-      radial-gradient(1200px 600px at 80% -10%, hsl(160 84% 39% / 0.08), transparent 60%),
+      radial-gradient(1200px 600px at 80% -10%, hsl(139 80% 39% / 0.08), transparent 60%),
       radial-gradient(900px 500px at -10% 110%, hsl(217 91% 60% / 0.06), transparent 60%);
     background-attachment: fixed;
   }
@@ -109,9 +109,9 @@
 
   /* Glow variants — colored radial glow seeping from bottom-left of the card */
   .ct-card-green {
-    @apply ct-card border-[hsl(160_84%_39%/0.25)];
+    @apply ct-card border-[hsl(139_80%_39%/0.25)];
     background:
-      radial-gradient(120% 80% at 0% 100%, hsl(160 84% 39% / 0.18), transparent 60%),
+      radial-gradient(120% 80% at 0% 100%, hsl(139 80% 39% / 0.18), transparent 60%),
       var(--gradient-card);
   }
   .ct-card-blue {
@@ -282,14 +282,14 @@
   }
 
   .btn-emerald {
-    background: linear-gradient(180deg, hsl(160 84% 48%), hsl(160 84% 36%));
+    background: linear-gradient(180deg, hsl(139 80% 48%), hsl(139 80% 36%));
     color: hsl(220 30% 6%);
-    box-shadow: 0 6px 20px hsl(160 84% 40% / 0.35), 0 0 0 1px hsl(160 84% 30% / 0.5);
+    box-shadow: 0 6px 20px hsl(139 80% 40% / 0.35), 0 0 0 1px hsl(139 80% 30% / 0.5);
   }
   .btn-emerald:hover {
-    box-shadow: 0 10px 28px hsl(160 84% 40% / 0.5), 0 0 0 1px hsl(160 84% 35% / 0.7);
+    box-shadow: 0 10px 28px hsl(139 80% 40% / 0.5), 0 0 0 1px hsl(139 80% 35% / 0.7);
   }
-  .btn-emerald:focus-visible { @apply ring-[hsl(160_84%_45%)]; }
+  .btn-emerald:focus-visible { @apply ring-[hsl(139_80%_45%)]; }
 
   .btn-danger {
     background: linear-gradient(180deg, hsl(350 90% 62%), hsl(350 80% 48%));
@@ -429,7 +429,7 @@
 /* Firefox */
 * {
   scrollbar-width: auto;
-  scrollbar-color: hsl(160 84% 45% / 0.6) hsl(220 22% 8% / 0.5);
+  scrollbar-color: hsl(139 80% 45% / 0.6) hsl(220 22% 8% / 0.5);
 }
 
 /* WebKit (Chrome, Safari, Edge) */
@@ -441,36 +441,36 @@
 *::-webkit-scrollbar-track {
   background: linear-gradient(180deg, hsl(220 25% 6% / 0.65), hsl(220 22% 9% / 0.65));
   border-radius: 10px;
-  border-left: 1px solid hsl(160 84% 39% / 0.06);
+  border-left: 1px solid hsl(139 80% 39% / 0.06);
 }
 
 *::-webkit-scrollbar-thumb {
   background: linear-gradient(
     180deg,
-    hsl(160 84% 50% / 0.7),
-    hsl(160 70% 38% / 0.85)
+    hsl(139 80% 50% / 0.7),
+    hsl(139 70% 38% / 0.85)
   );
   border-radius: 10px;
   border: 3px solid hsl(220 25% 5% / 0.7);
   background-clip: padding-box;
   min-height: 48px;
-  box-shadow: inset 0 1px 0 hsl(160 84% 75% / 0.28), 0 0 0 1px hsl(160 84% 30% / 0.25);
+  box-shadow: inset 0 1px 0 hsl(139 80% 75% / 0.28), 0 0 0 1px hsl(139 80% 30% / 0.25);
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 *::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(
     180deg,
-    hsl(160 84% 58%),
-    hsl(160 70% 42%)
+    hsl(139 80% 58%),
+    hsl(139 70% 42%)
   );
   background-clip: padding-box;
   border: 3px solid hsl(220 25% 5% / 0.7);
-  box-shadow: inset 0 1px 0 hsl(160 84% 82% / 0.45), 0 0 14px hsl(160 84% 45% / 0.6);
+  box-shadow: inset 0 1px 0 hsl(139 80% 82% / 0.45), 0 0 14px hsl(139 80% 45% / 0.6);
 }
 
 *::-webkit-scrollbar-thumb:active {
-  background: hsl(160 84% 50%);
+  background: hsl(139 80% 50%);
   background-clip: padding-box;
   border: 3px solid hsl(220 25% 5% / 0.7);
 }
@@ -493,7 +493,7 @@
 .ops-scroll {
   scroll-behavior: smooth;
   scrollbar-width: auto;
-  scrollbar-color: hsl(160 84% 45% / 0.55) hsl(220 22% 8% / 0.4);
+  scrollbar-color: hsl(139 80% 45% / 0.55) hsl(220 22% 8% / 0.4);
 }
 .ops-scroll::-webkit-scrollbar {
   width: 14px;
@@ -504,17 +504,17 @@
   margin: 6px 0;
 }
 .ops-scroll::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, hsl(160 84% 45% / 0.7), hsl(160 60% 35% / 0.8));
+  background: linear-gradient(180deg, hsl(139 80% 45% / 0.7), hsl(139 60% 35% / 0.8));
   border-radius: 10px;
   border: 3px solid hsl(220 25% 5% / 0.6);
   background-clip: padding-box;
   min-height: 40px;
 }
 .ops-scroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, hsl(160 84% 55%), hsl(160 70% 42%));
+  background: linear-gradient(180deg, hsl(139 80% 55%), hsl(139 70% 42%));
   background-clip: padding-box;
   border: 3px solid hsl(220 25% 5% / 0.6);
-  box-shadow: 0 0 10px hsl(160 84% 45% / 0.5);
+  box-shadow: 0 0 10px hsl(139 80% 45% / 0.5);
 }
 
 /* ───────────── Number input spinners (refined) ───────────── */

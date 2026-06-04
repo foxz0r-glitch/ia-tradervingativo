@@ -71,7 +71,7 @@ export function OperationDetailDialog({ open, onOpenChange, op }: Props) {
     : (op.timeFull || op.date || "—");
 
   const dirBg = op.direction === "call"
-    ? "bg-[hsl(160_84%_25%/0.55)]"
+    ? "bg-[hsl(139_80%_25%/0.55)]"
     : "bg-[hsl(0_84%_30%/0.55)]";
 
   const rows: { label: string; value: string; color?: string; badge?: boolean }[] = [

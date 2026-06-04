@@ -196,27 +196,27 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
         <DialogPrimitive.Content
           className={cn(
             "fixed left-[50%] top-[50%] z-50 grid w-[94vw] max-w-[620px] max-h-[90vh] translate-x-[-50%] translate-y-[-50%]",
-            "overflow-hidden rounded-2xl border border-[hsl(160_84%_45%/0.25)]",
-            "bg-[radial-gradient(ellipse_at_top,hsl(160_60%_12%/0.55),hsl(220_25%_5%)_60%)]",
-            "shadow-[0_30px_80px_-20px_hsl(160_84%_30%/0.55),0_0_0_1px_hsl(160_84%_45%/0.15)]",
+            "overflow-hidden rounded-2xl border border-[hsl(139_80%_45%/0.25)]",
+            "bg-[radial-gradient(ellipse_at_top,hsl(139_60%_12%/0.55),hsl(220_25%_5%)_60%)]",
+            "shadow-[0_30px_80px_-20px_hsl(139_80%_30%/0.55),0_0_0_1px_hsl(139_80%_45%/0.15)]",
             "duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
           )}
         >
           {/* Decorative orb */}
-          <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-72 w-72 rounded-full bg-[hsl(160_84%_50%/0.18)] blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-72 w-72 rounded-full bg-[hsl(139_80%_50%/0.18)] blur-3xl" />
           <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-32 h-80 w-80 rounded-full bg-[hsl(180_80%_40%/0.12)] blur-3xl" />
 
           {/* Header */}
           <div className="relative flex items-start justify-between gap-4 border-b border-border/40 px-6 py-5">
             <div className="flex items-center gap-3">
-              <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(160_84%_50%/0.32)] via-[hsl(160_84%_40%/0.18)] to-[hsl(160_84%_30%/0.05)] text-[hsl(160_84%_75%)] ring-1 ring-[hsl(160_84%_55%/0.5)] shadow-[inset_0_1px_0_hsl(160_84%_85%/0.25),0_0_18px_-4px_hsl(160_84%_50%/0.85)]">
+              <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(139_80%_50%/0.32)] via-[hsl(139_80%_40%/0.18)] to-[hsl(139_80%_30%/0.05)] text-[hsl(139_80%_75%)] ring-1 ring-[hsl(139_80%_55%/0.5)] shadow-[inset_0_1px_0_hsl(139_80%_85%/0.25),0_0_18px_-4px_hsl(139_80%_50%/0.85)]">
                 <Layers className="h-[18px] w-[18px]" strokeWidth={2.2} />
-                <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(160_84%_60%)] shadow-[0_0_6px_hsl(160_84%_55%)]" />
+                <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_6px_hsl(139_80%_55%)]" />
               </span>
               <div className="flex flex-col leading-none">
-                <span className="text-[9px] font-bold uppercase tracking-[0.32em] text-[hsl(160_84%_60%)]">Construtor · Pro</span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">Construtor · Pro</span>
                 <span className="mt-1.5 text-[19px] font-black tracking-tight text-foreground">Estratégias de Trading</span>
                 <span className="mt-1 text-[11px] text-muted-foreground">Combine indicadores, regras e direção para criar setups vencedores.</span>
               </div>
@@ -229,10 +229,10 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
           <div className="relative max-h-[calc(92vh-100px)] overflow-y-auto">
             <Tabs value={tab} onValueChange={(v) => setTab(v as any)} className="px-6 py-5">
               <TabsList className="grid w-full grid-cols-2 bg-muted/20 p-1">
-                <TabsTrigger value="list" className="data-[state=active]:bg-[hsl(160_84%_45%/0.15)] data-[state=active]:text-[hsl(160_84%_70%)]">
+                <TabsTrigger value="list" className="data-[state=active]:bg-[hsl(139_80%_45%/0.15)] data-[state=active]:text-[hsl(139_80%_70%)]">
                   <Activity className="mr-1.5 h-3.5 w-3.5" /> Minhas Estratégias
                 </TabsTrigger>
-                <TabsTrigger value="edit" className="data-[state=active]:bg-[hsl(160_84%_45%/0.15)] data-[state=active]:text-[hsl(160_84%_70%)]">
+                <TabsTrigger value="edit" className="data-[state=active]:bg-[hsl(139_80%_45%/0.15)] data-[state=active]:text-[hsl(139_80%_70%)]">
                   <Sparkles className="mr-1.5 h-3.5 w-3.5" /> Criar / Editar
                 </TabsTrigger>
               </TabsList>
@@ -242,7 +242,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
             <button
               type="button"
               onClick={handleNew}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[hsl(160_84%_40%)] to-[hsl(160_84%_50%)] px-4 py-2.5 text-sm font-bold text-white shadow-[0_4px_16px_hsl(160_84%_40%/0.35)] transition-transform hover:scale-[1.01]"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[hsl(139_80%_40%)] to-[hsl(139_80%_50%)] px-4 py-2.5 text-sm font-bold text-white shadow-[0_4px_16px_hsl(139_80%_40%/0.35)] transition-transform hover:scale-[1.01]"
             >
               <Plus className="h-4 w-4" /> Nova Estratégia
             </button>
@@ -259,7 +259,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                     key={s.id}
                     className={`rounded-lg border bg-muted/10 p-3 transition-all ${
                       isActive
-                        ? "border-[hsl(160_84%_45%)] shadow-[0_0_0_1px_hsl(160_84%_45%/0.4)]"
+                        ? "border-[hsl(139_80%_45%)] shadow-[0_0_0_1px_hsl(139_80%_45%/0.4)]"
                         : "border-border/60 hover:border-border"
                     }`}
                   >
@@ -274,7 +274,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                             {s.name}
                           </span>
                           {isActive && (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-[hsl(160_84%_45%/0.15)] px-1.5 py-0.5 text-[9px] font-bold uppercase text-[hsl(160_84%_55%)]">
+                            <span className="inline-flex items-center gap-1 rounded-full bg-[hsl(139_80%_45%/0.15)] px-1.5 py-0.5 text-[9px] font-bold uppercase text-[hsl(139_80%_55%)]">
                               <Check className="h-2.5 w-2.5" /> Ativa
                             </span>
                           )}
@@ -343,7 +343,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                           ),
                         }));
                       }}
-                      className="h-8 flex-1 rounded-md border border-border/60 bg-[hsl(220_25%_8%)] px-2 text-xs text-foreground outline-none focus:border-[hsl(160_84%_45%)]"
+                      className="h-8 flex-1 rounded-md border border-border/60 bg-[hsl(220_25%_8%)] px-2 text-xs text-foreground outline-none focus:border-[hsl(139_80%_45%)]"
                     >
                       {indicatorTypes.map((t) => (
                         <option key={t} value={t} className="bg-[hsl(220_25%_8%)] text-foreground">
@@ -372,7 +372,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                             onChange={(e) =>
                               updateIndicatorParam(ind.id, key, e.target.value)
                             }
-                            className="mt-1 h-8 w-full rounded-md border border-border/60 bg-[hsl(220_25%_8%)] px-2 text-xs text-foreground outline-none focus:border-[hsl(160_84%_45%)]"
+                            className="mt-1 h-8 w-full rounded-md border border-border/60 bg-[hsl(220_25%_8%)] px-2 text-xs text-foreground outline-none focus:border-[hsl(139_80%_45%)]"
                           >
                             <option value="rapida" className="bg-[hsl(220_25%_8%)]">Rápida</option>
                             <option value="lenta" className="bg-[hsl(220_25%_8%)]">Lenta</option>
@@ -424,8 +424,8 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                         onClick={() => addIndicator(t)}
                         className={`rounded-md border px-2 py-1 text-[11px] font-semibold transition-all ${
                           used
-                            ? "border-[hsl(160_84%_45%/0.4)] bg-[hsl(160_84%_45%/0.08)] text-[hsl(160_84%_65%)]"
-                            : "border-border/60 bg-muted/10 text-muted-foreground hover:border-[hsl(160_84%_45%/0.5)] hover:bg-[hsl(160_84%_45%/0.08)] hover:text-[hsl(160_84%_70%)]"
+                            ? "border-[hsl(139_80%_45%/0.4)] bg-[hsl(139_80%_45%/0.08)] text-[hsl(139_80%_65%)]"
+                            : "border-border/60 bg-muted/10 text-muted-foreground hover:border-[hsl(139_80%_45%/0.5)] hover:bg-[hsl(139_80%_45%/0.08)] hover:text-[hsl(139_80%_70%)]"
                         }`}
                       >
                         {used && <Check className="mr-1 inline h-2.5 w-2.5" />}
@@ -455,7 +455,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                     onClick={() => setDraft({ ...draft, entryRule: val })}
                     className={`rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
                       draft.entryRule === val
-                        ? "border-[hsl(160_84%_45%)] bg-[hsl(160_84%_45%/0.1)] text-[hsl(160_84%_55%)]"
+                        ? "border-[hsl(139_80%_45%)] bg-[hsl(139_80%_45%/0.1)] text-[hsl(139_80%_55%)]"
                         : "border-border/60 bg-muted/10 text-muted-foreground hover:border-border"
                     }`}
                   >
@@ -470,7 +470,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                     <Label className="text-[11px] text-muted-foreground">
                       Mínimo de indicadores concordando
                     </Label>
-                    <span className="ct-mono text-sm font-bold text-[hsl(160_84%_55%)]">
+                    <span className="ct-mono text-sm font-bold text-[hsl(139_80%_55%)]">
                       {draft.minConfluence} / {draft.indicators.length}
                     </span>
                   </div>
@@ -527,7 +527,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
                       onClick={() => setDraft({ ...draft, direction: val })}
                       className={`rounded-md border px-2 py-1.5 text-[11px] font-semibold transition-colors ${
                         draft.direction === val
-                          ? "border-[hsl(160_84%_45%)] bg-[hsl(160_84%_45%/0.1)] text-[hsl(160_84%_55%)]"
+                          ? "border-[hsl(139_80%_45%)] bg-[hsl(139_80%_45%/0.1)] text-[hsl(139_80%_55%)]"
                           : "border-border/60 bg-muted/10 text-muted-foreground hover:border-border"
                       }`}
                     >
@@ -549,7 +549,7 @@ export function StrategyBuilder({ open, onOpenChange }: Props) {
               <button
                 type="button"
                 onClick={handleSave}
-                className="flex-1 rounded-lg bg-gradient-to-r from-[hsl(160_84%_40%)] to-[hsl(160_84%_50%)] px-4 py-2.5 text-sm font-bold text-white shadow-[0_4px_16px_hsl(160_84%_40%/0.35)] transition-transform hover:scale-[1.01]"
+                className="flex-1 rounded-lg bg-gradient-to-r from-[hsl(139_80%_40%)] to-[hsl(139_80%_50%)] px-4 py-2.5 text-sm font-bold text-white shadow-[0_4px_16px_hsl(139_80%_40%/0.35)] transition-transform hover:scale-[1.01]"
               >
                 Salvar Estratégia
               </button>

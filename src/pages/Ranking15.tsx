@@ -33,8 +33,8 @@ import ProfileDialog from "./ranking/_ProfileDialog";
 function xpBarGradient(pct: number): string {
   if (pct < 25) return "linear-gradient(90deg, #ef4444, #f97316)";
   if (pct < 50) return "linear-gradient(90deg, #f97316, #eab308)";
-  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(160 84% 50%))";
-  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(160 84% 55%))";
+  if (pct < 75) return "linear-gradient(90deg, #eab308, #84cc16, hsl(139 80% 50%))";
+  return "linear-gradient(90deg, #f97316, #eab308, #84cc16, hsl(139 80% 55%))";
 }
 
 /** Cor da posição:
@@ -69,10 +69,10 @@ function RankingRow({
 
   return (
     <div
-      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(160_84%_45%/0.5)] ${podiumShiftClass(pos)} ${
+      className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border bg-gradient-to-r from-card/85 via-card/55 to-card/25 px-4 py-3.5 backdrop-blur-md transition-all duration-300 ease-out hover:translate-x-2 hover:shadow-[0_8px_30px_-12px_hsl(139_80%_45%/0.5)] ${podiumShiftClass(pos)} ${
         isMe
-          ? "border-[hsl(160_84%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(160_84%_45%/0.7)]"
-          : "border-border/50 hover:border-[hsl(160_84%_45%/0.4)]"
+          ? "border-[hsl(139_80%_50%/0.6)] shadow-[0_0_30px_-10px_hsl(139_80%_45%/0.7)]"
+          : "border-border/50 hover:border-[hsl(139_80%_45%/0.4)]"
       }`}
       style={{ boxShadow: `inset 4px 0 0 ${color}` }}
     >
@@ -105,7 +105,7 @@ function RankingRow({
             {name}
           </span>
           {isMe && (
-            <span className="rounded-md bg-[hsl(160_84%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
+            <span className="rounded-md bg-[hsl(139_80%_39%)] px-1.5 py-0.5 text-[9px] font-black uppercase text-primary-foreground">
               VOCÊ
             </span>
           )}
@@ -143,7 +143,7 @@ function RankingRow({
             </span>
           )}
         </div>
-        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(160_84%_70%)]">
+        <div className="mt-1 text-2xl font-black leading-none tabular-nums text-[hsl(139_80%_70%)]">
           {fmt(row.total_xp)}
         </div>
       </div>
@@ -153,8 +153,8 @@ function RankingRow({
         <button
           type="button"
           onClick={onOpenProfile}
-          className="ml-1 hidden shrink-0 items-center gap-1.5 rounded-xl border border-[hsl(160_84%_45%/0.45)] bg-[hsl(160_84%_45%/0.10)] px-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-[hsl(160_84%_75%)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(160_84%_55%/0.7)] hover:bg-[hsl(160_84%_45%/0.18)] md:inline-flex"
-          style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), 0 0 18px -8px hsl(160 84% 45% / 0.6)" }}
+          className="ml-1 hidden shrink-0 items-center gap-1.5 rounded-xl border border-[hsl(139_80%_45%/0.45)] bg-[hsl(139_80%_45%/0.10)] px-3 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-[hsl(139_80%_75%)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[hsl(139_80%_55%/0.7)] hover:bg-[hsl(139_80%_45%/0.18)] md:inline-flex"
+          style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), 0 0 18px -8px hsl(139 80% 45% / 0.6)" }}
           aria-label={`Ver perfil de ${name}`}
         >
           <UserIcon className="h-3 w-3" />
@@ -217,15 +217,15 @@ export default function Ranking15() {
         <header className="mb-10">
           {/* Eyebrow — temporada com hex chips (largura igual ao painel HUD) */}
           <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-[12.5%]">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(160_84%_45%/0.6)]" />
+            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(139_80%_45%/0.6)]" />
             <span className="inline-flex items-center gap-2">
-              <Hexagon className="h-2.5 w-2.5 text-[hsl(160_84%_60%)]" fill="currentColor" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.42em] text-[hsl(160_84%_65%)]">
+              <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.42em] text-[hsl(139_80%_65%)]">
                 Temporada · {season.monthName} {season.year}
               </span>
-              <Hexagon className="h-2.5 w-2.5 text-[hsl(160_84%_60%)]" fill="currentColor" />
+              <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
             </span>
-            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[hsl(160_84%_45%/0.6)]" />
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[hsl(139_80%_45%/0.6)]" />
           </div>
 
           {/* Título */}
@@ -235,15 +235,15 @@ export default function Ranking15() {
 
           {/* Subtítulo refinado */}
           <div className="mt-5 flex items-center justify-center gap-3">
-            <span className="h-px w-8 bg-[hsl(160_84%_45%/0.4)]" />
+            <span className="h-px w-8 bg-[hsl(139_80%_45%/0.4)]" />
             <p className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground md:text-xs">
-              <span className="text-[hsl(160_84%_70%)]">[</span>
+              <span className="text-[hsl(139_80%_70%)]">[</span>
               <span className="mx-2">Top 50 Traders</span>
-              <span className="text-[hsl(160_84%_45%)]">·</span>
+              <span className="text-[hsl(139_80%_45%)]">·</span>
               <span className="mx-2 text-foreground/80">A Elite do Mercado</span>
-              <span className="text-[hsl(160_84%_70%)]">]</span>
+              <span className="text-[hsl(139_80%_70%)]">]</span>
             </p>
-            <span className="h-px w-8 bg-[hsl(160_84%_45%/0.4)]" />
+            <span className="h-px w-8 bg-[hsl(139_80%_45%/0.4)]" />
           </div>
 
           {/* Variante 15 — HUD com tags hexagonais flutuantes (proporcional) */}
@@ -253,8 +253,8 @@ export default function Ranking15() {
                 className="absolute -top-3 left-3 z-10 flex items-center gap-2 px-4 py-2"
                 style={{
                   clipPath: "polygon(8% 0, 92% 0, 100% 50%, 92% 100%, 8% 100%, 0 50%)",
-                  background: "linear-gradient(135deg, hsl(160 84% 39% / 0.95), hsl(160 84% 25% / 0.85))",
-                  boxShadow: "0 0 22px -4px hsl(160 84% 45% / 0.95), inset 0 1px 0 hsl(160 84% 70% / 0.35)",
+                  background: "linear-gradient(135deg, hsl(139 80% 39% / 0.95), hsl(139 80% 25% / 0.85))",
+                  boxShadow: "0 0 22px -4px hsl(139 80% 45% / 0.95), inset 0 1px 0 hsl(139 80% 70% / 0.35)",
                 }}
               >
                 <Hexagon className="h-3.5 w-3.5 text-white" fill="currentColor" />
@@ -280,15 +280,15 @@ export default function Ranking15() {
                 className="rounded-2xl border border-border/50 px-7 pb-5 pt-9 backdrop-blur-md"
                 style={{
                   background: "linear-gradient(180deg, hsl(220 22% 9% / 0.88), hsl(220 25% 6% / 0.96))",
-                  boxShadow: "inset 0 1px 0 hsl(160 84% 60% / 0.12), 0 0 32px -16px hsl(160 84% 45% / 0.55)",
+                  boxShadow: "inset 0 1px 0 hsl(139 80% 60% / 0.12), 0 0 32px -16px hsl(139 80% 45% / 0.55)",
                 }}
               >
                 <div className="mb-2 flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(160_84%_60%)]">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(139_80%_60%)]">
                     Progresso da Temporada
                   </span>
-                  <span className="font-mono text-sm font-black tabular-nums text-[hsl(160_84%_70%)]">
-                    <span className="text-[hsl(160_84%_70%)]">{Math.round(season.pct)}%</span>
+                  <span className="font-mono text-sm font-black tabular-nums text-[hsl(139_80%_70%)]">
+                    <span className="text-[hsl(139_80%_70%)]">{Math.round(season.pct)}%</span>
                     <span className="ml-2 text-[12px] font-semibold uppercase text-amber-300/80">
                       <span className="text-foreground">·</span> {season.remaining} dias restantes
                     </span>
@@ -300,8 +300,8 @@ export default function Ranking15() {
                     className="h-full rounded-full"
                     style={{
                       width: `${season.pct}%`,
-                      background: "linear-gradient(90deg, hsl(160 84% 30%), hsl(160 84% 45%), hsl(150 90% 60%))",
-                      boxShadow: "0 0 16px hsl(160 84% 45% / 0.7), inset 0 1px 0 rgba(255,255,255,0.15)",
+                      background: "linear-gradient(90deg, hsl(139 80% 30%), hsl(139 80% 45%), hsl(144 100% 60%))",
+                      boxShadow: "0 0 16px hsl(139 80% 45% / 0.7), inset 0 1px 0 rgba(255,255,255,0.15)",
                     }}
                   />
                   <div
@@ -467,13 +467,13 @@ export default function Ranking15() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.max(0, i - 1))}
                     disabled={mvpIdx === 0}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Temporada anterior"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(160_84%_60%)]">
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[hsl(139_80%_60%)]">
                       Temporada
                     </div>
                     <div className="text-base font-bold capitalize text-foreground">
@@ -487,7 +487,7 @@ export default function Ranking15() {
                     type="button"
                     onClick={() => setMvpIdx((i) => Math.min(mvpSeasons.length - 1, i + 1))}
                     disabled={mvpIdx >= mvpSeasons.length - 1}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(160_84%_45%/0.5)] hover:text-[hsl(160_84%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-border/50 bg-card/40 text-muted-foreground transition-colors hover:border-[hsl(139_80%_45%/0.5)] hover:text-[hsl(139_80%_70%)] disabled:opacity-30 disabled:hover:border-border/50"
                     aria-label="Próxima temporada"
                   >
                     <ChevronRight className="h-4 w-4" />
@@ -611,7 +611,7 @@ export default function Ranking15() {
                                 </div>
                                 <div
                                   className="text-2xl font-black tabular-nums"
-                                  style={{ color: "#6EE7B7", textShadow: "0 0 10px hsl(160 84% 45% / 0.55)" }}
+                                  style={{ color: "#6bffa6", textShadow: "0 0 10px hsl(139 80% 45% / 0.55)" }}
                                 >
                                   {fmt(r.total_xp)}
                                 </div>

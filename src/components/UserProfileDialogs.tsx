@@ -582,7 +582,7 @@ function PhotoBlock({
           {avatarUrl ? (
             <img src={avatarUrl} alt={fullName} className="h-full w-full object-cover" />
           ) : (
-            <span className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[hsl(160_84%_30%)] to-[hsl(160_84%_18%)] text-2xl font-bold text-[hsl(160_84%_85%)]">
+            <span className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[hsl(139_80%_30%)] to-[hsl(139_80%_18%)] text-2xl font-bold text-[hsl(139_80%_85%)]">
               {initials}
             </span>
           )}

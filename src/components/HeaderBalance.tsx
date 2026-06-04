@@ -72,11 +72,11 @@ export const HeaderBalance = ({ variant = "default" }: HeaderBalanceProps) => {
     glass:
       "border-white/10 bg-white/5 backdrop-blur-md hover:border-white/25 hover:bg-white/10",
     neon:
-      "border-[hsl(160_84%_45%/0.5)] bg-[hsl(160_84%_15%/0.4)] shadow-[0_0_18px_-6px_hsl(160_84%_45%/0.6)] hover:shadow-[0_0_24px_-4px_hsl(160_84%_45%/0.85)]",
+      "border-[hsl(139_80%_45%/0.5)] bg-[hsl(139_80%_15%/0.4)] shadow-[0_0_18px_-6px_hsl(139_80%_45%/0.6)] hover:shadow-[0_0_24px_-4px_hsl(139_80%_45%/0.85)]",
     mono:
       "border-foreground/15 bg-background hover:border-foreground/30",
     gradient:
-      "border-transparent bg-gradient-to-r from-[hsl(160_84%_18%)] via-[hsl(217_91%_22%)] to-[hsl(265_85%_25%)] hover:brightness-110",
+      "border-transparent bg-gradient-to-r from-[hsl(139_80%_18%)] via-[hsl(217_91%_22%)] to-[hsl(265_85%_25%)] hover:brightness-110",
     compact:
       "border-border/60 bg-card/60 hover:border-primary/40",
     "teal-aurora":
@@ -92,9 +92,9 @@ export const HeaderBalance = ({ variant = "default" }: HeaderBalanceProps) => {
   };
 
   const labelColor: Record<string, string> = {
-    default: "text-[hsl(160_50%_70%)]",
+    default: "text-[hsl(139_50%_70%)]",
     glass: "text-white/70",
-    neon: "text-[hsl(160_84%_70%)]",
+    neon: "text-[hsl(139_80%_70%)]",
     mono: "text-muted-foreground",
     gradient: "text-white/85",
     compact: "text-muted-foreground",
@@ -108,7 +108,7 @@ export const HeaderBalance = ({ variant = "default" }: HeaderBalanceProps) => {
   const valueColor: Record<string, string> = {
     default: "text-foreground",
     glass: "text-white",
-    neon: "text-[hsl(160_84%_85%)]",
+    neon: "text-[hsl(139_80%_85%)]",
     mono: "text-foreground",
     gradient: "text-white",
     compact: "text-foreground",
@@ -132,7 +132,7 @@ export const HeaderBalance = ({ variant = "default" }: HeaderBalanceProps) => {
           variant === "gradient"
             ? "bg-white/15 text-white"
             : variant === "neon"
-              ? "bg-[hsl(160_84%_45%/0.2)] text-[hsl(160_84%_70%)]"
+              ? "bg-[hsl(139_80%_45%/0.2)] text-[hsl(139_80%_70%)]"
               : variant.startsWith("teal")
                 ? "bg-[hsl(184_82%_45%/0.2)] text-[hsl(184_82%_75%)]"
                 : "bg-primary/10 text-primary",

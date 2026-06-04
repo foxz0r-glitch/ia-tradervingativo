@@ -18,7 +18,7 @@ export function RankUpToast({ newRank, rankImage, onClose }: RankUpToastProps) {
       onClick={onClose}
     >
       <div
-        className="relative flex flex-col items-center gap-4 rounded-2xl border border-primary/40 bg-gradient-to-b from-card via-card to-primary/10 px-8 py-8 shadow-[0_0_60px_-10px_hsl(160_84%_45%/0.6)] animate-in zoom-in-95 duration-300"
+        className="relative flex flex-col items-center gap-4 rounded-2xl border border-primary/40 bg-gradient-to-b from-card via-card to-primary/10 px-8 py-8 shadow-[0_0_60px_-10px_hsl(139_80%_45%/0.6)] animate-in zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
@@ -28,7 +28,7 @@ export function RankUpToast({ newRank, rankImage, onClose }: RankUpToastProps) {
         <img
           src={rankImage}
           alt={newRank}
-          className="h-32 w-32 object-contain drop-shadow-[0_0_24px_hsl(160_84%_45%/0.65)]"
+          className="h-32 w-32 object-contain drop-shadow-[0_0_24px_hsl(139_80%_45%/0.65)]"
         />
 
         <div className="text-center">
