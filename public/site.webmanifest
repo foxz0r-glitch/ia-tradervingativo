@@ -2,10 +2,11 @@
   "name": "IA Vingativa",
   "short_name": "IA Vingativa",
   "icons": [
-    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/android-chrome-maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
-  "theme_color": "#0d5c63",
-  "background_color": "#0d5c63",
+  "theme_color": "#06090D",
+  "background_color": "#06090D",
   "display": "standalone"
 }
