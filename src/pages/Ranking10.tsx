@@ -139,7 +139,7 @@ export default function Ranking10() {
               </span>
             </div>
             <h1 className="mt-1 font-mono text-3xl font-black tracking-tight text-white md:text-4xl">
-              VIRTUS<span className="text-emerald-400">EX</span>
+              VINGATIVA<span className="text-emerald-400">·EX</span>
               <span className="ml-2 text-base font-normal text-zinc-500">· trading floor</span>
             </h1>
           </div>

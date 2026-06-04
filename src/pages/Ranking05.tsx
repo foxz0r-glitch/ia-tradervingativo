@@ -1,7 +1,7 @@
 ﻿/**
  * Ranking 05 — "Social Feed Mobile-first"
  * Layout focado, card sticky com a posição do usuário, medalhas para top 3,
- * gradientes esmeralda. Mantém background global Virtus Pro IA.
+ * gradientes esmeralda. Mantém background global IA Vingativa.
  */
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";

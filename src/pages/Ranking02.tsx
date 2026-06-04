@@ -1,7 +1,7 @@
 ﻿/**
  * Ranking 02 — "Glassmorphism Premium"
  * Cards de vidro fosco, gradientes esmeralda/cyan, halos animados, barra de
- * progresso para o próximo rank. Mantém o background global Virtus Pro IA.
+ * progresso para o próximo rank. Mantém o background global IA Vingativa.
  */
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -105,7 +105,7 @@ export default function Ranking02() {
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] text-emerald-400/80">
-              <Sparkles className="h-3.5 w-3.5" /> Comunidade Virtus Pro
+              <Sparkles className="h-3.5 w-3.5" /> Comunidade IA Vingativa
             </p>
             <h1 className="mt-2 bg-gradient-to-r from-white via-emerald-200 to-cyan-300 bg-clip-text text-4xl font-bold tracking-tight text-transparent md:text-5xl">
               Ranking

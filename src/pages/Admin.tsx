@@ -124,7 +124,7 @@ const Admin = () => {
               <h1 className="bg-gradient-to-r from-foreground via-foreground to-primary bg-clip-text text-2xl font-extrabold uppercase tracking-wider text-transparent sm:text-3xl">
                 Painel Admin
               </h1>
-              <p className="text-sm text-muted-foreground">Controle total da plataforma Virtus Pro</p>
+              <p className="text-sm text-muted-foreground">Controle total da plataforma IA Vingativa</p>
             </div>
           </div>
         </header>
@@ -1211,7 +1211,7 @@ const CRMTab = () => {
       aulas_assistidas: r.aulas_assistidas,
       criado_em: new Date(r.created_at).toLocaleDateString("pt-BR"),
     }));
-    exportCSV(out, "virtuspro-crm-" + new Date().toISOString().split("T")[0] + ".csv");
+    exportCSV(out, "iavingativa-crm-" + new Date().toISOString().split("T")[0] + ".csv");
     toast.success(`${out.length} linhas exportadas`);
   };
 
@@ -2779,7 +2779,7 @@ const CaktoTab = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <Label>Comissão Virtus Pro (%)</Label>
+              <Label>Comissão IA Vingativa (%)</Label>
               <Input
                 type="number"
                 min={0}

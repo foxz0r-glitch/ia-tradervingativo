@@ -1,7 +1,7 @@
 ﻿/**
  * Ranking 04 — "Hall of Legends" (RPG cinematográfico)
  * Pódio com SVGs de patentes, gradientes âmbar/violeta, brilhos animados,
- * tipografia serif. Mantém background global Virtus Pro IA.
+ * tipografia serif. Mantém background global IA Vingativa.
  */
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";

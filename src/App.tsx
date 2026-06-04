@@ -91,11 +91,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 </span>
                 <div className="flex items-center gap-2.5 leading-none">
                   <span className="inline-flex items-center text-[18px] font-extrabold uppercase tracking-[0.22em] leading-none">
-                    <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">Virtus</span>
-                    <span className="ml-1.5 bg-gradient-to-r from-[hsl(160_84%_55%)] via-[hsl(160_84%_45%)] to-[hsl(160_84%_38%)] bg-clip-text text-transparent drop-shadow-[0_0_8px_hsl(160_84%_45%/0.45)]">Pro</span>
+                    <span className="bg-gradient-to-r from-foreground via-foreground to-foreground/80 bg-clip-text text-transparent">IA</span>
+                    <span className="ml-1.5 bg-gradient-to-r from-[hsl(160_84%_55%)] via-[hsl(160_84%_45%)] to-[hsl(160_84%_38%)] bg-clip-text text-transparent drop-shadow-[0_0_8px_hsl(160_84%_45%/0.45)]">Vingativa</span>
                   </span>
-                  <span className="inline-block h-4 w-px self-center bg-gradient-to-b from-transparent via-muted-foreground/60 to-transparent" />
-                  <span className="self-center text-[11px] font-medium uppercase tracking-[0.30em] leading-none text-muted-foreground/80">Analytics</span>
                 </div>
                 <AdminHeaderLink />
               </div>

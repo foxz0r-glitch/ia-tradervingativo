@@ -109,7 +109,7 @@ export default function Ranking06() {
             HIGH&nbsp;SCORES
           </h1>
           <p className="mt-2 r6-pixel text-xs text-fuchsia-300/80 r6-text-shadow">
-            ★ VIRTUS · PRO · IA · ARCADE · v1.984 ★
+            ★ IA · VINGATIVA · ARCADE · v1.984 ★
           </p>
         </div>
 
@@ -185,7 +185,7 @@ export default function Ranking06() {
             })}
 
             <div className="r6-pixel mt-6 flex items-center justify-between border-t-2 border-cyan-400/40 pt-4 text-[10px] uppercase text-cyan-300 r6-text-shadow">
-              <span>©1984 VIRTUS·CORP</span>
+              <span>©1984 VINGATIVA·CORP</span>
               <span className="r6-blink">PRESS START</span>
               <span>{rows.length.toString().padStart(3, "0")} PLAYERS</span>
             </div>

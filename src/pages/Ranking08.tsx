@@ -107,13 +107,13 @@ export default function Ranking08() {
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 text-center">
           <p className="flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.55em] text-violet-300/80">
-            <Star className="h-3 w-3 r8-twinkle" fill="currentColor" /> Sistema · Virtus · 9
+            <Star className="h-3 w-3 r8-twinkle" fill="currentColor" /> Sistema · Vingativa · 9
           </p>
           <h1 className="mt-3 bg-gradient-to-r from-violet-200 via-fuchsia-300 to-cyan-200 bg-clip-text text-5xl font-black tracking-tight text-transparent drop-shadow-[0_4px_30px_rgba(168,85,247,0.4)] md:text-6xl">
             Império Galáctico
           </h1>
           <p className="mx-auto mt-2 max-w-md text-sm text-violet-300/70">
-            Os traders mais luminosos da via láctea Virtus Pro.
+            Os traders mais luminosos da via láctea IA Vingativa.
           </p>
         </header>
 

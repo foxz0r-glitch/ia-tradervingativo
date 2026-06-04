@@ -7,7 +7,7 @@ export const AuthFooter = () => {
     <footer className="mt-auto border-t border-border/50 bg-card/50 backdrop-blur-sm">
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="flex flex-col items-center space-y-3 text-center">
-          <img src={logo} alt="Virtus Pro Analytics" className="h-6 opacity-80" />
+          <img src={logo} alt="IA Vingativa" className="h-6 opacity-80" />
 
           <p className="mx-auto max-w-2xl text-base text-foreground/80">
             #WeAreTraders
@@ -25,7 +25,7 @@ export const AuthFooter = () => {
 
           <div className="w-full border-t border-border/30 pt-4">
             <p className="text-xs text-muted-foreground">
-              © 2026 Virtus Pro Analytics. Todos os direitos reservados.
+              © 2026 IA Vingativa. Todos os direitos reservados.
             </p>
           </div>
         </div>

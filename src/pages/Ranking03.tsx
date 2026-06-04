@@ -231,7 +231,7 @@ export default function Ranking03() {
         </div>
 
         <p className="mt-3 text-right font-mono text-[10px] uppercase tracking-widest text-zinc-600">
-          ⟶ atualizado em tempo real · virtus pro ia
+          ⟶ atualizado em tempo real · ia vingativa
         </p>
       </div>
     </div>

@@ -173,13 +173,13 @@ const Auth = () => {
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="mb-8 flex justify-center">
-            <img src={logo} alt="Virtus Pro Analytics" className="h-16 animate-float" />
+            <img src={logo} alt="IA Vingativa" className="h-16 animate-float" />
           </div>
 
           <Card className="border-border/50 bg-card/80 shadow-[var(--shadow-card)] backdrop-blur-sm">
             <CardHeader className="space-y-1">
               <CardTitle className="text-center text-2xl">
-                Virtus Pro Analytics
+                IA Vingativa
               </CardTitle>
               <CardDescription className="text-center">
                 Play Hard, Go Pro 🔥
@@ -310,7 +310,7 @@ const Auth = () => {
           <DialogHeader>
             <DialogTitle>E-mail já cadastrado na CasaTrade</DialogTitle>
             <DialogDescription>
-              Este e-mail já possui uma conta na CasaTrade. Para usar a Virtus Pro, cadastre-se com um e-mail diferente — ou entre em contato com o suporte para regularizar sua situação.
+              Este e-mail já possui uma conta na CasaTrade. Para usar a IA Vingativa, cadastre-se com um e-mail diferente — ou entre em contato com o suporte para regularizar sua situação.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex-col gap-2 sm:flex-row">

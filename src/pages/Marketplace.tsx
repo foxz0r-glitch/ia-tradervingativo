@@ -46,7 +46,7 @@ export default function Marketplace() {
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Estratégias criadas e aprovadas pela comunidade Virtus Pro
+            Estratégias criadas e aprovadas pela comunidade IA Vingativa
           </p>
         </header>
 

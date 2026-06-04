@@ -6,7 +6,7 @@ export function SiteFooter() {
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 px-4 text-center">
         <img
           src={virtusLogo}
-          alt="Virtus Pro Analytics"
+          alt="IA Vingativa"
           className="h-8 w-auto opacity-80"
           loading="lazy"
         />
@@ -17,7 +17,7 @@ export function SiteFooter() {
           <span className="font-semibold text-foreground">Aviso Legal:</span> Day trade envolve riscos substanciais de perda. Nunca opere com valores que você não pode perder. Este programa envolve conteúdo educacional e não constitui recomendação de investimento. Rentabilidade passada não garante resultados futuros. Opere com responsabilidade.
         </p>
         <p className="mt-4 text-xs text-muted-foreground">
-          © 2026 Virtus Pro Analytics. Todos os direitos reservados.
+          © 2026 IA Vingativa. Todos os direitos reservados.
         </p>
       </div>
     </footer>

@@ -1062,7 +1062,7 @@ export function StrategiesBlock({ mock, userId, isOwner, accent = "hsl(160 84% 6
                 />
               </div>
               <p className="text-[10px] text-muted-foreground">
-                A Virtus Pro recebe 30% como plataforma. Após aprovação, você será adicionado como coprodutor na Cakto.
+                A IA Vingativa recebe 30% como plataforma. Após aprovação, você será adicionado como coprodutor na Cakto.
               </p>
             </div>
             <div className="mt-5 flex gap-2">

@@ -140,7 +140,7 @@ export default function Ranking01() {
               RANKING <span className="text-emerald-400">// 01</span>
             </h1>
             <p className="mt-2 max-w-md text-xs text-zinc-400">
-              Painel tático em tempo real dos traders mais letais do Virtus Pro IA.
+              Painel tático em tempo real dos traders mais letais da IA Vingativa.
             </p>
           </div>
 

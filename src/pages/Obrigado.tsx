@@ -35,7 +35,7 @@ const Obrigado = () => {
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-lg text-center">
           <div className="mb-6 flex justify-center">
-            <img src={logo} alt="Virtus Pro Analytics" className="h-16 animate-float" />
+            <img src={logo} alt="IA Vingativa" className="h-16 animate-float" />
           </div>
 
           <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15">
@@ -46,7 +46,7 @@ const Obrigado = () => {
             Compra Confirmada!
           </h1>
           <p className="mb-8 text-muted-foreground">
-            Bem-vindo à Virtus Pro Analytics. Seu acesso está pronto para ser ativado.
+            Bem-vindo à IA Vingativa. Seu acesso está pronto para ser ativado.
           </p>
 
           {orderId ? (
@@ -92,7 +92,7 @@ const Obrigado = () => {
           <div className="mb-6 rounded-xl border border-border/40 bg-card/40 p-4 text-left text-sm text-muted-foreground">
             <p className="mb-2 font-semibold text-foreground">Como ativar seu plano:</p>
             <ol className="space-y-1.5 pl-1">
-              <li>1. Crie sua conta na Virtus Pro usando o botão abaixo</li>
+              <li>1. Crie sua conta na IA Vingativa usando o botão abaixo</li>
               <li>2. Acesse o dashboard e clique em <strong className="text-foreground">"Ativar Plano"</strong></li>
               <li>3. Cole o código acima e confirme</li>
             </ol>

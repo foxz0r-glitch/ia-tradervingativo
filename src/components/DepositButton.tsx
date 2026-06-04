@@ -154,7 +154,7 @@ export const DepositButton = ({ variant = "default", children, label }: DepositB
                 DEPOSITE PARA COMEÇAR
               </h2>
               <p className="mt-2 max-w-[340px] text-sm leading-relaxed text-muted-foreground">
-                Acesse a corretora usando os <strong className="font-semibold text-foreground underline underline-offset-2">mesmos dados</strong> da sua conta registrada na Virtus Pro Analytics.
+                Acesse a corretora usando os <strong className="font-semibold text-foreground underline underline-offset-2">mesmos dados</strong> da sua conta registrada na IA Vingativa.
               </p>
 
               {/* Subtle status badge */}

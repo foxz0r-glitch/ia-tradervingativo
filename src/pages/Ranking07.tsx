@@ -129,7 +129,7 @@ export default function Ranking07() {
               </span>
             </div>
             <h1 className="font-mono text-4xl font-black uppercase tracking-tight text-white md:text-5xl">
-              VIRTUS <span className="text-red-500">GRAND PRIX</span>
+              VINGATIVA <span className="text-red-500">GRAND PRIX</span>
             </h1>
             <p className="mt-1 font-mono text-xs text-zinc-400">
               Grid de largada · Top {rows.length} pilotos

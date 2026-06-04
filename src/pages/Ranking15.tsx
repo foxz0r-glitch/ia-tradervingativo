@@ -230,7 +230,7 @@ export default function Ranking15() {
 
           {/* Título */}
           <h1 className="text-center text-5xl font-black tracking-tight text-foreground md:text-6xl">
-            Ranking <span className="text-gradient-primary">Virtus</span>
+            Ranking <span className="text-gradient-primary">Vingativa</span>
           </h1>
 
           {/* Subtítulo refinado */}

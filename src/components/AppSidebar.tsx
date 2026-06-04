@@ -55,7 +55,7 @@ type Item = {
 };
 
 const items: Item[] = [
-  { title: "Virtus Pro IA", url: "/dashboard", icon: Bot, kind: "internal" },
+  { title: "IA Vingativa", url: "/dashboard", icon: Bot, kind: "internal" },
   { title: "Ferramentas", url: "/ferramentas", icon: SlidersHorizontal, kind: "internal" },
   { title: "Trade Like a Pro", url: "/grupo", icon: UsersRound, kind: "internal" },
   { title: "Ranking", url: "/ranking", icon: Trophy, kind: "internal" },
@@ -154,7 +154,7 @@ export function AppSidebar() {
           >
             <img
               src={virtusLogo}
-              alt="Virtus Pro Analytics"
+              alt="IA Vingativa"
               className="h-9 w-auto max-w-full shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out [filter:brightness(0)_invert(1)] group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:h-7 group-data-[collapsible=icon]:max-w-[40px]"
               loading="eager"
             />

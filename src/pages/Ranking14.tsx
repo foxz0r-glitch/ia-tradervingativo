@@ -238,7 +238,7 @@ export default function Ranking14() {
               {/* Título */}
               <div className="text-center">
                 <h1 className="text-4xl font-black uppercase tracking-tight text-foreground md:text-5xl">
-                  Ranking <span className="text-gradient-primary">Virtus</span>
+                  Ranking <span className="text-gradient-primary">Vingativa</span>
                 </h1>
                 <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.28em] text-muted-foreground md:text-xs">
                   TOP 50 TRADERS MAIS BEM RANQUEADOS DO MÊS — A ELITE DO MERCADO

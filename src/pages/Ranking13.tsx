@@ -210,7 +210,7 @@ export default function Ranking13() {
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
               </div>
               <span className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-emerald-300">
-                VIRTUS://RANKING.TERMINAL
+                VINGATIVA://RANKING.TERMINAL
               </span>
               <span className="ml-auto flex items-center gap-1.5">
                 <span className="relative flex h-1.5 w-1.5">
@@ -231,7 +231,7 @@ export default function Ranking13() {
                   &gt; SEASON.LOAD( "{season.monthName}_{season.year}" )
                 </div>
                 <h1 className="mt-1 font-mono text-4xl font-black uppercase tracking-tight text-foreground md:text-5xl">
-                  RANKING<span className="text-[hsl(160_84%_60%)]">_</span><span className="text-gradient-primary">VIRTUS</span>
+                  RANKING<span className="text-[hsl(160_84%_60%)]">_</span><span className="text-gradient-primary">VINGATIVA</span>
                 </h1>
                 <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground md:text-[11px]">
                   // TOP 50 TRADERS · A ELITE DO MERCADO

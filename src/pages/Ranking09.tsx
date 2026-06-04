@@ -94,7 +94,7 @@ export default function Ranking09() {
               Edição · {ISSUE_DATE}
             </span>
             <h1 className="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 bg-clip-text text-3xl font-black italic tracking-wider text-transparent md:text-5xl">
-              VIRTUS&nbsp;TIMES
+              VINGATIVA&nbsp;TIMES
             </h1>
             <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-amber-300/80">
               No.&nbsp;42 · BRL
@@ -123,7 +123,7 @@ export default function Ranking09() {
                     Com <span className="font-bold text-amber-300">{cover.total_xp.toLocaleString()} XP</span> acumulados
                     e um streak de <span className="font-bold text-orange-400">{cover.streak_days} dias</span>,
                     a patente <em className="not-italic font-semibold" style={{ color: rankColor(cover.current_rank) }}>{cover.current_rank}</em> consagra
-                    o trader mais consistente da temporada Virtus Pro.
+                    o trader mais consistente da temporada IA Vingativa.
                   </p>
                   <div className="mt-6 flex items-center gap-3 border-l-4 border-amber-400 pl-4">
                     <Quote className="h-5 w-5 shrink-0 text-amber-400" />
@@ -213,7 +213,7 @@ export default function Ranking09() {
                     <span className="text-amber-300">do Editor</span>
                   </h2>
                   <p className="mt-3 font-serif text-sm text-zinc-400">
-                    Os próximos talentos a observar nesta edição da Virtus Times.
+                    Os próximos talentos a observar nesta edição da Vingativa Times.
                   </p>
                 </div>
                 <div className="divide-y divide-white/10 border-t border-b border-white/15">

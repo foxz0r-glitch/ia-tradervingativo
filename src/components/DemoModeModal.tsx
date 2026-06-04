@@ -25,7 +25,7 @@ function PremiumShell({
   accent,
   children,
 }: {
-  /** "primary" = verde Virtus | "amber" = alerta */
+  /** "primary" = verde Vingativa | "amber" = alerta */
   accent: "primary" | "amber";
   children: React.ReactNode;
 }) {
@@ -105,7 +105,7 @@ export function DemoModeModal({
         <DialogContent className="overflow-visible border-0 bg-transparent p-0 shadow-none sm:max-w-md [&>button.absolute]:hidden">
           <DialogTitle className="sr-only">Sessões demo esgotadas</DialogTitle>
           <DialogDescription className="sr-only">
-            Realize um depósito para continuar usando a Virtus Pro Analytics.
+            Realize um depósito para continuar usando a IA Vingativa.
           </DialogDescription>
 
           <PremiumShell accent="amber">

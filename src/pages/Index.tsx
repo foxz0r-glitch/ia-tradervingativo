@@ -1,4 +1,4 @@
-// Virtus Pro Analytics — Dark trading dashboard wired to live WebSocket robot.
+// IA Vingativa — Dark trading dashboard wired to live WebSocket robot.
 // Connects to wss://kilobyte-romp-veto.ngrok-free.app via useRoboBot hook.
 
 import { useCallback, useEffect, useRef, useState } from "react";
