@@ -152,17 +152,20 @@ export function AppSidebar() {
             aria-label="Ir para o Dashboard"
             className="group/logo flex items-center justify-center"
           >
-            {/* Expandido: lockup horizontal (some quando colapsado) */}
-            <span className="flex items-center transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:hidden">
-              <BrandLockup size={42} />
-            </span>
-            {/* Colapsado: V sozinho (mesmo mecanismo group-data-[collapsible=icon]) */}
-            <img
-              src="/symbol-v-solid.svg"
-              alt="IA Vingativa"
-              className="hidden h-7 w-auto max-w-[40px] shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:block"
-              loading="eager"
-            />
+            {collapsed ? (
+              /* Colapsado: V sozinho (mesmo estado que esconde o texto do menu) */
+              <img
+                src="/symbol-v-solid.svg"
+                alt="IA Vingativa"
+                className="h-7 w-auto max-w-[40px] shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90"
+                loading="eager"
+              />
+            ) : (
+              /* Expandido: lockup horizontal */
+              <span className="flex items-center transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90">
+                <BrandLockup size={42} />
+              </span>
+            )}
           </Link>
         </SidebarHeader>
 

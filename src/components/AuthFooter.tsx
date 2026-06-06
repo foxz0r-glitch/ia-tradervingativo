@@ -1,11 +1,13 @@
 // Footer used only on the Auth page (sign in / sign up).
 // Visual-only — pulled in from the reference project, color-adapted to this theme.
+import { BrandLockup } from "@/components/BrandLockup";
+
 export const AuthFooter = () => {
   return (
     <footer className="mt-auto border-t border-border/50 bg-card/50 backdrop-blur-sm">
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="flex flex-col items-center space-y-3 text-center">
-          <img src="/symbol-v-solid.svg" alt="IA Vingativa" className="h-6 opacity-80" />
+          <div className="opacity-80"><BrandLockup size={40} /></div>
 
           <p className="mx-auto max-w-2xl text-base text-foreground/80">
             #WeAreTraders

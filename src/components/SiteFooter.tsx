@@ -1,13 +1,10 @@
+import { BrandLockup } from "@/components/BrandLockup";
+
 export function SiteFooter() {
   return (
     <footer className="w-full bg-background pt-8 pb-6">
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 px-4 text-center">
-        <img
-          src="/symbol-v-solid.svg"
-          alt="IA Vingativa"
-          className="h-8 w-auto opacity-80"
-          loading="lazy"
-        />
+        <div className="opacity-80"><BrandLockup size={40} /></div>
         <p className="text-sm font-semibold tracking-wide text-foreground">
           #WeAreTraders
         </p>
