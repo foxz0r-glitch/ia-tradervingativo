@@ -1,11 +1,9 @@
-import virtusLogo from "@/assets/virtus-logo.png";
-
 export function SiteFooter() {
   return (
     <footer className="w-full bg-background pt-8 pb-6">
       <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 px-4 text-center">
         <img
-          src={virtusLogo}
+          src="/symbol-v-solid.svg"
           alt="IA Vingativa"
           className="h-8 w-auto opacity-80"
           loading="lazy"

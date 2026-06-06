@@ -14,7 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import logo from "@/assets/virtus-logo.png";
 import { AuthFooter } from "@/components/AuthFooter";
 import {
   Dialog,
@@ -173,7 +172,7 @@ const Auth = () => {
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="mb-8 flex justify-center">
-            <img src={logo} alt="IA Vingativa" className="h-16 animate-float" />
+            <img src="/symbol-v-solid.svg" alt="IA Vingativa" className="h-16 animate-float drop-shadow-[0_0_12px_rgba(26,230,92,0.7)]" />
           </div>
 
           <Card className="border-border/50 bg-card/80 shadow-[var(--shadow-card)] backdrop-blur-sm">

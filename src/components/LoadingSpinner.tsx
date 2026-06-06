@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import logo from "@/assets/virtus-logo.png";
 
 export const LoadingSpinner = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const img = new Image();
-    img.src = logo;
+    img.src = "/symbol-v-solid.svg";
     if (img.complete) {
       setLoaded(true);
     } else {
@@ -24,7 +23,7 @@ export const LoadingSpinner = () => {
       >
         <div className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-primary border-b-primary" style={{ animationDuration: '0.512s' }} />
         <img
-          src={logo}
+          src="/symbol-v-solid.svg"
           alt="Logo"
           className="relative h-20 w-20 object-contain"
         />

@@ -6,7 +6,6 @@ import RankProgressPopover from "@/components/RankProgressPopover";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NavLink } from "@/components/NavLink";
-import virtusLogo from "@/assets/virtus-logo.png";
 import { BrokerAccessDialog } from "@/components/BrokerAccessDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { clearCredsCache } from "@/lib/credsCache";
@@ -153,9 +152,9 @@ export function AppSidebar() {
             className="group/logo flex items-center justify-center"
           >
             <img
-              src={virtusLogo}
+              src="/symbol-v-solid.svg"
               alt="IA Vingativa"
-              className="h-9 w-auto max-w-full shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out [filter:brightness(0)_invert(1)] group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:h-7 group-data-[collapsible=icon]:max-w-[40px]"
+              className="h-9 w-auto max-w-full shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:h-7 group-data-[collapsible=icon]:max-w-[40px]"
               loading="eager"
             />
           </Link>

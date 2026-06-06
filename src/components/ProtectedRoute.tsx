@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import logo from "@/assets/virtus-logo.png";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [status, setStatus] = useState<"loading" | "authed" | "guest">("loading");
@@ -9,7 +8,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const img = new Image();
-    img.src = logo;
+    img.src = "/symbol-v-solid.svg";
     if (img.complete) {
       setLogoLoaded(true);
     } else {
@@ -46,7 +45,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           }`}
         >
           <div className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-primary border-b-primary" />
-          <img src={logo} alt="Logo" className="relative h-10 w-10 object-contain" />
+          <img src="/symbol-v-solid.svg" alt="Logo" className="relative h-10 w-10 object-contain" />
         </div>
       </div>
     );
