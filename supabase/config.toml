@@ -1,1 +1,4 @@
 project_id = "apkctisbeycjlxjjzmqr"
+
+[functions.casatrade-postback]
+verify_jwt = false
