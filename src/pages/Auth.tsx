@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthFooter } from "@/components/AuthFooter";
+import { BrandLockup } from "@/components/BrandLockup";
 import {
   Dialog,
   DialogContent,
@@ -172,7 +173,7 @@ const Auth = () => {
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="mb-8 flex justify-center">
-            <img src="/symbol-v-solid.svg" alt="IA Vingativa" className="h-16 animate-float drop-shadow-[0_0_12px_rgba(26,230,92,0.7)]" />
+            <div className="animate-float"><BrandLockup size={64} /></div>
           </div>
 
           <Card className="border-border/50 bg-card/80 shadow-[var(--shadow-card)] backdrop-blur-sm">

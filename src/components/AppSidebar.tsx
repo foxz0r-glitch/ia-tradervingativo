@@ -6,6 +6,7 @@ import RankProgressPopover from "@/components/RankProgressPopover";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NavLink } from "@/components/NavLink";
+import { BrandLockup } from "@/components/BrandLockup";
 import { BrokerAccessDialog } from "@/components/BrokerAccessDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { clearCredsCache } from "@/lib/credsCache";
@@ -151,10 +152,15 @@ export function AppSidebar() {
             aria-label="Ir para o Dashboard"
             className="group/logo flex items-center justify-center"
           >
+            {/* Expandido: lockup horizontal (some quando colapsado) */}
+            <span className="flex items-center transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:hidden">
+              <BrandLockup size={42} />
+            </span>
+            {/* Colapsado: V sozinho (mesmo mecanismo group-data-[collapsible=icon]) */}
             <img
               src="/symbol-v-solid.svg"
               alt="IA Vingativa"
-              className="h-9 w-auto max-w-full shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:h-7 group-data-[collapsible=icon]:max-w-[40px]"
+              className="hidden h-7 w-auto max-w-[40px] shrink-0 cursor-pointer object-contain transition-all duration-500 ease-out group-hover/logo:scale-95 group-hover/logo:opacity-90 group-data-[collapsible=icon]:block"
               loading="eager"
             />
           </Link>

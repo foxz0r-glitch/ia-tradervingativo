@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Copy, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { AuthFooter } from "@/components/AuthFooter";
+import { BrandLockup } from "@/components/BrandLockup";
 
 const Obrigado = () => {
   const [params] = useSearchParams();
@@ -34,7 +35,7 @@ const Obrigado = () => {
       <div className="flex flex-1 items-center justify-center p-4">
         <div className="w-full max-w-lg text-center">
           <div className="mb-6 flex justify-center">
-            <img src="/symbol-v-solid.svg" alt="IA Vingativa" className="h-16 animate-float drop-shadow-[0_0_12px_rgba(26,230,92,0.7)]" />
+            <div className="animate-float"><BrandLockup size={64} /></div>
           </div>
 
           <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/15">
