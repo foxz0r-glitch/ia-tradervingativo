@@ -3,19 +3,25 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 serve(async (req) => {
   try {
+    // Validação por token no FINAL do path da URL, antes de qualquer escrita.
+    // Só valida se a env POSTBACK_SECRET existir.
+    const token = new URL(req.url).pathname.split("/").filter(Boolean).pop();
+    const postbackSecret = Deno.env.get("POSTBACK_SECRET");
+    if (postbackSecret && token !== postbackSecret) {
+      return new Response("OK", { status: 200 });
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    const body = await req.json();
-    const {
-      evento,
-      trader_id,
-      amount = 0,
-      profit = 0,
-      instrument = "",
-    } = body;
+    // Postback server-to-server (GET): dados vêm da query string.
+    const params = new URL(req.url).searchParams;
+    const postback_name = params.get("postback_name");
+    const trader_id = params.get("trader_id");
+    const amount = Number(params.get("amount") ?? 0);
+    const instrument = params.get("instrument") ?? "";
 
     const recebido_em = new Date().toISOString();
     const traderStr = trader_id ? String(trader_id) : null;
@@ -23,6 +29,9 @@ serve(async (req) => {
     if (!traderStr) {
       return new Response("OK", { status: 200 });
     }
+
+    // Tipo de evento derivado de postback_name de forma null-safe.
+    const evento = (postback_name ?? "").toLowerCase().trim();
 
     await supabase.from("casatrade_data").upsert(
       {
@@ -34,7 +43,7 @@ serve(async (req) => {
       { onConflict: "casatrade_user_id", ignoreDuplicates: false }
     );
 
-    const isDeposit = ["deposito", "primeiro_deposito", "redemposito"].includes(evento);
+    const isDeposit = ["deposito", "primeiro_deposito", "redeposito"].includes(evento);
 
     if (isDeposit && amount > 0) {
       const { data: current } = await supabase
