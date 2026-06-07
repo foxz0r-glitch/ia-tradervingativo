@@ -233,6 +233,30 @@ export type Database = {
         }
         Relationships: []
       }
+      casatrade_postback_events: {
+        Row: {
+          amount: number | null
+          event: string
+          event_id: string
+          processed_at: string
+          trader_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          event: string
+          event_id: string
+          processed_at?: string
+          trader_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          event?: string
+          event_id?: string
+          processed_at?: string
+          trader_id?: string | null
+        }
+        Relationships: []
+      }
       course_plan_access: {
         Row: {
           course_id: string
@@ -1158,6 +1182,16 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      process_casatrade_deposit: {
+        Args: {
+          p_amount: number
+          p_event: string
+          p_event_id: string
+          p_received_at: string
+          p_trader_id: string
+        }
+        Returns: string
       }
     }
     Enums: {
