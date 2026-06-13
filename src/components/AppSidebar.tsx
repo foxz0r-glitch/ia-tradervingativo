@@ -63,7 +63,7 @@ const items: Item[] = [
   { title: "Marketplace", url: "/marketplace", icon: Store, kind: "internal" },
 ];
 
-const HIDDEN_NAV_URLS = ["/grupo", "/marketplace"]; // ocultos p/ lancamento - religar removendo daqui
+const HIDDEN_NAV_URLS = ["/grupo", "/marketplace", "/pricing"]; // ocultos p/ lancamento - religar removendo daqui
 
 export function AppSidebar() {
   const { state } = useSidebar();
