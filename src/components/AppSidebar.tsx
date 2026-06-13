@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Bot, SlidersHorizontal, UsersRound, LineChart, LogOut, Headset, Trophy, BookOpen, Sparkles, Store, ChevronRight, PanelLeft } from "lucide-react";
 import RankProgressPopover from "@/components/RankProgressPopover";
+import { SUPPORT_WHATSAPP_URL } from "@/lib/support";
 
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -334,7 +335,7 @@ export function AppSidebar() {
                   className="group/support h-10 rounded-lg transition-colors duration-75 hover:bg-primary/10 group-data-[collapsible=icon]:!size-10 group-data-[collapsible=icon]:!w-full group-data-[collapsible=icon]:!p-0"
                 >
                   <a
-                    href="https://wa.me/5500000000000"
+                    href={SUPPORT_WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex h-10 w-full items-center justify-center rounded-lg text-muted-foreground transition-colors duration-75 group-hover/support:text-primary"
@@ -496,7 +497,7 @@ export function AppSidebar() {
                 );
               })()}
               <a
-                href="https://wa.me/5500000000000"
+                href={SUPPORT_WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/support relative flex w-full items-center gap-3 overflow-hidden rounded-xl border border-sidebar-border bg-sidebar-accent/30 px-3 py-2.5 text-sm font-semibold text-sidebar-foreground transition-all duration-200 hover:border-primary/40 hover:bg-sidebar-accent/60"

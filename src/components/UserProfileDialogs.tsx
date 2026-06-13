@@ -14,8 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { AvatarCropDialog } from "@/components/AvatarCropDialog";
 import flagBrasil from "@/assets/flag-brasil.png";
-
-const SUPPORT_URL = "https://wa.me/5500000000000";
+import { SUPPORT_WHATSAPP_URL } from "@/lib/support";
 
 const MONTHS_PT = [
   "janeiro", "fevereiro", "março", "abril", "maio", "junho",
@@ -292,7 +291,7 @@ export function PersonalDataDialog(props: CommonProps) {
     toast.success("Data atualizada!");
   };
 
-  const openSupport = () => window.open(SUPPORT_URL, "_blank");
+  const openSupport = () => window.open(SUPPORT_WHATSAPP_URL, "_blank");
 
   return (
     <>

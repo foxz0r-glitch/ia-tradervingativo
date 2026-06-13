@@ -36,10 +36,9 @@ import { VerifyAccountDialog } from "@/components/VerifyAccountDialog";
 import flagBrasil from "@/assets/flag-brasil.png";
 import { rankImg } from "@/lib/rankImages";
 import { nextRankOf } from "@/pages/ranking/_profileSections";
+import { SUPPORT_WHATSAPP_URL } from "@/lib/support";
 
 const fmt = (n: number) => n.toLocaleString("pt-BR");
-
-const SUPPORT_URL = "https://wa.me/5500000000000";
 
 interface UserMenuProps {
   trigger?: React.ReactNode;
@@ -230,7 +229,7 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
     { icon: ShieldCheck, label: "Verificar Conta", onClick: () => setVerifyOpen(true) },
     { icon: PlusCircle, label: "Depositar fundos", onClick: () => triggerHidden(depositRef) },
     { icon: ArrowDownToLine, label: "Retirar fundos", onClick: () => triggerHidden(withdrawRef) },
-    { icon: Headset, label: "Contactar o suporte", onClick: () => window.open(SUPPORT_URL, "_blank") },
+    { icon: Headset, label: "Contactar o suporte", onClick: () => window.open(SUPPORT_WHATSAPP_URL, "_blank") },
     { icon: History, label: "Histórico do saldo" },
     { icon: ClipboardList, label: "Histórico de trading" },
     { icon: Settings, label: "Definições" },

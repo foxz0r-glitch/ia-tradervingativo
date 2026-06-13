@@ -16,6 +16,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AuthFooter } from "@/components/AuthFooter";
 import { BrandLockup } from "@/components/BrandLockup";
+import { SUPPORT_WHATSAPP_URL } from "@/lib/support";
 import {
   Dialog,
   DialogContent,
@@ -318,7 +319,7 @@ const Auth = () => {
               Fechar
             </Button>
             <Button
-              onClick={() => window.open("https://wa.me/5511925969015", "_blank")}
+              onClick={() => window.open(SUPPORT_WHATSAPP_URL, "_blank")}
               className="gap-2 bg-[#25D366] text-white hover:bg-[#1ebe5a]"
             >
               <MessageCircle className="h-4 w-4" />
