@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Bot, SlidersHorizontal, UsersRound, LineChart, LogOut, Headset, Trophy, BookOpen, Sparkles, Store, ChevronRight, PanelLeft } from "lucide-react";
-import { UserMenu } from "@/components/UserMenu";
 import RankProgressPopover from "@/components/RankProgressPopover";
 
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -63,6 +62,8 @@ const items: Item[] = [
   { title: "Planos", url: "/pricing", icon: Sparkles, kind: "internal" },
   { title: "Marketplace", url: "/marketplace", icon: Store, kind: "internal" },
 ];
+
+const HIDDEN_NAV_URLS = ["/grupo", "/marketplace"]; // ocultos p/ lancamento - religar removendo daqui
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -196,7 +197,7 @@ export function AppSidebar() {
                 )}
 
                 <SidebarMenu className="gap-1">
-                  {items.map((item) => {
+                  {items.filter((item) => !HIDDEN_NAV_URLS.includes(item.url)).map((item) => {
                     const active = item.kind === "internal" && isActive(item.url);
                     const inner = (
                       <>
@@ -517,37 +518,24 @@ export function AppSidebar() {
 
               <div className="-mx-2 h-px bg-sidebar-border/60" />
 
-              <UserMenu
-                side="right"
-                align="end"
-                sideOffset={12}
-                alignOffset={-8}
-                trigger={
-                  <button
-                    type="button"
-                    className="group relative flex w-[calc(100%+1rem)] items-center gap-3 -mt-2 pt-3 pl-5 pr-3 -ml-2 -mr-2 -mb-2 pb-3 text-left transition-colors duration-150 hover:bg-[#12141A] data-[state=open]:bg-[#12141A]"
-                    aria-label="Abrir menu do usuário"
-                  >
-                    <Avatar className="h-9 w-9 shrink-0 border border-sidebar-border">
-                      {avatarUrl ? (
-                        <AvatarImage src={avatarUrl} alt={userName} className="object-cover" />
-                      ) : null}
-                      <AvatarFallback className="bg-muted text-muted-foreground select-none" style={{ fontSize: '16px', fontWeight: 530, fontFamily: '"Anthropic Sans", sans-serif' }}>
-                        {userInitials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm text-sidebar-foreground" style={{ fontWeight: 510 }}>
-                        {userName}
-                      </p>
-                      <p className="truncate text-xs text-muted-foreground" style={{ fontWeight: 430 }}>
-                        Plano {userPlan}
-                      </p>
-                    </div>
-                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all duration-150 group-hover:text-primary group-data-[state=open]:rotate-90 group-data-[state=open]:text-primary" />
-                  </button>
-                }
-              />
+              <div className="relative flex w-[calc(100%+1rem)] items-center gap-3 -mt-2 pt-3 pl-5 pr-3 -ml-2 -mr-2 -mb-2 pb-3 text-left">
+                <Avatar className="h-9 w-9 shrink-0 border border-sidebar-border">
+                  {avatarUrl ? (
+                    <AvatarImage src={avatarUrl} alt={userName} className="object-cover" />
+                  ) : null}
+                  <AvatarFallback className="bg-muted text-muted-foreground select-none" style={{ fontSize: '16px', fontWeight: 530, fontFamily: '"Anthropic Sans", sans-serif' }}>
+                    {userInitials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm text-sidebar-foreground" style={{ fontWeight: 510 }}>
+                    {userName}
+                  </p>
+                  <p className="truncate text-xs text-muted-foreground" style={{ fontWeight: 430 }}>
+                    Plano {userPlan}
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </SidebarFooter>

@@ -3,12 +3,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Wallet,
-  CheckCircle2,
-  XCircle,
-  GraduationCap,
-  Users,
-  BadgeCheck,
   Loader2,
   HelpCircle,
   Sparkles,
@@ -1100,93 +1094,6 @@ const Index = () => {
                 rodando={rodando}
               />
             </div>
-          </div>
-        </section>
-
-        {/* Linha final — 4 cards de status abaixo de tudo */}
-        <section className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {/* Progresso do Curso */}
-          <div className="ct-card-green flex h-[178px] flex-col p-5">
-            <div className="ct-label flex items-center gap-2">
-              <GraduationCap className="h-4 w-4 text-white" /> Progresso do Curso
-            </div>
-            <div className="ct-value mt-3 text-3xl font-bold text-[hsl(139_80%_45%)] sm:text-4xl">
-              67%
-            </div>
-            <div className="ct-progress mt-3">
-              <div className="ct-progress-fill" style={{ width: "67%" }} />
-            </div>
-            <div className="mt-2 text-xs text-muted-foreground">4 de 6 aulas concluídas</div>
-          </div>
-
-          {/* Saldo */}
-          <div className="ct-card-green flex h-[178px] flex-col p-5">
-            <div className="ct-label flex items-center gap-2">
-              <Wallet className="h-4 w-4 text-white" /> Saldo na Corretora
-            </div>
-            {saldo == null ? (
-              <div className="mt-3 flex items-center gap-2.5">
-                <Loader2 className="h-7 w-7 animate-spin text-[hsl(139_80%_45%)]" />
-                <span className="text-base font-semibold text-muted-foreground">
-                  Carregando...
-                </span>
-              </div>
-            ) : (
-              <div className="ct-value mt-3 text-3xl font-bold text-[hsl(139_80%_45%)] sm:text-4xl">
-                {saldo.toLocaleString("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                })}
-              </div>
-            )}
-            <div className="mt-2 text-xs text-muted-foreground">
-              {saldo == null ? "Buscando saldo na corretora" : "Saldo atual"}
-            </div>
-          </div>
-
-          {/* Wins / Losses */}
-          <div className="ct-card-blue flex h-[178px] flex-col p-5">
-            <div className="ct-label flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-white" /> Wins / Losses
-            </div>
-            <div className="mt-3 flex items-baseline gap-3 ct-mono">
-              <div className="flex items-baseline gap-1.5">
-                <span className="ct-value text-3xl font-bold text-[hsl(217_91%_65%)] sm:text-4xl">
-                  {ganhos}
-                </span>
-                <CheckCircle2 className="h-4 w-4 text-[hsl(217_91%_65%)]" />
-              </div>
-              <span className="text-2xl font-light text-muted-foreground">/</span>
-              <div className="flex items-baseline gap-1.5">
-                <span className="ct-value text-3xl font-bold text-[hsl(25_95%_60%)] sm:text-4xl">
-                  {perdas}
-                </span>
-                <XCircle className="h-4 w-4 text-[hsl(25_95%_60%)]" />
-              </div>
-            </div>
-            <div className="mt-2 text-xs text-muted-foreground">Acertos x Perdas</div>
-          </div>
-
-          {/* Grupo VIP */}
-          <div className="ct-card-blue flex h-[178px] flex-col p-5">
-            <div className="ct-label flex items-center gap-2">
-              <Users className="h-4 w-4 text-white" /> Grupo VIP de Alunos
-            </div>
-            <div className="mt-3 flex items-center gap-2 whitespace-nowrap text-xl font-bold text-[hsl(217_91%_65%)] sm:text-2xl xl:text-3xl">
-              <BadgeCheck className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
-              <span className="truncate">Acesso Liberado</span>
-            </div>
-            <div className="mt-1 text-xs text-muted-foreground">
-              Networking exclusivo com traders
-            </div>
-            <a
-              href="https://chat.whatsapp.com/IQQ2yKxECya8Nn5GbkyvMA"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-premium btn-blue mt-3 w-full py-2.5 text-[13px] font-bold"
-            >
-              Acessar Grupo
-            </a>
           </div>
         </section>
 
