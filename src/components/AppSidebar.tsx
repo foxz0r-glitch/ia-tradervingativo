@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Bot, SlidersHorizontal, UsersRound, LineChart, LogOut, Headset, Trophy, BookOpen, Sparkles, Store, ChevronRight, PanelLeft } from "lucide-react";
-import RankProgressPopover from "@/components/RankProgressPopover";
 import { SUPPORT_WHATSAPP_URL } from "@/lib/support";
 
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -370,8 +369,6 @@ export function AppSidebar() {
                 const cardInner = (
                   <div
                     className="group/rank rank-card"
-                    role="button"
-                    tabIndex={0}
                     title="Ver minha patente"
                     style={{
                       position: "relative",
@@ -381,7 +378,6 @@ export function AppSidebar() {
                       border: "1px solid rgba(255,255,255,0.08)",
                       boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px ${c}10, 0 0 14px -8px ${c}80`,
                       overflow: "hidden",
-                      cursor: "pointer",
                       transition: "transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.35s ease",
                       ["--rank-color" as any]: c,
                     }}
@@ -484,17 +480,7 @@ export function AppSidebar() {
                     </div>
                   </div>
                 );
-                return (
-                  <RankProgressPopover
-                    userXP={userXP}
-                    userName={userName}
-                    side="right"
-                    align="end"
-                    sideOffset={12}
-                    alignOffset={-8}
-                    trigger={cardInner}
-                  />
-                );
+                return cardInner;
               })()}
               <a
                 href={SUPPORT_WHATSAPP_URL}
