@@ -4,17 +4,19 @@
 //  - Sem logo TradingView (attributionLogo: false)
 //  - Recebe candles do stream centralizado do backend
 //
-//  FIX DEFINITIVO v3:
-//  O problema anterior: setZoomIndex causava re-render → useEffect WS
-//  re-executava → cleanup zerava attachedWsRef → novo handler perdia
-//  a referência correta → autoFollowRef era zerado pelo cleanup do gráfico.
+//  ARQUITETURA — por que refs em vez de state:
+//  Qualquer state no caminho de render dispara re-render. Se o useEffect
+//  do WS re-executasse, o cleanup zeraria attachedWsRef → o novo handler
+//  perderia a referência correta → autoFollowRef seria zerado pelo
+//  cleanup do gráfico.
 //
-//  Solução: ÚNICO useEffect com array vazio [].
-//  Zoom não usa useState — usa APENAS refs + manipulação direta do DOM.
-//  Zero re-renders causados pelo zoom. Handler WS criado uma única vez.
+//  Solução: ÚNICO useEffect com array vazio [] — monta uma vez.
+//  Estado vivo (candles, preço, auto-follow) fica em refs + manipulação
+//  direta do chart: zero re-renders. Handler WS criado uma única vez;
+//  lerp de preço a 60fps via requestAnimationFrame.
 // ============================================================================
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import {
   createChart,
   CandlestickSeries,
@@ -23,9 +25,6 @@ import {
   type UTCTimestamp,
   ColorType,
 } from "lightweight-charts";
-
-const ZOOM_LEVELS = [40, 80, 120, 160, 200];
-const DEFAULT_ZOOM_INDEX = 1; // 80 candles
 
 type WsLike = WebSocket | null;
 
@@ -52,10 +51,11 @@ function toBRT(utcSeconds: number): UTCTimestamp {
 function applyVisibleRange(
   chart: IChartApi,
   totalCandles: number,
-  zoomIndex: number
+  width: number
 ) {
   if (totalCandles === 0) return;
-  const visiveis = ZOOM_LEVELS[zoomIndex];
+  const w = width || 800; // guard: 0/não-medido => trata como desktop (não cai em 50 por engano)
+  const visiveis = w < 480 ? 50 : 80; // estreito = 50 candles mais largos; largo = 80
   chart.timeScale().setVisibleLogicalRange({
     from: totalCandles - visiveis,
     to: totalCandles + 3,
@@ -76,16 +76,9 @@ export default function LiveChart({
   const candlesRef = useRef<CandleMsg[]>([]);
   const attachedWsRef = useRef<WebSocket | null>(null);
   const lastTimeRef = useRef<number>(0);
-  const zoomIndexRef = useRef(DEFAULT_ZOOM_INDEX);
   const autoFollowRef = useRef(false);
   // Garante que tick do candle atual não sobrescreve o close já atualizado por quote
   const quoteReceivedRef = useRef(false);
-
-  // Refs para elementos DOM dos botões — manipulados diretamente
-  const btnZoomInRef = useRef<HTMLButtonElement | null>(null);
-  const btnZoomOutRef = useRef<HTMLButtonElement | null>(null);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Lerp contínuo a 60fps — sem cancel/restart, zero micro-jumps
   const targetCloseRef = useRef<number>(0);
@@ -95,71 +88,6 @@ export default function LiveChart({
   const targetLowRef = useRef<number>(0);
   const displayedLowRef = useRef<number>(0);
   const priceRafRef = useRef<number | null>(null);
-
-// Atualiza aparência dos botões via DOM direto (sem re-render)
-  const updateButtonStates = useCallback(() => {
-    const zi = zoomIndexRef.current;
-    if (btnZoomInRef.current) {
-      btnZoomInRef.current.disabled = zi === 0;
-      btnZoomInRef.current.style.color =
-        zi === 0 ? "rgba(255,255,255,0.2)" : "#fff";
-      btnZoomInRef.current.style.cursor = zi === 0 ? "not-allowed" : "pointer";
-    }
-    if (btnZoomOutRef.current) {
-      const atMax = zi === ZOOM_LEVELS.length - 1;
-      btnZoomOutRef.current.disabled = atMax;
-      btnZoomOutRef.current.style.color = atMax
-        ? "rgba(255,255,255,0.2)"
-        : "#fff";
-      btnZoomOutRef.current.style.cursor = atMax ? "not-allowed" : "pointer";
-    }
-  }, []);
-
-  const showTooltip = useCallback((msg: string) => {
-    if (!tooltipRef.current) return;
-    tooltipRef.current.textContent = msg;
-    tooltipRef.current.style.display = "block";
-    if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
-    tooltipTimerRef.current = setTimeout(() => {
-      if (tooltipRef.current) tooltipRef.current.style.display = "none";
-    }, 2000);
-  }, []);
-
-  // Zoom In — sem setState, sem re-render
-  const zoomIn = useCallback(() => {
-    if (zoomIndexRef.current === 0) {
-      showTooltip("Zoom máximo atingido");
-      return;
-    }
-    zoomIndexRef.current -= 1;
-    updateButtonStates();
-    if (chartRef.current) {
-      applyVisibleRange(
-        chartRef.current,
-        candlesRef.current.length,
-        zoomIndexRef.current
-      );
-    }
-    autoFollowRef.current = true;
-  }, [showTooltip, updateButtonStates]);
-
-  // Zoom Out — sem setState, sem re-render
-  const zoomOut = useCallback(() => {
-    if (zoomIndexRef.current === ZOOM_LEVELS.length - 1) {
-      showTooltip("Zoom mínimo atingido");
-      return;
-    }
-    zoomIndexRef.current += 1;
-    updateButtonStates();
-    if (chartRef.current) {
-      applyVisibleRange(
-        chartRef.current,
-        candlesRef.current.length,
-        zoomIndexRef.current
-      );
-    }
-    autoFollowRef.current = true;
-  }, [showTooltip, updateButtonStates]);
 
   // ── ÚNICO useEffect com [] — monta uma vez, nunca re-executa ────────
   useEffect(() => {
@@ -268,7 +196,7 @@ export default function LiveChart({
           applyVisibleRange(
             chartRef.current,
             candlesRef.current.length,
-            zoomIndexRef.current
+            containerRef.current?.clientWidth ?? 0
           );
           chartRef.current.timeScale().scrollToRealTime();
         }
@@ -402,7 +330,6 @@ export default function LiveChart({
     return () => {
       clearInterval(pollInterval);
       if (priceRafRef.current) cancelAnimationFrame(priceRafRef.current);
-      if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current);
       if (attachedWsRef.current) {
         try {
           attachedWsRef.current.removeEventListener("message", handler);
@@ -416,7 +343,7 @@ export default function LiveChart({
       autoFollowRef.current = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // ← VAZIO: monta uma vez, nunca re-executa por zoom/props
+  }, []); // ← VAZIO: monta uma vez, nunca re-executa (independente de props)
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%", minHeight: `${height}px` }}>
@@ -424,79 +351,6 @@ export default function LiveChart({
         ref={containerRef}
         style={{ width: "100%", height: "100%" }}
       />
-
-      {/* Botões de Zoom — canto inferior esquerdo */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 32,
-          left: 8,
-          zIndex: 10,
-          display: "flex",
-          flexDirection: "column",
-          gap: 4,
-        }}
-      >
-        {/* Tooltip via ref DOM — sem re-render */}
-        <div
-          ref={tooltipRef}
-          style={{
-            display: "none",
-            position: "absolute",
-            bottom: 72,
-            left: 0,
-            background: "rgba(0,0,0,0.85)",
-            color: "#fff",
-            padding: "4px 8px",
-            borderRadius: 6,
-            fontSize: 11,
-            whiteSpace: "nowrap",
-            border: "1px solid rgba(255,255,255,0.15)",
-          }}
-        />
-
-        <button
-          ref={btnZoomInRef}
-          onClick={zoomIn}
-          style={{
-            width: 28,
-            height: 28,
-            background: "#000000",
-            border: "1px solid rgba(255,255,255,0.15)",
-            borderRadius: 6,
-            color: "#fff",
-            cursor: "pointer",
-            fontSize: 16,
-            lineHeight: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          +
-        </button>
-
-        <button
-          ref={btnZoomOutRef}
-          onClick={zoomOut}
-          style={{
-            width: 28,
-            height: 28,
-            background: "#000000",
-            border: "1px solid rgba(255,255,255,0.15)",
-            borderRadius: 6,
-            color: "#fff",
-            cursor: "pointer",
-            fontSize: 16,
-            lineHeight: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          -
-        </button>
-      </div>
     </div>
   );
 }
