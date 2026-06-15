@@ -20,7 +20,7 @@ export interface RoboConfig {
 interface BotCallbacks {
   onLog: (msg: string, classe: string) => void
   onStatus: (rodando: boolean) => void
-  onSaldo: (valor: number) => void
+  onSaldo: (valor: number, moeda?: string) => void
   onPlacar: (ganhos: number, perdas: number, ops: number) => void
   onVelas: (velas: Vela[], rsi: number, mmRapida: number, mmLenta: number) => void
   onEstatisticas?: (stats: any) => void
@@ -63,7 +63,7 @@ export function useRoboBot(callbacks: BotCallbacks) {
         const cb = callbacksRef.current
         if (data.tipo === 'log') cb.onLog(data.msg, data.classe)
         if (data.tipo === 'status') cb.onStatus(data.rodando)
-        if (data.tipo === 'saldo') cb.onSaldo(data.valor)
+        if (data.tipo === 'saldo') cb.onSaldo(data.valor, data.moeda)
         if (data.tipo === 'placar') cb.onPlacar(data.ganhos, data.perdas, data.ops)
         if (data.tipo === 'velas') cb.onVelas(data.velas, data.rsi, data.mmRapida, data.mmLenta)
         if (data.tipo === 'estatisticas') cb.onEstatisticas?.(data)

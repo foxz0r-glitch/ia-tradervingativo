@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Clock, Calendar, Hexagon, ArrowUpRight, ArrowDownRight, TrendingUp, History, ChevronDown, ChevronUp } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { formatMoeda } from "@/lib/moeda";
 
 // ── Interface ────────────────────────────────────────────────────────
 export interface Operation {
@@ -24,7 +25,7 @@ export interface Operation {
 }
 
 const MONTHS_PT = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-const fmtBRL = (v: number) => Math.abs(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const fmtBRL = (v: number, moeda: string | null) => formatMoeda(Math.abs(v), moeda);
 
 const CURRENCY_FLAG: Record<string, string> = {
   EUR: "eu", USD: "us", GBP: "gb", JPY: "jp",
@@ -109,7 +110,7 @@ function groupBySession(ops: Operation[], sessionStarts: SessionEntry[]): Sessio
 }
 
 // ── Detail Popover ───────────────────────────────────────────────────
-function OperationDetailPopover({ op }: { op: Operation }) {
+function OperationDetailPopover({ op, moeda }: { op: Operation; moeda: string | null }) {
   const isDraw = op.result === "draw";
   const isWin = op.result === "win";
   const [fa, fb] = pairFlags(op.symbol);
@@ -149,7 +150,7 @@ function OperationDetailPopover({ op }: { op: Operation }) {
         <div className="text-[9px] font-bold uppercase tracking-[0.32em] text-muted-foreground">Resultado</div>
         <div className="ct-mono mt-1 text-3xl font-black tabular-nums leading-none"
           style={{ color: pnlColor, textShadow: `0 0 22px ${pnlGlow}88` }}>
-          {pnlSign}{fmtBRL(op.pnl)}
+          {pnlSign}{fmtBRL(op.pnl, moeda)}
         </div>
         <div className="ct-mono mt-1.5 text-[11px] font-bold tabular-nums" style={{ color: pnlColor, opacity: 0.85 }}>
           payout {payoutStr}
@@ -166,7 +167,7 @@ function OperationDetailPopover({ op }: { op: Operation }) {
         <div className="rounded-xl border border-border/40 bg-card/40 px-3 py-2.5">
           <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Investido</div>
           <div className="ct-mono mt-1 text-sm font-black tabular-nums text-foreground">
-            {op.invest ? fmtBRL(op.invest) : "—"}
+            {op.invest ? fmtBRL(op.invest, moeda) : "—"}
           </div>
         </div>
       </div>
@@ -195,7 +196,7 @@ function DetailRow({ icon, label, value, mono, accent }: { icon: React.ReactNode
 }
 
 // ── Operation row (reusable for both flat and nested use) ────────────
-function OperationRow({ op, nested = false }: { op: Operation; nested?: boolean }) {
+function OperationRow({ op, nested = false, moeda }: { op: Operation; nested?: boolean; moeda: string | null }) {
   const isDraw = op.result === "draw";
   const isWin  = op.result === "win";
   const [fa, fb] = pairFlags(op.symbol);
@@ -247,13 +248,13 @@ function OperationRow({ op, nested = false }: { op: Operation; nested?: boolean 
               </div>
             </div>
             <div className={`shrink-0 self-center text-right ${valueColor}`}>
-              <div className="ct-mono text-sm font-bold tabular-nums">{pnlSign}{fmtBRL(op.pnl)}</div>
+              <div className="ct-mono text-sm font-bold tabular-nums">{pnlSign}{fmtBRL(op.pnl, moeda)}</div>
               <div className="ct-mono mt-0.5 text-[11px] font-semibold tabular-nums opacity-80">{payoutStr}</div>
             </div>
           </button>
         </PopoverTrigger>
         <PopoverContent side="right" align="start" sideOffset={12} className="w-[340px] border-0 bg-transparent p-0 shadow-none">
-          <OperationDetailPopover op={op} />
+          <OperationDetailPopover op={op} moeda={moeda} />
         </PopoverContent>
       </Popover>
     </li>
@@ -261,7 +262,7 @@ function OperationRow({ op, nested = false }: { op: Operation; nested?: boolean 
 }
 
 // ── Session accordion row ────────────────────────────────────────────
-function SessionGroupRow({ group, open, onToggle }: { group: SessionGroupData; open: boolean; onToggle: () => void }) {
+function SessionGroupRow({ group, open, onToggle, moeda }: { group: SessionGroupData; open: boolean; onToggle: () => void; moeda: string | null }) {
   const setOpen = (_v: boolean | ((p: boolean) => boolean)) => onToggle();
   const isPositive  = group.totalPnl >= 0;
   const wr          = group.ops.length > 0 ? Math.round((group.wins / group.ops.length) * 100) : 0;
@@ -328,7 +329,7 @@ function SessionGroupRow({ group, open, onToggle }: { group: SessionGroupData; o
               className={cn("ct-mono text-sm font-black tabular-nums leading-none", pnlColor)}
               style={{ textShadow: `0 0 14px ${accentHsl}55` }}
             >
-              {pnlSign}{fmtBRL(Math.abs(group.totalPnl))}
+              {pnlSign}{fmtBRL(Math.abs(group.totalPnl), moeda)}
             </span>
             <span className="ct-mono text-[10.5px] font-medium tabular-nums leading-none">
               <span className="text-[#3ddc97]">{group.wins}W</span>
@@ -352,7 +353,7 @@ function SessionGroupRow({ group, open, onToggle }: { group: SessionGroupData; o
             style={{ background: `linear-gradient(90deg, transparent, ${accentHsl}55, transparent)` }}
           />
           <ul className="divide-y divide-border/15">
-            {group.ops.map(op => <OperationRow key={op.id} op={op} nested />)}
+            {group.ops.map(op => <OperationRow key={op.id} op={op} nested moeda={moeda} />)}
           </ul>
         </div>
       )}
@@ -387,11 +388,12 @@ function filterOps(ops: Operation[], tab: Tab, sessionStart: number | null): Ope
 // ── Componente principal ─────────────────────────────────────────────
 interface Props {
   operations: Operation[];
+  moeda: string | null;
   sessionStart?: number | null;
   sessionStarts?: SessionEntry[];
 }
 
-export function OperationsHistory({ operations, sessionStart = null, sessionStarts }: Props) {
+export function OperationsHistory({ operations, moeda, sessionStart = null, sessionStarts }: Props) {
   const [tab, setTab] = useState<Tab>("all");
   const [openSession, setOpenSession] = useState<number | null>(null);
 
@@ -468,6 +470,7 @@ export function OperationsHistory({ operations, sessionStart = null, sessionStar
                 <SessionGroupRow
                   key={g.startTs}
                   group={g}
+                  moeda={moeda}
                   open={openSession === g.startTs}
                   onToggle={() => setOpenSession(prev => prev === g.startTs ? null : g.startTs)}
                 />
@@ -480,7 +483,7 @@ export function OperationsHistory({ operations, sessionStart = null, sessionStar
             <EmptyState tab={tab} />
           ) : (
             <ul className="divide-y divide-border/40">
-              {filtered.map(op => <OperationRow key={op.id} op={op} />)}
+              {filtered.map(op => <OperationRow key={op.id} op={op} moeda={moeda} />)}
             </ul>
           )
         )}

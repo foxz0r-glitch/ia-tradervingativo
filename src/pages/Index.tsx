@@ -40,6 +40,7 @@ import gptIcon from "@/assets/ai-gpt.webp";
 import geminiIcon from "@/assets/ai-gemini.webp";
 import grokIcon from "@/assets/ai-grok.webp";
 import { supabase } from "@/integrations/supabase/client";
+import { formatMoeda, simboloMoeda } from "@/lib/moeda";
 import { DepositButton } from "@/components/DepositButton";
 import { toast } from "sonner";
 import { RankUpToast } from "@/components/RankUpToast";
@@ -95,6 +96,15 @@ const Index = () => {
   const [firstName, setFirstName] = useState("Trader");
   const [userId, setUserId] = useState<string>("anonimo");
 
+  // Neutraliza estratégia legada do StrategyBuilder (componente desmontado): sem isso,
+  // um valor antigo em "virtuspro_estrategia_ativa" seria lido por loadActiveStrategy()
+  // e enviado ao robô. Limpa na montagem => loadActiveStrategy() retorna null.
+  useEffect(() => {
+    try {
+      localStorage.removeItem("virtuspro_estrategia_ativa");
+    } catch { /* ignora: chave pode não existir */ }
+  }, []);
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       const user = session?.user;
@@ -112,6 +122,7 @@ const Index = () => {
     };
   }, []);
   const [saldo, setSaldo] = useState<number | null>(null);
+  const [moedaConta, setMoedaConta] = useState<string | null>(null);
   const [ganhos, setGanhos] = useState(0);
   const [perdas, setPerdas] = useState(0);
   const [velas, setVelas] = useState<Vela[]>([]);
@@ -467,7 +478,7 @@ const Index = () => {
         return r;
       });
     },
-    onSaldo: (v) => setSaldo(v),
+    onSaldo: (v, m) => { setSaldo(v); if (m) setMoedaConta(m); },
     onPlacar: (g, p) => {
       setGanhos(g);
       setPerdas(p);
@@ -904,7 +915,7 @@ const Index = () => {
           {/* Coluna ESQUERDA — Histórico */}
           <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 lg:order-1 xl:order-1">
             <div className="flex h-[674px] w-full [&>*]:w-full">
-              <OperationsHistory operations={operations} sessionStart={sessionStart} sessionStarts={sessionStarts} />
+              <OperationsHistory operations={operations} moeda={moedaConta} sessionStart={sessionStart} sessionStarts={sessionStarts} />
             </div>
           </div>
 
@@ -947,7 +958,7 @@ const Index = () => {
                             </>
                           ) : (
                             <span className="text-xl font-extrabold tracking-tight tabular-nums text-[#3ddc97] drop-shadow-[0_0_12px_hsl(139_80%_50%/0.55)] sm:text-[22px]">
-                              {saldo.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                              {formatMoeda(saldo, moedaConta)}
                             </span>
                           )}
                         </span>
@@ -982,6 +993,7 @@ const Index = () => {
                 sessionPnl={sessionPnl}
                 meta={meta}
                 stopLoss={stopLoss}
+                moeda={moedaConta}
                 onTogglePause={() => {
                   if (paused) {
                     setPaused(false);
@@ -1079,6 +1091,7 @@ const Index = () => {
                 valorEntrada={valorEntrada}
                 setValorEntrada={setValorEntrada}
                 saldo={saldo}
+                simbolo={simboloMoeda(moedaConta)}
                 expiracao={expiracao}
                 setExpiracao={setExpiracao}
                 maxLoss={maxLoss}
@@ -1140,6 +1153,7 @@ const Index = () => {
         <OperationSummaryDialog
           open={summaryOpen}
           onOpenChange={setSummaryOpen}
+          moeda={moedaConta}
           totalPnl={sessionPnl}
           ganhos={ganhos}
           perdas={perdas}

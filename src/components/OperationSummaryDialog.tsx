@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { formatMoeda } from "@/lib/moeda";
 
 export type SummaryReason = "manual" | "meta" | "stop";
 
@@ -16,17 +17,15 @@ interface Props {
   ganhos: number;
   perdas: number;
   symbol: string;
+  moeda: string | null;
   tempoSeg?: number;
   timeframe?: string;
   reason?: SummaryReason;
   onNewOperation?: () => void;
 }
 
-const fmtBRL = (v: number) =>
-  `${v >= 0 ? "+" : "-"}${Math.abs(v).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  })}`;
+const fmtBRL = (v: number, moeda: string | null) =>
+  `${v >= 0 ? "+" : "-"}${formatMoeda(Math.abs(v), moeda)}`;
 
 export function OperationSummaryDialog({
   open,
@@ -35,6 +34,7 @@ export function OperationSummaryDialog({
   ganhos,
   perdas,
   symbol,
+  moeda,
   tempoSeg = 5,
   timeframe = "1m",
   reason = "manual",
@@ -84,7 +84,7 @@ export function OperationSummaryDialog({
               positive ? "text-[hsl(139_80%_55%)]" : "text-[hsl(0_84%_65%)]"
             }`}
           >
-            {fmtBRL(totalPnl)}
+            {fmtBRL(totalPnl, moeda)}
           </div>
 
           <p className="text-center text-xs text-muted-foreground">

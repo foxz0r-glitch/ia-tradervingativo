@@ -1,4 +1,5 @@
 import { Activity, Pause, Play, Square } from "lucide-react";
+import { formatMoeda } from "@/lib/moeda";
 
 interface Props {
   rodando: boolean;
@@ -6,15 +7,13 @@ interface Props {
   sessionPnl: number;
   meta: number;
   stopLoss: number;
+  moeda?: string | null;
   onTogglePause: () => void;
   onFinish: () => void;
 }
 
-const fmtBRL = (v: number) =>
-  `${v >= 0 ? "+" : "-"}${Math.abs(v).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  })}`;
+const fmtBRL = (v: number, moeda?: string | null) =>
+  `${v >= 0 ? "+" : "-"}${formatMoeda(Math.abs(v), moeda)}`;
 
 export function IAStatusBanner({
   rodando,
@@ -22,6 +21,7 @@ export function IAStatusBanner({
   sessionPnl,
   meta,
   stopLoss,
+  moeda,
   onTogglePause,
   onFinish,
 }: Props) {
@@ -68,16 +68,16 @@ export function IAStatusBanner({
                 positive ? "text-[hsl(139_80%_55%)]" : "text-[hsl(0_84%_65%)]"
               }`}
             >
-              {fmtBRL(sessionPnl)}
+              {fmtBRL(sessionPnl, moeda)}
             </div>
           </div>
 
           <div className="flex flex-col items-end gap-1 text-xs ct-mono">
             <div className="text-[hsl(139_80%_55%)]">
-              Meta: {meta.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+              Meta: {formatMoeda(meta, moeda)}
             </div>
             <div className="text-[hsl(0_84%_65%)]">
-              Stop Loss: {stopLoss.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+              Stop Loss: {formatMoeda(stopLoss, moeda)}
             </div>
           </div>
         </div>
