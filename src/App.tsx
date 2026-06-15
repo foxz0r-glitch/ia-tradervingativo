@@ -83,7 +83,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
               }}
             >
-              <SidebarTrigger className="shrink-0 text-muted-foreground hover:text-foreground" />
+              <SidebarTrigger className="h-11 w-11 shrink-0 text-muted-foreground hover:text-foreground sm:h-7 sm:w-7" />
               <div className="hidden items-center gap-3 sm:flex">
                 <span className="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center self-center">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_50%)] opacity-70" />

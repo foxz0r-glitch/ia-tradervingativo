@@ -109,7 +109,7 @@ export const DepositButton = ({ variant = "default", children, label }: DepositB
         <button
           type="button"
           onClick={handleDepositar}
-          className="group relative inline-flex h-10 items-center gap-2 overflow-hidden rounded-lg border border-[hsl(139_80%_50%/0.6)] bg-gradient-to-b from-[hsl(139_80%_44%)] to-[hsl(139_80%_32%)] px-4 text-sm font-semibold text-[hsl(139_30%_8%)] shadow-[0_4px_14px_-4px_hsl(139_80%_39%/0.6),inset_0_1px_0_hsl(139_80%_78%/0.5)] transition-all duration-300 hover:from-[hsl(139_80%_50%)] hover:to-[hsl(139_80%_36%)] hover:border-[hsl(139_80%_55%/0.8)] hover:shadow-[0_6px_22px_-4px_hsl(139_80%_45%/0.8),inset_0_1px_0_hsl(139_80%_82%/0.6)] active:translate-y-px"
+          className="group relative inline-flex h-10 items-center gap-1.5 overflow-hidden rounded-lg border border-[hsl(139_80%_50%/0.6)] bg-gradient-to-b from-[hsl(139_80%_44%)] to-[hsl(139_80%_32%)] px-3 text-xs font-semibold text-[hsl(139_30%_8%)] shadow-[0_4px_14px_-4px_hsl(139_80%_39%/0.6),inset_0_1px_0_hsl(139_80%_78%/0.5)] transition-all duration-300 hover:from-[hsl(139_80%_50%)] hover:to-[hsl(139_80%_36%)] hover:border-[hsl(139_80%_55%/0.8)] hover:shadow-[0_6px_22px_-4px_hsl(139_80%_45%/0.8),inset_0_1px_0_hsl(139_80%_82%/0.6)] active:translate-y-px sm:gap-2 sm:px-4 sm:text-sm"
         >
           {/* top shine */}
           <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />

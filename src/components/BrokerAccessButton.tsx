@@ -64,10 +64,12 @@ export const BrokerAccessButton = () => {
       <button
         type="button"
         onClick={handleAcessar}
-        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-border/70 bg-secondary/40 px-4 text-sm font-semibold text-foreground transition-all duration-500 ease-out hover:border-primary/50 hover:bg-secondary hover:shadow-[0_0_24px_-4px_hsl(139_80%_39%/0.65)] active:translate-y-px"
+        aria-label="Acessar Broker"
+        title="Acessar Broker"
+        className="group inline-flex h-10 items-center gap-2 rounded-lg border border-border/70 bg-secondary/40 px-2.5 text-sm font-semibold text-foreground transition-all duration-500 ease-out hover:border-primary/50 hover:bg-secondary hover:shadow-[0_0_24px_-4px_hsl(139_80%_39%/0.65)] active:translate-y-px sm:px-4"
       >
-        <TrendingUp className="h-4 w-4 text-[#3ddc97]" strokeWidth={2.5} />
-        Acessar Broker
+        <TrendingUp className="h-4 w-4 shrink-0 text-[#3ddc97]" strokeWidth={2.5} />
+        <span className="hidden sm:inline">Acessar Broker</span>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>

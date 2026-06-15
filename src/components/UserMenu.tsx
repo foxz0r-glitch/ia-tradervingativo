@@ -262,7 +262,7 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
           align={align}
           sideOffset={sideOffset}
           alignOffset={alignOffset}
-          className="relative w-[660px] overflow-hidden rounded-2xl border border-[hsl(139_80%_45%/0.25)] p-0 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+          className="relative w-[min(660px,calc(100vw-1rem))] max-h-[calc(100svh-1rem)] overflow-y-auto overflow-x-hidden rounded-2xl border border-[hsl(139_80%_45%/0.25)] p-0 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl"
           style={{
             background: "linear-gradient(180deg, hsl(220 22% 9% / 0.92), hsl(220 25% 6% / 0.94))",
           }}
@@ -273,8 +273,8 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
           <div className="pointer-events-none absolute -right-16 top-24 h-44 w-44 rounded-full bg-[hsl(217_91%_60%/0.12)] blur-3xl" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,hsl(139_80%_45%/0.06),transparent_60%)]" />
 
-          {/* Body: 2 columns */}
-          <div className="relative grid grid-cols-[1.2fr_1.05fr] gap-0">
+          {/* Body: 2 columns (stack on mobile) */}
+          <div className="relative grid grid-cols-1 sm:grid-cols-[1.2fr_1.05fr] gap-0">
             {/* LEFT — Profile info */}
             <div className="flex flex-col gap-3.5 p-5">
               {/* Rank badge + name */}
