@@ -253,7 +253,7 @@ function OperationRow({ op, nested = false, moeda }: { op: Operation; nested?: b
             </div>
           </button>
         </PopoverTrigger>
-        <PopoverContent side="right" align="start" sideOffset={12} className="w-[340px] border-0 bg-transparent p-0 shadow-none">
+        <PopoverContent side="right" align="start" sideOffset={12} className="w-[min(340px,calc(100vw-1rem))] border-0 bg-transparent p-0 shadow-none">
           <OperationDetailPopover op={op} moeda={moeda} />
         </PopoverContent>
       </Popover>

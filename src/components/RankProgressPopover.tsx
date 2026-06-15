@@ -52,7 +52,7 @@ export default function RankProgressPopover({
         align={align}
         sideOffset={sideOffset}
         alignOffset={alignOffset}
-        className="w-[420px] overflow-hidden rounded-2xl border border-white/10 bg-transparent p-0 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]"
+        className="w-[min(420px,calc(100vw-1rem))] overflow-hidden rounded-2xl border border-white/10 bg-transparent p-0 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]"
       >
         <div
           className="relative overflow-hidden p-5"
@@ -185,7 +185,7 @@ export default function RankProgressPopover({
           </div>
 
           {/* Nível + Streak */}
-          <div className="relative mt-3 grid gap-2 grid-cols-2">
+          <div className="relative mt-3 grid gap-2 grid-cols-1 sm:grid-cols-2">
             <div className="rounded-xl border border-white/10 bg-white/[0.025] p-3">
               <div className="mb-1 flex items-center gap-1.5">
                 <Zap className="h-3.5 w-3.5" style={{ color: c }} />

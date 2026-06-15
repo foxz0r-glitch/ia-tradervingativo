@@ -260,7 +260,7 @@ export function AIConfigPanel({
           {/* Inline config fields */}
           <div className="flex flex-col gap-3.5">
             {/* Linha 1: Valor + Meta + Stop Loss */}
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="cfg-valor" className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   Valor

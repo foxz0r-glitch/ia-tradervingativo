@@ -93,7 +93,7 @@ export function OperationSummaryDialog({
             <span className="font-semibold text-foreground">{timeframe}</span>
           </p>
 
-          <div className="grid w-full grid-cols-2 gap-3">
+          <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="flex items-center justify-between rounded-lg border border-[hsl(139_80%_45%/0.3)] bg-[hsl(139_80%_45%/0.08)] px-3 py-2.5">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-[hsl(139_80%_55%)]" />

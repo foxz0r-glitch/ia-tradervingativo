@@ -183,7 +183,7 @@ export function AssetCombobox({
         sideOffset={8}
         className={cn(
           "overflow-hidden rounded-xl border border-border/70 bg-popover/95 p-0 shadow-2xl backdrop-blur-xl",
-          isInline ? "w-[340px]" : "w-[--radix-popover-trigger-width]",
+          isInline ? "w-[min(340px,calc(100vw-1rem))]" : "w-[--radix-popover-trigger-width]",
         )}
       >
         <Command className="bg-transparent" value={cmdValue} onValueChange={setCmdValue}>
