@@ -205,25 +205,8 @@ export function useDemoMode(userId: string) {
 
       // ── 1. Verificar depósito ─────────────────────────────────────────────
       let deposited = false;
-
-      const { data: cd } = await (supabase.from as any)("casatrade_data")
-        .select("total_deposited, ftd_date")
-        .eq("email", user.email)
-        .maybeSingle();
-
-      if (cd && (Number(cd.total_deposited ?? 0) > 0 || cd.ftd_date != null)) {
-        deposited = true;
-      }
-
-      if (!deposited) {
-        const { data: bh } = await (supabase.from as any)("casatrade_balance_history")
-          .select("id")
-          .eq("user_id", userId)
-          .eq("deposito_detectado", true)
-          .limit(1);
-        if (bh && bh.length > 0) deposited = true;
-      }
-
+      const { data: dep } = await (supabase.rpc as any)("user_has_deposit");
+      deposited = dep === true;
       setHasDeposit(deposited);
 
       // ── 2. Buscar estado demo no banco ────────────────────────────────────
