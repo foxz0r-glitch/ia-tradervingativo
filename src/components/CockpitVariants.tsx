@@ -25,7 +25,7 @@ const STEP_BUTTON_STYLE: CSSProperties = {
   color: "hsl(var(--muted-foreground))",
 };
 
-const STEP_BUTTON_CLASS = "flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted/30 hover:text-foreground";
+const STEP_BUTTON_CLASS = "flex h-11 w-11 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted/30 hover:text-foreground";
 
 // ===================== Hold-to-accelerate =====================
 function useHoldRepeat(fn: () => void) {

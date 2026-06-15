@@ -216,7 +216,7 @@ export default function Ranking15() {
         {/* HEADER TEMPORADA */}
         <header className="mb-10">
           {/* Eyebrow — temporada com hex chips (largura igual ao painel HUD) */}
-          <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-[12.5%]">
+          <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-4 sm:px-[12.5%]">
             <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(139_80%_45%/0.6)]" />
             <span className="inline-flex items-center gap-2">
               <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
@@ -502,7 +502,7 @@ export default function Ranking15() {
                 )}
 
                 {currentMvp.winners.length >= 3 ? (
-                  <div className="grid items-end gap-5 md:grid-cols-3">
+                  <div className="grid items-end gap-3 sm:gap-5 md:grid-cols-3">
                     {[
                       // Alturas: ouro maior, prata médio, bronze menor (alinhados pela base)
                       { p: 2, r: currentMvp.winners[1], color: "#D1D5DB", label: "Vice-Campeão", topPad: "pt-14", crownSize: 0 },
@@ -644,7 +644,7 @@ export default function Ranking15() {
                   </div>
                 ) : currentMvp.ongoing ? (
                   // Estado: aguardando vencedores (temporada em andamento)
-                  <div className="grid items-end gap-5 md:grid-cols-3">
+                  <div className="grid items-end gap-3 sm:gap-5 md:grid-cols-3">
                     {[
                       { p: 2, color: "#D1D5DB", label: "Vice-Campeão", topPad: "pt-14" },
                       { p: 1, color: "#FBBF24", label: "Campeão", topPad: "pt-20" },

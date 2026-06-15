@@ -256,7 +256,7 @@ const Auth = () => {
                         <Input
                           value="+55"
                           disabled
-                          className="w-16 text-center"
+                          className="w-14 shrink-0 text-center"
                         />
                         <Input
                           id="whatsapp"
