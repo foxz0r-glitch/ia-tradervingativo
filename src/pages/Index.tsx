@@ -878,7 +878,7 @@ const Index = () => {
         {/* ============== HEADER ============== */}
         <header className="mb-8">
           {/* Eyebrow estilo Ranking */}
-          <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-[12.5%]">
+          <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-4 sm:px-[12.5%]">
             <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(139_80%_45%/0.6)]" />
             <span className="inline-flex items-center gap-2">
               <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
@@ -913,15 +913,15 @@ const Index = () => {
         {/* ============== HISTÓRICO + CHART + IA/CONTROLES ============== */}
         <section className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12">
           {/* Coluna ESQUERDA — Histórico */}
-          <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 lg:order-1 xl:order-1">
-            <div className="flex h-[674px] w-full [&>*]:w-full">
+          <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 order-3 lg:order-1 xl:order-1">
+            <div className="flex h-auto w-full [&>*]:w-full md:h-[674px]">
               <OperationsHistory operations={operations} moeda={moedaConta} sessionStart={sessionStart} sessionStarts={sessionStarts} />
             </div>
           </div>
 
           {/* Coluna CENTRAL — Gráfico */}
-          <div className="lg:col-span-2 xl:col-span-6 flex flex-col gap-3 min-w-0 lg:order-2 xl:order-2">
-            <div className="ct-card overflow-hidden p-0 flex flex-col flex-1 min-h-[460px]">
+          <div className="order-1 lg:col-span-2 xl:col-span-6 flex flex-col gap-3 min-w-0 lg:order-2 xl:order-2">
+            <div className="ct-card overflow-hidden p-0 flex flex-col flex-1 min-h-[320px] md:min-h-[460px]">
               <div className="border-b border-border/60 bg-gradient-to-r from-card via-card to-primary/[0.04] px-4 py-3 sm:px-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <AssetCombobox
@@ -1014,7 +1014,7 @@ const Index = () => {
 
           </div>
           {/* Coluna DIREITA: Modelo de Inteligência + Controles */}
-          <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 lg:order-3 xl:order-3">
+          <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 order-2 lg:order-3 xl:order-3">
             {/* Seleção de IA — Minimal Slate 2x2 */}
             <div className="ct-card w-full shrink-0 !overflow-visible px-4 pt-4 pb-5 sm:px-5">
               <div className="mb-3 flex items-center gap-2.5">
@@ -1027,7 +1027,7 @@ const Index = () => {
                   <span className="mt-1 text-[15px] font-black tracking-tight text-foreground">Modelo de Inteligência</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2 pb-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pb-1">
                 {[
                   { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon },
                   { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon },
