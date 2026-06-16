@@ -12,14 +12,9 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/comp
 import {
   ChevronDown,
   Camera,
-  UserSquare2,
-  ShieldCheck,
   PlusCircle,
   ArrowDownToLine,
   Headset,
-  History,
-  ClipboardList,
-  Settings,
   LogOut,
   Copy,
   Check,
@@ -31,8 +26,7 @@ import { toast } from "sonner";
 import { DepositButton } from "@/components/DepositButton";
 import { WithdrawButton } from "@/components/WithdrawButton";
 import { AvatarCropDialog } from "@/components/AvatarCropDialog";
-import { PhotoUploadDialog, PersonalDataDialog } from "@/components/UserProfileDialogs";
-import { VerifyAccountDialog } from "@/components/VerifyAccountDialog";
+import { PhotoUploadDialog } from "@/components/UserProfileDialogs";
 import flagBrasil from "@/assets/flag-brasil.png";
 import { rankImg } from "@/lib/rankImages";
 import { nextRankOf } from "@/pages/ranking/_profileSections";
@@ -61,8 +55,6 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [photoOpen, setPhotoOpen] = useState(false);
-  const [dataOpen, setDataOpen] = useState(false);
-  const [verifyOpen, setVerifyOpen] = useState(false);
   const [userRank, setUserRank] = useState<string>("Prata I");
   const [totalXp, setTotalXp] = useState<number>(0);
   const [level, setLevel] = useState<number>(1);
@@ -225,14 +217,9 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
     danger?: boolean;
   }> = [
     { icon: Camera, label: "Enviar uma foto", onClick: () => setPhotoOpen(true) },
-    { icon: UserSquare2, label: "Dados pessoais", onClick: () => setDataOpen(true) },
-    { icon: ShieldCheck, label: "Verificar Conta", onClick: () => setVerifyOpen(true) },
     { icon: PlusCircle, label: "Depositar fundos", onClick: () => triggerHidden(depositRef) },
     { icon: ArrowDownToLine, label: "Retirar fundos", onClick: () => triggerHidden(withdrawRef) },
     { icon: Headset, label: "Contactar o suporte", onClick: () => window.open(SUPPORT_WHATSAPP_URL, "_blank") },
-    { icon: History, label: "Histórico do saldo" },
-    { icon: ClipboardList, label: "Histórico de trading" },
-    { icon: Settings, label: "Definições" },
   ];
 
   return (
@@ -462,20 +449,6 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
         brokerId={brokerId}
         onAvatarChanged={(url) => setAvatarUrl(url || undefined)}
       />
-
-      <PersonalDataDialog
-        open={dataOpen}
-        onOpenChange={setDataOpen}
-        userId={userId}
-        fullName={fullName}
-        email={email}
-        avatarUrl={avatarUrl}
-        registeredAt={registeredAt}
-        brokerId={brokerId}
-        onAvatarChanged={(url) => setAvatarUrl(url || undefined)}
-      />
-
-      <VerifyAccountDialog open={verifyOpen} onOpenChange={setVerifyOpen} email={email} />
     </>
   );
 }

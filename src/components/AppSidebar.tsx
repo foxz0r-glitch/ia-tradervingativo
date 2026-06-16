@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { clearCredsCache } from "@/lib/credsCache";
 import { toast } from "sonner";
 import { useUserXP, RANKS } from "@/hooks/useGamification";
+import { usePlan } from "@/hooks/usePlan";
 
 const RANK_IMAGES: Record<string, string> = {
   "Prata I": "/ranks/rank-prata-1.svg",
@@ -50,11 +51,12 @@ type Item = {
   title: string;
   url: string;
   icon: typeof Bot;
-  kind: "internal" | "broker";
+  kind: "internal" | "broker" | "external";
 };
 
 const items: Item[] = [
   { title: "IA Vingativa", url: "/dashboard", icon: Bot, kind: "internal" },
+  { title: "GRUPO VIP", url: "https://chat.whatsapp.com/L2O5siAHJQlDcc3DWtwYUZ", icon: UsersRound, kind: "external" },
   { title: "Ferramentas", url: "/ferramentas", icon: SlidersHorizontal, kind: "internal" },
   { title: "Trade Like a Pro", url: "/grupo", icon: UsersRound, kind: "internal" },
   { title: "Ranking", url: "/ranking", icon: Trophy, kind: "internal" },
@@ -63,7 +65,7 @@ const items: Item[] = [
   { title: "Marketplace", url: "/marketplace", icon: Store, kind: "internal" },
 ];
 
-const HIDDEN_NAV_URLS = ["/grupo", "/marketplace", "/pricing"]; // ocultos p/ lancamento - religar removendo daqui
+const HIDDEN_NAV_URLS = ["/grupo", "/marketplace", "/pricing", "/ferramentas", "/cursos"]; // ocultos p/ lancamento - religar removendo daqui
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -135,7 +137,8 @@ export function AppSidebar() {
     window.location.href = "/";
   };
 
-  const userPlan = "Free";
+  const { plan } = usePlan();
+  const userPlan = plan?.plan_nome ?? "Free";
 
   return (
     <>
@@ -305,6 +308,15 @@ export function AppSidebar() {
                             >
                               {inner}
                             </button>
+                          ) : item.kind === "external" ? (
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`relative flex items-center gap-3 rounded-2xl ${collapsed ? "h-10 justify-center px-0" : "h-12 px-2.5"}`}
+                            >
+                              {inner}
+                            </a>
                           ) : (
                             <NavLink
                               to={item.url}
