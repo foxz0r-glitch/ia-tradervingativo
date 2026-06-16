@@ -7,6 +7,7 @@ import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Settings2, Play, Square, TrendingDown, TrendingUp, Minus, Plus } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   valorEntrada: number; setValorEntrada: (v: number) => void;
@@ -55,6 +56,61 @@ function useHoldRepeat(fn: () => void) {
 
   useEffect(() => stop, [stop]);
   return { start, stop };
+}
+
+// ===================== Campo numérico editável (clicar e digitar) =====================
+// Slider e botões −/+ continuam como entrada alternativa — o valor flui pelas MESMAS props
+// (setter no Index, que persiste/envia ao WS). Digitação parcial é permitida; o clamp com os
+// MESMOS min/max do slider acontece no onBlur (ou Enter). Vale para todos os dispositivos.
+const EDIT_INPUT_CLASS =
+  "h-6 rounded-sm border-white/10 bg-transparent px-1.5 py-0 text-right text-[15px] font-black leading-none tabular-nums shadow-none focus-visible:ring-1 focus-visible:ring-offset-0 md:text-[15px]";
+
+function EditableValue({
+  value, min, max, integer = false, accent, ariaLabel, onCommit, widthClass = "w-16",
+}: {
+  value: number; min: number; max: number; integer?: boolean;
+  accent: string; ariaLabel: string; onCommit: (n: number) => void; widthClass?: string;
+}) {
+  const [draft, setDraft] = useState(String(value));
+  const editing = useRef(false);
+
+  // Reflete mudanças externas (slider, −/+) só quando o campo NÃO está sendo digitado
+  useEffect(() => { if (!editing.current) setDraft(String(value)); }, [value]);
+
+  const parse = (raw: string): number | null => {
+    const n = Number(raw.replace(",", "."));
+    if (!Number.isFinite(n)) return null;
+    return integer ? Math.floor(n) : n;
+  };
+  const clamp = (n: number) => Math.max(min, Math.min(max, n));
+
+  const commit = () => {
+    editing.current = false;
+    const n = parse(draft);
+    const next = n === null ? clamp(value) : clamp(n);   // clamp no onBlur com min/max das props
+    onCommit(next);
+    setDraft(String(next));
+  };
+
+  return (
+    <Input
+      type="text"
+      inputMode={integer ? "numeric" : "decimal"}
+      aria-label={ariaLabel}
+      value={draft}
+      onFocus={(e) => { editing.current = true; e.currentTarget.select(); }}
+      onChange={(e) => {
+        const raw = e.target.value;
+        setDraft(raw);
+        const n = parse(raw);                       // atualiza slider/indicador ao vivo (sem clamp)
+        if (raw.trim() !== "" && n !== null) onCommit(n);
+      }}
+      onBlur={commit}
+      onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }}
+      className={`${EDIT_INPUT_CLASS} ${widthClass}`}
+      style={{ color: accent }}
+    />
+  );
 }
 
 // ===== Botão Ligar IA — IDÊNTICO ao original =====
@@ -125,9 +181,11 @@ function InvestmentControl({
         </Label>
         <div className="flex h-6 items-center gap-1 rounded-sm px-1">
           <span aria-hidden className="pointer-events-none text-[15px] font-black leading-none tabular-nums opacity-70" style={{ color: accent }}>{simbolo ?? "$"}</span>
-          <span className="select-none text-[15px] font-black leading-none tabular-nums" style={{ color: accent }}>
-            {value}
-          </span>
+          <EditableValue
+            value={value} onCommit={setValue}
+            min={min} max={max}
+            accent={accent} ariaLabel="Valor por operação"
+          />
         </div>
       </div>
       <div className="flex items-center gap-2">
@@ -195,9 +253,11 @@ function ProSlider({
         </Label>
         <div className="flex h-6 items-center gap-1 rounded-sm px-1">
           <span aria-hidden className="pointer-events-none text-[15px] font-black leading-none tabular-nums opacity-70" style={{ color: accent }}>{prefix.trim()}</span>
-          <span className="select-none text-[15px] font-black leading-none tabular-nums" style={{ color: accent }}>
-            {value}
-          </span>
+          <EditableValue
+            value={value} onCommit={setValue}
+            min={min} max={max}
+            accent={accent} ariaLabel={label}
+          />
         </div>
       </div>
       <div className="flex items-center gap-2">
@@ -253,9 +313,11 @@ function GaleControl({ value, setValue }: { value: number; setValue: (n: number)
           Proteção (gale)
         </Label>
         <div className="flex h-6 items-center gap-1 rounded-sm px-1">
-          <span className="select-none text-[15px] font-black leading-none tabular-nums" style={{ color: accent }}>
-            {v}
-          </span>
+          <EditableValue
+            value={v} onCommit={set}
+            min={1} max={4} integer
+            accent={accent} ariaLabel="Proteção (gale)" widthClass="w-10"
+          />
         </div>
       </div>
       <div className="flex items-center gap-2">
