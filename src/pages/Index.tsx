@@ -890,21 +890,53 @@ const Index = () => {
           </div>
 
           {/* Status conexão */}
-          <div className="mt-6 flex items-center justify-end gap-3">
-            {hasActivePlan === false && (
-              <button
-                onClick={() => setActivationOpen(true)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition hover:bg-primary/20"
-              >
-                <Key className="h-3.5 w-3.5" />
-                Ativar Plano
-              </button>
-            )}
-            <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
-              <span className="ct-dot" data-state={connected ? "online" : "offline"} />
-              <span className="text-xs font-semibold text-muted-foreground">
-                {connected ? "ROBÔ CONECTADO" : "ROBÔ DESCONECTADO"}
-              </span>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            {/* Saldo — card inteiro abre o popup de depósito (movido do header do gráfico) */}
+            <div className="flex shrink-0 flex-nowrap items-center gap-2 self-center">
+              <DepositButton variant="wallet-card">
+                <span className="relative leading-tight">
+                  <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(139_50%_70%)]">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_55%)] opacity-75" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_55%)]" />
+                    </span>
+                    Saldo
+                  </span>
+                  <span className="flex h-7 items-center gap-1.5">
+                    {saldo == null ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin text-[#3ddc97]" />
+                        <span className="text-base font-extrabold tracking-tight text-[#3ddc97]">
+                          Carregando...
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-xl font-extrabold tracking-tight tabular-nums text-[#3ddc97] drop-shadow-[0_0_12px_hsl(139_80%_50%/0.55)] sm:text-[22px]">
+                        {formatMoeda(saldo, moedaConta)}
+                      </span>
+                    )}
+                  </span>
+                </span>
+              </DepositButton>
+            </div>
+
+            {/* Robô + Ativar (badge em cima, "Ativar Plano" logo abaixo) */}
+            <div className="flex flex-col items-end gap-1.5">
+              <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
+                <span className="ct-dot" data-state={connected ? "online" : "offline"} />
+                <span className="text-xs font-semibold text-muted-foreground">
+                  {connected ? "ROBÔ CONECTADO" : "ROBÔ DESCONECTADO"}
+                </span>
+              </div>
+              {hasActivePlan === false && (
+                <button
+                  onClick={() => setActivationOpen(true)}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition hover:bg-primary/20"
+                >
+                  <Key className="h-3.5 w-3.5" />
+                  Ativar Plano
+                </button>
+              )}
             </div>
           </div>
         </header>
@@ -935,35 +967,6 @@ const Index = () => {
                       </span>
                     }
                   />
-
-                  <div className="flex shrink-0 flex-nowrap items-center gap-2 self-center">
-                    {/* Saldo — card inteiro abre o popup de depósito */}
-                    <DepositButton variant="wallet-card">
-                      <span className="relative leading-tight">
-                        <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(139_50%_70%)]">
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_55%)] opacity-75" />
-                            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_55%)]" />
-                          </span>
-                          Saldo
-                        </span>
-                        <span className="flex h-7 items-center gap-1.5">
-                          {saldo == null ? (
-                            <>
-                              <Loader2 className="h-4 w-4 animate-spin text-[#3ddc97]" />
-                              <span className="text-base font-extrabold tracking-tight text-[#3ddc97]">
-                                Carregando...
-                              </span>
-                            </>
-                          ) : (
-                            <span className="text-xl font-extrabold tracking-tight tabular-nums text-[#3ddc97] drop-shadow-[0_0_12px_hsl(139_80%_50%/0.55)] sm:text-[22px]">
-                              {formatMoeda(saldo, moedaConta)}
-                            </span>
-                          )}
-                        </span>
-                      </span>
-                    </DepositButton>
-                  </div>
                 </div>
               </div>
 
