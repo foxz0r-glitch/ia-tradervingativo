@@ -22,7 +22,7 @@ const DEMO_ASSETS = [
   "GBP/USD",
 ];
 
-export const DEMO_MAX_SESSIONS = 3;
+export const DEMO_MAX_SESSIONS = 1;
 
 // ── Geração de valores ────────────────────────────────────────────────────────
 

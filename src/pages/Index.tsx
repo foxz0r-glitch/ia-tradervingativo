@@ -138,6 +138,8 @@ const Index = () => {
   const [demoRunning, setDemoRunning] = useState(false);
   const [demoModalOpen, setDemoModalOpen] = useState(false);
   const [demoModalMode, setDemoModalMode] = useState<"available" | "exhausted">("available");
+  // Trigger oculto p/ abrir o depósito ao fim da demo (reusa o DepositButton; mesmo padrão do UserMenu)
+  const demoDepositRef = useRef<HTMLDivElement>(null);
 
   // ---- Ativação de plano ----
   const [hasActivePlan, setHasActivePlan] = useState<boolean | null>(null);
@@ -679,7 +681,7 @@ const Index = () => {
     let winsCount = 0;
     let lossesCount = 0;
     for (const op of ops) {
-      await new Promise((r) => setTimeout(r, 8000 + Math.random() * 6000));
+      await new Promise((r) => setTimeout(r, 2000 + Math.random() * 2000));
       setOperations((prev) => [op, ...prev].slice(0, 50));
       setSessionPnl((prev) => prev + op.pnl);
       if (op.result === "win") { winsCount++; setGanhos(winsCount); }
@@ -705,11 +707,11 @@ const Index = () => {
 
     setDemoRunning(false);
 
-    // Última sessão consumida → mostra modal de esgotado após breve pausa
+    // Sessão única consumida → vai direto ao depósito após breve pausa
+    // (reusa o <DepositButton> via ref oculto — mesmo padrão do triggerHidden do UserMenu)
     if (sessionsLeft <= 1) {
       setTimeout(() => {
-        setDemoModalMode("exhausted");
-        setDemoModalOpen(true);
+        demoDepositRef.current?.querySelector("button")?.click();
       }, 2500);
     }
   };
@@ -1169,6 +1171,11 @@ const Index = () => {
           onStartDemo={handleStartDemoSession}
           running={demoRunning}
         />
+
+        {/* Trigger oculto de depósito — reusa o DepositButton (padrão do UserMenu) p/ ir direto ao depósito ao fim da demo */}
+        <div ref={demoDepositRef} className="hidden">
+          <DepositButton variant="default" />
+        </div>
 
         {aiModelLoading && <LoadingSpinner />}
 
