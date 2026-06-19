@@ -89,6 +89,10 @@
     @apply h-full;
   }
 
+  html {
+    touch-action: pan-x pan-y; /* permite scroll, bloqueia pinch-zoom */
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -96,6 +100,14 @@
       radial-gradient(1200px 600px at 80% -10%, hsl(139 80% 39% / 0.08), transparent 60%),
       radial-gradient(900px 500px at -10% 110%, hsl(217 91% 60% / 0.06), transparent 60%);
     background-attachment: fixed;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+  }
+
+  input, textarea, [contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
   }
 }
 
