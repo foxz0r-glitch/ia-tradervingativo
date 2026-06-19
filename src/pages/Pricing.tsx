@@ -38,7 +38,7 @@ const PLANS = [
     features: [
       '3 estratégias ativas',
       'Aulas selecionadas',
-      'Modo demo (3 sessões)',
+      'Modo demo gratuito',
       'Acesso ao ranking',
       'Suporte via comunidade',
     ],
