@@ -23,6 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRoboBot, type Vela } from "@/hooks/useRoboBot";
+import { useIsMobile } from "@/hooks/use-mobile";
 import LiveChart from "@/components/LiveChart";
 import { AssetCombobox, DEFAULT_ASSETS } from "@/components/AssetCombobox";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -95,6 +96,7 @@ const Index = () => {
   const onConnectProcessandoRef = useRef(false);
   const [firstName, setFirstName] = useState("Trader");
   const [userId, setUserId] = useState<string>("anonimo");
+  const isMobile = useIsMobile();
 
   // Neutraliza estratégia legada do StrategyBuilder (componente desmontado): sem isso,
   // um valor antigo em "virtuspro_estrategia_ativa" seria lido por loadActiveStrategy()
@@ -970,7 +972,7 @@ const Index = () => {
 
               <AssetInfoDialog open={infoOpen} onOpenChange={setInfoOpen} assetId={ativo} stats={stats} />
 
-              <div className="relative bg-[#0d0d14] flex-1">
+              <div className="relative bg-[#0d0d14] flex-1 max-h-[320px] md:max-h-none">
                 <button
                   type="button"
                   onClick={() => setInfoOpen(true)}
@@ -981,7 +983,7 @@ const Index = () => {
                   <HelpCircle className="h-3.5 w-3.5 text-[#3ddc97]" strokeWidth={2.5} />
                   <span>Sobre o ativo</span>
                 </button>
-                <LiveChart wsRef={wsRef} ativoId={Number(ativo)} candleSize={5} height={402} />
+                <LiveChart wsRef={wsRef} ativoId={Number(ativo)} candleSize={5} height={isMobile ? 320 : 402} />
               </div>
             </div>
 

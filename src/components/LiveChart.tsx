@@ -55,7 +55,7 @@ function applyVisibleRange(
 ) {
   if (totalCandles === 0) return;
   const w = width || 800; // guard: 0/não-medido => trata como desktop (não cai em 50 por engano)
-  const visiveis = w < 480 ? 50 : 80; // estreito = 50 candles mais largos; largo = 80
+  const visiveis = w < 480 ? 35 : 55; // estreito = 35 candles (mais largos); largo = 55
   chart.timeScale().setVisibleLogicalRange({
     from: totalCandles - visiveis,
     to: totalCandles + 3,
@@ -124,7 +124,10 @@ export default function LiveChart({
         autoScale: true,
         scaleMargins: { top: 0.1, bottom: 0.1 },
       },
-      crosshair: { mode: 1 },
+      crosshair: {
+        vertLine: { visible: false, labelVisible: false },
+        horzLine: { visible: false, labelVisible: false },
+      },
       localization: {
         priceFormatter: (price: number) => price.toFixed(5),
         timeFormatter: (timestamp: number) => {
