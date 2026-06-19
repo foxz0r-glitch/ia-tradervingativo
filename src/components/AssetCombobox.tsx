@@ -181,6 +181,7 @@ export function AssetCombobox({
       <PopoverContent
         align="start"
         sideOffset={8}
+        onOpenAutoFocus={(e) => e.preventDefault()}
         className={cn(
           "overflow-hidden rounded-xl border border-border/70 bg-popover/95 p-0 shadow-2xl backdrop-blur-xl",
           isInline ? "w-[min(340px,calc(100vw-1rem))]" : "w-[--radix-popover-trigger-width]",
