@@ -41,7 +41,7 @@ import geminiIcon from "@/assets/ai-gemini.webp";
 import grokIcon from "@/assets/ai-grok.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { formatMoeda, simboloMoeda } from "@/lib/moeda";
-import { mapRowToOperation } from "@/lib/operations";
+import { mapRowToOperation, operationContentKey, reconstructSessionStarts } from "@/lib/operations";
 import { DepositButton } from "@/components/DepositButton";
 import { toast } from "sonner";
 import { RankUpToast } from "@/components/RankUpToast";
@@ -314,9 +314,26 @@ const Index = () => {
           return;
         }
         const dbOps = data.map((r) => mapRowToOperation(r));
+        // Merge por CHAVE DE CONTEÚDO (o id não casa entre esquemas live/db/demo): reais do banco
+        // substituem as reais locais já gravadas; reais locais AUSENTES no banco (race da janela /
+        // gravação falha NO PRÓPRIO aparelho) são PRESERVADAS; demo (local-only) sempre preservada.
+        // close_ts=0/open_ts=0 enfraquece a chave (caso raro) — risco residual aceito.
+        const dbKeys = new Set(dbOps.map(operationContentKey));
         setOperations((prev) => {
-          const demoLocais = prev.filter((op) => op.id.startsWith("demo_"));
-          return [...dbOps, ...demoLocais].sort((a, b) => b.closeTimestamp - a.closeTimestamp);
+          const preservados = prev.filter((op) => {
+            if (op.id.startsWith("demo_")) return true;        // demo sempre
+            return !dbKeys.has(operationContentKey(op));        // real: só se NÃO está no banco
+          });
+          return [...dbOps, ...preservados].sort((a, b) => b.closeTimestamp - a.closeTimestamp);
+        });
+        // Aba "Sessão" cross-device: reconstrói os marcadores a partir do session_id (ms) das rows.
+        const sessoesBanco = reconstructSessionStarts(data);
+        setSessionStarts((prev) => {
+          const byTs = new Map<number, SessionEntry>();
+          for (const s of [...sessoesBanco, ...prev]) {
+            if (!byTs.has(s.ts)) byTs.set(s.ts, s);             // dedup por ts; banco (1º) tem prioridade
+          }
+          return Array.from(byTs.values());
         });
       } catch (e) {
         if (!cancelled) console.warn("[ops] hidratação do banco erro:", e instanceof Error ? e.message : String(e));
