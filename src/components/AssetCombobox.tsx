@@ -187,10 +187,13 @@ export function AssetCombobox({
         )}
       >
         <Command className="bg-transparent" value={cmdValue} onValueChange={setCmdValue}>
-          <CommandInput
-            placeholder="Buscar ativo..."
-            className="h-11 text-sm placeholder:text-muted-foreground/70"
-          />
+          {/* Busca oculta visualmente (sr-only) — preservada p/ navegação por teclado e filtro do cmdk */}
+          <div className="sr-only">
+            <CommandInput
+              placeholder="Buscar ativo..."
+              className="h-11 text-sm placeholder:text-muted-foreground/70"
+            />
+          </div>
           <CommandList className="max-h-[300px]">
             <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
               Nenhum ativo encontrado.
@@ -209,8 +212,8 @@ export function AssetCombobox({
                     }}
                     className={cn(
                       "flex cursor-pointer items-center gap-3 rounded-lg px-2.5 py-2 text-sm",
-                      "data-[selected=true]:bg-primary/10 data-[selected=true]:text-foreground",
-                      isActive && "bg-primary/10 text-foreground",
+                      // foco/navegação do cmdk: realce discreto neutro (sem verde); o <Check> é o indicador do escolhido
+                      "data-[selected=true]:bg-foreground/10 data-[selected=true]:text-foreground",
                     )}
                   >
                     <PairFlags a={fa} b={fb} size="sm" />
