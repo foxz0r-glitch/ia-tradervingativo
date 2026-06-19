@@ -4,7 +4,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Loader2,
-  HelpCircle,
   Sparkles,
   Bot,
   Plus,
@@ -27,7 +26,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import LiveChart from "@/components/LiveChart";
 import { AssetCombobox, DEFAULT_ASSETS } from "@/components/AssetCombobox";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { AssetInfoDialog } from "@/components/AssetInfoDialog";
 import { OperationsHistory, type Operation, type SessionEntry } from "@/components/OperationsHistory";
 import { AIConfigPanel } from "@/components/AIConfigPanel";
 import { CockpitVariants } from "@/components/CockpitVariants";
@@ -243,7 +241,6 @@ const Index = () => {
     }
   };
 
-  const [infoOpen, setInfoOpen] = useState(false);
   const [stats, setStats] = useState<any>(null);
   const [sentiment, setSentiment] = useState<boolean | null>(null);
   const [aiModel, setAiModel] = useState<"claude" | "gpt5" | "gemini" | "grok3">(() => {
@@ -970,19 +967,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <AssetInfoDialog open={infoOpen} onOpenChange={setInfoOpen} assetId={ativo} stats={stats} />
-
               <div className="relative bg-[#0d0d14] flex-1 max-h-[320px] md:max-h-none">
-                <button
-                  type="button"
-                  onClick={() => setInfoOpen(true)}
-                  aria-label="Saiba mais sobre o ativo"
-                  title="Saiba mais sobre o ativo"
-                  className="group absolute left-3 top-3 z-10 inline-flex h-8 items-center gap-1.5 rounded-lg border border-border/70 bg-black/70 px-3 text-[11px] font-semibold text-foreground backdrop-blur-md transition-all hover:border-primary/50 hover:bg-black/85 hover:shadow-[0_0_18px_-4px_hsl(139_80%_39%/0.6)] active:translate-y-px"
-                >
-                  <HelpCircle className="h-3.5 w-3.5 text-[#3ddc97]" strokeWidth={2.5} />
-                  <span>Sobre o ativo</span>
-                </button>
                 <LiveChart wsRef={wsRef} ativoId={Number(ativo)} candleSize={5} height={isMobile ? 320 : 402} />
               </div>
             </div>

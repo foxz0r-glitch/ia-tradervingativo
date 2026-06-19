@@ -362,20 +362,10 @@ function SessionGroupRow({ group, open, onToggle, moeda }: { group: SessionGroup
 }
 
 // ── Filter Tabs ──────────────────────────────────────────────────────
-type Tab = "all" | "session" | "day";
+type Tab = "all" | "session";
 
 function filterOps(ops: Operation[], tab: Tab, sessionStart: number | null): Operation[] {
   if (tab === "all") return ops;
-  if (tab === "day") {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const t0 = today.getTime();
-    return ops.filter(op => {
-      if (op.closeTimestamp) return op.closeTimestamp * 1000 >= t0;
-      const [hh, mm, ss] = (op.time || "0:0:0").split(":").map(Number);
-      const d = new Date(); d.setHours(hh ?? 0, mm ?? 0, ss ?? 0, 0);
-      return d.getTime() >= t0;
-    });
-  }
   if (!sessionStart) return [];
   return ops.filter(op => {
     if (op.closeTimestamp) return op.closeTimestamp * 1000 >= sessionStart;
@@ -438,8 +428,8 @@ export function OperationsHistory({ operations, moeda, sessionStart = null, sess
 
       {/* Filter tabs */}
       <div className="border-b border-border/40 px-3 py-2">
-        <div className="grid grid-cols-3 gap-1 rounded-lg border border-border/40 bg-muted/20 p-1">
-          {([["all","All-Time"],["session","Sessão"],["day","Dia"]] as const).map(([k, label]) => {
+        <div className="grid grid-cols-2 gap-1 rounded-lg border border-border/40 bg-muted/20 p-1">
+          {([["all","All-Time"],["session","Sessão"]] as const).map(([k, label]) => {
             const active = tab === k;
             return (
               <button key={k} type="button" onClick={() => setTab(k)}
@@ -478,7 +468,7 @@ export function OperationsHistory({ operations, moeda, sessionStart = null, sess
             </ul>
           )
         ) : (
-          /* ── Flat list (All-Time / Dia / Session fallback) ── */
+          /* ── Flat list (All-Time / Session fallback) ── */
           filtered.length === 0 ? (
             <EmptyState tab={tab} />
           ) : (
@@ -501,8 +491,6 @@ function EmptyState({ tab }: { tab: Tab }) {
       <p className="text-sm text-muted-foreground">
         {tab === "session"
           ? "Nenhuma sessão registrada. Inicie a IA para começar."
-          : tab === "day"
-          ? "Sem operações hoje."
           : "Nenhuma operação registrada."}
       </p>
     </div>
