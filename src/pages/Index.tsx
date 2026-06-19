@@ -41,6 +41,7 @@ import geminiIcon from "@/assets/ai-gemini.webp";
 import grokIcon from "@/assets/ai-grok.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { formatMoeda, simboloMoeda } from "@/lib/moeda";
+import { mapRowToOperation } from "@/lib/operations";
 import { DepositButton } from "@/components/DepositButton";
 import { toast } from "sonner";
 import { RankUpToast } from "@/components/RankUpToast";
@@ -294,6 +295,34 @@ const Index = () => {
       const salvo = localStorage.getItem(`virtuspro_ops_v4_${userId}`);
       setOperations(salvo ? JSON.parse(salvo) : []);
     } catch { setOperations([]); }
+
+    // Hidratação cross-device: DEPOIS do localStorage (mantém a UX instantânea), busca as
+    // ops REAIS no banco (verdade cross-device). Sucesso → substitui as reais locais pelas
+    // do banco e preserva as demo locais. Falha (offline/erro) → mantém o que já carregou.
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from("user_operations")
+          .select("*")
+          .eq("user_id", userId)
+          .order("close_ts", { ascending: false })
+          .limit(50);
+        if (cancelled) return;
+        if (error || !data) {
+          console.warn("[ops] hidratação do banco falhou:", error?.message);
+          return;
+        }
+        const dbOps = data.map((r) => mapRowToOperation(r));
+        setOperations((prev) => {
+          const demoLocais = prev.filter((op) => op.id.startsWith("demo_"));
+          return [...dbOps, ...demoLocais].sort((a, b) => b.closeTimestamp - a.closeTimestamp);
+        });
+      } catch (e) {
+        if (!cancelled) console.warn("[ops] hidratação do banco erro:", e instanceof Error ? e.message : String(e));
+      }
+    })();
+    return () => { cancelled = true; };
   }, [userId]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -583,6 +612,8 @@ const Index = () => {
           const openDate = openTs ? new Date(openTs * 1000) : null;
           const payoutCalc = isDraw ? 0 : isWin && investAmt > 0 ? Math.round((pnl / investAmt) * 100) : -100;
 
+          // TODO: unificar a derivação de date/time com mapRowToOperation (@/lib/operations).
+          // Mantido inline por ter fallbacks live-específicos (open?.time / fmtTime()).
           const newOp: Operation = {
             id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
             symbol,
