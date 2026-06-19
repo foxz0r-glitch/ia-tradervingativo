@@ -1014,7 +1014,7 @@ const Index = () => {
                   <span className="mt-1 text-[15px] font-black tracking-tight text-foreground">Modelo de Inteligência</span>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pb-1">
+              <div className="grid grid-cols-2 gap-2 pb-1">
                 {[
                   { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon },
                   { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon },
