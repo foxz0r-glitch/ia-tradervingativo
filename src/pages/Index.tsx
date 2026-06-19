@@ -951,22 +951,6 @@ const Index = () => {
             <div className="flex h-auto w-full [&>*]:w-full md:h-[674px]">
               <OperationsHistory operations={operations} moeda={moedaConta} sessionStart={sessionStart} sessionStarts={sessionStarts} />
             </div>
-
-            {/* Card GRUPO VIP — abre o WhatsApp (mesma URL/ícone do item da sidebar) */}
-            <button
-              type="button"
-              onClick={() => window.open("https://chat.whatsapp.com/L2O5siAHJQlDcc3DWtwYUZ", "_blank", "noopener,noreferrer")}
-              className="ct-card group flex w-full items-center gap-3 p-4 text-left transition-all hover:border-primary/40 hover:shadow-[0_0_24px_-8px_hsl(139_80%_45%/0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[hsl(139_80%_45%/0.14)] text-[hsl(139_80%_65%)] ring-1 ring-inset ring-[hsl(139_80%_45%/0.35)] transition-colors group-hover:bg-[hsl(139_80%_45%/0.22)]">
-                <UsersRound className="h-5 w-5" strokeWidth={2.2} />
-              </span>
-              <span className="flex min-w-0 flex-1 flex-col leading-tight">
-                <span className="text-sm font-bold text-foreground">GRUPO VIP</span>
-                <span className="truncate text-[11px] text-muted-foreground">Comunidade e sinais exclusivos</span>
-              </span>
-              <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
-            </button>
           </div>
 
           {/* Coluna CENTRAL — Gráfico */}
@@ -993,6 +977,22 @@ const Index = () => {
                 <LiveChart wsRef={wsRef} ativoId={Number(ativo)} candleSize={5} height={isMobile ? 320 : 402} />
               </div>
             </div>
+
+            {/* Card GRUPO VIP — abre o WhatsApp (mesma URL/ícone do item da sidebar) */}
+            <button
+              type="button"
+              onClick={() => window.open("https://chat.whatsapp.com/L2O5siAHJQlDcc3DWtwYUZ", "_blank", "noopener,noreferrer")}
+              className="ct-card group flex w-full items-center gap-3 p-4 text-left transition-all hover:border-primary/40 hover:shadow-[0_0_24px_-8px_hsl(139_80%_45%/0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[hsl(139_80%_45%/0.14)] text-[hsl(139_80%_65%)] ring-1 ring-inset ring-[hsl(139_80%_45%/0.35)] transition-colors group-hover:bg-[hsl(139_80%_45%/0.22)]">
+                <UsersRound className="h-5 w-5" strokeWidth={2.2} />
+              </span>
+              <span className="flex min-w-0 flex-1 flex-col leading-tight">
+                <span className="text-sm font-bold text-foreground">GRUPO VIP</span>
+                <span className="truncate text-[11px] text-muted-foreground">Comunidade e sinais exclusivos</span>
+              </span>
+              <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+            </button>
 
             {/* Banner IA Operando */}
             {rodando && (
