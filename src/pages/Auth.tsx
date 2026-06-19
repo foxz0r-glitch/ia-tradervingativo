@@ -315,9 +315,6 @@ const Auth = () => {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex-col gap-2 sm:flex-row">
-            <Button variant="outline" onClick={() => setCasatradeExistsOpen(false)}>
-              Fechar
-            </Button>
             <Button
               onClick={() => window.open(SUPPORT_WHATSAPP_URL, "_blank")}
               className="gap-2 bg-[#25D366] text-white hover:bg-[#1ebe5a]"
