@@ -169,7 +169,7 @@ const RANK_ORDER = [
 ];
 export function nextRankOf(current: string): string {
   const i = RANK_ORDER.indexOf(current);
-  if (i < 0 || i >= RANK_ORDER.length - 1) return "patente máxima";
+  if (i < 0 || i >= RANK_ORDER.length - 1) return "rank máximo";
   return RANK_ORDER[i + 1];
 }
 
@@ -203,7 +203,7 @@ export function HeaderBlock({
   );
 }
 
-/* chips reutilizáveis (Level, Patente, Top, Streak) — agora vão no rodapé do ProgressBlock */
+/* chips reutilizáveis (Level, Rank, Top, Streak) — agora vão no rodapé do ProgressBlock */
 function HeaderChips({ row, mock, accent }: { row: RankingRow; mock: ProfileMock; accent: string }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -256,7 +256,7 @@ function HeaderChips({ row, mock, accent }: { row: RankingRow; mock: ProfileMock
   );
 }
 
-/* ---------- duas barras "Nível" e "Patente" ---------- */
+/* ---------- duas barras "Nível" e "Rank" ---------- */
 export function ProgressBlock({ row, mock, accent = "hsl(139 80% 55%)" }: TplProps) {
   // Level L occupies [(L-1)²×50, L²×50) XP — width = 50×(2L-1)
   const levelWidth = Math.max(1, 50 * (2 * mock.level - 1));
@@ -288,7 +288,7 @@ export function ProgressBlock({ row, mock, accent = "hsl(139 80% 55%)" }: TplPro
 
       <div>
         <div className="mb-1.5 text-[13px] font-bold uppercase tracking-wider text-foreground">
-          Patente (Score) — {row.current_rank}
+          Rank (Score) — {row.current_rank}
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-[hsl(220_15%_24%)] ring-1 ring-inset ring-[hsl(220_15%_30%)]">
           <div
@@ -305,7 +305,7 @@ export function ProgressBlock({ row, mock, accent = "hsl(139 80% 55%)" }: TplPro
         </div>
       </div>
 
-      {/* Chips (Level / Patente / Top / Streak) — agora no rodapé do bloco */}
+      {/* Chips (Level / Rank / Top / Streak) — agora no rodapé do bloco */}
       <div className="mt-1">
         <HeaderChips row={row} mock={mock} accent={accent} />
       </div>
@@ -516,7 +516,7 @@ const REAL_GROUP_COLOR: Record<string, string> = {
   outros:     "hsl(220 14% 70%)",
 };
 const REAL_GROUP_LABEL: Record<string, string> = {
-  streak: "Streak", trading: "Trading", financeiro: "Financeiro", patente: "Patente", outros: "Outros",
+  streak: "Streak", trading: "Trading", financeiro: "Financeiro", patente: "Rank", outros: "Outros",
 };
 const REAL_GROUP_ICON: Record<string, LucideIcon> = {
   streak: Flame, trading: CheckCircle2, financeiro: Coins, patente: Crown, outros: Sparkles,

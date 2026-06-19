@@ -122,7 +122,7 @@ export default function Ranking09() {
                   <p className="mt-4 font-serif text-base leading-relaxed text-zinc-300 md:text-lg">
                     Com <span className="font-bold text-amber-300">{cover.total_xp.toLocaleString()} XP</span> acumulados
                     e um streak de <span className="font-bold text-orange-400">{cover.streak_days} dias</span>,
-                    a patente <em className="not-italic font-semibold" style={{ color: rankColor(cover.current_rank) }}>{cover.current_rank}</em> consagra
+                    o rank <em className="not-italic font-semibold" style={{ color: rankColor(cover.current_rank) }}>{cover.current_rank}</em> consagra
                     o trader mais consistente da temporada IA Vingativa.
                   </p>
                   <div className="mt-6 flex items-center gap-3 border-l-4 border-amber-400 pl-4">

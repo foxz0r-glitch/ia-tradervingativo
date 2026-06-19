@@ -221,7 +221,7 @@ export default function Ranking01() {
               <div className="grid grid-cols-[60px_1fr_140px_140px_80px] gap-3 border-b border-emerald-500/20 bg-emerald-500/5 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest text-emerald-300">
                 <span>Pos</span>
                 <span>Operador</span>
-                <span>Patente</span>
+                <span>Rank</span>
                 <span className="text-right">XP</span>
                 <span className="text-right">Streak</span>
               </div>

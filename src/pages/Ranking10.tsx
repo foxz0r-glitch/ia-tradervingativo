@@ -168,7 +168,7 @@ export default function Ranking10() {
               <div className="grid grid-cols-[50px_1fr_140px_120px_100px_100px] items-center gap-3 border-b border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 font-mono text-[10px] font-black uppercase tracking-widest text-emerald-300">
                 <span>#</span>
                 <span className="flex items-center gap-1">Trader / Símbolo <ArrowUpDown className="h-2.5 w-2.5" /></span>
-                <span>Patente</span>
+                <span>Rank</span>
                 <span className="text-right">Last (XP)</span>
                 <span className="text-right">24h%</span>
                 <span className="text-right">Streak</span>

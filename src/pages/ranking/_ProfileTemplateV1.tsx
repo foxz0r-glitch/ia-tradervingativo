@@ -5,7 +5,7 @@
  *     tags de estilo (Scalper/Consistente/Agressivo), streak + Lv + XP total,
  *     e um Score circular grande à direita.
  *   • DUAS barras separadas: "Progresso de nível (XP)" (verde) e
- *     "Patente (Score)" (gradient laranja→verde).
+ *     "Rank (Score)" (gradient laranja→verde).
  *   • Pílulas de status (#ranking, #Hall of Fame, Top X%).
  *   • Bloco "RANKING E STATUS COMPETITIVO" + Histórico de temporadas.
  *   • PERFORMANCE em grid 6 KPIs.
@@ -230,10 +230,10 @@ export default function ProfileTemplateV1({ row, name, mock, position, accent = 
           <div>
             <div className="mb-1.5 flex items-baseline justify-between gap-3">
               <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                Patente (Score) — {row.current_rank}
+                Rank (Score) — {row.current_rank}
               </span>
               <span className="text-[11px] tabular-nums text-muted-foreground/90">
-                Score {mock.score}/100 · patente máxima
+                Score {mock.score}/100 · rank máximo
               </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-[hsl(220_22%_12%)]">

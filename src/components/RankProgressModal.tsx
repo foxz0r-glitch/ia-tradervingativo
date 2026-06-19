@@ -154,7 +154,7 @@ export default function RankProgressModal({ open, onOpenChange, userXP, userName
                   <span className="font-bold text-white">{next.name}</span>
                 </>
               ) : (
-                <span className="font-bold text-white">Patente máxima atingida</span>
+                <span className="font-bold text-white">Rank máximo atingido</span>
               )}
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function RankProgressModal({ open, onOpenChange, userXP, userName
             <div className="mb-3 flex items-center gap-2">
               <Trophy className="h-4 w-4" style={{ color: c }} />
               <h3 className="text-xs font-bold uppercase tracking-[0.22em] text-white/70">
-                Trilha de Patentes
+                Trilha de Ranks
               </h3>
             </div>
             <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3">

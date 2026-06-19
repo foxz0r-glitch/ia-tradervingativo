@@ -141,7 +141,7 @@ export default function Ranking03() {
                   <tr>
                     <th className="px-4 py-3 text-left">Pos</th>
                     <th className="px-4 py-3 text-left">Trader</th>
-                    <th className="px-4 py-3 text-left">Patente</th>
+                    <th className="px-4 py-3 text-left">Rank</th>
                     <th className="px-4 py-3 text-right">XP</th>
                     <th className="px-4 py-3 text-center">Streak</th>
                     <th className="px-4 py-3 text-left">Progresso</th>

@@ -1,5 +1,5 @@
 /**
- * Badge "Sua Patente" — espelha o card do menu lateral, porém adaptado
+ * Badge "Seu Rank" — espelha o card do menu lateral, porém adaptado
  * ao contexto mais amplo da página de ranking (mais informação visível).
  * Mantém a paleta esmeralda harmônica e o mesmo idioma visual:
  *   - shine diagonal estático + shine que cruza no hover
@@ -122,7 +122,7 @@ export default function UserBadge({ position }: { position?: number | null }) {
                 lineHeight: 1,
               }}
             >
-              Sua Patente
+              Seu Rank
             </span>
             {typeof position === "number" && position > 0 && (
               <span

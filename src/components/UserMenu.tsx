@@ -316,10 +316,10 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
                 );
               })()}
 
-              {/* Patente (Score) */}
+              {/* Rank (Score) */}
               <div>
                 <div className="mb-1 text-[12px] font-bold uppercase tracking-wider text-foreground/90">
-                  Patente (Score) — {userRank}
+                  Rank (Score) — {userRank}
                 </div>
                 <div className="h-1.5 overflow-hidden rounded-full bg-[hsl(220_15%_24%)] ring-1 ring-inset ring-[hsl(220_15%_30%)]">
                   <div

@@ -381,7 +381,7 @@ export function AppSidebar() {
                 const cardInner = (
                   <div
                     className="group/rank rank-card"
-                    title="Ver minha patente"
+                    title="Ver meu rank"
                     style={{
                       position: "relative",
                       padding: "10px 12px 9px",
@@ -449,7 +449,7 @@ export function AppSidebar() {
                       />
                       <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0, gap: 2 }}>
                         <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.18em", color: "rgba(255,255,255,0.35)", textTransform: "uppercase", lineHeight: 1 }}>
-                          Patente
+                          Rank
                         </span>
                         <span style={{ fontSize: 13, fontWeight: 800, color: c, letterSpacing: "0.02em", lineHeight: 1.1, textShadow: `0 0 8px ${c}55`, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                           {userXP.currentRank.name}
@@ -486,7 +486,7 @@ export function AppSidebar() {
                         </span>
                       ) : (
                         <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", color: c, textTransform: "uppercase" }}>
-                          Patente Máxima
+                          Rank Máximo
                         </span>
                       )}
                     </div>

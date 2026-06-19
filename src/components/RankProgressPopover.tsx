@@ -134,7 +134,7 @@ export default function RankProgressPopover({
                     pts para <span className="font-bold text-white">{next.name}</span>
                   </>
                 ) : (
-                  <span className="font-bold text-white">Patente máxima atingida</span>
+                  <span className="font-bold text-white">Rank máximo atingido</span>
                 )}
               </p>
             </div>

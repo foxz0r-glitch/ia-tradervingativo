@@ -29,7 +29,7 @@ const RARITY_COLOR: Record<string, string> = {
 const GROUP_LABEL: Record<string, string> = {
   streak:    "Streak",
   trading:   "Trading",
-  patente:   "Patente",
+  patente:   "Rank",
   financeiro:"Financeiro",
   outros:    "Outros",
 };
@@ -392,11 +392,11 @@ export default function UserProfileDrawer({ userId, displayName, meId, onClose, 
                         </div>
                       </div>
 
-                      {/* Score / Patente */}
+                      {/* Score / Rank */}
                       <div style={{ padding: "12px 14px", borderRadius: 10, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, alignItems: "baseline" }}>
                           <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.14em" }}>
-                            Patente (Score)
+                            Rank (Score)
                           </span>
                           <span style={{ fontSize: 13, fontWeight: 800, color: c, fontVariantNumeric: "tabular-nums" }}>
                             {data.current_rank}

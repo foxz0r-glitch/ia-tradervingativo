@@ -71,7 +71,7 @@ export default function UserBadge12({ position }: { position?: number | null }) 
           <div className="mb-1 flex items-center gap-2">
             <Gauge className="h-3 w-3" style={{ color: c }} />
             <span className="text-[9px] font-bold uppercase tracking-[0.32em]" style={{ color: c }}>
-              Sua Patente
+              Seu Rank
             </span>
             {typeof position === "number" && position > 0 && (
               <span
