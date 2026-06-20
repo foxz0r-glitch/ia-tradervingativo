@@ -41,7 +41,7 @@ import geminiIcon from "@/assets/ai-gemini.webp";
 import grokIcon from "@/assets/ai-grok.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { formatMoeda, simboloMoeda } from "@/lib/moeda";
-import { mapRowToOperation, operationContentKey, reconstructSessionStarts } from "@/lib/operations";
+import { mapRowToOperation, operationContentKey, reconstructSessionStarts, deriveOperationDisplay } from "@/lib/operations";
 import { DepositButton } from "@/components/DepositButton";
 import { toast } from "sonner";
 import { RankUpToast } from "@/components/RankUpToast";
@@ -623,24 +623,12 @@ const Index = () => {
           const closeTs: number = data.closeTime ?? 0;
           const openTs: number = data.openTime ?? open?.openTimestamp ?? 0;
           const investAmt: number = data.invest ?? open?.invest ?? 0;
-          const _pad = (n: number) => String(n).padStart(2, "0");
-          const _MONTHS = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-          const closeDate = closeTs ? new Date(closeTs * 1000) : new Date();
-          const openDate = openTs ? new Date(openTs * 1000) : null;
           const payoutCalc = isDraw ? 0 : isWin && investAmt > 0 ? Math.round((pnl / investAmt) * 100) : -100;
 
-          // TODO: unificar a derivação de date/time com mapRowToOperation (@/lib/operations).
-          // Mantido inline por ter fallbacks live-específicos (open?.time / fmtTime()).
           const newOp: Operation = {
             id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
             symbol,
-            date: `${_pad(closeDate.getDate())} ${_MONTHS[closeDate.getMonth()]}`,
-            timeShort: `${_pad(closeDate.getHours())}:${_pad(closeDate.getMinutes())}`,
-            timeFull: `${_pad(closeDate.getHours())}:${_pad(closeDate.getMinutes())}:${_pad(closeDate.getSeconds())}`,
-            openTimeFull: openDate
-              ? `${_pad(openDate.getHours())}:${_pad(openDate.getMinutes())}:${_pad(openDate.getSeconds())}`
-              : (open?.time ?? ''),
-            time,
+            ...deriveOperationDisplay(closeTs, openTs, { time, openTimeFallback: open?.time ?? "" }),
             direction,
             result: isDraw ? "draw" : isWin ? "win" : "loss",
             pnl: isDraw ? 0 : pnl,

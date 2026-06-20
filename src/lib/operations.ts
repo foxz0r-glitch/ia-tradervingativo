@@ -20,10 +20,34 @@ const _PAD = (n: number) => String(n).padStart(2, "0");
 const _MONTHS = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"];
 
 /**
+ * Fonte ÚNICA da derivação dos 5 campos de EXIBIÇÃO (date/timeShort/timeFull/openTimeFull/time)
+ * a partir de close_ts/open_ts (SEGUNDOS). Usada por `mapRowToOperation` (sem `live`) e pelo
+ * handler WS "operacao_fechada" (Index.tsx) com fallbacks LIVE: `live.time` (capturado na abertura,
+ * `open?.time ?? fmtTime()`) e `live.openTimeFallback` (`open?.time`). Sem `live`, `openTimeFull`
+ * cai p/ "" e `time` deriva das datas (openDate, senão closeDate).
+ */
+export function deriveOperationDisplay(
+  closeTs: number,
+  openTs: number,
+  live?: { time?: string; openTimeFallback?: string }
+): { date: string; timeShort: string; timeFull: string; openTimeFull: string; time: string } {
+  const closeDate = closeTs ? new Date(closeTs * 1000) : new Date();
+  const openDate = openTs ? new Date(openTs * 1000) : null;
+  const hms = (d: Date) => `${_PAD(d.getHours())}:${_PAD(d.getMinutes())}:${_PAD(d.getSeconds())}`;
+  return {
+    date: `${_PAD(closeDate.getDate())} ${_MONTHS[closeDate.getMonth()]}`,
+    timeShort: `${_PAD(closeDate.getHours())}:${_PAD(closeDate.getMinutes())}`,
+    timeFull: hms(closeDate),
+    openTimeFull: openDate ? hms(openDate) : (live?.openTimeFallback ?? ""),
+    time: live?.time ?? (openDate ? hms(openDate) : hms(closeDate)),
+  };
+}
+
+/**
  * Mapeia uma row de public.user_operations -> Operation (tipo da UI),
- * reconstruindo os campos de EXIBIÇÃO (date/timeShort/timeFull/openTimeFull/time)
- * a partir de close_ts/open_ts — MESMA derivação do handler WS "operacao_fechada"
- * em Index.tsx (~:634-653).
+ * reconstruindo os campos de EXIBIÇÃO (date/timeShort/timeFull/openTimeFull/time) via a
+ * helper compartilhada `deriveOperationDisplay` (mesma fonte usada pelo handler WS
+ * "operacao_fechada" em Index.tsx).
  *
  * NÃO recalcula dinheiro: pnl/invest/payout/result vêm prontos do banco (o app só
  * exibe; o payout já foi calculado no momento do INSERT). O id recebe o prefixo
@@ -32,9 +56,6 @@ const _MONTHS = ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", 
 export function mapRowToOperation(row: UserOperationRow): Operation {
   const closeTs = Number(row.close_ts ?? 0);
   const openTs = Number(row.open_ts ?? 0);
-  const closeDate = closeTs ? new Date(closeTs * 1000) : new Date();
-  const openDate = openTs ? new Date(openTs * 1000) : null;
-  const hms = (d: Date) => `${_PAD(d.getHours())}:${_PAD(d.getMinutes())}:${_PAD(d.getSeconds())}`;
 
   const direction: "call" | "put" = row.direction === "put" ? "put" : "call";
   const result: "win" | "loss" | "draw" =
@@ -43,11 +64,7 @@ export function mapRowToOperation(row: UserOperationRow): Operation {
   return {
     id: `db_${row.id}`,
     symbol: row.symbol ?? "",
-    date: `${_PAD(closeDate.getDate())} ${_MONTHS[closeDate.getMonth()]}`,
-    timeShort: `${_PAD(closeDate.getHours())}:${_PAD(closeDate.getMinutes())}`,
-    timeFull: hms(closeDate),
-    openTimeFull: openDate ? hms(openDate) : "",
-    time: openDate ? hms(openDate) : hms(closeDate),
+    ...deriveOperationDisplay(closeTs, openTs),
     direction,
     result,
     pnl: Number(row.pnl ?? 0),
