@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { Clock, Calendar, Hexagon, ArrowUpRight, ArrowDownRight, TrendingUp, History, ChevronDown, ChevronUp } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -383,7 +383,7 @@ interface Props {
   sessionStarts?: SessionEntry[];
 }
 
-export function OperationsHistory({ operations, moeda, sessionStart = null, sessionStarts }: Props) {
+export const OperationsHistory = memo(function OperationsHistory({ operations, moeda, sessionStart = null, sessionStarts }: Props) {
   const [tab, setTab] = useState<Tab>("all");
   const [openSession, setOpenSession] = useState<number | null>(null);
 
@@ -480,7 +480,7 @@ export function OperationsHistory({ operations, moeda, sessionStart = null, sess
       </div>
     </div>
   );
-}
+});
 
 function EmptyState({ tab }: { tab: Tab }) {
   return (

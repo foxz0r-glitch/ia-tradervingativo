@@ -127,7 +127,7 @@ const Index = () => {
   const [moedaConta, setMoedaConta] = useState<string | null>(null);
   const [ganhos, setGanhos] = useState(0);
   const [perdas, setPerdas] = useState(0);
-  const [velas, setVelas] = useState<Vela[]>([]);
+  const velasRef = useRef<Vela[]>([]); // candles capturados em ref — nunca lidos no render (gráfico = LiveChart/wsRef) → sem re-render por tick
 
   // ---- Demo mode ----
   const {
@@ -532,7 +532,7 @@ const Index = () => {
       setPerdas(p);
     },
     onVelas: (v) => {
-      setVelas(v);
+      velasRef.current = v;
     },
     onEstatisticas: (s) => {
       setStats(s);
