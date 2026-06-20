@@ -715,6 +715,7 @@ export type Database = {
           casatrade_token: string | null
           casatrade_user_id: number | null
           created_at: string | null
+          ftd_mark_date: string | null
           id: string
         }
         Insert: {
@@ -724,6 +725,7 @@ export type Database = {
           casatrade_token?: string | null
           casatrade_user_id?: number | null
           created_at?: string | null
+          ftd_mark_date?: string | null
           id: string
         }
         Update: {
@@ -733,6 +735,7 @@ export type Database = {
           casatrade_token?: string | null
           casatrade_user_id?: number | null
           created_at?: string | null
+          ftd_mark_date?: string | null
           id?: string
         }
         Relationships: []
@@ -1193,6 +1196,7 @@ export type Database = {
         }
         Returns: string
       }
+      user_has_deposit: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"
