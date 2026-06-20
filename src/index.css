@@ -284,7 +284,9 @@
     z-index: 2;
   }
   .btn-premium > * { position: relative; z-index: 3; }
-  .btn-premium:hover { transform: translateY(-1px); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-premium:hover { transform: translateY(-1px); }
+  }
   .btn-premium:active { transform: translateY(0); filter: brightness(0.96); }
   .btn-premium:disabled {
     cursor: not-allowed;
@@ -298,8 +300,10 @@
     color: hsl(220 30% 6%);
     box-shadow: 0 6px 20px hsl(139 80% 40% / 0.35), 0 0 0 1px hsl(139 80% 30% / 0.5);
   }
-  .btn-emerald:hover {
-    box-shadow: 0 10px 28px hsl(139 80% 40% / 0.5), 0 0 0 1px hsl(139 80% 35% / 0.7);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-emerald:hover {
+      box-shadow: 0 10px 28px hsl(139 80% 40% / 0.5), 0 0 0 1px hsl(139 80% 35% / 0.7);
+    }
   }
   .btn-emerald:focus-visible { @apply ring-[hsl(139_80%_45%)]; }
 
@@ -308,8 +312,10 @@
     color: #fff;
     box-shadow: 0 6px 20px hsl(350 80% 50% / 0.4), 0 0 0 1px hsl(350 80% 42% / 0.55);
   }
-  .btn-danger:hover {
-    box-shadow: 0 10px 28px hsl(350 80% 50% / 0.55), 0 0 0 1px hsl(350 80% 45% / 0.75);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-danger:hover {
+      box-shadow: 0 10px 28px hsl(350 80% 50% / 0.55), 0 0 0 1px hsl(350 80% 45% / 0.75);
+    }
   }
   .btn-danger:focus-visible { @apply ring-[hsl(350_85%_60%)]; }
 
@@ -318,8 +324,10 @@
     color: #fff;
     box-shadow: 0 6px 22px hsl(265 85% 50% / 0.45), 0 0 0 1px hsl(265 80% 45% / 0.6);
   }
-  .btn-violet:hover {
-    box-shadow: 0 12px 32px hsl(265 85% 50% / 0.6), 0 0 0 1px hsl(265 80% 50% / 0.8);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-violet:hover {
+      box-shadow: 0 12px 32px hsl(265 85% 50% / 0.6), 0 0 0 1px hsl(265 80% 50% / 0.8);
+    }
   }
   .btn-violet:focus-visible { @apply ring-[hsl(270_85%_65%)]; }
 
@@ -328,8 +336,10 @@
     color: #fff;
     box-shadow: 0 6px 20px hsl(217 91% 55% / 0.4), 0 0 0 1px hsl(217 91% 45% / 0.6);
   }
-  .btn-blue:hover {
-    box-shadow: 0 10px 28px hsl(217 91% 55% / 0.55), 0 0 0 1px hsl(217 91% 50% / 0.8);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-blue:hover {
+      box-shadow: 0 10px 28px hsl(217 91% 55% / 0.55), 0 0 0 1px hsl(217 91% 50% / 0.8);
+    }
   }
   .btn-blue:focus-visible { @apply ring-[hsl(217_91%_60%)]; }
 
@@ -337,8 +347,10 @@
     @apply border border-border/70 bg-card/40 text-foreground backdrop-blur-sm;
     box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
   }
-  .btn-ghost-outline:hover {
-    @apply border-primary/60 bg-primary/10 text-primary;
+  @media (hover: hover) and (pointer: fine) {
+    .btn-ghost-outline:hover {
+      @apply border-primary/60 bg-primary/10 text-primary;
+    }
   }
   .btn-ghost-outline:focus-visible { @apply ring-primary/60; }
 
@@ -352,25 +364,27 @@
                 border-color 0.4s ease;
     will-change: transform;
   }
-  .rank-card:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--rank-color) 30%, transparent) !important;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.05),
-      0 0 0 1px color-mix(in srgb, var(--rank-color) 18%, transparent),
-      0 8px 22px -12px color-mix(in srgb, var(--rank-color) 55%, transparent),
-      0 0 18px -8px color-mix(in srgb, var(--rank-color) 45%, transparent) !important;
-  }
-  .rank-card:hover .rank-shine {
-    left: 130% !important;
-    opacity: 1 !important;
-  }
-  .rank-card:hover .rank-halo {
-    opacity: 0.7 !important;
-  }
-  .rank-card:hover .rank-img {
-    transform: scale(1.06) rotate(-3deg);
-    filter: drop-shadow(0 0 11px color-mix(in srgb, var(--rank-color) 75%, transparent)) drop-shadow(0 0 3px color-mix(in srgb, var(--rank-color) 55%, transparent)) !important;
+  @media (hover: hover) and (pointer: fine) {
+    .rank-card:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--rank-color) 30%, transparent) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 0 0 1px color-mix(in srgb, var(--rank-color) 18%, transparent),
+        0 8px 22px -12px color-mix(in srgb, var(--rank-color) 55%, transparent),
+        0 0 18px -8px color-mix(in srgb, var(--rank-color) 45%, transparent) !important;
+    }
+    .rank-card:hover .rank-shine {
+      left: 130% !important;
+      opacity: 1 !important;
+    }
+    .rank-card:hover .rank-halo {
+      opacity: 0.7 !important;
+    }
+    .rank-card:hover .rank-img {
+      transform: scale(1.06) rotate(-3deg);
+      filter: drop-shadow(0 0 11px color-mix(in srgb, var(--rank-color) 75%, transparent)) drop-shadow(0 0 3px color-mix(in srgb, var(--rank-color) 55%, transparent)) !important;
+    }
   }
   /* Glow ambiente sutil contínuo */
   @keyframes rank-pulse {
@@ -380,8 +394,10 @@
   .rank-img {
     animation: rank-pulse 3.2s ease-in-out infinite;
   }
-  .rank-card:hover .rank-img {
-    animation: none;
+  @media (hover: hover) and (pointer: fine) {
+    .rank-card:hover .rank-img {
+      animation: none;
+    }
   }
 
   /* Streak fire flicker */
@@ -470,15 +486,17 @@
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    hsl(139 80% 58%),
-    hsl(139 70% 42%)
-  );
-  background-clip: padding-box;
-  border: 3px solid hsl(220 25% 5% / 0.7);
-  box-shadow: inset 0 1px 0 hsl(139 80% 82% / 0.45), 0 0 14px hsl(139 80% 45% / 0.6);
+@media (hover: hover) and (pointer: fine) {
+  *::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      hsl(139 80% 58%),
+      hsl(139 70% 42%)
+    );
+    background-clip: padding-box;
+    border: 3px solid hsl(220 25% 5% / 0.7);
+    box-shadow: inset 0 1px 0 hsl(139 80% 82% / 0.45), 0 0 14px hsl(139 80% 45% / 0.6);
+  }
 }
 
 *::-webkit-scrollbar-thumb:active {
@@ -522,11 +540,13 @@
   background-clip: padding-box;
   min-height: 40px;
 }
-.ops-scroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, hsl(139 80% 55%), hsl(139 70% 42%));
-  background-clip: padding-box;
-  border: 3px solid hsl(220 25% 5% / 0.6);
-  box-shadow: 0 0 10px hsl(139 80% 45% / 0.5);
+@media (hover: hover) and (pointer: fine) {
+  .ops-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, hsl(139 80% 55%), hsl(139 70% 42%));
+    background-clip: padding-box;
+    border: 3px solid hsl(220 25% 5% / 0.6);
+    box-shadow: 0 0 10px hsl(139 80% 45% / 0.5);
+  }
 }
 
 /* ───────────── Number input spinners (refined) ───────────── */
@@ -574,6 +594,8 @@ input[type="number"]::-webkit-inner-spin-button {
   opacity: 0.7;
   transition: opacity 0.2s ease;
 }
-.input-number-wrap:hover::after {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .input-number-wrap:hover::after {
+    opacity: 1;
+  }
 }
