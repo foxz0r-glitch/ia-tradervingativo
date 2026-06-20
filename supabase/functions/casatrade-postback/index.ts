@@ -46,6 +46,14 @@ serve(async (req) => {
 
     // Postback server-to-server (GET): dados vêm da query string.
     const params = new URL(req.url).searchParams;
+
+    // [DEBUG TEMPORÁRIO] Loga o payload BRUTO (TODOS os campos: query + body, se houver) p/ descobrir
+    // o formato real do postback "transacao". Remover após capturar o formato. NÃO inclui o secret
+    // (ele vem no PATH, não na query/body, então não vaza aqui).
+    let rawBody = "";
+    try { rawBody = await req.clone().text(); } catch { /* GET sem body */ }
+    console.log("[postback raw]", JSON.stringify({ query: Object.fromEntries(params), queryRaw: params.toString(), body: rawBody || null }));
+
     const postback_name = params.get("postback_name");
     const trader_id = params.get("trader_id");
     const event_id = params.get("event_id") || null; // vazio/ausente -> null (RPC: sem dedup)
@@ -100,11 +108,12 @@ serve(async (req) => {
     );
 
     if (evento === "transacao" && instrument) {
-      await supabase.from("trade_events").insert({
+      const { error: teError } = await supabase.from("trade_events").insert({
         casatrade_user_id: traderStr,
         asset: instrument,
         happened_at: recebido_em,
       });
+      if (teError) console.error("[trade_events insert failed]", teError.message);
     }
 
     return new Response("OK", { status: 200 });
