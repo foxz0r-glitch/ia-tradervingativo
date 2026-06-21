@@ -697,14 +697,27 @@ const Index = () => {
   }, [wsRef, ativo, connected]);
 
   const handleStartDemoSession = async () => {
-    const ops = await runNextDemoOp();
+    // Feedback SÍNCRONO no clique (antes de qualquer await/yield): fecha o modal e liga
+    // o estado "operando" + zera os contadores. A 1ª operação ainda aparece só após o
+    // delay (for-loop abaixo) — o que muda é o modal NÃO travar mais.
     setDemoModalOpen(false);
-    if (!ops || ops.length === 0) return;
-
     setDemoRunning(true);
     setGanhos(0);
     setPerdas(0);
     setSessionPnl(0);
+
+    let ops: Operation[] | null;
+    try {
+      ops = await runNextDemoOp();
+    } catch (e) {
+      setDemoRunning(false); // erro ao iniciar → desfaz o "operando" (não deixa o botão travado)
+      console.warn("[demo] falha ao iniciar sessão:", e instanceof Error ? e.message : String(e));
+      return;
+    }
+    if (!ops || ops.length === 0) {
+      setDemoRunning(false); // sem sessão disponível → desfaz o "operando"
+      return;
+    }
 
     const fmtBRL = (v: number) =>
       v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -714,11 +727,11 @@ const Index = () => {
       { duration: Infinity }
     );
 
-    // Exibe cada operação progressivamente (intervalo 2–4 s)
+    // Exibe cada operação progressivamente (intervalo 4–10 s)
     let winsCount = 0;
     let lossesCount = 0;
     for (const op of ops) {
-      await new Promise((r) => setTimeout(r, 2000 + Math.random() * 2000));
+      await new Promise((r) => setTimeout(r, 4000 + Math.random() * 6000));
       setOperations((prev) => [op, ...prev].slice(0, 50));
       setSessionPnl((prev) => prev + op.pnl);
       if (op.result === "win") { winsCount++; setGanhos(winsCount); }
