@@ -98,7 +98,7 @@ export default function LiveChart({
       width: containerRef.current.clientWidth,
       height,
       layout: {
-        background: { type: ColorType.Solid, color: "#0d0d14" },
+        background: { type: ColorType.Solid, color: "#0c1f14" },
         textColor: "#555e6b",
         fontSize: 11,
         attributionLogo: false,

@@ -8,7 +8,6 @@ import {
   Bot,
   Plus,
   ArrowUpRight,
-  Hexagon,
   Key,
   UsersRound,
 } from "lucide-react";
@@ -148,6 +147,9 @@ const Index = () => {
   const [activationOpen, setActivationOpen] = useState(false);
   const [activationCode, setActivationCode] = useState("");
   const [activationLoading, setActivationLoading] = useState(false);
+
+  // ---- View local (aba Cockpit | Histórico) — só troca o miolo, sem tocar lógica ----
+  const [view, setView] = useState<"cockpit" | "historico">("cockpit");
 
   // ---- Gamificação ----
   const { data: userXP, refresh: refreshUserXP } = useUserXP();
@@ -926,125 +928,68 @@ const Index = () => {
   return (
     <div className="min-h-screen w-full text-foreground">
       <div className="mx-auto w-full max-w-[1520px] px-4 py-5 sm:px-6 md:py-8">
-        {/* ============== HEADER ============== */}
-        <header className="mb-8">
-          {/* Eyebrow estilo Ranking */}
-          <div className="mx-auto mb-5 flex max-w-5xl items-center gap-3 px-4 sm:px-[12.5%]">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[hsl(139_80%_45%/0.6)]" />
-            <span className="inline-flex items-center gap-2">
-              <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.42em] text-[hsl(139_80%_65%)]">
-                COCKPIT DO TRADER
-              </span>
-              <Hexagon className="h-2.5 w-2.5 text-[hsl(139_80%_60%)]" fill="currentColor" />
-            </span>
-            <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[hsl(139_80%_45%/0.6)]" />
-          </div>
-
-          {/* Status conexão */}
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            {/* Saldo — card inteiro abre o popup de depósito (movido do header do gráfico) */}
-            <div className="flex shrink-0 flex-nowrap items-center gap-2 self-center">
-              <DepositButton variant="wallet-card">
-                <span className="relative leading-tight">
-                  <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-[hsl(139_50%_70%)]">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(139_80%_55%)] opacity-75" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_55%)]" />
-                    </span>
-                    Saldo
-                  </span>
-                  <span className="flex h-7 items-center gap-1.5">
-                    {saldo == null ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin text-[#3ddc97]" />
-                        <span className="text-base font-extrabold tracking-tight text-[#3ddc97]">
-                          Carregando...
-                        </span>
-                      </>
-                    ) : (
-                      <span className="text-xl font-extrabold tracking-tight tabular-nums text-[#3ddc97] drop-shadow-[0_0_12px_hsl(139_80%_50%/0.55)] sm:text-[22px]">
-                        {formatMoeda(saldo, moedaConta)}
-                      </span>
-                    )}
-                  </span>
-                </span>
-              </DepositButton>
-            </div>
-
-            {/* Robô + Ativar (badge em cima, "Ativar Plano" logo abaixo) */}
-            <div className="flex flex-col items-end gap-1.5">
-              <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
-                <span className="ct-dot" data-state={connected ? "online" : "offline"} />
-                <span className="text-xs font-semibold text-muted-foreground">
-                  {connected ? "ROBÔ CONECTADO" : "ROBÔ DESCONECTADO"}
-                </span>
-              </div>
-              {hasActivePlan === false && (
-                <button
-                  onClick={() => setActivationOpen(true)}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary transition hover:bg-primary/20"
-                >
-                  <Key className="h-3.5 w-3.5" />
-                  Ativar Plano
-                </button>
-              )}
-            </div>
+        {/* ============== HEADER (conteúdo do cockpit) ============== */}
+        <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <span className="font-sans text-[12px] font-bold uppercase tracking-[0.26em] text-[#5d8a70]">
+            COCKPIT DO TRADER
+          </span>
+          <div className="flex flex-wrap items-center justify-end gap-2.5">
+            {/* Indicador de conexão preservado — contrato data-state={connected} */}
+            <span
+              className="ct-dot self-center"
+              data-state={connected ? "online" : "offline"}
+              title={connected ? "Robô conectado" : "Robô desconectado"}
+              aria-label={connected ? "Robô conectado" : "Robô desconectado"}
+            />
+            {/* + Depositar — DepositButton existente (SHARED, NÃO editado). Cor segue verde antigo até o reskin do componente. */}
+            <DepositButton label="Depositar" />
+            {/* Ativar Plano — PRESERVA o onClick atual (abre o modal de ativação, NÃO handleClaimCode) */}
+            {hasActivePlan === false && (
+              <button
+                type="button"
+                onClick={() => setActivationOpen(true)}
+                className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-[rgba(34,197,94,0.5)] bg-[rgba(34,197,94,0.08)] px-3.5 text-sm font-semibold text-[#5dffa0] transition-colors hover:bg-[rgba(34,197,94,0.14)]"
+              >
+                <Key className="h-4 w-4" />
+                Ativar Plano
+              </button>
+            )}
           </div>
         </header>
 
-        {/* ============== HISTÓRICO + CHART + IA/CONTROLES ============== */}
-        <section className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-12">
-          {/* Coluna ESQUERDA — Histórico */}
-          <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 order-3 lg:order-1 xl:order-1">
-            <div className="flex h-auto w-full [&>*]:w-full md:h-[674px]">
-              <OperationsHistory operations={operations} moeda={moedaConta} sessionStart={sessionStart} sessionStarts={sessionStarts} />
-            </div>
-          </div>
+        {/* ============== ABA Cockpit | Histórico (alterna só o miolo) ============== */}
+        <div className="mb-5 inline-flex items-center gap-1.5 rounded-[10px] border border-[rgba(255,255,255,0.08)] bg-[#060a08] p-1">
+          {([
+            { id: "cockpit", label: "Cockpit" },
+            { id: "historico", label: "Histórico" },
+          ] as const).map((t) => {
+            const active = view === t.id;
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setView(t.id)}
+                className={`rounded-[3px] px-4 py-1.5 text-[13px] font-semibold transition-colors ${
+                  active
+                    ? "border border-[rgba(34,197,94,0.5)] bg-[rgba(34,197,94,0.14)] text-[#5dffa0]"
+                    : "border border-[rgba(255,255,255,0.1)] text-[#9bb0a5] hover:text-foreground"
+                }`}
+              >
+                {t.label}
+              </button>
+            );
+          })}
+        </div>
 
-          {/* Coluna CENTRAL — Gráfico */}
-          <div className="order-1 lg:col-span-2 xl:col-span-6 flex flex-col gap-3 min-w-0 lg:order-2 xl:order-2">
-            <div className="ct-card overflow-hidden p-0 flex flex-col flex-1 min-h-[320px] md:min-h-[460px]">
-              <div className="border-b border-border/60 bg-gradient-to-r from-card via-card to-primary/[0.04] px-4 py-3 sm:px-5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <AssetCombobox
-                    value={ativo}
-                    onChange={handleAtivoChange}
-                    options={DEFAULT_ASSETS}
-                    variant="inline"
-                    accessory={
-                      <span className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">
-                        <span className="h-1 w-1 rounded-full bg-primary shadow-[0_0_6px_hsl(var(--primary))]" />
-                        AO VIVO
-                      </span>
-                    }
-                  />
-                </div>
-              </div>
+        {/* ============== MIOLO: Cockpit | Histórico ==============
+            Ambos miolos ficam MONTADOS (toggle via `hidden`) — não desmonta o LiveChart
+            (remontar = chart.remove()+reattach WS, custoso) nem o estado interno do histórico. */}
 
-              <div className="relative bg-[#0d0d14] flex-1 max-h-[320px] md:max-h-none">
-                <LiveChart wsRef={wsRef} ativoId={Number(ativo)} candleSize={5} height={isMobile ? 320 : 402} />
-              </div>
-            </div>
-
-            {/* Card GRUPO VIP — abre o WhatsApp (mesma URL/ícone do item da sidebar) */}
-            <button
-              type="button"
-              onClick={() => window.open("https://chat.whatsapp.com/L2O5siAHJQlDcc3DWtwYUZ", "_blank", "noopener,noreferrer")}
-              className="ct-card group flex w-full items-center gap-3 p-4 text-left transition-all hover:border-primary/40 hover:shadow-[0_0_24px_-8px_hsl(139_80%_45%/0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[hsl(139_80%_45%/0.14)] text-[hsl(139_80%_65%)] ring-1 ring-inset ring-[hsl(139_80%_45%/0.35)] transition-colors group-hover:bg-[hsl(139_80%_45%/0.22)]">
-                <UsersRound className="h-5 w-5" strokeWidth={2.2} />
-              </span>
-              <span className="flex min-w-0 flex-1 flex-col leading-tight">
-                <span className="text-sm font-bold text-foreground">GRUPO VIP</span>
-                <span className="truncate text-[11px] text-muted-foreground">Comunidade e sinais exclusivos</span>
-              </span>
-              <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
-            </button>
-
-            {/* Banner IA Operando */}
-            {rodando && (
+        {/* ----- COCKPIT ----- */}
+        <div className={view === "cockpit" ? "" : "hidden"}>
+          {/* Banner IA Operando — FULL-WIDTH logo acima do grid (some quando !rodando, como antes) */}
+          {rodando && (
+            <div className="mb-4">
               <IAStatusBanner
                 rodando={rodando}
                 paused={paused}
@@ -1068,105 +1013,202 @@ const Index = () => {
                   setSummaryOpen(true);
                 }}
               />
-            )}
+            </div>
+          )}
 
-          </div>
-          {/* Coluna DIREITA: Modelo de Inteligência + Controles */}
-          <div className="flex h-full w-full min-w-0 flex-col gap-3 lg:col-span-1 xl:col-span-3 order-2 lg:order-3 xl:order-3">
-            {/* Seleção de IA — Minimal Slate 2x2 */}
-            <div className="ct-card w-full shrink-0 !overflow-visible px-4 pt-4 pb-5 sm:px-5">
-              <div className="mb-3 flex items-center gap-2.5">
-                <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(139_80%_50%/0.28)] via-[hsl(139_80%_40%/0.14)] to-[hsl(139_80%_30%/0.04)] text-[hsl(139_80%_75%)] ring-1 ring-[hsl(139_80%_55%/0.45)] shadow-[inset_0_1px_0_hsl(139_80%_85%/0.20),0_0_14px_-4px_hsl(139_80%_50%/0.8)]">
-                  <Bot className="h-[15px] w-[15px]" strokeWidth={2.2} />
-                  <span aria-hidden className="absolute -right-[2px] -top-[2px] h-1.5 w-1.5 rounded-full bg-[hsl(139_80%_60%)] shadow-[0_0_6px_hsl(139_80%_55%)]" />
-                </span>
-                <div className="flex flex-col leading-none">
-                  <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[hsl(139_80%_60%)]">IA · Engine</span>
-                  <span className="mt-1 text-[15px] font-black tracking-tight text-foreground">Modelo de Inteligência</span>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.7fr_1fr]">
+            {/* ===== ESQUERDA ===== */}
+            <div className="flex min-w-0 flex-col gap-4">
+              {/* Card SALDO */}
+              <div
+                className="rounded-2xl border border-[rgba(34,197,94,0.28)] p-5"
+                style={{
+                  background: "linear-gradient(160deg, rgba(34,197,94,0.10), rgba(12,31,20,0.40))",
+                  boxShadow: "0 0 36px -14px rgba(34,197,94,0.5)",
+                }}
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d8a70]">
+                      Saldo da conta
+                    </div>
+                    {/* PRESERVA o branch saldo==null ? Loader2 : valor (formatMoeda c/ moedaConta — sem hardcode de moeda) */}
+                    <div className="mt-1.5 flex h-10 items-center gap-2">
+                      {saldo == null ? (
+                        <Loader2 className="h-6 w-6 animate-spin text-[#22c55e]" />
+                      ) : (
+                        <span className="font-mono text-[36px] font-bold leading-none tracking-tight tabular-nums text-[#eef5f0]">
+                          {formatMoeda(saldo, moedaConta)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d8a70]">
+                      Resultado hoje
+                    </div>
+                    {/* TODO: PnL real do DIA — hoje só existe sessionPnl (por-SESSÃO), não por-dia. Placeholder. */}
+                    <div className="mt-1.5 font-mono text-lg font-bold tabular-nums text-[#34d77a]">
+                      +{formatMoeda(0, moedaConta)}
+                    </div>
+                  </div>
+                </div>
+                {/* Mobile: Depositar/Ativar dentro do card (no desktop ficam no header) */}
+                <div className="mt-4 flex flex-wrap items-center gap-2 lg:hidden">
+                  <DepositButton label="Depositar" />
+                  {hasActivePlan === false && (
+                    <button
+                      type="button"
+                      onClick={() => setActivationOpen(true)}
+                      className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-[rgba(34,197,94,0.5)] bg-[rgba(34,197,94,0.08)] px-3.5 text-sm font-semibold text-[#5dffa0] transition-colors hover:bg-[rgba(34,197,94,0.14)]"
+                    >
+                      <Key className="h-4 w-4" />
+                      Ativar Plano
+                    </button>
+                  )}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2 pb-1">
-                {[
-                  { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon },
-                  { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon },
-                  { key: "gemini", label: "Gemini", sub: "Google", icon: geminiIcon },
-                  { key: "grok3", label: "Grok 3", sub: "xAI", icon: grokIcon },
-                ].map((m) => {
-                  const selected = aiModel === (m.key as any);
-                  const blocked = rodando;
-                  const button = (
-                    <button
-                      key={m.key}
-                      type="button"
-                      onClick={() => {
-                        if (blocked) return;
-                        handleAiModelChange(m.key as typeof aiModel);
-                      }}
-                      disabled={aiModelLoading || blocked}
-                      aria-disabled={blocked}
-                      className={`group relative flex min-w-0 items-center gap-2 rounded-xl px-2.5 py-2.5 text-left transition-all ${
-                        selected
-                          ? "bg-[hsl(139_80%_45%/0.10)] ring-1 ring-inset ring-[hsl(139_80%_50%/0.55)]"
-                          : "ring-1 ring-inset ring-border/40 hover:ring-border"
-                      } ${blocked ? "cursor-not-allowed pointer-events-none" : ""} ${
-                        blocked && !selected ? "opacity-50" : ""
-                      } ${blocked && selected ? "pointer-events-none" : ""}`}
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card">
-                        <img src={m.icon} alt={m.label} className="h-full w-full object-cover" loading="lazy" />
+
+              {/* Card Gráfico — AssetCombobox (preservado) + LiveChart (fundo #0c1f14 casando com o chart) */}
+              <div className="flex flex-col overflow-hidden rounded-2xl border border-[rgba(34,197,94,0.14)] bg-[#060a08]">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(255,255,255,0.06)] px-4 py-3">
+                  <AssetCombobox
+                    value={ativo}
+                    onChange={handleAtivoChange}
+                    options={DEFAULT_ASSETS}
+                    variant="inline"
+                    accessory={
+                      <span className="inline-flex items-center gap-1 rounded-full border border-[rgba(34,197,94,0.28)] bg-[rgba(34,197,94,0.10)] px-1.5 py-0.5 text-[10px] font-bold text-[#5dffa0]">
+                        <span className="h-1 w-1 rounded-full bg-[#22c55e] shadow-[0_0_6px_#22c55e]" />
+                        AO VIVO
                       </span>
-                      <div className="min-w-0 flex-1 leading-tight">
-                        <div className="truncate text-[13px] font-semibold text-foreground">{m.label}</div>
-                        <div className="truncate text-[10px] text-muted-foreground/80">{m.sub}</div>
-                      </div>
-                      <span
-                        className={`h-2 w-2 shrink-0 rounded-full transition-all ${
-                          selected
-                            ? "bg-[hsl(139_80%_55%)] shadow-[0_0_8px_hsl(139_80%_55%)]"
-                            : "bg-muted-foreground/20"
-                        }`}
-                      />
-                    </button>
-                  );
-                  if (!blocked) return button;
-                  return (
-                    <Tooltip key={m.key}>
-                      <TooltipTrigger asChild>
-                        <span className="block w-full cursor-not-allowed [&>button]:w-full">{button}</span>
-                      </TooltipTrigger>
-                      <TooltipContent side="top">
-                        Não é possível trocar a IA durante uma operação ativa.
-                      </TooltipContent>
-                    </Tooltip>
-                  );
-                })}
+                    }
+                  />
+                </div>
+                {/* ‼️ container do gráfico: bg #0c1f14 (casa com o LiveChart). height 300/170 — o ResizeObserver redimensiona. */}
+                <div className="relative bg-[#0c1f14]" style={{ height: isMobile ? 170 : 300 }}>
+                  <LiveChart wsRef={wsRef} ativoId={Number(ativo)} candleSize={5} height={isMobile ? 170 : 300} />
+                </div>
               </div>
+
+              {/* Card GRUPO VIP — PRESERVA o onClick do WhatsApp */}
+              <button
+                type="button"
+                onClick={() => window.open("https://chat.whatsapp.com/L2O5siAHJQlDcc3DWtwYUZ", "_blank", "noopener,noreferrer")}
+                className="group flex w-full items-center gap-3 rounded-2xl border border-[rgba(34,197,94,0.14)] bg-[#060a08] p-4 text-left transition-all hover:border-[rgba(34,197,94,0.28)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(34,197,94,0.5)]"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(34,197,94,0.22)] bg-[rgba(34,197,94,0.10)] text-[#5dffa0]">
+                  <UsersRound className="h-5 w-5" strokeWidth={2.2} />
+                </span>
+                <span className="flex min-w-0 flex-1 flex-col leading-tight">
+                  <span className="text-sm font-bold text-foreground">GRUPO VIP</span>
+                  <span className="truncate text-[11px] text-[#9bb0a5]">Comunidade e sinais exclusivos</span>
+                </span>
+                <ArrowUpRight className="h-4 w-4 shrink-0 text-[#9bb0a5] transition-colors group-hover:text-[#5dffa0]" />
+              </button>
             </div>
 
-            {/* Cockpit do Trader — flex-1 para alinhar o fundo com o gráfico */}
-            <div className="flex-1 min-h-0">
-              <CockpitVariants
-                valorEntrada={valorEntrada}
-                setValorEntrada={setValorEntrada}
-                saldo={saldo}
-                simbolo={simboloMoeda(moedaConta)}
-                expiracao={expiracao}
-                setExpiracao={setExpiracao}
-                maxLoss={maxLoss}
-                setMaxLoss={setMaxLoss}
-                meta={meta}
-                setMeta={setMeta}
-                stopLoss={stopLoss}
-                setStopLoss={setStopLoss}
-                onStart={handleStart}
-                onStop={parar}
-                canStart={(connected || isDemoEligible) && !rodando && !demoRunning}
-                canStop={connected && rodando}
-                rodando={rodando}
-              />
+            {/* ===== DIREITA ===== */}
+            <div className="flex min-w-0 flex-col gap-4">
+              {/* Modelo de inteligência — 2x2 (lock preservado: pointer-events-none/opacity + Tooltip quando rodando) */}
+              <div className="rounded-2xl border border-[rgba(34,197,94,0.14)] bg-[#060a08] px-4 pt-4 pb-5 sm:px-5">
+                <div className="mb-3 flex items-center gap-2.5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(34,197,94,0.28)] bg-[rgba(34,197,94,0.10)] text-[#5dffa0]">
+                    <Bot className="h-[15px] w-[15px]" strokeWidth={2.2} />
+                  </span>
+                  <div className="flex flex-col leading-none">
+                    <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[#5d8a70]">IA · Engine</span>
+                    <span className="mt-1 text-[15px] font-bold tracking-tight text-foreground">Modelo de inteligência</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2 pb-1">
+                  {[
+                    { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon },
+                    { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon },
+                    { key: "gemini", label: "Gemini", sub: "Google", icon: geminiIcon },
+                    { key: "grok3", label: "Grok 3", sub: "xAI", icon: grokIcon },
+                  ].map((m) => {
+                    const selected = aiModel === (m.key as any);
+                    const blocked = rodando;
+                    const button = (
+                      <button
+                        key={m.key}
+                        type="button"
+                        onClick={() => {
+                          if (blocked) return;
+                          handleAiModelChange(m.key as typeof aiModel);
+                        }}
+                        disabled={aiModelLoading || blocked}
+                        aria-disabled={blocked}
+                        className={`group relative flex min-w-0 items-center gap-2 rounded-xl px-2.5 py-2.5 text-left transition-all ${
+                          selected
+                            ? "bg-[rgba(34,197,94,0.08)] ring-1 ring-inset ring-[rgba(34,197,94,0.55)]"
+                            : "ring-1 ring-inset ring-[rgba(255,255,255,0.08)] hover:ring-[rgba(255,255,255,0.16)]"
+                        } ${blocked ? "cursor-not-allowed pointer-events-none" : ""} ${
+                          blocked && !selected ? "opacity-50" : ""
+                        } ${blocked && selected ? "pointer-events-none" : ""}`}
+                      >
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card">
+                          <img src={m.icon} alt={m.label} className="h-full w-full object-cover" loading="lazy" />
+                        </span>
+                        <div className="min-w-0 flex-1 leading-tight">
+                          <div className="truncate text-[13px] font-semibold text-foreground">{m.label}</div>
+                          <div className="truncate text-[10px] text-[#9bb0a5]">{m.sub}</div>
+                        </div>
+                        <span
+                          className={`h-2 w-2 shrink-0 rounded-full transition-all ${
+                            selected
+                              ? "bg-[#22c55e] shadow-[0_0_8px_#22c55e]"
+                              : "bg-muted-foreground/20"
+                          }`}
+                        />
+                      </button>
+                    );
+                    if (!blocked) return button;
+                    return (
+                      <Tooltip key={m.key}>
+                        <TooltipTrigger asChild>
+                          <span className="block w-full cursor-not-allowed [&>button]:w-full">{button}</span>
+                        </TooltipTrigger>
+                        <TooltipContent side="top">
+                          Não é possível trocar a IA durante uma operação ativa.
+                        </TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* CockpitVariants — INTACTO (todas as props de antes). Visual antigo até o 2B. */}
+              <div className="min-h-0 flex-1">
+                <CockpitVariants
+                  valorEntrada={valorEntrada}
+                  setValorEntrada={setValorEntrada}
+                  saldo={saldo}
+                  simbolo={simboloMoeda(moedaConta)}
+                  expiracao={expiracao}
+                  setExpiracao={setExpiracao}
+                  maxLoss={maxLoss}
+                  setMaxLoss={setMaxLoss}
+                  meta={meta}
+                  setMeta={setMeta}
+                  stopLoss={stopLoss}
+                  setStopLoss={setStopLoss}
+                  onStart={handleStart}
+                  onStop={parar}
+                  canStart={(connected || isDemoEligible) && !rodando && !demoRunning}
+                  canStop={connected && rodando}
+                  rodando={rodando}
+                />
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+
+        {/* ----- HISTÓRICO (sempre montado; hidden no cockpit) ----- */}
+        <div className={view === "historico" ? "" : "hidden"}>
+          <OperationsHistory operations={operations} moeda={moedaConta} sessionStart={sessionStart} sessionStarts={sessionStarts} />
+        </div>
 
         <Dialog open={activationOpen} onOpenChange={setActivationOpen}>
           <DialogContent className="max-w-md">
