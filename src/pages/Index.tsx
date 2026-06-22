@@ -40,6 +40,7 @@ import geminiIcon from "@/assets/ai-gemini.webp";
 import grokIcon from "@/assets/ai-grok.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { formatMoeda, simboloMoeda } from "@/lib/moeda";
+import { cockpitLimits, clampRange } from "@/lib/cockpitLimits";
 import { mapRowToOperation, operationContentKey, reconstructSessionStarts, deriveOperationDisplay } from "@/lib/operations";
 import { DepositButton } from "@/components/DepositButton";
 import { toast } from "sonner";
@@ -871,15 +872,27 @@ const Index = () => {
       : null;
     console.log('[handleStart] estrategia payload:', JSON.stringify(estrategiaPayload));
 
+    // Clamp defensivo (money-safety): os inputs editáveis (EditableValue) commitam pré-clamp
+    // (clamp só no blur). Garante que valorEntrada/meta/stopLoss não vão ao robô fora do range.
+    // Limites = MESMA fórmula do CockpitVariants/Sliders3 (src/lib/cockpitLimits), com o saldo VIVO.
+    // No 1º start (rodando=false) saldoBase=saldo → bate com os limites exibidos na UI.
+    // Na retomada-de-pausa (janela curta com rodando ainda true) o saldoBase da UI está congelado;
+    // se o saldo caiu, o clamp pode reduzir meta/valor/stop abaixo do max exibido — divergência
+    // APENAS p/ baixo (nunca acima do saldo), logo segura (não gasta a mais). Ver double-check COCKPIT-B.
+    const { maxEntrada, maxMeta, maxStopLoss } = cockpitLimits(saldo);
+    const valorMinimoSafe = clampRange(Number(valorEntrada), 2, maxEntrada);
+    const metaGainSafe = clampRange(Number(meta), 2, maxMeta);
+    const stopLossSafe = clampRange(Number(stopLoss), 2, maxStopLoss);
+
     iniciar(
       {
         percentualBanca: 0,
-        valorMinimo: Number(valorEntrada),
+        valorMinimo: valorMinimoSafe,
         expiracaoSegundos: Number(expiracao),
         maxPerdasSeguidas: Number(maxLoss),
         ativoId: Number(ativo),
-        metaGain: Number(meta),
-        stopLoss: Number(stopLoss),
+        metaGain: metaGainSafe,
+        stopLoss: stopLossSafe,
         ...(estrategiaPayload ? { estrategia: estrategiaPayload } : {}),
       } as any,
       {
