@@ -1,28 +1,15 @@
-import { useEffect, useState } from "react";
-import { useSearchParams, Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { Copy, Check, ArrowRight, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Copy, Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
+const CODE = "1337";
+
 const Obrigado = () => {
-  const [params] = useSearchParams();
-  const orderId = params.get("order_id");
-  const [code, setCode] = useState<string | null>(null);
-  const [loading, setLoading] = useState(!!orderId);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    if (!orderId) return;
-    (supabase.rpc as any)("get_activation_code_by_order", { p_order_id: orderId })
-      .then(({ data }: { data: string | null }) => {
-        setCode(data ?? null);
-        setLoading(false);
-      });
-  }, [orderId]);
-
   const handleCopy = () => {
-    if (!code) return;
-    navigator.clipboard.writeText(code);
+    navigator.clipboard.writeText(CODE);
     setCopied(true);
     toast.success("Código copiado!");
     setTimeout(() => setCopied(false), 2000);
@@ -104,67 +91,42 @@ const Obrigado = () => {
             Use o código abaixo para ativar seu plano ao acessar sua conta na IA Vingativa.
           </p>
 
-          {/* Região condicional — 4 estados preservados */}
-          {orderId ? (
-            <div
-              className={`mt-6 rounded-2xl border p-5 text-left transition-colors ${
-                copied ? "border-primary/50" : "border-primary/20"
+          {/* Card do código — código universal fixo "1337" */}
+          <div
+            className={`mt-6 rounded-2xl border p-5 text-left transition-colors ${
+              copied ? "border-primary/50" : "border-primary/20"
+            }`}
+            style={{ background: "hsl(216 33% 4% / 0.55)" }}
+          >
+            <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary/70">
+              Código de ativação
+            </div>
+            <div className="ct-mono mt-2 text-center text-5xl font-bold tracking-[0.3em] text-foreground [text-shadow:0_0_28px_hsl(139_80%_50%/0.45)]">
+              {CODE}
+            </div>
+            <button
+              onClick={handleCopy}
+              className={`mt-4 flex h-11 w-full items-center justify-center gap-2 rounded-xl border text-xs font-bold tracking-wide transition-all ${
+                copied
+                  ? "border-primary/50 bg-primary/15 text-[hsl(var(--mm5))]"
+                  : "border-primary/35 bg-primary/[0.06] text-primary hover:bg-primary/10"
               }`}
-              style={{ background: "hsl(216 33% 4% / 0.55)" }}
             >
-              <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-primary/70">
-                Código de ativação
-              </div>
-
-              {loading ? (
-                <div className="flex items-center justify-center gap-2 py-5">
-                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                  <span className="text-sm text-muted-foreground">Carregando código...</span>
-                </div>
-              ) : code ? (
+              {copied ? (
                 <>
-                  <div className="ct-mono mt-2 text-3xl font-bold tracking-[0.12em] text-foreground">
-                    {code}
-                  </div>
-                  <button
-                    onClick={handleCopy}
-                    className={`mt-3.5 flex h-11 w-full items-center justify-center gap-2 rounded-xl border text-xs font-bold tracking-wide transition-all ${
-                      copied
-                        ? "border-primary/50 bg-primary/15 text-[hsl(var(--mm5))]"
-                        : "border-primary/35 bg-primary/[0.06] text-primary hover:bg-primary/10"
-                    }`}
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="h-4 w-4" strokeWidth={2.4} />
-                        Código copiado
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-4 w-4" strokeWidth={1.8} />
-                        Copiar código
-                      </>
-                    )}
-                  </button>
+                  <Check className="h-4 w-4" strokeWidth={2.4} />
+                  Código copiado
                 </>
               ) : (
-                <p className="py-5 text-center text-sm text-muted-foreground">
-                  Código não encontrado. Entre em contato com o suporte.
-                </p>
+                <>
+                  <Copy className="h-4 w-4" strokeWidth={1.8} />
+                  Copiar código
+                </>
               )}
-            </div>
-          ) : (
-            <div
-              className="mt-6 rounded-2xl border border-primary/20 p-5"
-              style={{ background: "hsl(216 33% 4% / 0.55)" }}
-            >
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Seu código de ativação foi gerado. Verifique o e-mail usado no checkout.
-              </p>
-            </div>
-          )}
+            </button>
+          </div>
 
-          {/* CTA — destino preservado (to="/") */}
+          {/* CTA → /?tab=signup (abre a aba Criar Conta) */}
           <Link
             to="/?tab=signup"
             className="btn-premium btn-emerald mt-4 h-14 w-full rounded-2xl text-[15px]"
@@ -174,7 +136,7 @@ const Obrigado = () => {
           </Link>
 
           <p className="mt-3.5 text-[11px] leading-relaxed text-muted-foreground/80">
-            Guarde este código — também enviamos para o seu e-mail.
+            Guarde este código.
           </p>
         </div>
       </main>
