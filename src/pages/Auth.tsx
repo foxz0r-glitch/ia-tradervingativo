@@ -1,6 +1,6 @@
 // Auth page (sign in / sign up). Wired to Lovable Cloud auth.
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,8 @@ const formatBrPhone = (raw: string) => {
 
 const Auth = () => {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"signin" | "signup">("signin");
+  const [searchParams] = useSearchParams();
+  const [tab, setTab] = useState<"signin" | "signup">(searchParams.get("tab") === "signup" ? "signup" : "signin");
   const [whatsapp, setWhatsapp] = useState("");
   const [loading, setLoading] = useState(false);
   const [casatradeExistsOpen, setCasatradeExistsOpen] = useState(false);

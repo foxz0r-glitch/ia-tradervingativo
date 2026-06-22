@@ -166,7 +166,7 @@ const Obrigado = () => {
 
           {/* CTA — destino preservado (to="/") */}
           <Link
-            to="/"
+            to="/?tab=signup"
             className="btn-premium btn-emerald mt-4 h-14 w-full rounded-2xl text-[15px]"
           >
             Criar minha conta
