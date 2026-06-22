@@ -3,7 +3,6 @@ import { useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Copy, Check, ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { AuthFooter } from "@/components/AuthFooter";
 
 const Obrigado = () => {
   const [params] = useSearchParams();
@@ -179,8 +178,6 @@ const Obrigado = () => {
           </p>
         </div>
       </main>
-
-      <AuthFooter />
     </div>
   );
 };
