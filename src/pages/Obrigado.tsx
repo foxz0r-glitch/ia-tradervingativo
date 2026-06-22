@@ -101,7 +101,7 @@ const Obrigado = () => {
             Obrigado pela compra!
           </h1>
           <p className="mx-auto mt-2.5 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Use o código abaixo para ativar seu plano ao criar sua conta na IA Vingativa.
+            Use o código abaixo para ativar seu plano ao acessar sua conta na IA Vingativa.
           </p>
 
           {/* Região condicional — 4 estados preservados */}
