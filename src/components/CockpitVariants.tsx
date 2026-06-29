@@ -1,12 +1,11 @@
-// Cockpit do Trader (estilo slider) — reskin COCKPIT-B (paleta do protótipo):
-// - Valor por operação: slider + botões −/+
-// - Meta e Stop Loss: sliders (com símbolo de moeda)
-// - Defesa Técnica (gale): stepper inteiro 1–5
-// - Botão "Ligar IA" (gates inalterados)
+// Cockpit do Trader — painel direito de controles (reskin RECON-4: SliderRow.dc.html + Dashboard.dc.html).
+// ‼️ Estes controles alimentam o robô. Reskin é SÓ aparência: estados/props/handlers/clamp/min-max/gates INALTERADOS.
+// - Valor por operação / Meta / Stop loss: <Slider> shadcn (arrastar real) re-vestido por instância via CSS vars.
+// - Defesa Técnica (gale): stepper inteiro 1–5 (maxLoss) com 5 segmentos.
+// - Botão "LIGAR IA" (gates inalterados: onStart/onStop/canStart/canStop).
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
-import { Play, Square, TrendingDown, TrendingUp, Minus, Plus, ShieldCheck, type LucideIcon } from "lucide-react";
+import { Play, Square } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cockpitLimits } from "@/lib/cockpitLimits";
 
@@ -23,18 +22,40 @@ interface Props {
   rodando: boolean;
 }
 
-// Paleta COCKPIT-B
+// Paleta (SliderRow.dc.html)
 const GREEN = "#22c55e";
 const RED = "#ef4444";
-const VALUE = "#eef5f0";
-const MUTED = "#9bb0a5";
+const VALUE = "#eef5f0";      // value-color Valor/Meta
+const STOP_VALUE = "#f0726a"; // value-color Stop loss
 
-const STEP_BUTTON_STYLE: CSSProperties = {};
+// <Slider> shadcn re-vestido (SliderRow.dc.html) SEM editar ui/slider:
+// classes ESTÁTICAS (Tailwind JIT vê todas) + cor por CSS var no style (dinâmico por instância).
+// DOM ui/slider: Root > [Track(span:first-child) > Range(span)] + Thumb([role=slider]).
+const SLIDER_CLASS =
+  "[&>span:first-child]:!h-[5px] [&>span:first-child]:!rounded-[3px] [&>span:first-child]:!bg-[rgba(255,255,255,0.08)] " +
+  "[&>span:first-child>span]:!bg-[image:var(--tv-fill)] " +
+  "[&_[role=slider]]:!h-[18px] [&_[role=slider]]:!w-[18px] [&_[role=slider]]:!border-0 [&_[role=slider]]:!bg-[color:var(--tv-thumb)] " +
+  "[&_[role=slider]]:!shadow-[0_0_10px_var(--tv-thumb),0_0_0_4px_rgba(34,197,94,0.16)]";
 
-const STEP_BUTTON_CLASS =
-  "flex h-11 w-11 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-[9px] border border-[rgba(255,255,255,0.08)] text-[#9bb0a5] transition hover:border-[rgba(34,197,94,0.4)] hover:bg-[rgba(34,197,94,0.08)] hover:text-[#5dffa0]";
+function sliderVars(accent: string): CSSProperties {
+  return {
+    ["--tv-fill" as string]: `linear-gradient(90deg,#15924a,${accent})`,
+    ["--tv-thumb" as string]: accent,
+  } as CSSProperties;
+}
 
-// ===================== Hold-to-accelerate =====================
+// −/+ : 30px, glifos de texto (minus 400 20px / plus 400 18px, line-height:1) — SliderRow.dc.html.
+const STEP_BTN_CLASS =
+  "flex h-[30px] w-[30px] flex-none items-center justify-center rounded-[9px] border border-[rgba(255,255,255,0.1)] text-[#9bb0a5] transition hover:border-[rgba(34,197,94,0.4)] hover:bg-[rgba(34,197,94,0.08)] hover:text-[#5dffa0] disabled:cursor-not-allowed disabled:opacity-30";
+const MINUS_GLYPH: CSSProperties = { fontFamily: "'Sora', sans-serif", fontWeight: 400, fontSize: 20, lineHeight: 1 };
+const PLUS_GLYPH: CSSProperties = { fontFamily: "'Sora', sans-serif", fontWeight: 400, fontSize: 18, lineHeight: 1 };
+
+const LABEL_STYLE: CSSProperties = {
+  fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 10,
+  letterSpacing: ".18em", color: "#5d7167", textTransform: "uppercase",
+};
+
+// ===================== Hold-to-accelerate (INALTERADO) =====================
 function useHoldRepeat(fn: () => void) {
   const fnRef = useRef(fn);
   useEffect(() => { fnRef.current = fn; });
@@ -64,19 +85,22 @@ function useHoldRepeat(fn: () => void) {
   return { start, stop };
 }
 
-// ===================== Campo numérico editável (clicar e digitar) =====================
-// Slider e botões −/+ continuam como entrada alternativa — o valor flui pelas MESMAS props
-// (setter no Index, que persiste/envia ao WS). Digitação parcial é permitida; o clamp com os
-// MESMOS min/max do slider acontece no onBlur (ou Enter). Vale para todos os dispositivos.
-// (money-safety: o handleStart também clampa antes do payload — rede de segurança.)
+// ===================== Campo numérico editável (LÓGICA INALTERADA) =====================
+// Slider e −/+ continuam como entrada alternativa — o valor flui pelas MESMAS props (setter no Index).
+// Digitação parcial permitida; clamp com os MESMOS min/max do slider no onBlur (ou Enter).
+// (money-safety: handleStart também clampa antes do payload.)
+// Re-vestido como a "caixa do valor" do SliderRow (700 13px JetBrains Mono, borda/raio/bg).
+// w-auto + width inline (boxW) sobrescrevem o w-full da base do Input (caixa content-size, como o handoff).
+// md:text-[13px] neutraliza o md:text-sm da base do Input (senão vira 14px no md+; handoff = 13px).
 const EDIT_INPUT_CLASS =
-  "h-7 rounded-[9px] border border-[rgba(34,197,94,0.22)] bg-[rgba(34,197,94,0.05)] px-2 py-0 text-right font-mono text-[15px] font-bold leading-none tabular-nums shadow-none focus-visible:ring-1 focus-visible:ring-[rgba(34,197,94,0.4)] focus-visible:ring-offset-0";
+  "h-auto w-auto rounded-[9px] border border-[rgba(34,197,94,0.22)] bg-[rgba(6,12,8,0.4)] py-[7px] px-[13px] font-mono text-[13px] md:text-[13px] font-bold leading-none tabular-nums shadow-none focus-visible:ring-1 focus-visible:ring-[rgba(34,197,94,0.4)] focus-visible:ring-offset-0";
 
 function EditableValue({
-  value, min, max, integer = false, accent, ariaLabel, onCommit, widthClass = "w-16",
+  value, min, max, integer = false, color, ariaLabel, onCommit, align = "right", boxW = 64,
 }: {
   value: number; min: number; max: number; integer?: boolean;
-  accent: string; ariaLabel: string; onCommit: (n: number) => void; widthClass?: string;
+  color: string; ariaLabel: string; onCommit: (n: number) => void;
+  align?: "right" | "center"; boxW?: number;
 }) {
   const [draft, setDraft] = useState(String(value));
   const editing = useRef(false);
@@ -114,13 +138,13 @@ function EditableValue({
       }}
       onBlur={commit}
       onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }}
-      className={`${EDIT_INPUT_CLASS} ${widthClass}`}
-      style={{ color: accent }}
+      className={`${EDIT_INPUT_CLASS} ${align === "center" ? "text-center" : "text-right"}`}
+      style={{ color, width: boxW }}
     />
   );
 }
 
-// ===== Botão Ligar IA — gates IDÊNTICOS (onStart=handleStart, swap por canStop, disabled=!canStart) =====
+// ===== Botão LIGAR IA — gates IDÊNTICOS (onStart=handleStart, swap por canStop, disabled=!canStart) =====
 function LigarIA({ canStart, canStop, onStart, onStop }: Pick<Props, "canStart" | "canStop" | "onStart" | "onStop">) {
   if (!canStop) {
     return (
@@ -128,11 +152,16 @@ function LigarIA({ canStart, canStop, onStart, onStop }: Pick<Props, "canStart" 
         type="button"
         onClick={onStart}
         disabled={!canStart}
-        className="group relative flex h-[58px] w-full items-center justify-center gap-2.5 overflow-hidden rounded-2xl border border-[rgba(34,197,94,0.5)] bg-[rgba(34,197,94,0.10)] text-[15px] font-bold uppercase tracking-[0.16em] text-[#5dffa0] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[rgba(34,197,94,0.16)] disabled:cursor-not-allowed disabled:opacity-50"
-        style={{ boxShadow: "0 0 24px -8px rgba(34,197,94,0.8)" }}
+        className="flex w-full items-center justify-center gap-2.5 transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+        style={{
+          height: 58, borderRadius: 16, border: "1px solid rgba(34,197,94,.55)",
+          background: "linear-gradient(180deg, rgba(34,197,94,.22), rgba(34,197,94,.1))",
+          color: "#5dffa0", fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 15,
+          letterSpacing: ".16em", boxShadow: "0 0 36px -8px rgba(34,197,94,.85)",
+        }}
       >
-        <Play className="h-4 w-4" fill="currentColor" />
-        <span>Ligar IA</span>
+        <Play className="h-3.5 w-3.5" fill="currentColor" />
+        <span>LIGAR IA</span>
       </button>
     );
   }
@@ -140,122 +169,29 @@ function LigarIA({ canStart, canStop, onStart, onStop }: Pick<Props, "canStart" 
     <button
       type="button"
       onClick={onStop}
-      className="flex h-[58px] w-full items-center justify-center gap-2 rounded-2xl border border-[rgba(239,68,68,0.55)] bg-[rgba(239,68,68,0.12)] text-[15px] font-bold uppercase tracking-[0.16em] text-[#ff8a8a] transition-all duration-300 hover:bg-[rgba(239,68,68,0.18)]"
-      style={{ boxShadow: "0 0 24px -8px rgba(239,68,68,0.8)" }}
+      className="flex w-full items-center justify-center gap-2 transition-all duration-300"
+      style={{
+        height: 58, borderRadius: 16, border: "1px solid rgba(239,68,68,.55)",
+        background: "linear-gradient(180deg, rgba(239,68,68,.22), rgba(239,68,68,.1))",
+        color: "#ff8a8a", fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 15,
+        letterSpacing: ".16em", boxShadow: "0 0 36px -8px rgba(239,68,68,.85)",
+      }}
     >
       <Square className="h-3.5 w-3.5" fill="currentColor" />
-      Parar IA
+      <span>PARAR IA</span>
     </button>
   );
 }
 
-function VariantHeader({ title, sub, icon: Ic = TrendingUp }: { title: string; sub: string; icon?: LucideIcon }) {
-  return (
-    <div className="mb-4 flex items-center gap-2.5">
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(34,197,94,0.28)] bg-[rgba(34,197,94,0.10)] text-[#5dffa0]">
-        <Ic className="h-[15px] w-[15px]" strokeWidth={2.2} />
-      </span>
-      <div className="flex flex-col leading-none">
-        <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[#5d8a70]">{title}</span>
-        <span className="mt-1 text-[15px] font-bold tracking-tight text-foreground">{sub}</span>
-      </div>
-    </div>
-  );
-}
-
-// Trilho/thumb do slider — cor por `danger` (override de --primary, SEM editar ui/slider) + glow no thumb.
-function sliderStyle(danger: boolean): { style?: CSSProperties; className: string } {
-  // thumb/range coloridos por --primary (border-primary/bg-primary do ui/slider); só adicionamos o glow.
-  if (danger) {
-    return {
-      style: { "--primary": "0 84% 60%" } as CSSProperties,
-      className: "[&_[role=slider]]:shadow-[0_0_10px_2px_rgba(239,68,68,0.45)]",
-    };
-  }
-  return {
-    className: "[&_[role=slider]]:shadow-[0_0_10px_2px_rgba(34,197,94,0.45)]",
-  };
-}
-
-// ===================== Investimento (slider + display + −/+) =====================
-function InvestmentControl({
-  value, setValue, min, max, simbolo,
-}: { value: number; setValue: (n: number) => void; min: number; max: number; simbolo?: string }) {
-  const vRef = useRef(value);
-  useEffect(() => { vRef.current = value; });
-
-  const dec = useHoldRepeat(useCallback(() => {
-    setValue(Math.max(min, Math.min(max, vRef.current - 1)));
-  }, [min, max, setValue]));
-  const inc = useHoldRepeat(useCallback(() => {
-    setValue(Math.max(min, Math.min(max, vRef.current + 1)));
-  }, [min, max, setValue]));
-
-  const slider = sliderStyle(false);
-
-  return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between gap-2">
-        <Label className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d8a70]">
-          Valor por operação
-        </Label>
-        <div className="flex h-7 items-center gap-1">
-          <span aria-hidden className="pointer-events-none text-[13px] font-bold leading-none tabular-nums" style={{ color: MUTED }}>{simbolo ?? "$"}</span>
-          <EditableValue
-            value={value} onCommit={setValue}
-            min={min} max={max}
-            accent={VALUE} ariaLabel="Valor por operação"
-          />
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          aria-label="Diminuir"
-          onMouseDown={dec.start}
-          onMouseUp={dec.stop}
-          onMouseLeave={dec.stop}
-          onTouchStart={(e) => { e.preventDefault(); dec.start(); }}
-          onTouchEnd={dec.stop}
-          className={STEP_BUTTON_CLASS}
-          style={STEP_BUTTON_STYLE}
-        >
-          <Minus className="h-4 w-4" strokeWidth={3} />
-        </button>
-        <div className="flex-1">
-          <Slider
-            min={min} max={max} step={1}
-            value={[Math.min(Math.max(min, value), max)]}
-            onValueChange={(v) => setValue(v[0])}
-            className={slider.className}
-            style={slider.style}
-          />
-        </div>
-        <button
-          type="button"
-          aria-label="Aumentar"
-          onMouseDown={inc.start}
-          onMouseUp={inc.stop}
-          onMouseLeave={inc.stop}
-          onTouchStart={(e) => { e.preventDefault(); inc.start(); }}
-          onTouchEnd={inc.stop}
-          className={STEP_BUTTON_CLASS}
-          style={STEP_BUTTON_STYLE}
-        >
-          <Plus className="h-4 w-4" strokeWidth={3} />
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ===================== Slider customizado (Meta / Stop) =====================
-function ProSlider({
-  label, value, setValue, min, max, step, prefix, accent, danger = false, icon: Ic,
+// ===================== SliderRow (Valor / Meta / Stop) — WIRING INALTERADO =====================
+// Unifica o antigo InvestmentControl + ProSlider: mesma lógica (useHoldRepeat + <Slider> + EditableValue),
+// só visual novo. Cada instância continua ligada no MESMO estado/setter via props (value/setValue).
+function SliderRow({
+  label, value, setValue, min, max, step, prefix, accent, valueColor,
 }: {
   label: string; value: number; setValue: (n: number) => void;
   min: number; max: number; step: number; prefix: string;
-  accent: string; danger?: boolean; icon: LucideIcon;
+  accent: string; valueColor: string;
 }) {
   const vRef = useRef(value);
   useEffect(() => { vRef.current = value; });
@@ -267,25 +203,16 @@ function ProSlider({
     setValue(Math.max(min, Math.min(max, vRef.current + step)));
   }, [min, max, step, setValue]));
 
-  const slider = sliderStyle(danger);
-
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between gap-2">
-        <Label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d8a70]">
-          <Ic className="h-3.5 w-3.5" strokeWidth={2.4} style={{ color: danger ? RED : GREEN }} />
-          {label}
-        </Label>
-        <div className="flex h-7 items-center gap-1">
-          <span aria-hidden className="pointer-events-none text-[13px] font-bold leading-none tabular-nums" style={{ color: MUTED }}>{prefix.trim()}</span>
-          <EditableValue
-            value={value} onCommit={setValue}
-            min={min} max={max}
-            accent={accent} ariaLabel={label}
-          />
-        </div>
+    <div>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <span style={LABEL_STYLE}>{label}</span>
+        <span className="inline-flex items-center gap-2">
+          <span aria-hidden className="pointer-events-none" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 12, color: accent }}>{prefix.trim()}</span>
+          <EditableValue value={value} onCommit={setValue} min={min} max={max} color={valueColor} ariaLabel={label} />
+        </span>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3.5">
         <button
           type="button"
           aria-label="Diminuir"
@@ -294,18 +221,17 @@ function ProSlider({
           onMouseLeave={dec.stop}
           onTouchStart={(e) => { e.preventDefault(); dec.start(); }}
           onTouchEnd={dec.stop}
-          className={STEP_BUTTON_CLASS}
-          style={STEP_BUTTON_STYLE}
+          className={STEP_BTN_CLASS}
         >
-          <Minus className="h-4 w-4" strokeWidth={3} />
+          <span style={MINUS_GLYPH}>−</span>
         </button>
         <div className="flex-1">
           <Slider
             min={min} max={max} step={step}
             value={[Math.min(Math.max(min, value), max)]}
             onValueChange={(v) => setValue(v[0])}
-            className={slider.className}
-            style={slider.style}
+            className={SLIDER_CLASS}
+            style={sliderVars(accent)}
           />
         </div>
         <button
@@ -316,56 +242,52 @@ function ProSlider({
           onMouseLeave={inc.stop}
           onTouchStart={(e) => { e.preventDefault(); inc.start(); }}
           onTouchEnd={inc.stop}
-          className={STEP_BUTTON_CLASS}
-          style={STEP_BUTTON_STYLE}
+          className={STEP_BTN_CLASS}
         >
-          <Plus className="h-4 w-4" strokeWidth={3} />
+          <span style={PLUS_GLYPH}>+</span>
         </button>
       </div>
     </div>
   );
 }
 
-// ===================== Defesa Técnica (gale) — stepper inteiro 1–5 =====================
-// Gale é CONTAGEM de níveis (inteiro), nunca dinheiro: por isso NÃO usa o ProSlider
-// (compartilhado com os sliders de moeda, que exibem símbolo/prefixo). Stepper "- N +".
-// money-safety: o set() clampa SEMPRE 1..5 → maxPerdasSeguidas nunca escapa do range.
+// ===================== Defesa Técnica (gale) — stepper inteiro 1–5 (WIRING INALTERADO) =====================
+// Gale é CONTAGEM de níveis (inteiro), nunca dinheiro. money-safety: set() clampa SEMPRE 1..5.
 function GaleControl({ value, setValue }: { value: number; setValue: (n: number) => void }) {
   const v = Math.max(1, Math.min(5, Math.floor(Number(value) || 1)));
   const set = (n: number) => setValue(Math.max(1, Math.min(5, Math.floor(Number(n)))));
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between gap-2">
-        <Label className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-[#5d8a70]">
-          <ShieldCheck className="h-3.5 w-3.5" strokeWidth={2.4} style={{ color: GREEN }} />
-          Defesa Técnica
-        </Label>
-        <div className="flex h-7 items-center gap-1">
-          <EditableValue
-            value={v} onCommit={set}
-            min={1} max={5} integer
-            accent={VALUE} ariaLabel="Defesa Técnica" widthClass="w-10"
-          />
-        </div>
+    <div>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <span style={LABEL_STYLE}>Defesa Técnica</span>
+        <EditableValue
+          value={v} onCommit={set}
+          min={1} max={5} integer
+          color={VALUE} ariaLabel="Defesa Técnica" align="center" boxW={44}
+        />
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3.5">
         <button
           type="button"
           aria-label="Diminuir defesa"
           onClick={() => set(v - 1)}
           disabled={v <= 1}
-          className={`${STEP_BUTTON_CLASS} disabled:cursor-not-allowed disabled:opacity-30`}
-          style={STEP_BUTTON_STYLE}
+          className={STEP_BTN_CLASS}
         >
-          <Minus className="h-4 w-4" strokeWidth={3} />
+          <span style={MINUS_GLYPH}>−</span>
         </button>
-        <div className="flex flex-1 items-center gap-1.5">
+        <div className="flex flex-1 items-center" style={{ gap: 6 }}>
           {[1, 2, 3, 4, 5].map((n) => (
             <span
               key={n}
               aria-hidden
-              className="h-1.5 flex-1 rounded-full transition-all"
-              style={{ background: n <= v ? "rgba(34,197,94,0.85)" : "rgba(255,255,255,0.06)" }}
+              className="flex-1 transition-all"
+              style={{
+                height: 6,
+                borderRadius: 3,
+                background: n <= v ? "linear-gradient(90deg,#15924a,#22c55e)" : "rgba(255,255,255,0.08)",
+                boxShadow: n <= v ? "0 0 8px -2px #22c55e" : "none",
+              }}
             />
           ))}
         </div>
@@ -374,10 +296,9 @@ function GaleControl({ value, setValue }: { value: number; setValue: (n: number)
           aria-label="Aumentar defesa"
           onClick={() => set(v + 1)}
           disabled={v >= 5}
-          className={`${STEP_BUTTON_CLASS} disabled:cursor-not-allowed disabled:opacity-30`}
-          style={STEP_BUTTON_STYLE}
+          className={STEP_BTN_CLASS}
         >
-          <Plus className="h-4 w-4" strokeWidth={3} />
+          <span style={PLUS_GLYPH}>+</span>
         </button>
       </div>
     </div>
@@ -404,27 +325,30 @@ function Sliders3({ p }: { p: Props }) {
   useEffect(() => { if (p.meta        > maxMeta)      p.setMeta(maxMeta);              }, [maxMeta]);
 
   return (
-    <div className="space-y-5">
-      <InvestmentControl
+    <div className="flex flex-col gap-5">
+      <SliderRow label="Valor por operação" prefix={simb} accent={GREEN} valueColor={VALUE}
         value={p.valorEntrada} setValue={p.setValorEntrada}
-        min={2} max={maxEntrada} simbolo={simb}
-      />
-      <ProSlider label="Meta" icon={TrendingUp} accent={VALUE}
+        min={2} max={maxEntrada} step={1} />
+      <SliderRow label="Meta" prefix={simb} accent={GREEN} valueColor={VALUE}
         value={p.meta} setValue={p.setMeta}
-        min={2} max={maxMeta} step={1} prefix={`${simb} `} />
-      <ProSlider label="Stop loss" icon={TrendingDown} accent={RED} danger
+        min={2} max={maxMeta} step={1} />
+      <SliderRow label="Stop loss" prefix={simb} accent={RED} valueColor={STOP_VALUE}
         value={p.stopLoss} setValue={p.setStopLoss}
-        min={2} max={maxStopLoss} step={1} prefix={`${simb} `} />
+        min={2} max={maxStopLoss} step={1} />
       <GaleControl value={p.maxLoss} setValue={p.setMaxLoss} />
     </div>
   );
 }
 
-// ===================== Card (paleta explícita — NÃO usa .ct-card global) =====================
+// ===================== Painel único (estilo do Dashboard.dc.html — coluna direita) =====================
+// NB: o card "Modelo de inteligência" segue no Index (2 cards). Unificar 100% exigiria reabrir o Index;
+// aqui o CockpitVariants é UM painel com o estilo do handoff (ver relatório RECON-4 §unificação).
 function Variant(p: Props) {
   return (
-    <div className="flex h-full w-full flex-col rounded-2xl border border-[rgba(34,197,94,0.14)] bg-[#060a08] p-5">
-      <VariantHeader title="COCKPIT DO TRADER" sub="Painel de Controle" />
+    <div
+      className="flex h-full w-full flex-col rounded-[18px] border border-[rgba(34,197,94,0.16)]"
+      style={{ background: "linear-gradient(180deg, rgba(14,26,18,.5), rgba(6,12,8,.3))", padding: 20 }}
+    >
       <Sliders3 p={p} />
       <div className="mt-5">
         <LigarIA {...p} />
