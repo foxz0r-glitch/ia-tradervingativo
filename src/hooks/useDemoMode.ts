@@ -26,26 +26,6 @@ export const DEMO_MAX_SESSIONS = 1;
 
 // ── Geração de valores ────────────────────────────────────────────────────────
 
-function randFloat(min: number, max: number): number {
-  return parseFloat((Math.random() * (max - min) + min).toFixed(2));
-}
-
-function distributeAmong(total: number, count: number): number[] {
-  if (count === 0) return [];
-  if (count === 1) return [parseFloat(total.toFixed(2))];
-  const base = total / count;
-  const variance = Math.abs(base) * 0.25;
-  const vals: number[] = [];
-  let rem = total;
-  for (let i = 0; i < count - 1; i++) {
-    const v = parseFloat((base + (Math.random() * 2 - 1) * variance).toFixed(2));
-    vals.push(v);
-    rem = parseFloat((rem - v).toFixed(2));
-  }
-  vals.push(parseFloat(rem.toFixed(2)));
-  return vals;
-}
-
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -55,46 +35,28 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+const WIN_PNL = 445;   // win  pnl = +445 EXATO (decisão do dono)
+const LOSS_PNL = -500; // loss pnl = -500 EXATO
+
 /**
- * Gera 3-5 operações individuais que, somadas, atingem o resultado da sessão.
- * Sessão vencedora: total entre R$594,22 e R$783,42
- * Sessão perdedora: total entre -R$372,92 e -R$237,27
+ * Gera 6-8 operações da sessão demo (decisão do dono). SIMULAÇÃO local (não opera na corretora).
+ * - `pnl` é o valor CANÔNICO: win=+445 / loss=-500 EXATOS. A lista (OperationsHistory) exibe `pnl`
+ *   e o acumulado no Index soma `pnl` → cada linha (+R$445/-R$500) bate com o "Resultado acumulado".
+ * - 1ª op SEMPRE win; no máximo 2 perdas; resto wins → saldo final SEMPRE positivo
+ *   (pior caso 4w+2l = +780; melhor 8w = +3560).
+ * - invest/payout = |pnl|/±100 (cosméticos; a lista nunca mostra número ≠ 445/500).
  */
 function generateSessionOps(sessionResult: OpResult): Operation[] {
-  const nOps = 3 + Math.floor(Math.random() * 3); // 3, 4 ou 5
+  const nOps = 6 + Math.floor(Math.random() * 3); // 6, 7 ou 8
 
-  const sessionTotal =
-    sessionResult === "win"
-      ? randFloat(594.22, 783.42)
-      : -randFloat(237.27, 372.92);
+  // A demo SEMPRE fecha positiva. Com MAX_SESSIONS=1 o sessionResult é sempre "win"; um "loss"
+  // hipotético cai em 0 perdas (sessão all-win) — a demo nunca fecha negativa.
+  const nLosses = sessionResult === "loss" ? 0 : Math.floor(Math.random() * 3); // 0, 1 ou 2
 
-  let entries: { result: OpResult; pnl: number }[];
-
-  if (sessionResult === "win") {
-    // 0 ou 1 perda dependendo de quantas ops
-    const nLosses = nOps === 3 ? (Math.random() > 0.55 ? 1 : 0) : 1;
-    const nWins = nOps - nLosses;
-    const losses = Array.from({ length: nLosses }, () => -randFloat(50, 135));
-    const lossSum = losses.reduce((s, v) => s + v, 0);
-    const winsTotal = parseFloat((sessionTotal - lossSum).toFixed(2));
-    const wins = distributeAmong(winsTotal, nWins);
-    entries = shuffle([
-      ...wins.map((pnl) => ({ result: "win" as OpResult, pnl })),
-      ...losses.map((pnl) => ({ result: "loss" as OpResult, pnl })),
-    ]);
-  } else {
-    // 0 ou 1 ganho dependendo de quantas ops
-    const nWins = nOps === 3 ? (Math.random() > 0.55 ? 1 : 0) : 1;
-    const nLosses = nOps - nWins;
-    const wins = Array.from({ length: nWins }, () => randFloat(45, 115));
-    const winSum = wins.reduce((s, v) => s + v, 0);
-    const lossesTotal = parseFloat((sessionTotal - winSum).toFixed(2));
-    const losses = distributeAmong(lossesTotal, nLosses);
-    entries = shuffle([
-      ...wins.map((pnl) => ({ result: "win" as OpResult, pnl })),
-      ...losses.map((pnl) => ({ result: "loss" as OpResult, pnl })),
-    ]);
-  }
+  // 1ª op SEMPRE win; as perdas só caem entre a 2ª e a última op (índices 1..nOps-1).
+  const results: OpResult[] = Array.from({ length: nOps }, () => "win" as OpResult);
+  const losablePositions = Array.from({ length: nOps - 1 }, (_, i) => i + 1);
+  for (const p of shuffle(losablePositions).slice(0, nLosses)) results[p] = "loss";
 
   // Constrói objetos Operation com horários sequenciais
   const base = new Date();
@@ -102,7 +64,7 @@ function generateSessionOps(sessionResult: OpResult): Operation[] {
   const MONTHS_PT = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
   const DEMO_EXPIRACAO = 5; // segundos — expiração fixa demo (5s)
 
-  return entries.map((e, i) => {
+  return results.map((result, i) => {
     const closeDate = new Date(base.getTime() + i * 8000);
     const openDate  = new Date(closeDate.getTime() - DEMO_EXPIRACAO * 1000);
     const closeTs = Math.floor(closeDate.getTime() / 1000);
@@ -114,19 +76,10 @@ function generateSessionOps(sessionResult: OpResult): Operation[] {
     const fmtDt  = (d: Date) =>
       `${pad(d.getDate())} ${MONTHS_PT[d.getMonth()]}`;
 
-    const pnl = parseFloat(e.pnl.toFixed(2));
-    // Calcula invest e payout de forma realista para blitz:
-    // WIN: payout 85-93%; invest = pnl / payoutRate
-    // LOSS: invest = |pnl|; payout = -100
-    let invest: number;
-    let payout: number;
-    if (e.result === "win") {
-      invest = parseFloat((Math.abs(pnl) / 0.92).toFixed(2));
-      payout = 92;
-    } else {
-      invest = parseFloat(Math.abs(pnl).toFixed(2));
-      payout = -100;
-    }
+    // pnl CANÔNICO: +445 (win) / -500 (loss) EXATOS. invest/payout = mesma magnitude (lista só mostra 445/500).
+    const pnl = result === "win" ? WIN_PNL : LOSS_PNL;
+    const invest = Math.abs(pnl);
+    const payout = result === "win" ? 100 : -100;
 
     return {
       id: `demo_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 5)}`,
@@ -137,7 +90,7 @@ function generateSessionOps(sessionResult: OpResult): Operation[] {
       timeFull:      fmtHMS(closeDate),
       openTimeFull:  fmtHMS(openDate),
       direction:     (Math.random() > 0.5 ? "call" : "put") as "call" | "put",
-      result:        e.result,
+      result,
       pnl,
       invest,
       payout,
@@ -263,7 +216,7 @@ export function useDemoMode(userId: string) {
   const isExhausted = isDemoEligible && demoState.sessionsUsed >= DEMO_MAX_SESSIONS;
 
   /**
-   * Consome uma sessão e retorna as 3–5 operações individuais que a compõem.
+   * Consome uma sessão e retorna as 6-8 operações individuais que a compõem.
    * Retorna null se as sessões estiverem esgotadas.
    */
   const runNextOp = useCallback(async (): Promise<Operation[] | null> => {
