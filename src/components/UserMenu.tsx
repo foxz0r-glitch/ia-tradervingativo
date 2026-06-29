@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,18 +7,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import {
-  ChevronDown,
-  Camera,
-  PlusCircle,
-  ArrowDownToLine,
-  Headset,
-  LogOut,
-  Copy,
-  Check,
-  BadgeCheck,
-} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { clearCredsCache } from "@/lib/credsCache";
 import { toast } from "sonner";
@@ -27,12 +14,8 @@ import { DepositButton } from "@/components/DepositButton";
 import { WithdrawButton } from "@/components/WithdrawButton";
 import { AvatarCropDialog } from "@/components/AvatarCropDialog";
 import { PhotoUploadDialog } from "@/components/UserProfileDialogs";
-import flagBrasil from "@/assets/flag-brasil.png";
-import { rankImg } from "@/lib/rankImages";
-import { nextRankOf } from "@/pages/ranking/_profileSections";
 import { SUPPORT_WHATSAPP_URL } from "@/lib/support";
-
-const fmt = (n: number) => n.toLocaleString("pt-BR");
+import { usePlan } from "@/hooks/usePlan";
 
 interface UserMenuProps {
   trigger?: React.ReactNode;
@@ -41,6 +24,14 @@ interface UserMenuProps {
   sideOffset?: number;
   alignOffset?: number;
 }
+
+// Estilo de item — copiado do RENDER do Perfil.dc.html (desktop: gap13/pad12/radius10).
+const MENU_ITEM: React.CSSProperties = {
+  display: "flex", alignItems: "center", gap: 13, padding: 12,
+  borderRadius: 10, cursor: "pointer", color: "#cfd6dd",
+};
+const MENU_LABEL: React.CSSProperties = { font: "600 13px 'Sora'" };
+const ITEM_CLASS = "transition-colors !bg-transparent focus:!bg-[rgba(34,197,94,0.08)] data-[highlighted]:!bg-[rgba(34,197,94,0.08)]";
 
 export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignOffset = 0 }: UserMenuProps = {}) {
   const navigate = useNavigate();
@@ -55,10 +46,9 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [photoOpen, setPhotoOpen] = useState(false);
-  const [userRank, setUserRank] = useState<string>("Prata I");
-  const [totalXp, setTotalXp] = useState<number>(0);
-  const [level, setLevel] = useState<number>(1);
-  const [score, setScore] = useState<number>(0);
+
+  const { plan } = usePlan();
+  const userPlan = plan?.plan_nome ?? "Free";
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const depositRef = useRef<HTMLDivElement>(null);
@@ -100,20 +90,6 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
           if (creds?.casatrade_user_id != null) {
             setBrokerId(String(creds.casatrade_user_id));
           }
-        } catch {
-          /* silent */
-        }
-        try {
-          const { data: xp } = await supabase
-            .from("user_xp")
-            .select("current_rank, total_xp, level, score")
-            .eq("user_id", user.id)
-            .maybeSingle();
-          if (xp?.current_rank) setUserRank(xp.current_rank);
-          const tx = xp?.total_xp ?? 0;
-          setTotalXp(tx);
-          setLevel(xp?.level ?? Math.max(1, Math.floor(Math.sqrt(tx / 50)) + 1));
-          setScore(Math.max(0, Math.min(100, Math.round(xp?.score ?? 0))));
         } catch {
           /* silent */
         }
@@ -210,16 +186,29 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
     toast.success("Foto atualizada!");
   };
 
-  const menuItems: Array<{
-    icon: React.ComponentType<{ className?: string }>;
-    label: string;
-    onClick?: () => void;
-    danger?: boolean;
-  }> = [
-    { icon: Camera, label: "Enviar uma foto", onClick: () => setPhotoOpen(true) },
-    { icon: PlusCircle, label: "Depositar fundos", onClick: () => triggerHidden(depositRef) },
-    { icon: ArrowDownToLine, label: "Retirar fundos", onClick: () => triggerHidden(withdrawRef) },
-    { icon: Headset, label: "Contactar o suporte", onClick: () => window.open(SUPPORT_WHATSAPP_URL, "_blank") },
+  // 6 itens do RENDER do Perfil.dc.html (a frase em prosa lista 5 e está desatualizada — segue a tela).
+  // SVG paths byte-exatos do arquivo; stroke #34d77a (Sair herda #f0726a via currentColor).
+  const items: Array<{ key: string; label: string; onClick: () => void; right?: string; svg: React.ReactNode }> = [
+    {
+      key: "perfil", label: "Perfil", onClick: () => navigate("/perfil"),
+      svg: (<><circle cx="12" cy="8.5" r="3.5" /><path d="M5 19c0-3.3 3-5.5 7-5.5s7 2.2 7 5.5" /></>),
+    },
+    {
+      key: "foto", label: "Enviar foto", onClick: () => setPhotoOpen(true),
+      svg: (<><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h1.5l1-1.5h6l1 1.5h1.5A1.5 1.5 0 0 1 19 8.5v8A1.5 1.5 0 0 1 17.5 18h-11A1.5 1.5 0 0 1 5 16.5z" /><circle cx="12" cy="12" r="3" /></>),
+    },
+    {
+      key: "saque", label: "Retirar fundos", onClick: () => triggerHidden(withdrawRef),
+      svg: (<><path d="M12 4v11" /><path d="M8 11l4 4 4-4" /><path d="M5 20h14" /></>),
+    },
+    {
+      key: "id", label: "Copiar ID", onClick: handleCopyId, right: brokerId || undefined,
+      svg: (<><rect x="9" y="9" width="11" height="11" rx="2.5" /><path d="M5 15V5a2 2 0 0 1 2-2h8" /></>),
+    },
+    {
+      key: "suporte", label: "Contatar suporte", onClick: () => window.open(SUPPORT_WHATSAPP_URL, "_blank"),
+      svg: (<><path d="M5 13v-1a7 7 0 0 1 14 0v1" /><rect x="3" y="13" width="4" height="6" rx="1.6" /><rect x="17" y="13" width="4" height="6" rx="1.6" /><path d="M19 19a3 3 0 0 1-3 3h-2" /></>),
+    },
   ];
 
   return (
@@ -227,19 +216,23 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           {trigger ?? (
-            <button className="flex h-10 items-center gap-2.5 rounded-full px-2 transition-colors hover:bg-muted/60 data-[state=open]:bg-muted/60">
-              <Avatar className="h-10 w-10 ring-1 ring-border/60">
+            <button type="button" aria-label="Menu do usuário" style={{ display: "flex", alignItems: "center", gap: 5, padding: 0, border: "none", background: "transparent", cursor: "pointer" }}>
+              <span
+                style={{
+                  width: 38, height: 38, borderRadius: "50%",
+                  background: "linear-gradient(160deg,#22c55e,#15924a)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  font: "700 13px 'Sora'", color: "#04140a", overflow: "hidden",
+                  boxShadow: "0 0 16px -6px rgba(34,197,94,.7)",
+                }}
+              >
                 {avatarUrl ? (
-                  <AvatarImage src={avatarUrl} className="object-cover" />
-                ) : null}
-                <AvatarFallback className="bg-gradient-to-br from-[hsl(139_80%_30%)] to-[hsl(139_80%_18%)] text-sm font-bold text-[hsl(139_80%_85%)]">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
-              <span className="hidden truncate text-sm font-semibold text-foreground sm:inline-block max-w-[180px]">
-                {fullName}
+                  <img src={avatarUrl} alt={fullName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  initials
+                )}
               </span>
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              <span style={{ color: "#86a596", font: "600 11px 'Sora'" }}>▾</span>
             </button>
           )}
         </DropdownMenuTrigger>
@@ -249,167 +242,69 @@ export function UserMenu({ trigger, side, align = "end", sideOffset = 12, alignO
           align={align}
           sideOffset={sideOffset}
           alignOffset={alignOffset}
-          className="relative w-[min(660px,calc(100vw-1rem))] max-h-[calc(100svh-1rem)] overflow-y-auto overflow-x-hidden rounded-2xl border border-[hsl(139_80%_45%/0.25)] p-0 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+          className="min-w-0 overflow-hidden border-0 bg-transparent p-0 shadow-none"
           style={{
-            background: "linear-gradient(180deg, hsl(220 22% 9% / 0.92), hsl(220 25% 6% / 0.94))",
+            width: 272,
+            borderRadius: 16,
+            padding: 8,
+            background: "radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%)",
+            border: "1px solid rgba(34,197,94,.3)",
+            boxShadow: "0 24px 60px -18px rgba(0,0,0,.75), 0 0 40px -14px rgba(34,197,94,.5)",
           }}
         >
-          {/* Decorative layers */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-          <div className="pointer-events-none absolute -left-20 -top-20 h-56 w-56 rounded-full bg-primary/15 blur-3xl" />
-          <div className="pointer-events-none absolute -right-16 top-24 h-44 w-44 rounded-full bg-[hsl(217_91%_60%/0.12)] blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,hsl(139_80%_45%/0.06),transparent_60%)]" />
-
-          {/* Body: 2 columns (stack on mobile) */}
-          <div className="relative grid grid-cols-1 sm:grid-cols-[1.2fr_1.05fr] gap-0">
-            {/* LEFT — Profile info */}
-            <div className="flex flex-col gap-3.5 p-5">
-              {/* Rank badge + name */}
-              <div className="min-w-0">
-                <img
-                  src={rankImg(userRank)}
-                  alt={userRank}
-                  className="mb-1.5 h-[35px] w-auto"
-                  style={{ filter: "drop-shadow(0 0 6px hsl(0 0% 100% / 0.45)) drop-shadow(0 0 3px hsl(0 0% 100% / 0.3))" }}
-                />
-                <div className="flex items-center gap-1.5">
-                  <h3 className="truncate text-2xl font-bold uppercase tracking-wide text-foreground">
-                    {fullName}
-                  </h3>
-                  <TooltipProvider delayDuration={150}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <BadgeCheck className="h-5 w-5 shrink-0 cursor-help text-primary" />
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="text-xs">Conta Verificada</TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-                <p className="truncate text-xs text-muted-foreground">{email}</p>
-              </div>
-
-              {/* Nível (XP) */}
-              {(() => {
-                const levelWidth = Math.max(1, 50 * (2 * level - 1));
-                const remainingXp = Math.max(0, level * level * 50 - totalXp);
-                const xpInLevel = Math.max(0, levelWidth - remainingXp);
-                const pctLevel = Math.min(100, Math.max(0, Math.round((xpInLevel / levelWidth) * 100)));
-                return (
-                  <div>
-                    <div className="mb-1 text-[12px] font-bold uppercase tracking-wider text-foreground/90">
-                      Nível (XP) — Lv {level}
-                    </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-[hsl(220_15%_24%)] ring-1 ring-inset ring-[hsl(220_15%_30%)]">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${pctLevel}%`,
-                          background: "linear-gradient(90deg, hsl(220 90% 60%), hsl(265 85% 65%), hsl(310 80% 65%))",
-                          boxShadow: "0 0 8px hsl(265 85% 60% / 0.55)",
-                        }}
-                      />
-                    </div>
-                    <div className="mt-1 text-[11px] tabular-nums text-muted-foreground/70">
-                      Progresso {pctLevel}% · {fmt(remainingXp)} XP restantes
-                    </div>
-                  </div>
-                );
-              })()}
-
-              {/* Rank (Score) */}
-              <div>
-                <div className="mb-1 text-[12px] font-bold uppercase tracking-wider text-foreground/90">
-                  Rank (Score) — {userRank}
-                </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-[hsl(220_15%_24%)] ring-1 ring-inset ring-[hsl(220_15%_30%)]">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${score}%`,
-                      background: "linear-gradient(90deg, hsl(139 80% 55%), #eab308, #f97316, #ef4444)",
-                      boxShadow: "0 0 8px hsl(139 80% 55% / 0.55)",
-                    }}
-                  />
-                </div>
-                <div className="mt-1 text-[11px] tabular-nums text-muted-foreground/70">
-                  Score {score}/100 · próxima: {nextRankOf(userRank)}
-                </div>
-              </div>
-
-              {/* Brasil */}
-              <div className="mt-3 flex items-center gap-2">
-                <img src={flagBrasil} alt="Brasil" className="h-4 w-4 rounded-full object-cover" />
-                <span className="text-base font-normal leading-none text-foreground">Brasil</span>
-              </div>
-
-              {/* Registro + ID na mesma linha */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-foreground/90">
-                    Registro:
-                  </div>
-                  <div className="text-xs font-normal text-foreground/85">
-                    {registeredAt || "—"}
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-foreground/90">
-                    ID:
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-normal text-foreground/85">{brokerId || "—"}</span>
-                    {brokerId && (
-                      <button
-                        type="button"
-                        onClick={handleCopyId}
-                        className="rounded p-1 text-muted-foreground hover:bg-primary/15 hover:text-primary"
-                        aria-label="Copiar ID"
-                      >
-                        {copied ? <Check className="h-3.5 w-3.5 text-primary" /> : <Copy className="h-3.5 w-3.5" />}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT — Menu items */}
-            <div className="flex flex-col border-l border-border/60 bg-background/30 p-2.5">
-              {menuItems.map((it) => (
-                <DropdownMenuItem
-                  key={it.label}
-                  onSelect={(e) => {
-                    if (it.onClick) {
-                      e.preventDefault();
-                      it.onClick();
-                    }
-                  }}
-                  className="group/mi cursor-pointer gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-none focus:bg-primary/10 focus:text-foreground data-[highlighted]:bg-primary/10 data-[highlighted]:text-foreground"
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/40 text-muted-foreground group-focus/mi:bg-primary/15 group-focus/mi:text-primary group-data-[highlighted]/mi:bg-primary/15 group-data-[highlighted]/mi:text-primary">
-                    <it.icon className="h-4 w-4" />
-                  </span>
-                  {it.label}
-                </DropdownMenuItem>
-              ))}
-
-              {/* Divider + Sair (aligned with Definições) */}
-              <DropdownMenuSeparator className="my-1.5 bg-border/60" />
-
-              <DropdownMenuItem
-                onSelect={(e) => {
-                  e.preventDefault();
-                  handleSignOut();
-                }}
-                className="group/mi cursor-pointer gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-none focus:bg-primary/10 focus:text-foreground data-[highlighted]:bg-primary/10 data-[highlighted]:text-foreground"
-              >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-muted/40 text-muted-foreground group-focus/mi:bg-primary/15 group-focus/mi:text-primary group-data-[highlighted]/mi:bg-primary/15 group-data-[highlighted]/mi:text-primary">
-                  <LogOut className="h-4 w-4" />
-                </span>
-                Sair
-              </DropdownMenuItem>
+          {/* Header: avatar 42px + nome + plano (RENDER L98) */}
+          <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "12px 12px 14px", borderBottom: "1px solid rgba(34,197,94,.12)", marginBottom: 6 }}>
+            <span
+              style={{
+                width: 42, height: 42, borderRadius: "50%",
+                background: "linear-gradient(160deg,#22c55e,#15924a)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                font: "700 14px 'Sora'", color: "#04140a", overflow: "hidden", flex: "none",
+              }}
+            >
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={fullName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                initials
+              )}
+            </span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ font: "700 14px 'Sora'", color: "#eef5f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{fullName}</div>
+              <div style={{ font: "500 11px 'Sora'", color: "#5d8a70" }}>Plano {userPlan}</div>
             </div>
           </div>
+
+          {items.map((it) => (
+            <DropdownMenuItem
+              key={it.key}
+              onSelect={(e) => { e.preventDefault(); it.onClick(); }}
+              className={ITEM_CLASS}
+              style={MENU_ITEM}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d77a" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}>
+                {it.svg}
+              </svg>
+              <span style={MENU_LABEL}>{it.label}</span>
+              {it.right && (
+                <span style={{ marginLeft: "auto", font: "500 10px 'JetBrains Mono'", color: "#5d7167" }}>{it.right}</span>
+              )}
+            </DropdownMenuItem>
+          ))}
+
+          <DropdownMenuSeparator style={{ height: 1, background: "rgba(34,197,94,.12)", margin: "6px 8px" }} />
+
+          <DropdownMenuItem
+            onSelect={(e) => { e.preventDefault(); handleSignOut(); }}
+            className={ITEM_CLASS}
+            style={{ ...MENU_ITEM, color: "#f0726a" }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}>
+              <path d="M15 17l5-5-5-5" />
+              <path d="M20 12H9" />
+              <path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3" />
+            </svg>
+            <span style={MENU_LABEL}>Sair</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
