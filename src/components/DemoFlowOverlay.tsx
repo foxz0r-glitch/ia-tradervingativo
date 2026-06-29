@@ -3,6 +3,7 @@
 // NÃO fecha ao clicar fora (sem onClick no backdrop). Some quando phase === "idle". Keyframes LOCAIS (não index.css).
 import { useEffect, useState } from "react";
 import type { Operation } from "@/components/OperationsHistory";
+import { formatMoeda } from "@/lib/moeda";
 
 export type DemoPhase = "idle" | "procurando" | "operando" | "pausado" | "resultado";
 
@@ -125,6 +126,72 @@ function ProcurandoScreen() {
   );
 }
 
+// ===================== Tela OPERANDO (hero) — Fatia 3a (lista = 3b) =====================
+// Dinheiro formatado com o formatador REAL do app (formatMoeda), moeda BRL (demo em R$).
+function OperandoScreen({ ops, sessionPnl, wins, losses }: { ops: Operation[]; sessionPnl: number; wins: number; losses: number }) {
+  const total = wins + losses;
+  const winRate = total > 0 ? Math.round((wins / total) * 100) : 0; // 0% se sem ops
+  const pos = sessionPnl >= 0;
+  const valueStr = `${pos ? "+" : "-"}${formatMoeda(Math.abs(sessionPnl), "BRL")}`; // ex.: +R$ 445,00
+
+  return (
+    <div style={{ flex: 1, minHeight: 0, width: "100%", maxWidth: 420, display: "flex", flexDirection: "column" }}>
+      {/* Keyframes LOCAIS: reusa tv-radar/tv-floatGlow + adiciona tv-livePulse */}
+      <style>{`
+@keyframes tv-radar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes tv-floatGlow { 0%,100% { opacity: .45; transform: scale(.92); } 50% { opacity: 1; transform: scale(1); } }
+@keyframes tv-livePulse { 0% { transform: scale(.9); opacity: .9; } 70% { transform: scale(2.4); opacity: 0; } 100% { transform: scale(2.4); opacity: 0; } }
+`}</style>
+
+      {/* ===== HERO ===== */}
+      <div style={{ position: "relative", padding: "14px 2px 12px" }}>
+        {/* mini-radar no canto */}
+        <div style={{ position: "absolute", top: -2, right: -26, width: 128, height: 128, pointerEvents: "none", opacity: 0.8 }}>
+          <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid rgba(34,197,94,.16)" }} />
+          <span style={{ position: "absolute", inset: 26, borderRadius: "50%", border: "1px solid rgba(34,197,94,.12)" }} />
+          <span style={{ position: "absolute", top: "50%", left: "50%", width: 8, height: 8, margin: "-4px 0 0 -4px", borderRadius: "50%", background: "#22c55e", boxShadow: "0 0 12px #22c55e" }} />
+          <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "conic-gradient(from 0deg, rgba(34,197,94,0) 0deg, rgba(34,197,94,.22) 55deg, rgba(34,197,94,0) 90deg)", animation: "tv-radar 3.2s linear infinite" }} />
+        </div>
+
+        <div style={{ position: "relative" }}>
+          {/* badge "IA OPERANDO AO VIVO" — dot = 2 spans (fixo + onda tv-livePulse) */}
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 14px", borderRadius: 30, background: "rgba(6,12,8,.7)", border: "1px solid rgba(34,197,94,.4)", boxShadow: "0 0 20px -6px rgba(34,197,94,.6)" }}>
+            <span style={{ position: "relative", width: 8, height: 8 }}>
+              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#22c55e" }} />
+              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#22c55e", animation: "tv-livePulse 1.8s ease-out infinite" }} />
+            </span>
+            <span style={{ font: "700 11px 'Sora'", letterSpacing: ".18em", color: "#5dffa0" }}>IA OPERANDO AO VIVO</span>
+          </div>
+
+          {/* label + número acumulado (sessionPnl em R$ via formatMoeda, com sinal e cor runtime) */}
+          <div style={{ font: "600 11px 'Sora'", letterSpacing: ".22em", color: "#5d8a70", textTransform: "uppercase", marginTop: 16 }}>Resultado acumulado</div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 50, lineHeight: 1, marginTop: 6, textAlign: "left", fontVariantNumeric: "tabular-nums", color: pos ? "#34d77a" : "#f0726a", textShadow: "0 0 34px rgba(34,197,94,.5)" }}>
+            {valueStr}
+          </div>
+        </div>
+
+        {/* ===== MÉTRICAS ===== */}
+        <div style={{ display: "flex", marginTop: 18, borderTop: "1px solid rgba(34,197,94,.16)", paddingTop: 13 }}>
+          <div style={{ flex: 1, textAlign: "center", borderRight: "1px solid rgba(34,197,94,.14)" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 23, color: "#eef5f0" }}>{ops.length}</div>
+            <div style={{ font: "600 9px 'Sora'", letterSpacing: ".16em", color: "#5d7167", textTransform: "uppercase", marginTop: 3 }}>Operações</div>
+          </div>
+          <div style={{ flex: 1, textAlign: "center", borderRight: "1px solid rgba(34,197,94,.14)" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 23, color: "#34d77a" }}>{winRate}%</div>
+            <div style={{ font: "600 9px 'Sora'", letterSpacing: ".16em", color: "#5d7167", textTransform: "uppercase", marginTop: 3 }}>Acerto</div>
+          </div>
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 23, color: "#eef5f0" }}>{wins}</div>
+            <div style={{ font: "600 9px 'Sora'", letterSpacing: ".16em", color: "#5d7167", textTransform: "uppercase", marginTop: 3 }}>Wins</div>
+          </div>
+        </div>
+
+        {/* Lista de operações ao vivo = Fatia 3b (ainda não feita) */}
+      </div>
+    </div>
+  );
+}
+
 export function DemoFlowOverlay({
   phase, ops, sessionPnl, wins, losses, endedManually,
   onPausar, onRetomar, onParar, onFechar,
@@ -154,8 +221,10 @@ export function DemoFlowOverlay({
     >
       {phase === "procurando" ? (
         <ProcurandoScreen />
+      ) : phase === "operando" ? (
+        <OperandoScreen ops={ops} sessionPnl={sessionPnl} wins={wins} losses={losses} />
       ) : (
-        /* ===== PLACEHOLDER por fase (substituído pelas telas reais nas Fatias 2c-5) ===== */
+        /* ===== PLACEHOLDER por fase (substituído pelas telas reais nas Fatias 4-5) ===== */
         <>
           <div style={{ font: "700 12px 'Sora'", letterSpacing: ".28em", color: "#5d8a70" }}>
             {PHASE_LABEL[phase]}
