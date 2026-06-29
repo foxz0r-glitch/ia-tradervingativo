@@ -26,7 +26,6 @@ import LiveChart from "@/components/LiveChart";
 import { AssetCombobox, DEFAULT_ASSETS } from "@/components/AssetCombobox";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { OperationsHistory, type Operation, type SessionEntry } from "@/components/OperationsHistory";
-import { AIConfigPanel } from "@/components/AIConfigPanel";
 import { CockpitVariants } from "@/components/CockpitVariants";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { IAStatusBanner } from "@/components/IAStatusBanner";

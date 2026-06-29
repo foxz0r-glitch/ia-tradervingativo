@@ -1,7 +1,7 @@
 // Cockpit do Trader — painel direito de controles (reskin RECON-4: SliderRow.dc.html + Dashboard.dc.html).
 // ‼️ Estes controles alimentam o robô. Reskin é SÓ aparência: estados/props/handlers/clamp/min-max/gates INALTERADOS.
 // - Valor por operação / Meta / Stop loss: <Slider> shadcn (arrastar real) re-vestido por instância via CSS vars.
-// - Defesa Técnica (gale): stepper inteiro 1–5 (maxLoss) com 5 segmentos.
+// - Defesa Técnica (gale): stepper inteiro 1–4 (maxLoss) com 4 segmentos.
 // - Botão "LIGAR IA" (gates inalterados: onStart/onStop/canStart/canStop).
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Play, Square } from "lucide-react";
@@ -251,18 +251,18 @@ function SliderRow({
   );
 }
 
-// ===================== Defesa Técnica (gale) — stepper inteiro 1–5 (WIRING INALTERADO) =====================
-// Gale é CONTAGEM de níveis (inteiro), nunca dinheiro. money-safety: set() clampa SEMPRE 1..5.
+// ===================== Defesa Técnica (gale) — stepper inteiro 1–4 (WIRING INALTERADO) =====================
+// Gale é CONTAGEM de níveis (inteiro), nunca dinheiro. money-safety: set() clampa SEMPRE 1..4 (teto = decisão de risco do dono).
 function GaleControl({ value, setValue }: { value: number; setValue: (n: number) => void }) {
-  const v = Math.max(1, Math.min(5, Math.floor(Number(value) || 1)));
-  const set = (n: number) => setValue(Math.max(1, Math.min(5, Math.floor(Number(n)))));
+  const v = Math.max(1, Math.min(4, Math.floor(Number(value) || 1)));
+  const set = (n: number) => setValue(Math.max(1, Math.min(4, Math.floor(Number(n)))));
   return (
     <div>
       <div className="mb-3 flex items-center justify-between gap-2">
         <span style={LABEL_STYLE}>Defesa Técnica</span>
         <EditableValue
           value={v} onCommit={set}
-          min={1} max={5} integer
+          min={1} max={4} integer
           color={VALUE} ariaLabel="Defesa Técnica" align="center" boxW={44}
         />
       </div>
@@ -277,7 +277,7 @@ function GaleControl({ value, setValue }: { value: number; setValue: (n: number)
           <span style={MINUS_GLYPH}>−</span>
         </button>
         <div className="flex flex-1 items-center" style={{ gap: 6 }}>
-          {[1, 2, 3, 4, 5].map((n) => (
+          {[1, 2, 3, 4].map((n) => (
             <span
               key={n}
               aria-hidden
@@ -295,7 +295,7 @@ function GaleControl({ value, setValue }: { value: number; setValue: (n: number)
           type="button"
           aria-label="Aumentar defesa"
           onClick={() => set(v + 1)}
-          disabled={v >= 5}
+          disabled={v >= 4}
           className={STEP_BTN_CLASS}
         >
           <span style={PLUS_GLYPH}>+</span>
