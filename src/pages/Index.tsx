@@ -26,6 +26,7 @@ import LiveChart from "@/components/LiveChart";
 import { AssetCombobox, DEFAULT_ASSETS } from "@/components/AssetCombobox";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { OperationsHistory, type Operation, type SessionEntry } from "@/components/OperationsHistory";
+import { DemoFlowOverlay } from "@/components/DemoFlowOverlay";
 import { CockpitVariants } from "@/components/CockpitVariants";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { IAStatusBanner } from "@/components/IAStatusBanner";
@@ -147,6 +148,16 @@ const Index = () => {
   const [demoModalMode, setDemoModalMode] = useState<"available" | "exhausted">("available");
   // Trigger oculto p/ abrir o depósito ao fim da demo (reusa o DepositButton; mesmo padrão do UserMenu)
   const demoDepositRef = useRef<HTMLDivElement>(null);
+
+  // ---- Fluxo DEMO (4 telas) — FASE + lista/agregados PRÓPRIOS (isolados do cockpit) + cancelamento ----
+  const [demoPhase, setDemoPhase] = useState<"idle" | "procurando" | "operando" | "pausado" | "resultado">("idle");
+  const [demoOps, setDemoOps] = useState<Operation[]>([]);
+  const [demoSessionPnl, setDemoSessionPnl] = useState(0);
+  const [demoWins, setDemoWins] = useState(0);
+  const [demoLosses, setDemoLosses] = useState(0);
+  const [demoEndedManually, setDemoEndedManually] = useState(false);
+  const demoCancelRef = useRef(false); // PARAR/FECHAR setam true → o loop aborta sem mais setState
+  const demoTimersRef = useRef<Array<{ id: ReturnType<typeof setTimeout>; resolve: (done: boolean) => void }>>([]);
 
   // ---- Ativação de plano ----
   const [hasActivePlan, setHasActivePlan] = useState<boolean | null>(null);
@@ -711,75 +722,90 @@ const Index = () => {
     return () => ws.removeEventListener("message", handler);
   }, [wsRef, ativo, connected]);
 
+  // Sleep CANCELÁVEL: resolve(true) ao disparar naturalmente; cancelDemoTimers() resolve(false)
+  // imediatamente no PARAR/FECHAR → o `await` retorna false e o loop aborta (sem timer órfão, sem hang).
+  const demoSleep = (ms: number) =>
+    new Promise<boolean>((resolve) => {
+      const id = setTimeout(() => {
+        demoTimersRef.current = demoTimersRef.current.filter((t) => t.id !== id);
+        resolve(true);
+      }, ms);
+      demoTimersRef.current.push({ id, resolve });
+    });
+  const cancelDemoTimers = () => {
+    demoTimersRef.current.forEach(({ id, resolve }) => { clearTimeout(id); resolve(false); });
+    demoTimersRef.current = [];
+  };
+
   const handleStartDemoSession = async () => {
-    // Feedback SÍNCRONO no clique (antes de qualquer await/yield): fecha o modal e liga
-    // o estado "operando" + zera os contadores. A 1ª operação ainda aparece só após o
-    // delay (for-loop abaixo) — o que muda é o modal NÃO travar mais.
+    // Início SÍNCRONO no clique: fecha o gate, liga a sessão, reseta o estado PRÓPRIO da demo.
+    // (NÃO toca operations/sessionPnl/ganhos/perdas do cockpit — a demo tem lista/agregados isolados.)
     setDemoModalOpen(false);
     setDemoRunning(true);
-    setGanhos(0);
-    setPerdas(0);
-    setSessionPnl(0);
+    demoCancelRef.current = false;
+    cancelDemoTimers();
+    setDemoEndedManually(false);
+    setDemoOps([]);
+    setDemoSessionPnl(0);
+    setDemoWins(0);
+    setDemoLosses(0);
+    setDemoPhase("procurando");
 
     let ops: Operation[] | null;
     try {
-      ops = await runNextDemoOp();
+      ops = await runNextDemoOp(); // motor (useDemoMode) — NÃO alterado
     } catch (e) {
-      setDemoRunning(false); // erro ao iniciar → desfaz o "operando" (não deixa o botão travado)
+      if (!demoCancelRef.current) { setDemoRunning(false); setDemoPhase("idle"); }
       console.warn("[demo] falha ao iniciar sessão:", e instanceof Error ? e.message : String(e));
       return;
     }
-    if (!ops || ops.length === 0) {
-      setDemoRunning(false); // sem sessão disponível → desfaz o "operando"
-      return;
-    }
+    if (demoCancelRef.current) return;
+    if (!ops || ops.length === 0) { setDemoRunning(false); setDemoPhase("idle"); return; }
 
-    const fmtBRL = (v: number) =>
-      v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-    const toastId = toast.loading(
-      `🤖 Sessão demo em andamento — ${ops.length} operações...`,
-      { duration: Infinity }
-    );
-
-    // Exibe cada operação progressivamente (intervalo 4–10 s)
-    let winsCount = 0;
-    let lossesCount = 0;
+    // Loop por operação, alternando fases, com checagem de cancelamento a cada etapa.
+    let wins = 0;
+    let losses = 0;
     for (const op of ops) {
-      await new Promise((r) => setTimeout(r, 4000 + Math.random() * 6000));
-      setOperations((prev) => [op, ...prev].slice(0, 50));
-      setSessionPnl((prev) => prev + op.pnl);
-      if (op.result === "win") { winsCount++; setGanhos(winsCount); }
-      else if (op.result === "loss") { lossesCount++; setPerdas(lossesCount); }
+      // FASE "procurando" (radar caçando) — 4-8s
+      setDemoPhase("procurando");
+      if (!(await demoSleep(4000 + Math.random() * 4000))) return; // cancelado → aborta (sem mais setState)
+      if (demoCancelRef.current) return;
+
+      // FASE "operando" — revela a op + atualiza agregados PRÓPRIOS, segura 4s
+      setDemoPhase("operando");
+      setDemoOps((prev) => [op, ...prev]);
+      setDemoSessionPnl((prev) => prev + op.pnl);
+      if (op.result === "win") { wins++; setDemoWins(wins); }
+      else if (op.result === "loss") { losses++; setDemoLosses(losses); }
+      if (!(await demoSleep(4000))) return;
+      if (demoCancelRef.current) return;
     }
 
-    const sessionTotal = ops.reduce((s, o) => s + o.pnl, 0);
-    const isWinSession = sessionTotal >= 0;
-
-    if (isWinSession) {
-      toast.success(`✅ Sessão Demo encerrada — Resultado: ${fmtBRL(sessionTotal)}`, {
-        id: toastId,
-        duration: 6000,
-        style: { background: "hsl(139 80% 18%)", color: "hsl(139 80% 85%)", border: "1px solid hsl(139 80% 35%)" },
-      });
-    } else {
-      toast.error(`❌ Sessão Demo encerrada — Resultado: ${fmtBRL(sessionTotal)}`, {
-        id: toastId,
-        duration: 6000,
-        style: { background: "hsl(0 60% 18%)", color: "hsl(0 84% 85%)", border: "1px solid hsl(0 84% 40%)" },
-      });
-    }
-
-    setDemoRunning(false);
-
-    // Sessão única consumida → vai direto ao depósito após breve pausa
-    // (reusa o <DepositButton> via ref oculto — mesmo padrão do triggerHidden do UserMenu)
-    if (sessionsLeft <= 1) {
-      setTimeout(() => {
-        demoDepositRef.current?.querySelector("button")?.click();
-      }, 2500);
-    }
+    // Fim NATURAL → tela Resultado (demoRunning só vira false no FECHAR).
+    setDemoPhase("resultado");
   };
+
+  // PARAR (procurando/operando/pausado): cancela timers + vai pra Resultado (manual).
+  // Nenhum setTimeout pendente reabre o overlay (cancelDemoTimers + demoCancelRef abortam o loop).
+  const handleDemoParar = () => {
+    demoCancelRef.current = true;
+    cancelDemoTimers();
+    setDemoEndedManually(true);
+    setDemoPhase("resultado");
+  };
+
+  // FECHAR (tela Resultado): fecha o overlay. SÓ AQUI demoRunning volta a false
+  // (p/ o LIGAR IA não reabilitar com o overlay aberto).
+  const handleDemoFechar = () => {
+    demoCancelRef.current = true;
+    cancelDemoTimers();
+    setDemoPhase("idle");
+    setDemoRunning(false);
+  };
+
+  // Pausar/Retomar — stubs (Fatia 4). Não quebram nada por ora.
+  const handleDemoPausar = () => { /* TODO Fatia 4 */ };
+  const handleDemoRetomar = () => { /* TODO Fatia 4 */ };
 
   const handleStart = async () => {
     if (startingRef.current) return;
@@ -1209,7 +1235,7 @@ const Index = () => {
                   setStopLoss={setStopLoss}
                   onStart={handleStart}
                   onStop={parar}
-                  canStart={(connected || isDemoEligible) && !rodando && !demoRunning}
+                  canStart={(connected || isDemoEligible) && !rodando && !demoRunning && demoPhase === "idle"}
                   canStop={connected && rodando}
                   rodando={rodando}
                 />
@@ -1293,10 +1319,24 @@ const Index = () => {
           running={demoRunning}
         />
 
-        {/* Trigger oculto de depósito — reusa o DepositButton (padrão do UserMenu) p/ ir direto ao depósito ao fim da demo */}
+        {/* Trigger oculto de depósito — reusa o DepositButton (padrão do UserMenu); usado pela tela Resultado (Fatia 5) */}
         <div ref={demoDepositRef} className="hidden">
           <DepositButton variant="default" />
         </div>
+
+        {/* Overlay do fluxo DEMO (4 telas) — montado só quando a sessão demo está ativa (fase ≠ idle) */}
+        <DemoFlowOverlay
+          phase={demoPhase}
+          ops={demoOps}
+          sessionPnl={demoSessionPnl}
+          wins={demoWins}
+          losses={demoLosses}
+          endedManually={demoEndedManually}
+          onPausar={handleDemoPausar}
+          onRetomar={handleDemoRetomar}
+          onParar={handleDemoParar}
+          onFechar={handleDemoFechar}
+        />
 
         {aiModelLoading && <LoadingSpinner />}
 
