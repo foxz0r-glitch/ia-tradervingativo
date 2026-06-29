@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Loader2,
   Sparkles,
-  Bot,
   Plus,
   ArrowUpRight,
   Key,
@@ -34,10 +33,10 @@ import { IAStatusBanner } from "@/components/IAStatusBanner";
 import { OperationSummaryDialog, type SummaryReason } from "@/components/OperationSummaryDialog";
 
 import { loadActiveStrategy } from "@/components/StrategyBuilder";
-import claudeIcon from "@/assets/ai-claude.webp";
-import gptIcon from "@/assets/ai-gpt.webp";
-import geminiIcon from "@/assets/ai-gemini.webp";
-import grokIcon from "@/assets/ai-grok.webp";
+import claudeIcon from "@/assets/ai/claude_icon.webp";
+import gptIcon from "@/assets/ai/chatgpt_icon.webp";
+import geminiIcon from "@/assets/ai/gemini_icon.webp";
+import grokIcon from "@/assets/ai/grok_icon.webp";
 import { supabase } from "@/integrations/supabase/client";
 import { formatMoeda, simboloMoeda } from "@/lib/moeda";
 import { cockpitLimits, clampRange } from "@/lib/cockpitLimits";
@@ -87,6 +86,13 @@ function smartCockpitDefault(pct: number, saldo: number, min: number, max: numbe
   const raw = saldo * pct;
   const v = raw >= 50 ? Math.round(raw / 5) * 5 : Math.round(raw);
   return Math.max(min, Math.min(max, v));
+}
+
+// Split "R$ 55.175,76" → { main:"R$ 55.175", cents:",76" } p/ colorir os centavos (#86b59a) como no handoff.
+// Display-only: NÃO altera o valor (formatMoeda é a fonte); fallback = string inteira em `main`.
+function splitMoedaCentavos(s: string): { main: string; cents: string } {
+  const m = s.match(/^(.*?)([.,]\d{2})$/);
+  return m ? { main: m[1], cents: m[2] } : { main: s, cents: "" };
 }
 
 const Index = () => {
@@ -173,6 +179,13 @@ const Index = () => {
         if (!hasPlan) setActivationOpen(true);
       });
   }, [userId]);
+
+  // Event bus: o header do layout (App.tsx) dispara "tv:open-activation" → abre o modal de ativação aqui.
+  useEffect(() => {
+    const open = () => setActivationOpen(true);
+    window.addEventListener("tv:open-activation", open);
+    return () => window.removeEventListener("tv:open-activation", open);
+  }, []);
 
   const handleClaimCode = async () => {
     if (!activationCode.trim()) return;
@@ -941,40 +954,14 @@ const Index = () => {
   return (
     <div className="min-h-screen w-full text-foreground">
       <div className="mx-auto w-full max-w-[1520px] px-4 py-5 sm:px-6 md:py-8">
-        {/* ============== HEADER (conteúdo do cockpit) ============== */}
-        <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <span className="font-sans text-[12px] font-bold uppercase tracking-[0.26em] text-[#5d8a70]">
-            COCKPIT DO TRADER
-          </span>
-          <div className="flex flex-wrap items-center justify-end gap-2.5">
-            {/* Indicador de conexão preservado — contrato data-state={connected} */}
-            <span
-              className="ct-dot self-center"
-              data-state={connected ? "online" : "offline"}
-              title={connected ? "Robô conectado" : "Robô desconectado"}
-              aria-label={connected ? "Robô conectado" : "Robô desconectado"}
-            />
-            {/* + Depositar — DepositButton existente (SHARED, NÃO editado). Cor segue verde antigo até o reskin do componente. */}
-            <DepositButton label="Depositar" />
-            {/* Ativar Plano — PRESERVA o onClick atual (abre o modal de ativação, NÃO handleClaimCode) */}
-            {hasActivePlan === false && (
-              <button
-                type="button"
-                onClick={() => setActivationOpen(true)}
-                className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-[rgba(34,197,94,0.5)] bg-[rgba(34,197,94,0.08)] px-3.5 text-sm font-semibold text-[#5dffa0] transition-colors hover:bg-[rgba(34,197,94,0.14)]"
-              >
-                <Key className="h-4 w-4" />
-                Ativar Plano
-              </button>
-            )}
-          </div>
-        </header>
+        {/* Header (título + Depositar + Ativar) agora vive no DashboardLayout (App.tsx).
+            Ativação: o botão "Ativar Plano" do layout dispara "tv:open-activation" → escutado acima. */}
 
         {/* ============== ABA Cockpit | Histórico (alterna só o miolo) ============== */}
-        <div className="mb-5 inline-flex items-center gap-1.5 rounded-[10px] border border-[rgba(255,255,255,0.08)] bg-[#060a08] p-1">
+        <div className="mb-5 flex gap-2" style={{ maxWidth: 300 }}>
           {([
-            { id: "cockpit", label: "Cockpit" },
-            { id: "historico", label: "Histórico" },
+            { id: "cockpit", label: "COCKPIT" },
+            { id: "historico", label: "HISTÓRICO" },
           ] as const).map((t) => {
             const active = view === t.id;
             return (
@@ -982,11 +969,19 @@ const Index = () => {
                 key={t.id}
                 type="button"
                 onClick={() => setView(t.id)}
-                className={`rounded-[3px] px-4 py-1.5 text-[13px] font-semibold transition-colors ${
-                  active
-                    ? "border border-[rgba(34,197,94,0.5)] bg-[rgba(34,197,94,0.14)] text-[#5dffa0]"
-                    : "border border-[rgba(255,255,255,0.1)] text-[#9bb0a5] hover:text-foreground"
-                }`}
+                className="flex-1 transition-colors"
+                style={{
+                  padding: 10,
+                  borderRadius: 11,
+                  textAlign: "center",
+                  fontFamily: "'Sora', sans-serif",
+                  fontWeight: 700,
+                  fontSize: 11,
+                  letterSpacing: ".14em",
+                  border: active ? "1px solid rgba(34,197,94,.5)" : "1px solid rgba(255,255,255,.08)",
+                  background: active ? "rgba(34,197,94,.14)" : "rgba(255,255,255,.02)",
+                  color: active ? "#5dffa0" : "#9bb0a5",
+                }}
               >
                 {t.label}
               </button>
@@ -1029,39 +1024,44 @@ const Index = () => {
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.7fr_1fr]">
+          <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[1.7fr_1fr] lg:gap-[22px]">
             {/* ===== ESQUERDA ===== */}
-            <div className="flex min-w-0 flex-col gap-4">
+            <div className="flex min-w-0 flex-col gap-[18px]">
               {/* Card SALDO */}
               <div
-                className="rounded-2xl border border-[rgba(34,197,94,0.28)] p-5"
+                className="rounded-[18px] border border-[rgba(34,197,94,0.28)]"
                 style={{
-                  background: "linear-gradient(160deg, rgba(34,197,94,0.10), rgba(12,31,20,0.40))",
-                  boxShadow: "0 0 36px -14px rgba(34,197,94,0.5)",
+                  padding: "20px 22px",
+                  background: "linear-gradient(120deg, rgba(34,197,94,.12), rgba(6,14,9,.4))",
+                  boxShadow: "0 0 36px -16px rgba(34,197,94,.5)",
                 }}
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d8a70]">
+                    <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 10, letterSpacing: ".22em", color: "#5d8a70", textTransform: "uppercase" }}>
                       Saldo da conta
                     </div>
-                    {/* PRESERVA o branch saldo==null ? Loader2 : valor (formatMoeda c/ moedaConta — sem hardcode de moeda) */}
+                    {/* PRESERVA o branch saldo==null ? Loader2 : valor (formatMoeda c/ moedaConta — sem hardcode de moeda).
+                        splitMoedaCentavos colore só os centavos (#86b59a); o valor vem do formatMoeda REAL. */}
                     <div className="mt-1.5 flex h-10 items-center gap-2">
                       {saldo == null ? (
                         <Loader2 className="h-6 w-6 animate-spin text-[#22c55e]" />
-                      ) : (
-                        <span className="font-mono text-[36px] font-bold leading-none tracking-tight tabular-nums text-[#eef5f0]">
-                          {formatMoeda(saldo, moedaConta)}
-                        </span>
-                      )}
+                      ) : (() => {
+                        const { main, cents } = splitMoedaCentavos(formatMoeda(saldo, moedaConta));
+                        return (
+                          <span className="tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 36, lineHeight: 1, color: "#eef5f0" }}>
+                            {main}<span style={{ color: "#86b59a" }}>{cents}</span>
+                          </span>
+                        );
+                      })()}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#5d8a70]">
+                    <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 10, letterSpacing: ".2em", color: "#5d7167", textTransform: "uppercase" }}>
                       Resultado hoje
                     </div>
                     {/* TODO: PnL real do DIA — hoje só existe sessionPnl (por-SESSÃO), não por-dia. Placeholder. */}
-                    <div className="mt-1.5 font-mono text-lg font-bold tabular-nums text-[#34d77a]">
+                    <div className="mt-1.5 tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 24, color: "#34d77a" }}>
                       +{formatMoeda(0, moedaConta)}
                     </div>
                   </div>
@@ -1108,33 +1108,28 @@ const Index = () => {
               <button
                 type="button"
                 onClick={() => window.open("https://chat.whatsapp.com/L2O5siAHJQlDcc3DWtwYUZ", "_blank", "noopener,noreferrer")}
-                className="group flex w-full items-center gap-3 rounded-2xl border border-[rgba(34,197,94,0.14)] bg-[#060a08] p-4 text-left transition-all hover:border-[rgba(34,197,94,0.28)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(34,197,94,0.5)]"
+                className="group flex w-full items-center border border-[rgba(34,197,94,0.14)] text-left transition-colors hover:border-[rgba(34,197,94,0.28)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(34,197,94,0.5)]"
+                style={{ gap: 14, padding: "15px 16px", borderRadius: 16, background: "rgba(255,255,255,.025)" }}
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[rgba(34,197,94,0.22)] bg-[rgba(34,197,94,0.10)] text-[#5dffa0]">
+                <span className="flex shrink-0 items-center justify-center text-[#34d77a]" style={{ width: 42, height: 42, borderRadius: 12, background: "rgba(34,197,94,.12)", border: "1px solid rgba(34,197,94,.3)" }}>
                   <UsersRound className="h-5 w-5" strokeWidth={2.2} />
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col leading-tight">
-                  <span className="text-sm font-bold text-foreground">GRUPO VIP</span>
-                  <span className="truncate text-[11px] text-[#9bb0a5]">Comunidade e sinais exclusivos</span>
+                  <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 15, color: "#eef5f0" }}>Grupo VIP</span>
+                  <span className="truncate" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 400, fontSize: 12, color: "#7d9488" }}>Comunidade e sinais exclusivos</span>
                 </span>
-                <ArrowUpRight className="h-4 w-4 shrink-0 text-[#9bb0a5] transition-colors group-hover:text-[#5dffa0]" />
+                <ArrowUpRight className="h-4 w-4 shrink-0 text-[#5d8a70] transition-colors group-hover:text-[#5dffa0]" />
               </button>
             </div>
 
             {/* ===== DIREITA ===== */}
-            <div className="flex min-w-0 flex-col gap-4">
+            <div className="flex min-w-0 flex-col gap-[18px]">
               {/* Modelo de inteligência — 2x2 (lock preservado: pointer-events-none/opacity + Tooltip quando rodando) */}
-              <div className="rounded-2xl border border-[rgba(34,197,94,0.14)] bg-[#060a08] px-4 pt-4 pb-5 sm:px-5">
-                <div className="mb-3 flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(34,197,94,0.28)] bg-[rgba(34,197,94,0.10)] text-[#5dffa0]">
-                    <Bot className="h-[15px] w-[15px]" strokeWidth={2.2} />
-                  </span>
-                  <div className="flex flex-col leading-none">
-                    <span className="text-[8.5px] font-bold uppercase tracking-[0.32em] text-[#5d8a70]">IA · Engine</span>
-                    <span className="mt-1 text-[15px] font-bold tracking-tight text-foreground">Modelo de inteligência</span>
-                  </div>
+              <div className="rounded-[18px] border border-[rgba(34,197,94,0.16)] p-5" style={{ background: "linear-gradient(180deg, rgba(14,26,18,.5), rgba(6,12,8,.3))" }}>
+                <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 10, letterSpacing: ".18em", color: "#5d7167", textTransform: "uppercase", marginBottom: 11 }}>
+                  Modelo de inteligência
                 </div>
-                <div className="grid grid-cols-2 gap-2 pb-1">
+                <div className="grid grid-cols-2 gap-2">
                   {[
                     { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon },
                     { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon },
@@ -1153,27 +1148,33 @@ const Index = () => {
                         }}
                         disabled={aiModelLoading || blocked}
                         aria-disabled={blocked}
-                        className={`group relative flex min-w-0 items-center gap-2 rounded-xl px-2.5 py-2.5 text-left transition-all ${
-                          selected
-                            ? "bg-[rgba(34,197,94,0.08)] ring-1 ring-inset ring-[rgba(34,197,94,0.55)]"
-                            : "ring-1 ring-inset ring-[rgba(255,255,255,0.08)] hover:ring-[rgba(255,255,255,0.16)]"
-                        } ${blocked ? "cursor-not-allowed pointer-events-none" : ""} ${
-                          blocked && !selected ? "opacity-50" : ""
-                        } ${blocked && selected ? "pointer-events-none" : ""}`}
+                        className={`flex min-w-0 items-center gap-2.5 text-left transition-all ${
+                          blocked ? "cursor-not-allowed pointer-events-none" : ""
+                        } ${blocked && !selected ? "opacity-50" : ""}`}
+                        style={{
+                          padding: 11,
+                          borderRadius: 13,
+                          border: selected ? "1px solid rgba(34,197,94,.55)" : "1px solid rgba(255,255,255,.07)",
+                          background: selected ? "rgba(34,197,94,.08)" : "rgba(255,255,255,.02)",
+                          boxShadow: selected ? "0 0 22px -8px rgba(34,197,94,.7)" : "none",
+                        }}
                       >
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card">
+                        <span className="shrink-0 overflow-hidden" style={{ width: 30, height: 30, borderRadius: 8, background: "rgba(255,255,255,.04)" }}>
                           <img src={m.icon} alt={m.label} className="h-full w-full object-cover" loading="lazy" />
                         </span>
                         <div className="min-w-0 flex-1 leading-tight">
-                          <div className="truncate text-[13px] font-semibold text-foreground">{m.label}</div>
-                          <div className="truncate text-[10px] text-[#9bb0a5]">{m.sub}</div>
+                          <div className="truncate" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 12, color: "#eef5f0" }}>{m.label}</div>
+                          <div className="truncate" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 500, fontSize: 9, color: "#7d9488" }}>{m.sub}</div>
                         </div>
                         <span
-                          className={`h-2 w-2 shrink-0 rounded-full transition-all ${
-                            selected
-                              ? "bg-[#22c55e] shadow-[0_0_8px_#22c55e]"
-                              : "bg-muted-foreground/20"
-                          }`}
+                          className="shrink-0"
+                          style={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: "50%",
+                            background: selected ? "#22c55e" : "transparent",
+                            border: selected ? "2px solid #22c55e" : "2px solid rgba(255,255,255,.2)",
+                          }}
                         />
                       </button>
                     );
