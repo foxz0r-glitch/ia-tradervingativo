@@ -158,6 +158,7 @@ const Index = () => {
   const [demoEndedManually, setDemoEndedManually] = useState(false);
   const demoCancelRef = useRef(false); // PARAR/FECHAR setam true → o loop aborta sem mais setState
   const demoTimersRef = useRef<Array<{ id: ReturnType<typeof setTimeout>; resolve: (done: boolean) => void }>>([]);
+  const demoOperatingRef = useRef(false); // true só quando JÁ passou do radar e tem ops válidas (está operando) → decide idle-vs-resultado no PARAR
 
   // ---- Ativação de plano ----
   const [hasActivePlan, setHasActivePlan] = useState<boolean | null>(null);
@@ -743,6 +744,7 @@ const Index = () => {
     setDemoModalOpen(false);
     setDemoRunning(true);
     demoCancelRef.current = false;
+    demoOperatingRef.current = false; // ainda não passou do radar → PARAR no radar vai pra idle
     cancelDemoTimers();
     setDemoEndedManually(false);
     setDemoOps([]);
@@ -751,47 +753,58 @@ const Index = () => {
     setDemoLosses(0);
     setDemoPhase("procurando");
 
+    // ── ABERTURA (Modelo B): radar UMA vez (~3.4s) ANTES de consumir a sessão.
+    // PARAR aqui → demoOperatingRef ainda false → handleDemoParar leva a idle, sessão NÃO consumida.
+    if (!(await demoSleep(3400))) return;          // cancelado no radar → aborta (sem mais setState)
+    if (demoCancelRef.current) return;
+
+    // ── Consome a sessão (motor useDemoMode — NÃO alterado) SÓ DEPOIS do radar.
     let ops: Operation[] | null;
     try {
-      ops = await runNextDemoOp(); // motor (useDemoMode) — NÃO alterado
+      ops = await runNextDemoOp();
     } catch (e) {
       if (!demoCancelRef.current) { setDemoRunning(false); setDemoPhase("idle"); }
       console.warn("[demo] falha ao iniciar sessão:", e instanceof Error ? e.message : String(e));
       return;
     }
-    if (demoCancelRef.current) return;
     if (!ops || ops.length === 0) { setDemoRunning(false); setDemoPhase("idle"); return; }
+    if (demoCancelRef.current) return; // PARAR durante o await do motor (janela pequena): bail limpo (sync, sem await até o set)
 
-    // Loop por operação, alternando fases, com checagem de cancelamento a cada etapa.
-    let wins = 0;
-    let losses = 0;
-    for (const op of ops) {
-      // FASE "procurando" (radar caçando) — 4-8s
-      setDemoPhase("procurando");
-      if (!(await demoSleep(4000 + Math.random() * 4000))) return; // cancelado → aborta (sem mais setState)
-      if (demoCancelRef.current) return;
+    // ‼️ MARCA "operando" SÍNCRONO: entre runNextDemoOp e estas 2 linhas NÃO há await → janela zero de race
+    // (JS single-thread; nenhum clique de PARAR roda no meio). demoOperatingRef passa a decidir o PARAR.
+    demoOperatingRef.current = true;
+    setDemoPhase("operando");
 
-      // FASE "operando" — revela a op + atualiza agregados PRÓPRIOS, segura 4s
-      setDemoPhase("operando");
+    // ── EMPILHA as ops DO MOTOR (6-8) na MESMA tela "operando", sem voltar pro radar, ~1.5-2s entre elas.
+    for (let i = 0; i < ops.length; i++) {
+      const op = ops[i];
       setDemoOps((prev) => [op, ...prev]);
       setDemoSessionPnl((prev) => prev + op.pnl);
-      if (op.result === "win") { wins++; setDemoWins(wins); }
-      else if (op.result === "loss") { losses++; setDemoLosses(losses); }
-      if (!(await demoSleep(4000))) return;
-      if (demoCancelRef.current) return;
+      if (op.result === "win") setDemoWins((p) => p + 1);
+      else if (op.result === "loss") setDemoLosses((p) => p + 1);
+      if (i < ops.length - 1) {
+        if (!(await demoSleep(1500 + Math.random() * 500))) return; // cancelado → aborta (sem mais setState)
+        if (demoCancelRef.current) return;
+      }
     }
 
-    // Fim NATURAL → tela Resultado (demoRunning só vira false no FECHAR).
+    // Fim NATURAL do lote → tela Resultado (demoRunning só vira false no FECHAR).
     setDemoPhase("resultado");
   };
 
-  // PARAR (procurando/operando/pausado): cancela timers + vai pra Resultado (manual).
-  // Nenhum setTimeout pendente reabre o overlay (cancelDemoTimers + demoCancelRef abortam o loop).
+  // PARAR: decide pelo ref SÍNCRONO demoOperatingRef (NÃO por demoOps.length, que é state → race no handler).
+  // radar/transição (nada operado) → idle limpo (sem Resultado vazio, sem queimar a sessão).
+  // operando (já há ops) → tela Resultado (manual). cancelDemoTimers + demoCancelRef abortam o loop.
   const handleDemoParar = () => {
     demoCancelRef.current = true;
     cancelDemoTimers();
-    setDemoEndedManually(true);
-    setDemoPhase("resultado");
+    if (!demoOperatingRef.current) {
+      setDemoPhase("idle");
+      setDemoRunning(false);
+    } else {
+      setDemoEndedManually(true);
+      setDemoPhase("resultado");
+    }
   };
 
   // FECHAR (tela Resultado): fecha o overlay. SÓ AQUI demoRunning volta a false
