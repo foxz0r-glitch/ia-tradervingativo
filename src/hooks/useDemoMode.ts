@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Operation } from "@/components/OperationsHistory";
+import { RADAR_PAIRS } from "@/lib/demoConstants";
 
 type Scenario = "A" | "B" | "C";
 type OpResult = "win" | "loss";
@@ -11,16 +12,6 @@ const SCENARIO_RESULTS: Record<Scenario, OpResult[]> = {
   B: ["win", "loss", "win"],
   C: ["win", "win", "loss"],
 };
-
-const DEMO_ASSETS = [
-  "EUR/USD-OTC",
-  "GBP/USD-OTC",
-  "AUD/USD-OTC",
-  "USD/JPY-OTC",
-  "EUR/GBP-OTC",
-  "EUR/USD",
-  "GBP/USD",
-];
 
 export const DEMO_MAX_SESSIONS = 1;
 
@@ -64,6 +55,10 @@ function generateSessionOps(sessionResult: OpResult): Operation[] {
   const MONTHS_PT = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
   const DEMO_EXPIRACAO = 5; // segundos — expiração fixa demo (5s)
 
+  // ‼️ Regra do dono: a IA escolhe UM ativo e opera SÓ nele até o fim da sessão.
+  // Sorteia 1 ativo UMA vez (não por-op) → TODAS as ops usam o MESMO symbol.
+  const sessionAsset = RADAR_PAIRS[Math.floor(Math.random() * RADAR_PAIRS.length)];
+
   return results.map((result, i) => {
     const closeDate = new Date(base.getTime() + i * 8000);
     const openDate  = new Date(closeDate.getTime() - DEMO_EXPIRACAO * 1000);
@@ -83,7 +78,7 @@ function generateSessionOps(sessionResult: OpResult): Operation[] {
 
     return {
       id: `demo_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 5)}`,
-      symbol: DEMO_ASSETS[Math.floor(Math.random() * DEMO_ASSETS.length)],
+      symbol: sessionAsset, // mesmo ativo em toda a sessão (1 ativo por sessão)
       time:          fmtHMS(closeDate),
       date:          fmtDt(closeDate),
       timeShort:     fmtHM(closeDate),

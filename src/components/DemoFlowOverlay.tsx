@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import type { Operation } from "@/components/OperationsHistory";
 import { formatMoeda } from "@/lib/moeda";
+import { RADAR_PAIRS } from "@/lib/demoConstants";
 
 export type DemoPhase = "idle" | "procurando" | "operando" | "pausado" | "resultado";
 
@@ -47,7 +48,7 @@ const BTN_RED: React.CSSProperties = {
 };
 
 // ===================== Tela PROCURANDO (radar) — estilos inline exatos do protótipo =====================
-const SEARCH_PAIRS = ["EUR/USD", "GBP/USD", "AUD/USD", "USD/JPY"];
+const SEARCH_PAIRS = RADAR_PAIRS; // fonte única (src/lib/demoConstants) — mesmos 4 pares dos chips + sorteio do ativo
 
 function ProcurandoScreen() {
   // Um chip aceso girando 0→1→2→3→0 a cada 1.2s (interval LOCAL, limpo no unmount).
@@ -128,7 +129,7 @@ function ProcurandoScreen() {
 
 // ===================== Tela OPERANDO (hero) — Fatia 3a (lista = 3b) =====================
 // Dinheiro formatado com o formatador REAL do app (formatMoeda), moeda BRL (demo em R$).
-function OperandoScreen({ ops, sessionPnl, wins, losses }: { ops: Operation[]; sessionPnl: number; wins: number; losses: number }) {
+function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoPhase; ops: Operation[]; sessionPnl: number; wins: number; losses: number }) {
   const total = wins + losses;
   const winRate = total > 0 ? Math.round((wins / total) * 100) : 0; // 0% se sem ops
   const pos = sessionPnl >= 0;
@@ -136,11 +137,13 @@ function OperandoScreen({ ops, sessionPnl, wins, losses }: { ops: Operation[]; s
 
   return (
     <div style={{ flex: 1, minHeight: 0, width: "100%", maxWidth: 420, display: "flex", flexDirection: "column" }}>
-      {/* Keyframes LOCAIS: reusa tv-radar/tv-floatGlow + adiciona tv-livePulse */}
+      {/* Keyframes LOCAIS: reusa tv-radar (spinner) + tv-floatGlow/tv-livePulse + adiciona tv-opInA/tv-opInB (entrada das linhas) */}
       <style>{`
 @keyframes tv-radar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes tv-floatGlow { 0%,100% { opacity: .45; transform: scale(.92); } 50% { opacity: 1; transform: scale(1); } }
 @keyframes tv-livePulse { 0% { transform: scale(.9); opacity: .9; } 70% { transform: scale(2.4); opacity: 0; } 100% { transform: scale(2.4); opacity: 0; } }
+@keyframes tv-opInA { 0% { opacity: 0; transform: translateY(15px) scale(.99); } 60% { opacity: 1; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes tv-opInB { 0% { opacity: 0; transform: translateY(15px) scale(.99); } 60% { opacity: 1; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
 `}</style>
 
       {/* ===== HERO ===== */}
@@ -186,7 +189,53 @@ function OperandoScreen({ ops, sessionPnl, wins, losses }: { ops: Operation[]; s
           </div>
         </div>
 
-        {/* Lista de operações ao vivo = Fatia 3b (ainda não feita) */}
+      </div>
+
+      {/* ===== LISTA AO VIVO (Fatia 3b) — só ela rola (flex:1 + overflow); hero acima é altura natural ===== */}
+      <div
+        style={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: 7,
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(34,197,94,.35) transparent",
+          WebkitOverflowScrolling: "touch",
+          marginTop: 16,
+        }}
+      >
+        {/* Cabeçalho "procurando próxima entrada" — SÓ em phase === "procurando" (ver flag no relatório) */}
+        {phase === "procurando" && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 11, padding: 14, borderRadius: 14, border: "1px dashed rgba(34,197,94,.25)", flex: "none" }}>
+            <span style={{ position: "relative", width: 16, height: 16 }}>
+              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "2px solid rgba(34,197,94,.25)", borderTopColor: "#22c55e", animation: "tv-radar .9s linear infinite" }} />
+            </span>
+            <span style={{ font: "600 12px 'Sora'", letterSpacing: ".02em", color: "#86b59a" }}>procurando próxima entrada…</span>
+          </div>
+        )}
+
+        {/* Linhas: mais recente no topo (ops já vem [novo,...antigo]); SÓ i===0 anima */}
+        {ops.map((op, i) => {
+          const win = op.result === "win";
+          const amountColor = win ? "#34d77a" : "#f0726a";
+          const badgeColor = win ? "#4ade80" : "#f87171";
+          const cardBorder = win ? "rgba(34,197,94,.16)" : "rgba(239,68,68,.16)";
+          const glowBg = win ? "rgba(34,197,94,.08)" : "rgba(239,68,68,.07)";
+          const amountText = `${win ? "+" : "-"}${formatMoeda(Math.abs(op.pnl), "BRL")}`; // formatador real, BRL
+          const anim = i === 0 ? `${i % 2 === 0 ? "tv-opInA" : "tv-opInB"} .5s cubic-bezier(.2,.8,.3,1) both` : undefined;
+          return (
+            <div key={op.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", borderRadius: 14, background: `linear-gradient(100deg, ${glowBg}, rgba(255,255,255,.02))`, border: `1px solid ${cardBorder}`, animation: anim, flex: "none" }}>
+              <span style={{ width: 34, height: 34, flex: "none", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(6,12,8,.6)", border: `1px solid ${cardBorder}`, font: "700 13px 'Sora'", color: amountColor }}>{win ? "▲" : "▼"}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ font: "700 14px 'Sora'", color: "#eef5f0" }}>{op.symbol}</div>
+                <div style={{ font: "600 9px 'Sora'", letterSpacing: ".12em", textTransform: "uppercase", color: badgeColor, marginTop: 2 }}>{win ? "WIN" : "LOSS"}</div>
+              </div>
+              <span style={{ flex: "none", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 16, color: amountColor, fontVariantNumeric: "tabular-nums" }}>{amountText}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -222,7 +271,7 @@ export function DemoFlowOverlay({
       {phase === "procurando" ? (
         <ProcurandoScreen />
       ) : phase === "operando" ? (
-        <OperandoScreen ops={ops} sessionPnl={sessionPnl} wins={wins} losses={losses} />
+        <OperandoScreen phase={phase} ops={ops} sessionPnl={sessionPnl} wins={wins} losses={losses} />
       ) : (
         /* ===== PLACEHOLDER por fase (substituído pelas telas reais nas Fatias 4-5) ===== */
         <>
