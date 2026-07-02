@@ -117,7 +117,7 @@ Ele cola um bloco grande pedindo "review adversarial, tentar QUEBRAR, linha a li
 
 ## 4. ESTADO ATUAL DO CÓDIGO — commits no ar (sequência)
 
-Repo do app, branch `main`. **HEAD atual = `85df0f2`.**
+Repo do app, branch `main`. **HEAD atual = `650c781`.**
 
 | # | Hash | O que é |
 |---|------|---------|
@@ -134,6 +134,7 @@ Repo do app, branch `main`. **HEAD atual = `85df0f2`.**
 | 11 | `da8d3df` | **tela Procurando** (radar + IA ANALISANDO + chips de pares) — VALIDADA com print |
 | 12 | `40bfabe` | **hero da tela Operando** (badge IA OPERANDO AO VIVO + acumulado R$ + métricas Operações/Acerto/Wins) |
 | 13 | `85df0f2` | **ativo único por sessão** (sorteado dos 4 do radar, fonte única `RADAR_PAIRS` em `src/lib/demoConstants.ts`) + **lista de operações ao vivo** (3b) na tela Operando |
+| 14 | `650c781` | **loop Modelo B** (radar só na abertura → operando fixo, sem voltar; `demoOperatingRef` síncrono; `handleDemoParar` decide por ref: radar→idle sem queimar sessão, operando→resultado) — **fluxo real intacto, money-proof vazio** |
 
 **Dashboard reconstruído = COMPLETO** (4 peças commitadas, validado com print, idêntico ao handoff). Diferenças restantes do dashboard são só no GRÁFICO (cabeçalho "Euro→Dólar"+bandeiras+"AO VIVO", candlestick vs linha, selo "ROBÔ CONECTADO") → mapeadas pra fatia do gráfico.
 
@@ -177,103 +178,39 @@ O Royal escolheu **Modelo B** (espelha o `run()` do protótipo):
 
 ---
 
-## 6. ⏳ PRÓXIMO PASSO IMEDIATO — Prompt 2 (loop Modelo B) — PRONTO, AINDA NÃO RODADO
+## 6. ✅ Prompt 2 (loop Modelo B) — FEITO E COMMITADO (`650c781`)
 
-**Status:** o Prompt 2 corrigido (final) passou por review (CONVERGIU). **O Royal precisa rodá-lo no CC e colar o `RECON-demo-fatia2aR.md`.** Você revisa, e propõe commit.
+**Status:** o loop Modelo B foi implementado, revisado (money-proof vazio + race fechada por ref síncrono) e **commitado em `650c781`**. O próximo passo do fluxo demo é a **Fatia 3c** (§7).
 
-### 6.1. O que o Prompt 2 faz (já revisado, sem pendência)
-Reescreve o loop de `handleStartDemoSession` no Index pro Modelo B + corrige o PARAR durante o radar:
-- Abertura: fase "procurando" + `demoSleep(3400)` (radar) **ANTES** de consumir a sessão.
-- Consumir `runNextDemoOp()` **só DEPOIS** do radar (se PARAR no radar, sessão NÃO é queimada).
-- **Ref síncrono `demoOperatingRef`** setado `true` **imediatamente após** ops válidas, **SEM `await` no meio** (JS single-thread → janela de race ZERO).
-- Transição única pra "operando" + empilha as ops (sem voltar pro radar).
-- `handleDemoParar` decide por `demoOperatingRef` (NÃO por `demoOps.length`, que é state e dá leitura velha): se `false` (radar) → "idle" (fecha limpo, sem Resultado vazio); se `true` (operando) → "resultado".
-- **Money-proof obrigatório** (grep VAZIO no fluxo real + `iniciar()` colado idêntico).
+### 6.1. O que o Prompt 2 entregou (já no código, `Index.tsx`)
+- Abertura: fase "procurando" + `demoSleep(3400)` (radar) **antes** de consumir a sessão.
+- `runNextDemoOp()` consumido **só depois** do radar (PARAR no radar NÃO queima a sessão única).
+- **Ref síncrono `demoOperatingRef`** setado `true` **imediatamente após** ops válidas, **sem `await` no meio** (JS single-thread → janela de race ZERO).
+- Transição única pra "operando" + empilha as 6-8 ops do motor (~1.5-2s entre elas), sem voltar pro radar.
+- `handleDemoParar` decide por `demoOperatingRef`: `false` (radar) → "idle" (fecha limpo, sem Resultado vazio, sem queimar sessão); `true` (operando) → "resultado" (manual).
+- **Money-proof VAZIO:** nenhuma linha do fluxo real (`handleStart` saldo≥2 / `iniciar()` / clamp) foi tocada.
+- Confirmado por **fanout real de 2 agentes** (race-agent R1-R6 + money-agent M1-M5, convergência total, eslint baseline, tsc=0).
 
-### 6.2. O PROMPT 2 EXATO PARA COLAR (final, revisado)
+### 6.1.1. ⚠️ PENDÊNCIA CONHECIDA E PARKEADA — burn-on-idle (recomendação Claude; blindagem sob demanda)
+**O quê:** se o usuário clicar PARAR no exato instante do `await runNextDemoOp()` (a janelinha de poucos ms logo após o radar), a sessão única é **consumida** (MAX_SESSIONS=1, `sessionsUsed++` síncrono no motor) mas cai em "idle" sem mostrar nada — a demo é "gasta" sem o usuário ver. **Não é dinheiro real** (é a sessão demo). Janela ínfima (milissegundos); os 2 agentes do fanout classificaram como não-defeito inerente.
+**Status:** PARKEADO por recomendação do Claude (30/06), apresentada ao Royal no chat — blindar exigiria mexer no `useDemoMode` (o motor, área protegida e já provada) pra mover o `sessionsUsed++` pra depois do "operando" ou tornar o consumo cancelável; desproporcional agora (janela de ms, fluxo de demo). **O Royal pode pedir a blindagem a qualquer momento** — prompt cirúrgico no motor com money-proof + review. Candidato natural: quando tocarmos o motor de novo (ex.: Fase 2).
+
+### 6.2. O PROMPT 2 (arquivado — já rodado, não rodar de novo)
+> Mantido aqui só como registro histórico do que foi aplicado em `650c781`. **NÃO re-executar.**
+
 ```
-⚠️ WRITE — src/pages/Index.tsx (o loop da DEMO em handleStartDemoSession + ajuste no handleDemoParar). ESCREVA
-AGORA, NÃO defira. NÃO commitar. ‼️ Index, só a parte da demo (fake). NÃO tocar: fluxo real (saldo>=2), iniciar()/
-payload/clamp, motor useDemoMode, DemoModeModal.
-
-CONTEXTO: Modelo B (protótipo fiel): radar SÓ na abertura → "operando" fixo até o fim empilhando as ops (sem voltar
-pro radar). Espelha o run() do protótipo. ‼️ nº/valores das ops vêm do MOTOR (runNextDemoOp → 6-8, +445/−500, máx 2
-perdas, 1ª win, 1 ativo). NÃO os 9 do protótipo. NÃO mexer no motor.
-‼️ PARAR durante o radar (antes de operar) NÃO pode: (a) cair em Resultado vazio, nem (b) queimar a sessão única.
-Solução cravada abaixo: consumir a sessão só DEPOIS do radar + um REF SÍNCRONO (demoOperatingRef) que decide
-idle-vs-resultado no PARAR (NÃO usar demoOps.length — é state, dá race no handler).
-
-cd C:\Users\afili\ia-tradervingativo
-
-PASSO 0 (READ-ONLY). Reler handleStartDemoSession (loop atual) e handleDemoParar (hoje: demoCancelRef=true;
-cancelDemoTimers(); setDemoEndedManually(true); setDemoPhase("resultado")). Confirmar reuso: demoSleep,
-cancelDemoTimers, demoTimersRef, demoCancelRef, demoPhase/setDemoPhase, demoOps/setDemoOps, demoSessionPnl/demoWins/
-demoLosses, runNextDemoOp, demoEndedManually, setDemoRunning. NÃO TOCAR: handleStart real (saldo>=2), useDemoMode,
-DemoModeModal, handleDemoFechar, stubs Pausar/Retomar, trava canStart (demoPhase!==idle).
-
-PASSO 1 (WRITE) — criar um ref síncrono novo (junto dos outros refs da demo):
-  const demoOperatingRef = useRef(false);   // true só quando JÁ passou do radar e tem ops válidas (está operando)
-
-PASSO 2 (WRITE) — REESCREVER o loop de handleStartDemoSession (Modelo B, sessão pós-radar, ref síncrono):
-  • Início: setDemoModalOpen(false); setDemoRunning(true); demoCancelRef.current=false; demoOperatingRef.current=
-    false; resetar demoOps=[]/demoSessionPnl=0/demoWins=0/demoLosses=0; setDemoEndedManually(false);
-    setDemoPhase("procurando").
-  • ABERTURA (radar, 1×) ANTES de consumir a sessão: if(!(await demoSleep(3400))) return; if(demoCancelRef.current)
-    return;  (PARAR aqui: demoOperatingRef ainda false → handleDemoParar leva a idle, sessão não consumida.)
-  • Consumir a sessão: const ops = await runNextDemoOp(); if (!ops || ops.length===0) { setDemoRunning(false);
-    setDemoPhase("idle"); return; }
-  • ‼️ MARCAR operando SÍNCRONO, IMEDIATAMENTE após ops válidas e SEM nenhum await antes: demoOperatingRef.current=
-    true; setDemoPhase("operando");  (entre runNextDemoOp e esta linha NÃO pode haver await — garante janela zero
-    de race: JS single-thread, nenhum clique roda no meio.)
-  • EMPILHAR (loop por op, sem trocar fase):
-      for (let i=0; i<ops.length; i++) {
-        const op = ops[i];
-        setDemoOps(prev => [op, ...prev]);
-        setDemoSessionPnl(prev => prev + op.pnl);
-        if (op.result==="win") setDemoWins(p=>p+1); else if (op.result==="loss") setDemoLosses(p=>p+1);
-        if (i < ops.length-1) { if(!(await demoSleep(1500 + Math.random()*500))) return; if(demoCancelRef.current) return; }
-      }
-  • Fim do lote: setDemoPhase("resultado").
-  • demo NÃO escreve operations (cockpit) — usa demoOps. Pausar/Retomar continuam stubs (Fatia 4).
-
-PASSO 3 (WRITE) — ajustar handleDemoParar (decide por demoOperatingRef, NÃO por demoOps.length):
-  const handleDemoParar = () => {
-    demoCancelRef.current = true;
-    cancelDemoTimers();
-    if (!demoOperatingRef.current) {        // PARAR durante o radar/transição: nada operado ainda
-      setDemoPhase("idle"); setDemoRunning(false);   // fecha limpo, sem Resultado vazio
-    } else {                                 // PARAR durante o operando: já há ops
-      setDemoEndedManually(true); setDemoPhase("resultado");
-    }
-  };
-
-⛔ NÃO tocar: handleStart real (saldo>=2), iniciar()/payload/clamp/cockpitLimits, motor useDemoMode, DemoModeModal,
-MAX_SESSIONS, persistência, operations (cockpit), agregados do cockpit, handleDemoFechar, trava canStart
-(demoPhase!==idle). NÃO editar ui/. Só o loop da demo + handleDemoParar + o ref novo.
-
-FIM: tsc (-p tsconfig.app.json) + build VERDE. DIFF do Index (loop demo + handleDemoParar + ref) + relatório.
-‼️ PROVAS: (a) money-proof: diff NÃO toca handleStart(saldo>=2)/iniciar/clamp — grep VAZIO + iniciar() colado;
-(b) UMA transição procurando→operando (radar só abertura), operando fixo (trecho citado); (c) runNextDemoOp() DEPOIS
-do radar; (d) demoOperatingRef setado SÍNCRONO sem await entre runNextDemoOp e o set (citar as linhas, provando que
-não há await no meio); (e) handleDemoParar decide por demoOperatingRef (radar→idle / operando→resultado); (f) demo
-usa demoOps/agregados próprios; (g) nº ops do motor (não 9); (h) canStart/handleDemoFechar ok. Salvar em
-C:\Users\afili\Desktop\prompts\ia vingativa\RECON-demo-fatia2aR.md. NÃO commitar.
-CHECKLIST (SIM/NÃO): (1) ref demoOperatingRef criado? (2) abertura procurando 1× (~3.4s) ANTES de consumir sessão?
-(3) runNextDemoOp() só DEPOIS do radar (PARAR no radar não queima sessão)? (4) demoOperatingRef=true SÍNCRONO, SEM
-await entre runNextDemoOp e o set (linhas citadas)? (5) transição única → operando fixo, empilha 6-8 (motor) ~1.5-2s
-SEM voltar? (6) fim→resultado? (7) ‼️ handleDemoParar decide por demoOperatingRef (radar→idle / operando→resultado),
-NÃO por demoOps.length? (8) reusa demoSleep/cancelDemoTimers (PARAR cancela)? (9) money-proof VAZIO + iniciar()
-colado? (10) demoOps/agregados próprios; canStart/Fechar/motor/real intactos; tsc=0/build verde, só loop demo +
-handleDemoParar? NÃO commite.
+[Prompt 2 — loop Modelo B — já aplicado em 650c781. Ver o diff do commit se precisar do detalhe.
+Pontos cravados: demoOperatingRef síncrono sem await; runNextDemoOp pós-radar; handleDemoParar por ref;
+empilha 6-8 do motor sem voltar ao radar; money-proof vazio.]
 ```
 
 ---
 
 ## 7. ROADMAP DAS FATIAS RESTANTES (ordem)
 
-1. ✅ **FEITO:** Dashboard · gale teto 4 · motor demo (valores) · fundação (fase+overlay+lista própria+cancelamento) · tela Procurando · hero Operando · ativo único + fonte única + lista ao vivo. **HEAD `85df0f2`.**
-2. ➡️ **Prompt 2 — loop Modelo B** (acima, pronto, não rodado). → `RECON-demo-fatia2aR.md` → commit.
-3. ⏳ **Fatia 3c — list header "Operações ao vivo"** no topo da lista da tela Operando + indicador "● buscando…" (`tv-dotBlink 1s`) + corrigir o "procurando próxima entrada" pra aparecer durante o operando (não condicionado a `phase==="procurando"`, que no Modelo B é a abertura). Valores do arquivo: header `600 10px Sora .2em #4a5b52 uppercase`; "buscando…" dot 6px #22c55e + `500 12px .02em #86b59a`; keyframe `tv-dotBlink {0%,100%{opacity:.25} 50%{opacity:1}}`. **No pausado** (Fatia 4): vira "EM ESPERA" `600 10px .12em #e0a93c`. → commita 2a-R + 3c juntas → **preview da Operando completa** → print.
+1. ✅ **FEITO:** Dashboard · gale teto 4 · motor demo (valores) · fundação (fase+overlay+lista própria+cancelamento) · tela Procurando · hero Operando · ativo único + fonte única + lista ao vivo (`85df0f2`) · **loop Modelo B** (`650c781`). **HEAD `650c781`.**
+2. ✅ **FEITO: Prompt 2 — loop Modelo B** (`650c781`, radar só na abertura → operando fixo, PARAR por ref síncrono).
+3. ➡️ **PRÓXIMO: Fatia 3c — list header "Operações ao vivo"** no topo da lista da tela Operando + indicador "● buscando…" (`tv-dotBlink 1s`) + corrigir o "procurando próxima entrada" pra aparecer durante o operando (não condicionado a `phase==="procurando"`, que no Modelo B é a abertura). Valores do arquivo: header `600 10px Sora .2em #4a5b52 uppercase`; "buscando…" dot 6px #22c55e + `500 12px .02em #86b59a`; keyframe `tv-dotBlink {0%,100%{opacity:.25} 50%{opacity:1}}`. **No pausado** (Fatia 4): vira "EM ESPERA" `600 10px .12em #e0a93c`. → commita 3c → **preview da Operando completa** → print.
 4. ⏳ **Fatia 4 — Pausar/Retomar + tela Pausado** (foto 04): liga os stubs `handleDemoPausar`/`handleDemoRetomar` (precisa pausar o loop de empilhamento — provavelmente um flag `demoPausedRef` que o loop checa, ou reestruturar o sleep). Tela Pausado: badge "❚❚ PAUSADO" âmbar `#f0bf63`/`#e0a93c` + "Operações em espera — toque RETOMAR" + lista congelada + botões RETOMAR/PARAR. **É lógica com timing → review duplo.**
 5. ⏳ **Fatia 5 — tela Resultado** (fotos 05 e 09): ✓ verde + "SESSÃO ENCERRADA" + **2 textos por `demoEndedManually`**: "Encerrada manualmente" (PARAR) / "Meta da sessão concluída" (fim natural) + "SALDO FINAL DA SESSÃO" + número grande + 3 métricas + botões **FECHAR** + **+ DEPOSITAR** (via `demoDepositRef` que já existe). Keyframe do ✓: `tv-pop` (cubic-bezier `.2,1.2,.4,1`).
 6. ⏳ **Painel travado sem saldo** (decisão de UI ABERTA — recomende borrado+cadeado, confirme com ele).
@@ -347,4 +284,4 @@ Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido.
 3. Diga "rodei o Prompt 2, segue o RECON" e cole o `RECON-demo-fatia2aR.md` + `DOUBLE-CHECK-*.md` — OU peça pra ele te dar o Prompt 2 de novo se ainda não rodou.
 4. O Claude revisa (money-proof + ref síncrono sem await + handleDemoParar por ref), propõe commit, e segue pra Fatia 3c.
 
-> **Estado num cartão:** HEAD `85df0f2`. Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo). Telas Procurando + Operando(hero+lista) no ar e validadas. **Falta rodar o Prompt 2 (loop Modelo B)**, depois 3c (list header), Fatia 4 (Pausado), Fatia 5 (Resultado), painel travado, gráfico, e Fase 2 (robô real). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
+> **Estado num cartão:** HEAD `650c781`. Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado). Telas Procurando + Operando(hero+lista) validadas no preview (o fluxo Modelo B em si ainda não foi previewado — validar após a 3c). **PRÓXIMO: Fatia 3c** (list header "Operações ao vivo"), depois Fatia 4 (Pausado), Fatia 5 (Resultado), painel travado, gráfico, e Fase 2 (robô real). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
