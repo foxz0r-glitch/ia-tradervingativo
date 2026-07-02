@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tv-livePulse {0%{transform:scale(.9);opacity:.9}70%{transform:scale(2.4);opacity:0}100%{transform:scale(2.4);opacity:0}}
+  @keyframes tv-sheet {from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+  @keyframes tv-pop {from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+</helmet>
+
+<div style="min-width:100%; min-height:100vh; width:max-content; box-sizing:border-box; padding:56px; background:#e7e5df; font-family:'Sora',sans-serif;">
+  <div style="margin-bottom:36px; max-width:880px;">
+    <div style="font:700 22px 'Sora'; color:#1a1a1a; letter-spacing:-.02em;">Modais — Depósito · Saque · Acessar Broker</div>
+    <div style="font:400 14px 'Sora'; color:#6b6b6b; margin-top:6px; line-height:1.55;">Mesma linguagem do dashboard (verde neon, dark, glass, ícones SVG line). Depósito e Saque: instrução + CTA externo, sem credenciais. Acessar Broker: credenciais de exemplo copiáveis (com feedback "Copiado") + abrir traderoom. Desktop centralizado e Mobile bottom-sheet.</div>
+  </div>
+
+  <!-- =============================== 1 · DEPÓSITO =============================== -->
+  <div style="margin-bottom:60px;">
+    <div style="font:700 17px 'Sora'; color:#1a1a1a; margin-bottom:18px;">1 · Depósito</div>
+    <div style="display:flex; gap:48px; align-items:flex-start;">
+
+      <!-- DESKTOP -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160</div>
+        <div style="width:1160px; height:720px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative; display:flex;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <dc-import name="DeskNav" style="height:100%" hint-size="76px,100%"></dc-import>
+          <div style="position:relative; z-index:1; flex:1; min-width:0; display:flex; flex-direction:column;">
+            <div style="height:62px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid rgba(34,197,94,.1);"><span style="font:700 12px 'Sora'; letter-spacing:.26em; color:#5d8a70;">COCKPIT DO TRADER</span><div style="display:flex; gap:10px;"><span style="width:90px;height:38px;border-radius:11px;background:rgba(34,197,94,.16);"></span><span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);"></span></div></div>
+            <div style="flex:1; opacity:.4; padding:22px 24px; display:grid; grid-template-columns:1.7fr 1fr; gap:22px;"><div style="border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div><div style="border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center;">
+            <div style="width:440px; border-radius:22px; padding:26px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); box-shadow:0 30px 70px -20px rgba(0,0,0,.7), 0 0 50px -18px rgba(34,197,94,.5); animation:tv-pop .3s ease both;">
+              <div style="display:flex; align-items:center; gap:14px;"><span style="width:46px;height:46px;flex:none;border-radius:13px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.32);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H18a2 2 0 0 1 2 2v0H5.5"></path><path d="M3 8.5V17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6.5a2 2 0 0 0-2-2H5"></path><circle cx="16.5" cy="13" r="1.4" fill="currentColor" stroke="none"></circle></svg></span><div style="flex:1;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Depósito · Carteira</div><div style="font:700 21px 'Sora'; color:#eef5f0; margin-top:2px;">Depositar fundos</div></div><span style="width:30px;height:30px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#86a596;cursor:pointer;font-size:16px;">×</span></div>
+              <div style="margin-top:20px; border-radius:14px; padding:16px 18px; background:rgba(34,197,94,.06); border:1px solid rgba(34,197,94,.22); display:flex; align-items:center; justify-content:space-between;"><div><div style="font:600 9px 'Sora'; letter-spacing:.18em; color:#5d8a70; text-transform:uppercase;">Saldo atual</div><div style="font:700 28px 'JetBrains Mono'; color:#eef5f0; margin-top:4px;">R$ 0,00</div></div><span style="width:42px;height:42px;border-radius:12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.26);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"></rect><path d="M3 10h18"></path></svg></span></div>
+              <div style="font:400 14px 'Sora'; color:#9bb0a5; line-height:1.55; margin-top:18px;">Faça seu depósito na corretora e desbloqueie <span style="color:#eef5f0; font-weight:600;">acesso ilimitado</span> às operações automatizadas em conta real.</div>
+              <div style="display:inline-flex; align-items:center; gap:7px; margin-top:16px; padding:6px 12px; border-radius:20px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.24);"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 9px 'Sora'; letter-spacing:.14em; color:#34d77a;">AMBIENTE SEGURO · SSL</span></div>
+              <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:20px; margin-bottom:11px;">Acesse a corretora com os mesmos dados</div>
+              <div style="display:flex; flex-direction:column; gap:11px;">
+                <dc-import name="CopyField" label="E-mail" value="usuario@email.com" kind="email" hint-size="100%,66px"></dc-import>
+                <dc-import name="CopyField" label="Senha" value="Vingativa@2026" masked="{{ true }}" kind="lock" hint-size="100%,66px"></dc-import>
+              </div>
+              <button style="width:100%; height:58px; margin-top:18px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 15px 'Sora'; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Depositar agora <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></button>
+              <button style="width:100%; height:42px; margin-top:10px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:transparent; color:#86a596; font:700 12px 'Sora'; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg> Ver tutoriais</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390</div>
+        <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.4; pointer-events:none; z-index:0;"></div>
+          <div style="position:relative; z-index:1; height:100%; display:flex; flex-direction:column; opacity:.5;">
+            <div style="height:46px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 28px; color:#e8f0ea; font:600 15px 'Sora';"><span>11:08</span><span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span></div>
+            <div style="height:52px; flex:none; border-bottom:1px solid rgba(34,197,94,.08);"></div>
+            <div style="flex:1; padding:18px;"><div style="height:100%; border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:flex-end;">
+            <div style="width:100%; border-radius:28px 28px 0 0; padding:22px 20px 30px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); border-bottom:none; box-shadow:0 -20px 60px -20px rgba(0,0,0,.7); animation:tv-sheet .3s ease both;">
+              <div style="width:40px; height:4px; border-radius:2px; background:rgba(255,255,255,.18); margin:0 auto 18px;"></div>
+              <div style="display:flex; align-items:center; gap:13px;"><span style="width:44px;height:44px;flex:none;border-radius:13px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.32);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H18a2 2 0 0 1 2 2v0H5.5"></path><path d="M3 8.5V17a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6.5a2 2 0 0 0-2-2H5"></path><circle cx="16.5" cy="13" r="1.4" fill="currentColor" stroke="none"></circle></svg></span><div style="flex:1;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Depósito · Carteira</div><div style="font:700 20px 'Sora'; color:#eef5f0; margin-top:2px;">Depositar fundos</div></div></div>
+              <div style="margin-top:18px; border-radius:14px; padding:15px 16px; background:rgba(34,197,94,.06); border:1px solid rgba(34,197,94,.22); display:flex; align-items:center; justify-content:space-between;"><div><div style="font:600 9px 'Sora'; letter-spacing:.18em; color:#5d8a70; text-transform:uppercase;">Saldo atual</div><div style="font:700 26px 'JetBrains Mono'; color:#eef5f0; margin-top:4px;">R$ 0,00</div></div><span style="width:40px;height:40px;border-radius:12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.26);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"></rect><path d="M3 10h18"></path></svg></span></div>
+              <div style="font:400 13px 'Sora'; color:#9bb0a5; line-height:1.55; margin-top:16px;">Faça seu depósito na corretora e desbloqueie <span style="color:#eef5f0; font-weight:600;">acesso ilimitado</span> às operações em conta real.</div>
+              <div style="display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:6px 12px; border-radius:20px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.24);"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 9px 'Sora'; letter-spacing:.14em; color:#34d77a;">AMBIENTE SEGURO · SSL</span></div>
+              <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:18px; margin-bottom:10px;">Acesse a corretora com os mesmos dados</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <dc-import name="CopyField" label="E-mail" value="usuario@email.com" kind="email" hint-size="100%,66px"></dc-import>
+                <dc-import name="CopyField" label="Senha" value="Vingativa@2026" masked="{{ true }}" kind="lock" hint-size="100%,66px"></dc-import>
+              </div>
+              <button style="width:100%; height:56px; margin-top:16px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 15px 'Sora'; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Depositar agora <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></button>
+              <button style="width:100%; height:42px; margin-top:10px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:transparent; color:#86a596; font:700 12px 'Sora'; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg> Ver tutoriais</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================== 2 · SAQUE =============================== -->
+  <div style="margin-bottom:60px;">
+    <div style="font:700 17px 'Sora'; color:#1a1a1a; margin-bottom:18px;">2 · Saque</div>
+    <div style="display:flex; gap:48px; align-items:flex-start;">
+
+      <!-- DESKTOP -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160</div>
+        <div style="width:1160px; height:720px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative; display:flex;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <dc-import name="DeskNav" style="height:100%" hint-size="76px,100%"></dc-import>
+          <div style="position:relative; z-index:1; flex:1; min-width:0; display:flex; flex-direction:column;">
+            <div style="height:62px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid rgba(34,197,94,.1);"><span style="font:700 12px 'Sora'; letter-spacing:.26em; color:#5d8a70;">COCKPIT DO TRADER</span><div style="display:flex; gap:10px;"><span style="width:90px;height:38px;border-radius:11px;background:rgba(34,197,94,.16);"></span><span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);"></span></div></div>
+            <div style="flex:1; opacity:.4; padding:22px 24px; display:grid; grid-template-columns:1.7fr 1fr; gap:22px;"><div style="border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div><div style="border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center;">
+            <div style="width:440px; border-radius:22px; padding:26px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); box-shadow:0 30px 70px -20px rgba(0,0,0,.7), 0 0 50px -18px rgba(34,197,94,.5); animation:tv-pop .3s ease both;">
+              <div style="display:flex; align-items:center; gap:14px;"><span style="width:46px;height:46px;flex:none;border-radius:13px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.32);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 20h16"></path></svg></span><div style="flex:1;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Saque · Carteira</div><div style="font:700 21px 'Sora'; color:#eef5f0; margin-top:2px;">Sacar fundos</div></div><span style="width:30px;height:30px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#86a596;cursor:pointer;font-size:16px;">×</span></div>
+              <div style="margin-top:20px; border-radius:14px; padding:16px 18px; background:rgba(34,197,94,.06); border:1px solid rgba(34,197,94,.22); display:flex; align-items:center; justify-content:space-between;"><div><div style="font:600 9px 'Sora'; letter-spacing:.18em; color:#5d8a70; text-transform:uppercase;">Disponível para saque</div><div style="font:700 28px 'JetBrains Mono'; color:#34d77a; margin-top:4px;">R$ 1.240,00</div></div><span style="width:42px;height:42px;border-radius:12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.26);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"></rect><path d="M3 10h18"></path></svg></span></div>
+              <div style="font:400 14px 'Sora'; color:#9bb0a5; line-height:1.55; margin-top:18px;">O saque é processado pela corretora. Você será <span style="color:#eef5f0; font-weight:600;">redirecionado</span> para concluir a retirada com segurança.</div>
+              <div style="display:inline-flex; align-items:center; gap:7px; margin-top:16px; padding:6px 12px; border-radius:20px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.24);"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 9px 'Sora'; letter-spacing:.14em; color:#34d77a;">AMBIENTE SEGURO · SSL</span></div>
+              <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:20px; margin-bottom:11px;">Acesse a corretora com os mesmos dados</div>
+              <div style="display:flex; flex-direction:column; gap:11px;">
+                <dc-import name="CopyField" label="E-mail" value="usuario@email.com" kind="email" hint-size="100%,66px"></dc-import>
+                <dc-import name="CopyField" label="Senha" value="Vingativa@2026" masked="{{ true }}" kind="lock" hint-size="100%,66px"></dc-import>
+              </div>
+              <button style="width:100%; height:58px; margin-top:18px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 15px 'Sora'; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Sacar agora <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390</div>
+        <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.4; pointer-events:none; z-index:0;"></div>
+          <div style="position:relative; z-index:1; height:100%; display:flex; flex-direction:column; opacity:.5;">
+            <div style="height:46px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 28px; color:#e8f0ea; font:600 15px 'Sora';"><span>11:08</span><span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span></div>
+            <div style="height:52px; flex:none; border-bottom:1px solid rgba(34,197,94,.08);"></div>
+            <div style="flex:1; padding:18px;"><div style="height:100%; border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:flex-end;">
+            <div style="width:100%; border-radius:28px 28px 0 0; padding:22px 20px 30px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); border-bottom:none; box-shadow:0 -20px 60px -20px rgba(0,0,0,.7); animation:tv-sheet .3s ease both;">
+              <div style="width:40px; height:4px; border-radius:2px; background:rgba(255,255,255,.18); margin:0 auto 18px;"></div>
+              <div style="display:flex; align-items:center; gap:13px;"><span style="width:44px;height:44px;flex:none;border-radius:13px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.32);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M4 20h16"></path></svg></span><div style="flex:1;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Saque · Carteira</div><div style="font:700 20px 'Sora'; color:#eef5f0; margin-top:2px;">Sacar fundos</div></div></div>
+              <div style="margin-top:18px; border-radius:14px; padding:15px 16px; background:rgba(34,197,94,.06); border:1px solid rgba(34,197,94,.22); display:flex; align-items:center; justify-content:space-between;"><div><div style="font:600 9px 'Sora'; letter-spacing:.18em; color:#5d8a70; text-transform:uppercase;">Disponível para saque</div><div style="font:700 26px 'JetBrains Mono'; color:#34d77a; margin-top:4px;">R$ 1.240,00</div></div><span style="width:40px;height:40px;border-radius:12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.26);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"></rect><path d="M3 10h18"></path></svg></span></div>
+              <div style="font:400 13px 'Sora'; color:#9bb0a5; line-height:1.55; margin-top:16px;">O saque é processado pela corretora. Você será <span style="color:#eef5f0; font-weight:600;">redirecionado</span> para concluir a retirada com segurança.</div>
+              <div style="display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:6px 12px; border-radius:20px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.24);"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 9px 'Sora'; letter-spacing:.14em; color:#34d77a;">AMBIENTE SEGURO · SSL</span></div>
+              <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:18px; margin-bottom:10px;">Acesse a corretora com os mesmos dados</div>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <dc-import name="CopyField" label="E-mail" value="usuario@email.com" kind="email" hint-size="100%,66px"></dc-import>
+                <dc-import name="CopyField" label="Senha" value="Vingativa@2026" masked="{{ true }}" kind="lock" hint-size="100%,66px"></dc-import>
+              </div>
+              <button style="width:100%; height:56px; margin-top:16px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 15px 'Sora'; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Sacar agora <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================== 3 · ACESSAR BROKER =============================== -->
+  <div style="margin-bottom:24px;">
+    <div style="font:700 17px 'Sora'; color:#1a1a1a; margin-bottom:18px;">3 · Acessar Broker</div>
+    <div style="display:flex; gap:48px; align-items:flex-start;">
+
+      <!-- DESKTOP -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160</div>
+        <div style="width:1160px; height:720px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative; display:flex;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <dc-import name="DeskNav" style="height:100%" hint-size="76px,100%"></dc-import>
+          <div style="position:relative; z-index:1; flex:1; min-width:0; display:flex; flex-direction:column;">
+            <div style="height:62px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid rgba(34,197,94,.1);"><span style="font:700 12px 'Sora'; letter-spacing:.26em; color:#5d8a70;">COCKPIT DO TRADER</span><div style="display:flex; gap:10px;"><span style="width:90px;height:38px;border-radius:11px;background:rgba(34,197,94,.16);"></span><span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);"></span></div></div>
+            <div style="flex:1; opacity:.4; padding:22px 24px; display:grid; grid-template-columns:1.7fr 1fr; gap:22px;"><div style="border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div><div style="border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:center; justify-content:center;">
+            <div style="width:460px; border-radius:22px; padding:26px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); box-shadow:0 30px 70px -20px rgba(0,0,0,.7), 0 0 50px -18px rgba(34,197,94,.5); animation:tv-pop .3s ease both;">
+              <div style="display:flex; align-items:center; gap:14px;"><span style="width:46px;height:46px;flex:none;border-radius:13px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.32);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><path d="M10 17l5-5-5-5"></path><path d="M15 12H3"></path></svg></span><div style="flex:1;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Acesso · Corretora</div><div style="font:700 21px 'Sora'; color:#eef5f0; margin-top:2px;">Acessar corretora</div></div><span style="width:30px;height:30px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#86a596;cursor:pointer;font-size:16px;">×</span></div>
+              <div style="font:400 13px 'Sora'; color:#9bb0a5; line-height:1.5; margin-top:16px;">Acesse a corretora usando os <span style="color:#eef5f0; font-weight:600;">mesmos dados</span> da sua conta registrada na IA Vingativa.</div>
+              <div style="display:inline-flex; align-items:center; gap:7px; margin-top:14px; margin-bottom:18px; padding:6px 12px; border-radius:20px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.24);"><span style="width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 9px 'Sora'; letter-spacing:.14em; color:#34d77a;">AMBIENTE SEGURO · SSL</span></div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <dc-import name="CopyField" label="E-mail" value="usuario@email.com" kind="email" hint-size="100%,66px"></dc-import>
+                <dc-import name="CopyField" label="Senha" value="Vingativa@2026" masked="{{ true }}" kind="lock" hint-size="100%,66px"></dc-import>
+              </div>
+              <button style="width:100%; height:58px; margin-top:22px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 15px 'Sora'; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Abrir traderoom <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></button>
+              <button style="width:100%; height:44px; margin-top:10px; border-radius:12px; border:1px solid rgba(34,197,94,.3); background:rgba(34,197,94,.06); color:#34d77a; font:700 12px 'Sora'; letter-spacing:.02em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 19c0-3 2.4-5 5.5-5s5.5 2 5.5 5"></path><path d="M16 6.3a3 3 0 0 1 0 5.4"></path><path d="M17.6 14.3c2.1.5 3.9 2.3 3.9 4.7"></path></svg> Acessar grupo de operações</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390</div>
+        <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.4; pointer-events:none; z-index:0;"></div>
+          <div style="position:relative; z-index:1; height:100%; display:flex; flex-direction:column; opacity:.5;">
+            <div style="height:46px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 28px; color:#e8f0ea; font:600 15px 'Sora';"><span>11:08</span><span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span></div>
+            <div style="height:52px; flex:none; border-bottom:1px solid rgba(34,197,94,.08);"></div>
+            <div style="flex:1; padding:18px;"><div style="height:100%; border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:flex-end;">
+            <div style="width:100%; border-radius:28px 28px 0 0; padding:22px 20px 30px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); border-bottom:none; box-shadow:0 -20px 60px -20px rgba(0,0,0,.7); animation:tv-sheet .3s ease both;">
+              <div style="width:40px; height:4px; border-radius:2px; background:rgba(255,255,255,.18); margin:0 auto 18px;"></div>
+              <div style="display:flex; align-items:center; gap:13px;"><span style="width:44px;height:44px;flex:none;border-radius:13px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.32);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><path d="M10 17l5-5-5-5"></path><path d="M15 12H3"></path></svg></span><div style="flex:1;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Acesso · Corretora</div><div style="font:700 20px 'Sora'; color:#eef5f0; margin-top:2px;">Acessar corretora</div></div></div>
+              <div style="font:400 13px 'Sora'; color:#9bb0a5; line-height:1.5; margin-top:14px;">Acesse a corretora usando os <span style="color:#eef5f0; font-weight:600;">mesmos dados</span> da sua conta registrada.</div>
+              <div style="display:inline-flex; align-items:center; gap:7px; margin-top:13px; margin-bottom:16px; padding:6px 12px; border-radius:20px; background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.24);"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 9px 'Sora'; letter-spacing:.14em; color:#34d77a;">AMBIENTE SEGURO · SSL</span></div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <dc-import name="CopyField" label="E-mail" value="usuario@email.com" kind="email" hint-size="100%,66px"></dc-import>
+                <dc-import name="CopyField" label="Senha" value="Vingativa@2026" masked="{{ true }}" kind="lock" hint-size="100%,66px"></dc-import>
+              </div>
+              <button style="width:100%; height:58px; margin-top:20px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 15px 'Sora'; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Abrir traderoom <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"></path><path d="M8 7h9v9"></path></svg></button>
+              <button style="width:100%; height:44px; margin-top:10px; border-radius:12px; border:1px solid rgba(34,197,94,.3); background:rgba(34,197,94,.06); color:#34d77a; font:700 12px 'Sora'; letter-spacing:.02em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 19c0-3 2.4-5 5.5-5s5.5 2 5.5 5"></path><path d="M16 6.3a3 3 0 0 1 0 5.4"></path><path d="M17.6 14.3c2.1.5 3.9 2.3 3.9 4.7"></path></svg> Acessar grupo de operações</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

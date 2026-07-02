@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tv-livePulse {0%{transform:scale(.9);opacity:.9}70%{transform:scale(2.4);opacity:0}100%{transform:scale(2.4);opacity:0}}
+  @keyframes tv-pop {from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+  @keyframes tv-toast {from{transform:translateY(-18px);opacity:0}to{transform:translateY(0);opacity:1}}
+  @keyframes tv-badgeFloat {0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes tv-ring {0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.8);opacity:0}}
+  @keyframes tv-spark {0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+  .tvscroll{scrollbar-width:thin;scrollbar-color:rgba(34,197,94,.3) transparent}
+  .tvscroll>*{flex-shrink:0}
+  .tvscroll::-webkit-scrollbar{width:6px;height:6px}
+  .tvscroll::-webkit-scrollbar-thumb{background:rgba(34,197,94,.3);border-radius:3px}
+</style>
+</helmet>
+
+<div style="min-width:100%; min-height:100vh; width:max-content; box-sizing:border-box; padding:56px; background:#e7e5df; font-family:'Sora',sans-serif;">
+  <div style="margin-bottom:36px; max-width:880px;">
+    <div style="font:700 22px 'Sora'; color:#1a1a1a; letter-spacing:-.02em;">Ranking + Rank-up</div>
+    <div style="font:400 14px 'Sora'; color:#6b6b6b; margin-top:6px; line-height:1.55;">Mesma linguagem do dashboard. Abas Temporada Atual / MVPs (com navegação entre temporadas), lista com rank real de cada trader. E a celebração de subida de rank. Desktop com nav lateral, Mobile empilhado.</div>
+  </div>
+
+  <!-- =============================== RANKING =============================== -->
+  <div style="margin-bottom:56px;">
+    <div style="font:700 17px 'Sora'; color:#1a1a1a; margin-bottom:18px;">Ranking</div>
+    <div style="display:flex; gap:48px; align-items:flex-start;">
+
+      <!-- DESKTOP -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160</div>
+        <div style="width:1160px; height:780px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative; display:flex;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <dc-import name="DeskNav" style="height:100%" hint-size="76px,100%"></dc-import>
+          <div style="position:relative; z-index:1; flex:1; min-width:0; display:flex; flex-direction:column;">
+            <div style="height:62px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid rgba(34,197,94,.1);"><span style="font:700 12px 'Sora'; letter-spacing:.26em; color:#5d8a70;">RANKING VINGATIVA</span><div style="display:flex; gap:10px;"><span style="width:90px;height:38px;border-radius:11px;background:rgba(34,197,94,.16);"></span><span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);"></span></div></div>
+            <div style="flex:none; padding:18px 24px 0; display:flex; gap:8px; max-width:380px;">
+              <div onClick="{{ setAtualD }}" style="flex:1; cursor:pointer;"><sc-if value="{{ atualD }}" hint-placeholder-val="{{ true }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.04em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">Temporada Atual</div></sc-if><sc-if value="{{ atualDOff }}" hint-placeholder-val="{{ false }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.04em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">Temporada Atual</div></sc-if></div>
+              <div onClick="{{ setMvpD }}" style="flex:1; cursor:pointer;"><sc-if value="{{ mvpD }}" hint-placeholder-val="{{ false }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.04em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">MVPs</div></sc-if><sc-if value="{{ mvpDOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.04em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">MVPs</div></sc-if></div>
+            </div>
+
+            <sc-if value="{{ atualD }}" hint-placeholder-val="{{ true }}">
+              <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:18px 24px 26px; display:flex; flex-direction:column; gap:18px;">
+                <div style="border-radius:18px; padding:20px 22px; background:linear-gradient(120deg, rgba(34,197,94,.12), rgba(6,14,9,.4)); border:1px solid rgba(34,197,94,.28); box-shadow:0 0 36px -16px rgba(34,197,94,.5); display:flex; align-items:center; justify-content:space-between;">
+                  <div><div style="display:flex; align-items:center; gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;"></span><span style="font:700 10px 'Sora'; letter-spacing:.2em; color:#34d77a; text-transform:uppercase;">Temporada #01 · Junho 2026</span></div><div style="font:800 26px 'Sora'; color:#eef5f0; margin-top:8px; letter-spacing:-.01em;">A elite do mercado</div><div style="font:500 12px 'Sora'; color:#7d9488; margin-top:4px;">Top 50 traders da temporada</div></div>
+                  <div style="text-align:right;"><div style="font:700 9px 'Sora'; letter-spacing:.16em; color:#f0bf63; padding:6px 12px; border:1px solid rgba(240,191,99,.4); border-radius:20px; background:rgba(240,191,99,.1);">LAP 21/30</div><div style="font:700 22px 'JetBrains Mono'; color:#eef5f0; margin-top:10px;">70%</div><div style="font:500 10px 'Sora'; color:#7d9488;">9 dias restantes</div></div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1.12fr 1fr; gap:14px; align-items:end;">
+                  <sc-for list="{{ podium }}" as="p" hint-placeholder-count="3">
+                    <div style="position:relative; margin-top:{{ p.mt }}; border-radius:20px; padding:{{ p.pad }}; background:{{ p.bg }}; border:1px solid {{ p.border }}; box-shadow:0 0 46px -18px {{ p.glow }}, inset 0 1px 0 rgba(255,255,255,.06); display:flex; flex-direction:column; align-items:center; text-align:center; overflow:hidden;">
+                      <span style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, {{ p.medal }}, transparent);"></span>
+                      <span style="width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 35% 30%, {{ p.medal }}, {{ p.medalDark }}); box-shadow:0 0 16px -3px {{ p.glow }};">
+                        <sc-if value="{{ p.first }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1206"><path d="M4 8l4 3 4-6 4 6 4-3-1.5 10h-13z"></path></svg></sc-if>
+                        <sc-if value="{{ p.notFirst }}" hint-placeholder-val="{{ false }}"><span style="font:800 15px 'JetBrains Mono'; color:#1a1206;">{{ p.pos }}</span></sc-if>
+                      </span>
+                      <div style="margin-top:14px;">{{ p.badgeElLg }}</div>
+                      <div style="font:700 15px 'Sora'; color:#eef5f0; margin-top:14px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ p.name }}</div>
+                      <div style="font:600 11px 'Sora'; color:{{ p.medal }}; margin-top:3px;">{{ p.rank }}</div>
+                      <span style="display:inline-flex; align-items:center; gap:4px; margin-top:12px; font:700 10px 'Sora'; color:#ff9a52; padding:4px 10px; border-radius:20px; border:1px solid rgba(255,138,60,.34); background:rgba(255,138,60,.1);"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"></path></svg>{{ p.streak }} streak</span>
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:18px; align-items:start;">
+                  <div style="display:flex; flex-direction:column; gap:16px;">
+                    <div style="border-radius:16px; padding:18px; background:linear-gradient(160deg, rgba(255,138,60,.12), rgba(6,12,8,.3)); border:1px solid rgba(255,138,60,.3); display:flex; align-items:center; gap:14px;"><span style="width:46px;height:46px;border-radius:13px;background:rgba(255,138,60,.16);border:1px solid rgba(255,138,60,.4);display:flex;align-items:center;justify-content:center;color:#ff9a52;"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 9px 'Sora'; letter-spacing:.14em; color:#ff9a52; text-transform:uppercase;">Top streaker</div><div style="font:700 15px 'Sora'; color:#eef5f0; margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Tiago Mesquita</div><div style="font:500 11px 'Sora'; color:#7d9488;">3 dias em chamas</div></div></div>
+                    <div style="border-radius:16px; padding:18px; background:linear-gradient(160deg, rgba(240,191,99,.12), rgba(6,12,8,.3)); border:1px solid rgba(240,191,99,.3); display:flex; align-items:center; gap:14px;"><span style="width:46px;height:46px;border-radius:13px;background:rgba(240,191,99,.16);border:1px solid rgba(240,191,99,.4);display:flex;align-items:center;justify-content:center;color:#f0bf63;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v3a6 6 0 0 1-12 0z"></path><path d="M9 15h6M12 11v4M8 20h8"></path><path d="M6 5H4v1a3 3 0 0 0 3 3M18 5h2v1a3 3 0 0 1-3 3"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 9px 'Sora'; letter-spacing:.14em; color:#f0bf63; text-transform:uppercase;">Hall da fama</div><div style="font:700 15px 'Sora'; color:#eef5f0; margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Teste Conta Vinga</div><div style="font:500 11px 'Sora'; color:#7d9488;">10 XP · lenda de todos os tempos</div></div></div>
+                  </div>
+
+                  <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div style="font:600 10px 'Sora'; letter-spacing:.18em; color:#5d7167; text-transform:uppercase; margin-bottom:2px;">Demais posições</div>
+                    <sc-for list="{{ rest }}" as="r" hint-placeholder-count="4">
+                      <div style="display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:14px; background:linear-gradient(100deg, {{ r.glow }}, rgba(255,255,255,.02)); border:1px solid {{ r.border }};">
+                        <span style="width:42px;height:42px;flex:none;border-radius:11px;border:1px solid {{ r.posBorder }};background:{{ r.posBg }};display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font:600 7px 'Sora'; letter-spacing:.1em; color:#5d7167;">POS</span><span style="font:700 15px 'JetBrains Mono'; color:{{ r.posColor }}; line-height:1;">{{ r.pos }}</span></span>
+                        {{ r.badgeElD }}
+                        <div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ r.name }}</div><div style="font:500 11px 'Sora'; color:#7d9488;">{{ r.rank }}</div></div>
+                        <span style="display:inline-flex; align-items:center; gap:4px; font:700 10px 'Sora'; color:#ff9a52; padding:4px 9px; border-radius:20px; border:1px solid rgba(255,138,60,.34); background:rgba(255,138,60,.1); flex:none;"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"></path></svg>{{ r.streak }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ mvpD }}" hint-placeholder-val="{{ false }}">
+              <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:18px 24px 26px; display:flex; flex-direction:column; gap:18px; align-items:center;">
+                <div style="display:flex; align-items:center; gap:18px; padding:12px 18px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.16);"><span style="width:36px;height:36px;border-radius:10px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06);display:flex;align-items:center;justify-content:center;color:#34d77a;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></span><div style="text-align:center; min-width:160px;"><div style="font:600 9px 'Sora'; letter-spacing:.2em; color:#5d8a70; text-transform:uppercase;">Temporada</div><div style="font:700 18px 'Sora'; color:#eef5f0; margin-top:2px;">Junho 2026</div><div style="font:500 10px 'Sora'; color:#7d9488;">em andamento</div></div><span style="width:36px;height:36px;border-radius:10px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06);display:flex;align-items:center;justify-content:center;color:#34d77a;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></span></div>
+                <div style="width:100%; max-width:520px; border-radius:16px; padding:16px; background:rgba(240,191,99,.08); border:1px solid rgba(240,191,99,.3); text-align:center; font:700 11px 'Sora'; letter-spacing:.12em; color:#f0bf63; text-transform:uppercase;">⏳ Aguardando — vencedores definidos no fim da temporada</div>
+                <div style="width:100%; max-width:520px; display:flex; gap:16px;">
+                  <div style="flex:1; border-radius:18px; padding:26px 18px; background:linear-gradient(180deg, rgba(240,191,99,.1), rgba(6,12,8,.3)); border:1px solid rgba(240,191,99,.28); display:flex; flex-direction:column; align-items:center; text-align:center;"><div style="font:700 9px 'Sora'; letter-spacing:.16em; color:#f0bf63; text-transform:uppercase;">Campeão</div><span style="width:64px;height:64px;margin:16px 0 12px;border-radius:50%;border:2px dashed rgba(240,191,99,.4);display:flex;align-items:center;justify-content:center;font:700 24px 'JetBrains Mono';color:#f0bf63;">1</span><div style="font:700 15px 'Sora'; color:#566c61;">?????</div><div style="font:500 10px 'Sora'; color:#5d7167; margin-top:3px;">a definir</div></div>
+                  <div style="flex:1; border-radius:18px; padding:26px 18px; background:linear-gradient(180deg, rgba(200,210,220,.08), rgba(6,12,8,.3)); border:1px solid rgba(200,210,220,.22); display:flex; flex-direction:column; align-items:center; text-align:center;"><div style="font:700 9px 'Sora'; letter-spacing:.16em; color:#cfd6dd; text-transform:uppercase;">Vice-campeão</div><span style="width:64px;height:64px;margin:16px 0 12px;border-radius:50%;border:2px dashed rgba(200,210,220,.35);display:flex;align-items:center;justify-content:center;font:700 24px 'JetBrains Mono';color:#cfd6dd;">2</span><div style="font:700 15px 'Sora'; color:#566c61;">?????</div><div style="font:500 10px 'Sora'; color:#5d7167; margin-top:3px;">a definir</div></div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390</div>
+        <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <div style="position:relative; z-index:1; height:100%; display:flex; flex-direction:column;">
+            <div style="height:46px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 28px; color:#e8f0ea; font:600 15px 'Sora';"><span>11:08</span><span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span></div>
+            <div style="height:52px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid rgba(34,197,94,.08);"><span style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#9bb0a5;">&#9776;</span><span style="font:700 11px 'Sora'; letter-spacing:.22em; color:#5d8a70;">RANKING</span><span style="width:34px;height:34px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);display:flex;align-items:center;justify-content:center;font:700 12px 'Sora';color:#04140a;">TM</span></div>
+            <div style="flex:none; padding:14px 18px 0; display:flex; gap:8px;">
+              <div onClick="{{ setAtualM }}" style="flex:1; cursor:pointer;"><sc-if value="{{ atualM }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; text-align:center; font:700 11px 'Sora'; letter-spacing:.02em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">Temporada Atual</div></sc-if><sc-if value="{{ atualMOff }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; text-align:center; font:700 11px 'Sora'; letter-spacing:.02em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">Temporada Atual</div></sc-if></div>
+              <div onClick="{{ setMvpM }}" style="flex:1; cursor:pointer;"><sc-if value="{{ mvpM }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; text-align:center; font:700 11px 'Sora'; letter-spacing:.02em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">MVPs</div></sc-if><sc-if value="{{ mvpMOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; text-align:center; font:700 11px 'Sora'; letter-spacing:.02em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">MVPs</div></sc-if></div>
+            </div>
+
+            <sc-if value="{{ atualM }}" hint-placeholder-val="{{ true }}">
+              <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:14px 18px 24px; display:flex; flex-direction:column; gap:14px;">
+                <div style="border-radius:18px; padding:18px; background:linear-gradient(120deg, rgba(34,197,94,.12), rgba(6,14,9,.4)); border:1px solid rgba(34,197,94,.28); box-shadow:0 0 36px -16px rgba(34,197,94,.5);">
+                  <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font:700 9px 'Sora'; letter-spacing:.16em; color:#34d77a; text-transform:uppercase;">Temporada #01</span><span style="font:700 8px 'Sora'; letter-spacing:.12em; color:#f0bf63; padding:4px 9px; border:1px solid rgba(240,191,99,.4); border-radius:20px; background:rgba(240,191,99,.1);">LAP 21/30</span></div>
+                  <div style="font:800 20px 'Sora'; color:#eef5f0; margin-top:8px;">A elite do mercado</div>
+                  <div style="margin-top:12px; height:7px; border-radius:4px; background:rgba(255,255,255,.08); overflow:hidden;"><div style="width:70%; height:100%; border-radius:4px; background:linear-gradient(90deg,#15924a,#22c55e);"></div></div>
+                  <div style="display:flex; justify-content:space-between; margin-top:7px; font:500 10px 'Sora'; color:#7d9488;"><span>70% concluído</span><span>9 dias restantes</span></div>
+                </div>
+                <div style="border-radius:14px; padding:14px; background:linear-gradient(160deg, rgba(255,138,60,.12), rgba(6,12,8,.3)); border:1px solid rgba(255,138,60,.3); display:flex; align-items:center; gap:12px;"><span style="width:40px;height:40px;border-radius:11px;background:rgba(255,138,60,.16);border:1px solid rgba(255,138,60,.4);display:flex;align-items:center;justify-content:center;color:#ff9a52;"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 8px 'Sora'; letter-spacing:.14em; color:#ff9a52; text-transform:uppercase;">Top streaker</div><div style="font:700 14px 'Sora'; color:#eef5f0;">Tiago Mesquita · 3d</div></div></div>
+                <div style="border-radius:14px; padding:14px; background:linear-gradient(160deg, rgba(240,191,99,.12), rgba(6,12,8,.3)); border:1px solid rgba(240,191,99,.3); display:flex; align-items:center; gap:12px;"><span style="width:40px;height:40px;flex:none;border-radius:11px;background:rgba(240,191,99,.16);border:1px solid rgba(240,191,99,.4);display:flex;align-items:center;justify-content:center;color:#f0bf63;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v3a6 6 0 0 1-12 0z"></path><path d="M9 15h6M12 11v4M8 20h8"></path><path d="M6 5H4v1a3 3 0 0 0 3 3M18 5h2v1a3 3 0 0 1-3 3"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 8px 'Sora'; letter-spacing:.14em; color:#f0bf63; text-transform:uppercase;">Hall da fama</div><div style="font:700 14px 'Sora'; color:#eef5f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Teste Conta Vinga · 10 XP</div></div></div>
+                <div style="display:grid; grid-template-columns:1fr 1.1fr 1fr; gap:8px; align-items:end;">
+                  <sc-for list="{{ podium }}" as="p" hint-placeholder-count="3">
+                    <div style="position:relative; margin-top:{{ p.mt }}; border-radius:16px; padding:14px 8px 12px; background:{{ p.bg }}; border:1px solid {{ p.border }}; box-shadow:0 0 34px -16px {{ p.glow }}; display:flex; flex-direction:column; align-items:center; text-align:center; overflow:hidden;">
+                      <span style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, {{ p.medal }}, transparent);"></span>
+                      <span style="width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 35% 30%, {{ p.medal }}, {{ p.medalDark }}); box-shadow:0 0 12px -2px {{ p.glow }};">
+                        <sc-if value="{{ p.first }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1a1206"><path d="M4 8l4 3 4-6 4 6 4-3-1.5 10h-13z"></path></svg></sc-if>
+                        <sc-if value="{{ p.notFirst }}" hint-placeholder-val="{{ false }}"><span style="font:800 12px 'JetBrains Mono'; color:#1a1206;">{{ p.pos }}</span></sc-if>
+                      </span>
+                      <div style="margin-top:10px;">{{ p.badgeElMd }}</div>
+                      <div style="font:700 11px 'Sora'; color:#eef5f0; margin-top:10px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ p.name }}</div>
+                      <div style="font:600 9px 'Sora'; color:{{ p.medal }}; margin-top:2px;">{{ p.rank }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <div style="font:600 9px 'Sora'; letter-spacing:.18em; color:#5d7167; text-transform:uppercase;">Demais posições</div>
+                  <sc-for list="{{ rest }}" as="r" hint-placeholder-count="4">
+                    <div style="display:flex; align-items:center; gap:12px; padding:11px 13px; border-radius:14px; background:linear-gradient(100deg, {{ r.glow }}, rgba(255,255,255,.02)); border:1px solid {{ r.border }};">
+                      <span style="width:24px; flex:none; text-align:center; font:700 14px 'JetBrains Mono'; color:{{ r.posColor }};">{{ r.pos }}</span>
+                      {{ r.badgeElM }}
+                      <div style="flex:1; min-width:0;"><div style="font:700 13px 'Sora'; color:#eef5f0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ r.name }}</div><div style="font:500 10px 'Sora'; color:#7d9488;">{{ r.rank }}</div></div>
+                      <span style="display:inline-flex; align-items:center; gap:3px; font:700 9px 'Sora'; color:#ff9a52; padding:3px 8px; border-radius:20px; border:1px solid rgba(255,138,60,.34); background:rgba(255,138,60,.1); flex:none;"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"></path></svg>{{ r.streak }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ mvpM }}" hint-placeholder-val="{{ false }}">
+              <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:14px 18px 24px; display:flex; flex-direction:column; gap:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.16);"><span style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></span><div style="text-align:center;"><div style="font:600 8px 'Sora'; letter-spacing:.18em; color:#5d8a70; text-transform:uppercase;">Temporada</div><div style="font:700 16px 'Sora'; color:#eef5f0;">Junho 2026</div></div><span style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(34,197,94,.3);background:rgba(34,197,94,.06);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></span></div>
+                <div style="border-radius:14px; padding:14px; background:rgba(240,191,99,.08); border:1px solid rgba(240,191,99,.3); text-align:center; font:700 10px 'Sora'; letter-spacing:.1em; color:#f0bf63; text-transform:uppercase;">⏳ Aguardando vencedores</div>
+                <div style="border-radius:18px; padding:24px 18px; background:linear-gradient(180deg, rgba(240,191,99,.1), rgba(6,12,8,.3)); border:1px solid rgba(240,191,99,.28); display:flex; align-items:center; gap:16px;"><span style="width:56px;height:56px;flex:none;border-radius:50%;border:2px dashed rgba(240,191,99,.4);display:flex;align-items:center;justify-content:center;font:700 22px 'JetBrains Mono';color:#f0bf63;">1</span><div><div style="font:700 9px 'Sora'; letter-spacing:.16em; color:#f0bf63; text-transform:uppercase;">Campeão</div><div style="font:700 16px 'Sora'; color:#566c61; margin-top:3px;">?????</div><div style="font:500 10px 'Sora'; color:#5d7167;">a definir</div></div></div>
+                <div style="border-radius:18px; padding:24px 18px; background:linear-gradient(180deg, rgba(200,210,220,.08), rgba(6,12,8,.3)); border:1px solid rgba(200,210,220,.22); display:flex; align-items:center; gap:16px;"><span style="width:56px;height:56px;flex:none;border-radius:50%;border:2px dashed rgba(200,210,220,.35);display:flex;align-items:center;justify-content:center;font:700 22px 'JetBrains Mono';color:#cfd6dd;">2</span><div><div style="font:700 9px 'Sora'; letter-spacing:.16em; color:#cfd6dd; text-transform:uppercase;">Vice-campeão</div><div style="font:700 16px 'Sora'; color:#566c61; margin-top:3px;">?????</div><div style="font:500 10px 'Sora'; color:#5d7167;">a definir</div></div></div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =============================== RANK-UP =============================== -->
+  <div style="margin-bottom:24px;">
+    <div style="font:700 17px 'Sora'; color:#1a1a1a; margin-bottom:18px;">Rank-up · celebração de subida de rank</div>
+    <div style="display:flex; gap:48px; align-items:flex-start;">
+
+      <!-- DESKTOP modal -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160 — modal</div>
+        <div style="width:1160px; height:720px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative; display:flex;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <dc-import name="DeskNav" style="height:100%" hint-size="76px,100%"></dc-import>
+          <div style="position:relative; z-index:1; flex:1; min-width:0; display:flex; flex-direction:column;"><div style="height:62px; flex:none; border-bottom:1px solid rgba(34,197,94,.1);"></div><div style="flex:1; opacity:.35; padding:22px 24px;"><div style="height:100%; border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div></div>
+          <div style="position:absolute; inset:0; z-index:10; background:rgba(2,6,4,.7); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center;">
+            <div style="position:relative; width:420px; border-radius:24px; padding:36px 30px 30px; background:radial-gradient(130% 100% at 50% 0%, #14361f 0%, #08120c 72%); border:1px solid rgba(34,197,94,.4); box-shadow:0 30px 80px -20px rgba(0,0,0,.8), 0 0 70px -14px rgba(34,197,94,.65); text-align:center; overflow:hidden; animation:tv-pop .35s ease both;">
+              <span style="position:absolute; top:34px; left:18%; width:6px; height:6px; border-radius:50%; background:#5dffa0; box-shadow:0 0 10px #5dffa0; animation:tv-spark 1.8s ease-in-out infinite;"></span>
+              <span style="position:absolute; top:60px; right:16%; width:5px; height:5px; border-radius:50%; background:#f0bf63; box-shadow:0 0 10px #f0bf63; animation:tv-spark 2.1s ease-in-out infinite .4s;"></span>
+              <span style="position:absolute; top:120px; left:12%; width:4px; height:4px; border-radius:50%; background:#34d77a; box-shadow:0 0 8px #34d77a; animation:tv-spark 1.6s ease-in-out infinite .7s;"></span>
+              <div style="font:700 11px 'Sora'; letter-spacing:.34em; color:#5dffa0; text-transform:uppercase;">▲ Rank up!</div>
+              <div style="position:relative; width:150px; height:150px; margin:22px auto 0; display:flex; align-items:center; justify-content:center;">
+                <span style="position:absolute; inset:0; border-radius:50%; border:2px solid rgba(34,197,94,.5); animation:tv-ring 2.4s ease-out infinite;"></span>
+                <span style="position:absolute; inset:0; border-radius:50%; border:2px solid rgba(34,197,94,.4); animation:tv-ring 2.4s ease-out infinite 1.2s;"></span>
+                <span style="position:absolute; width:130px; height:130px; border-radius:50%; background:radial-gradient(circle, rgba(34,197,94,.3), transparent 70%);"></span>
+                <img src="assets/ranks/prata-2.svg" alt="" style="height:118px; width:auto; position:relative; filter:drop-shadow(0 6px 20px rgba(34,197,94,.6)); animation:tv-badgeFloat 3s ease-in-out infinite;">
+              </div>
+              <div style="font:500 13px 'Sora'; color:#9bb0a5; margin-top:24px;">Você subiu para</div>
+              <div style="font:800 30px 'Sora'; color:#eef5f0; margin-top:4px; letter-spacing:-.01em;">Prata II</div>
+              <div style="font:400 13px 'Sora'; color:#7d9488; margin-top:10px; line-height:1.5;">Continue operando com a IA para alcançar o próximo posto.</div>
+              <button style="width:100%; height:54px; margin-top:24px; border-radius:15px; border:none; background:#22c55e; color:#04140a; font:700 14px 'Sora'; letter-spacing:.06em; cursor:pointer; box-shadow:0 0 32px -8px rgba(34,197,94,.85);">Continuar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE toast -->
+      <div style="flex:none;">
+        <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390 — toast</div>
+        <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+          <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.5; pointer-events:none; z-index:0;"></div>
+          <div style="position:relative; z-index:1; height:100%; display:flex; flex-direction:column;">
+            <div style="height:46px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 28px; color:#e8f0ea; font:600 15px 'Sora';"><span>11:08</span><span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span></div>
+            <div style="height:52px; flex:none; border-bottom:1px solid rgba(34,197,94,.08); opacity:.5;"></div>
+            <div style="flex:1; opacity:.35; padding:18px;"><div style="height:100%; border-radius:18px; background:rgba(255,255,255,.03); border:1px solid rgba(34,197,94,.1);"></div></div>
+          </div>
+          <div style="position:absolute; top:56px; left:14px; right:14px; z-index:20; border-radius:18px; padding:16px; background:radial-gradient(130% 130% at 20% 0%, #14361f 0%, #0a160e 75%); border:1px solid rgba(34,197,94,.45); box-shadow:0 18px 50px -16px rgba(0,0,0,.7), 0 0 44px -12px rgba(34,197,94,.6); display:flex; align-items:center; gap:15px; overflow:hidden; animation:tv-toast .4s ease both;">
+            <div style="flex:none; display:flex; align-items:center; justify-content:center;"><img src="assets/ranks/prata-2.svg" alt="" style="width:60px; height:auto; display:block; filter:drop-shadow(0 3px 12px rgba(34,197,94,.65));"></div>
+            <div style="flex:1; min-width:0; position:relative; z-index:1;"><div style="font:700 9px 'Sora'; letter-spacing:.28em; color:#5dffa0; text-transform:uppercase;">▲ Rank up!</div><div style="font:800 19px 'Sora'; color:#eef5f0; margin-top:3px;">Prata II</div><div style="font:500 11px 'Sora'; color:#9bb0a5; margin-top:2px;">Você subiu de rank!</div></div>
+            <span style="width:28px;height:28px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#86a596;cursor:pointer;font-size:14px;">×</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tabD: 'atual', tabM: 'atual' };
+
+  RANKS = [
+    { pos: 1, name: 'Teste Conta Vinga', rank: 'Ouro I', streak: '1d', badge: 'assets/ranks/ouro-1.svg', tier: 'gold' },
+    { pos: 2, name: 'Testando Craiacao', rank: 'Prata III', streak: '2d', badge: 'assets/ranks/prata-3.svg', tier: 'silver' },
+    { pos: 3, name: 'Marcelo Gois', rank: 'Prata II', streak: '2d', badge: 'assets/ranks/prata-2.svg', tier: 'bronze' },
+    { pos: 4, name: 'Thiago Silva', rank: 'Prata I', streak: '1d', badge: 'assets/ranks/prata-1.svg', tier: 'plain' },
+    { pos: 5, name: 'Luan de Silva Oliveira', rank: 'Prata I', streak: '1d', badge: 'assets/ranks/prata-1.svg', tier: 'plain' },
+    { pos: 6, name: 'Cuenta de la Vieda', rank: 'Prata I', streak: '1d', badge: 'assets/ranks/prata-1.svg', tier: 'plain' },
+    { pos: 7, name: 'Mariu Negak', rank: 'Prata I', streak: '1d', badge: 'assets/ranks/prata-1.svg', tier: 'plain' },
+  ];
+
+  TIERS = {
+    gold: { border: 'rgba(240,191,99,.5)', glow: 'rgba(240,191,99,.09)', posColor: '#f0bf63', posBorder: 'rgba(240,191,99,.4)', posBg: 'rgba(240,191,99,.08)' },
+    silver: { border: 'rgba(200,210,220,.4)', glow: 'rgba(200,210,220,.06)', posColor: '#cfd6dd', posBorder: 'rgba(200,210,220,.3)', posBg: 'rgba(200,210,220,.05)' },
+    bronze: { border: 'rgba(205,127,80,.45)', glow: 'rgba(205,127,80,.07)', posColor: '#d08a5a', posBorder: 'rgba(205,127,80,.35)', posBg: 'rgba(205,127,80,.06)' },
+    plain: { border: 'rgba(34,197,94,.14)', glow: 'rgba(34,197,94,.05)', posColor: '#34d77a', posBorder: 'rgba(34,197,94,.2)', posBg: 'rgba(6,12,8,.4)' },
+  };
+
+  PODTIER = {
+    1: { medal: '#f0bf63', medalDark: '#b8862f', glow: 'rgba(240,191,99,.55)', border: 'rgba(240,191,99,.5)', bg: 'linear-gradient(180deg, rgba(240,191,99,.18), rgba(8,18,12,.5))', label: 'Campeão' },
+    2: { medal: '#cfd6dd', medalDark: '#8a949c', glow: 'rgba(200,210,220,.4)', border: 'rgba(200,210,220,.35)', bg: 'linear-gradient(180deg, rgba(200,210,220,.12), rgba(8,18,12,.5))', label: 'Vice' },
+    3: { medal: '#d08a5a', medalDark: '#9c5a32', glow: 'rgba(205,127,80,.42)', border: 'rgba(205,127,80,.4)', bg: 'linear-gradient(180deg, rgba(205,127,80,.13), rgba(8,18,12,.5))', label: '3º lugar' },
+  };
+
+  renderVals() {
+    const decorate = r => ({
+      ...r, ...this.TIERS[r.tier],
+      badgeElD: React.createElement('img', { src: r.badge, alt: '', style: { height: '34px', width: 'auto', display: 'block', flex: 'none' } }),
+      badgeElM: React.createElement('img', { src: r.badge, alt: '', style: { height: '30px', width: 'auto', display: 'block', flex: 'none' } }),
+    });
+    const podiumItem = (r, big) => {
+      const t = this.PODTIER[r.pos];
+      return {
+        ...r, ...t,
+        badgeElLg: React.createElement('img', { src: r.badge, alt: '', style: { height: big ? '70px' : '54px', width: 'auto', display: 'block', filter: 'drop-shadow(0 6px 16px ' + t.glow + ')' } }),
+        badgeElMd: React.createElement('img', { src: r.badge, alt: '', style: { height: big ? '52px' : '42px', width: 'auto', display: 'block', filter: 'drop-shadow(0 4px 12px ' + t.glow + ')' } }),
+        first: r.pos === 1, notFirst: r.pos !== 1,
+        mt: big ? '0px' : '30px',
+        pad: big ? '26px 18px 22px' : '20px 16px 18px',
+      };
+    };
+    const r1 = this.RANKS.find(r => r.pos === 1), r2 = this.RANKS.find(r => r.pos === 2), r3 = this.RANKS.find(r => r.pos === 3);
+    return {
+      atualD: this.state.tabD === 'atual', atualDOff: this.state.tabD !== 'atual',
+      mvpD: this.state.tabD === 'mvp', mvpDOff: this.state.tabD !== 'mvp',
+      atualM: this.state.tabM === 'atual', atualMOff: this.state.tabM !== 'atual',
+      mvpM: this.state.tabM === 'mvp', mvpMOff: this.state.tabM !== 'mvp',
+      setAtualD: () => this.setState({ tabD: 'atual' }), setMvpD: () => this.setState({ tabD: 'mvp' }),
+      setAtualM: () => this.setState({ tabM: 'atual' }), setMvpM: () => this.setState({ tabM: 'mvp' }),
+      ranking: this.RANKS.map(decorate),
+      rest: this.RANKS.filter(r => r.pos > 3).map(decorate),
+      podium: [podiumItem(r2, false), podiumItem(r1, true), podiumItem(r3, false)],
+      champ: podiumItem(r1, true), second: podiumItem(r2, false), third: podiumItem(r3, false),
+    };
+  }
+}
+</script>
+</body>
+</html>

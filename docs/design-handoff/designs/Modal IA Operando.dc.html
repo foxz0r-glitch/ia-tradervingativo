@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tv-livePulse { 0% { transform: scale(.9); opacity:.9; } 70% { transform: scale(2.4); opacity:0; } 100% { transform: scale(2.4); opacity:0; } }
+  @keyframes tv-dotBlink { 0%,100% { opacity:.2; } 50% { opacity:1; } }
+  @keyframes tv-rowIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+  @keyframes tv-rowInGlow { 0% { opacity:0; transform: translateX(14px); box-shadow:0 0 0 0 rgba(34,197,94,.55);} 35%{opacity:1;} 100% { opacity:1; transform: translateX(0); box-shadow:0 0 0 0 rgba(34,197,94,0);} }
+  @keyframes tv-rowGlowA { 0% { opacity:0; transform: translateY(-13px) scale(.98); box-shadow:0 0 20px -2px rgba(34,197,94,.55); } 55% { opacity:1; } 100% { opacity:1; transform: translateY(0) scale(1); box-shadow:0 0 0 0 rgba(34,197,94,0); } }
+  @keyframes tv-rowGlowB { 0% { opacity:0; transform: translateY(-13px) scale(.98); box-shadow:0 0 20px -2px rgba(34,197,94,.55); } 55% { opacity:1; } 100% { opacity:1; transform: translateY(0) scale(1); box-shadow:0 0 0 0 rgba(34,197,94,0); } }
+  @keyframes tv-scanY { 0% { top:-12%; } 100% { top:108%; } }
+  @keyframes tv-radar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes tv-ringExpand { 0% { transform: scale(.3); opacity:.55; } 100% { transform: scale(1.6); opacity:0; } }
+  @keyframes tv-shimmer { 0% { background-position: -160px 0; } 100% { background-position: 220px 0; } }
+  @keyframes tv-floatGlow { 0%,100% { opacity:.5; } 50% { opacity:1; } }
+  @keyframes tv-barFlow { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+  @keyframes tv-numTick { 0% { opacity:.4; transform: translateY(-3px);} 100%{opacity:1; transform:translateY(0);} }
+</style>
+</helmet>
+
+<div style="min-width:100%; min-height:100vh; width:max-content; box-sizing:border-box; padding:56px; background:#e7e5df; font-family:'Sora',sans-serif;">
+  <div style="margin-bottom:34px;">
+    <div style="font:700 22px 'Sora',sans-serif; color:#1a1a1a; letter-spacing:-.02em;">Modal · IA Operando — estado OPERANDO</div>
+    <div style="font:400 14px 'Sora',sans-serif; color:#6b6b6b; margin-top:6px;">Três direções de estilo/layout. Cada frame roda uma simulação ao vivo. PAUSAR é funcional (→ Pausado / RETOMAR).</div>
+  </div>
+
+  <div style="display:flex; gap:48px; align-items:flex-start;">
+
+    <!-- ============ FRAME A — MINIMALISTA ============ -->
+    <div style="flex:none; width:390px;">
+      <div style="font:600 13px 'Sora',sans-serif; color:#1a1a1a; margin-bottom:12px; letter-spacing:.01em;">A · Minimalista / limpa</div>
+      <div style="width:390px; height:844px; background:#060a08; border-radius:46px; border:1px solid #23271f; box-shadow:0 30px 60px -18px rgba(0,0,0,.5); overflow:hidden; position:relative;">
+        <!-- status bar -->
+        <div style="height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 30px; color:#e8f0ea; font:600 15px 'Sora';">
+          <span>11:08</span>
+          <span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span>
+        </div>
+        <!-- modal body -->
+        <div style="position:absolute; inset:48px 0 0 0; display:flex; flex-direction:column; padding:8px 24px 0;">
+          <!-- live header -->
+          <div style="display:flex; align-items:center; gap:11px; padding:6px 2px 18px;">
+            <span style="position:relative; width:9px; height:9px;">
+              <span style="position:absolute; inset:0; border-radius:50%; background:#22c55e; box-shadow:0 0 8px #22c55e;"></span>
+              <span style="position:absolute; inset:0; border-radius:50%; background:#22c55e; animation:tv-livePulse 1.8s ease-out infinite;"></span>
+            </span>
+            <span style="font:700 12px 'Sora'; letter-spacing:.18em; color:#34d77a;">AO VIVO</span>
+            <span style="width:3px;height:3px;border-radius:50%;background:#3a4a40;"></span>
+            <span style="font:500 12px 'Sora'; letter-spacing:.14em; color:#7d9488; text-transform:uppercase;">IA operando</span>
+          </div>
+
+          <!-- two numbers -->
+          <div style="display:flex; gap:14px; padding-bottom:20px; border-bottom:1px solid rgba(34,197,94,.12);">
+            <div style="flex:1;">
+              <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#5d7167; text-transform:uppercase;">Operações</div>
+              <div style="font:700 38px 'JetBrains Mono'; color:#eef5f0; line-height:1.1; margin-top:6px; font-variant-numeric:tabular-nums;">{{ a.count }}</div>
+            </div>
+            <div style="flex:1.4;">
+              <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#5d7167; text-transform:uppercase;">Resultado</div>
+              <div style="font:700 38px 'JetBrains Mono'; line-height:1.1; margin-top:6px; font-variant-numeric:tabular-nums; color:{{ a.totalColor }};">{{ a.totalText }}</div>
+            </div>
+          </div>
+
+          <!-- list -->
+          <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#4a5b52; text-transform:uppercase; padding:18px 2px 12px;">Operações ao vivo</div>
+          <div style="flex:1; overflow:hidden; display:flex; flex-direction:column; gap:2px;">
+            <sc-for list="{{ a.rows }}" as="row" hint-placeholder-count="4">
+              <div style="display:flex; align-items:center; gap:13px; padding:13px 4px; border-bottom:1px solid rgba(255,255,255,.04); animation:tv-rowIn .4s ease both;">
+                <span style="width:3px; height:30px; border-radius:2px; background:{{ row.accent }};"></span>
+                <div style="flex:1;">
+                  <div style="font:600 15px 'Sora'; color:#dfeae3; letter-spacing:.01em;">{{ row.pair }}</div>
+                  <div style="font:500 11px 'JetBrains Mono'; color:#5d7167; margin-top:2px;">{{ row.time }}</div>
+                </div>
+                <span style="font:700 9px 'Sora'; letter-spacing:.14em; padding:4px 9px; border-radius:5px; background:{{ row.badgeBg }}; color:{{ row.badgeColor }};">{{ row.badge }}</span>
+                <div style="text-align:right; min-width:88px;">
+                  <div style="font:700 15px 'JetBrains Mono'; color:{{ row.amountColor }}; font-variant-numeric:tabular-nums;">{{ row.amountText }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <!-- searching / paused line -->
+            <sc-if value="{{ a.searching }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; align-items:center; gap:10px; padding:15px 4px; color:#6f8579;">
+                <span style="display:inline-flex; gap:4px;">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:tv-dotBlink 1.2s infinite 0s;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:tv-dotBlink 1.2s infinite .2s;"></span>
+                  <span style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:tv-dotBlink 1.2s infinite .4s;"></span>
+                </span>
+                <span style="font:500 13px 'Sora'; color:#7d9488;">procurando próxima entrada…</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ a.paused }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; gap:10px; padding:15px 4px;">
+                <span style="width:8px;height:8px;border-radius:2px;background:#e0a93c;"></span>
+                <span style="font:600 13px 'Sora'; color:#e0a93c; letter-spacing:.04em;">Pausado — IA em espera</span>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- controls -->
+          <div style="display:flex; gap:12px; padding:14px 0 30px;">
+            <button onClick="{{ a.onPause }}" style="flex:1; height:54px; border-radius:15px; border:1px solid {{ a.pauseBorder }}; background:{{ a.pauseBg }}; color:{{ a.pauseColor }}; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer;">{{ a.pauseLabel }}</button>
+            <button onClick="{{ a.onStop }}" style="flex:1; height:54px; border-radius:15px; border:1px solid rgba(239,68,68,.4); background:rgba(239,68,68,.08); color:#f0726a; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer;">PARAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FRAME B — DASHBOARD ============ -->
+    <div style="flex:none; width:390px;">
+      <div style="font:600 13px 'Sora',sans-serif; color:#1a1a1a; margin-bottom:12px;">B · Dashboard / números grandes</div>
+      <div style="width:390px; height:844px; background:#060a08; border-radius:46px; border:1px solid #23271f; box-shadow:0 30px 60px -18px rgba(0,0,0,.5); overflow:hidden; position:relative;">
+        <div style="height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 30px; color:#e8f0ea; font:600 15px 'Sora';">
+          <span>11:08</span>
+          <span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span>
+        </div>
+        <div style="position:absolute; inset:48px 0 0 0; display:flex; flex-direction:column; padding:6px 20px 0;">
+          <!-- header chip -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 4px 14px;">
+            <div style="display:flex; align-items:center; gap:9px; padding:7px 13px 7px 11px; border-radius:30px; background:rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.3);">
+              <span style="position:relative; width:8px; height:8px;">
+                <span style="position:absolute; inset:0; border-radius:50%; background:#22c55e;"></span>
+                <span style="position:absolute; inset:0; border-radius:50%; background:#22c55e; animation:tv-livePulse 1.8s ease-out infinite;"></span>
+              </span>
+              <span style="font:700 11px 'Sora'; letter-spacing:.14em; color:#34d77a;">IA OPERANDO</span>
+            </div>
+            <span style="font:600 10px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase;">Sessão ao vivo</span>
+          </div>
+
+          <!-- HERO -->
+          <div style="position:relative; border-radius:24px; padding:26px 22px 22px; background:linear-gradient(160deg, rgba(34,197,94,.14), rgba(6,18,12,.4)); border:1px solid rgba(34,197,94,.28); box-shadow:0 0 40px -12px rgba(34,197,94,.4) inset, 0 0 26px -16px rgba(34,197,94,.6); overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,rgba(34,197,94,.8),transparent); animation:tv-barFlow 2.6s linear infinite;"></div>
+            <div style="font:600 11px 'Sora'; letter-spacing:.22em; color:#5d8a70; text-transform:uppercase;">Resultado acumulado</div>
+            <div style="font:700 56px 'JetBrains Mono'; line-height:1.05; margin-top:8px; font-variant-numeric:tabular-nums; color:{{ b.totalColor }}; text-shadow:0 0 30px rgba(34,197,94,.35);">{{ b.totalText }}</div>
+            <div style="display:flex; gap:0; margin-top:22px; border-top:1px solid rgba(34,197,94,.16); padding-top:16px;">
+              <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                <div style="font:700 24px 'JetBrains Mono'; color:#eef5f0;">{{ b.count }}</div>
+                <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Operações</div>
+              </div>
+              <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                <div style="font:700 24px 'JetBrains Mono'; color:#34d77a;">{{ b.winRate }}</div>
+                <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Acerto</div>
+              </div>
+              <div style="flex:1; text-align:center;">
+                <div style="font:700 24px 'JetBrains Mono'; color:#eef5f0;">{{ b.wins }}</div>
+                <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Wins</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- flow list -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 4px 10px;">
+            <span style="font:600 10px 'Sora'; letter-spacing:.2em; color:#4a5b52; text-transform:uppercase;">Fluxo de operações</span>
+            <sc-if value="{{ b.searching }}" hint-placeholder-val="{{ true }}">
+              <span style="display:inline-flex; align-items:center; gap:6px;">
+                <span style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:tv-dotBlink 1s infinite;"></span>
+                <span style="font:500 10px 'JetBrains Mono'; color:#6f8579;">buscando…</span>
+              </span>
+            </sc-if>
+            <sc-if value="{{ b.paused }}" hint-placeholder-val="{{ false }}">
+              <span style="font:600 10px 'Sora'; letter-spacing:.1em; color:#e0a93c;">PAUSADO</span>
+            </sc-if>
+          </div>
+          <div style="flex:1; overflow:hidden; display:flex; flex-direction:column; gap:8px;">
+            <sc-for list="{{ b.rows }}" as="row" hint-placeholder-count="4">
+              <div style="display:flex; align-items:center; gap:12px; padding:11px 13px; border-radius:14px; background:rgba(255,255,255,.025); border:1px solid {{ row.cardBorder }}; animation:tv-rowIn .4s ease both;">
+                <span style="width:7px; height:7px; border-radius:50%; background:{{ row.accent }}; box-shadow:0 0 8px {{ row.accent }};"></span>
+                <span style="flex:1; font:600 14px 'Sora'; color:#dfeae3;">{{ row.pair }}</span>
+                <span style="font:700 9px 'Sora'; letter-spacing:.12em; padding:3px 8px; border-radius:5px; background:{{ row.badgeBg }}; color:{{ row.badgeColor }};">{{ row.badge }}</span>
+                <span style="font:700 15px 'JetBrains Mono'; color:{{ row.amountColor }}; min-width:78px; text-align:right; font-variant-numeric:tabular-nums;">{{ row.amountText }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <!-- controls -->
+          <div style="display:flex; gap:12px; padding:14px 0 30px;">
+            <button onClick="{{ b.onPause }}" style="flex:1; height:54px; border-radius:15px; border:none; background:{{ b.pauseBgSolid }}; color:{{ b.pauseColorSolid }}; font:700 13px 'Sora'; letter-spacing:.1em; cursor:pointer; box-shadow:{{ b.pauseShadow }};">{{ b.pauseLabel }}</button>
+            <button onClick="{{ b.onStop }}" style="flex:1; height:54px; border-radius:15px; border:none; background:#ef4444; color:#fff; font:700 13px 'Sora'; letter-spacing:.1em; cursor:pointer; box-shadow:0 0 24px -8px rgba(239,68,68,.7);">PARAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FRAME C — IMERSIVA ============ -->
+    <div style="flex:none; width:390px;">
+      <div style="font:600 13px 'Sora',sans-serif; color:#1a1a1a; margin-bottom:12px;">C · Imersiva / movimento</div>
+      <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+        <!-- ambient scan beam -->
+        <div style="position:absolute; left:0; right:0; height:120px; background:linear-gradient(180deg, transparent, rgba(34,197,94,.07), transparent); animation:tv-scanY 4.5s linear infinite; pointer-events:none;"></div>
+        <!-- grid texture -->
+        <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.05) 1px,transparent 1px); background-size:34px 34px; opacity:.5; pointer-events:none;"></div>
+
+        <div style="height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 30px; color:#e8f0ea; font:600 15px 'Sora'; position:relative;">
+          <span>11:08</span>
+          <span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span>
+        </div>
+
+        <div style="position:absolute; inset:48px 0 0 0; display:flex; flex-direction:column; padding:6px 22px 0;">
+          <!-- hero (left aligned) -->
+          <div style="position:relative; padding:16px 2px 14px;">
+            <!-- radar rings, decorative -->
+            <div style="position:absolute; top:-2px; right:-26px; width:140px; height:140px; pointer-events:none; opacity:.85;">
+              <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.18);"></span>
+              <span style="position:absolute; inset:28px; border-radius:50%; border:1px solid rgba(34,197,94,.14);"></span>
+              <span style="position:absolute; inset:50%; width:9px;height:9px;margin:-4.5px; border-radius:50%; background:#22c55e; box-shadow:0 0 14px #22c55e;"></span>
+              <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.4); animation:tv-ringExpand 2.6s ease-out infinite;"></span>
+              <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.4); animation:tv-ringExpand 2.6s ease-out infinite 1.3s;"></span>
+              <span style="position:absolute; top:50%; left:50%; width:70px; height:2px; transform-origin:left center; background:linear-gradient(90deg,rgba(34,197,94,.65),transparent); animation:tv-radar 3.2s linear infinite;"></span>
+            </div>
+            <div style="position:relative;">
+              <div style="display:inline-flex; align-items:center; gap:9px; padding:6px 14px; border-radius:30px; background:rgba(6,12,8,.7); border:1px solid rgba(34,197,94,.4); backdrop-filter:blur(4px); box-shadow:0 0 20px -6px rgba(34,197,94,.6);">
+                <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:tv-floatGlow 1.4s infinite;"></span>
+                <span style="font:700 11px 'Sora'; letter-spacing:.18em; color:#5dffa0;">IA OPERANDO AO VIVO</span>
+              </div>
+              <div style="font:600 11px 'Sora'; letter-spacing:.22em; color:#5d8a70; text-transform:uppercase; margin-top:18px;">Resultado acumulado</div>
+              <div style="font:700 52px 'JetBrains Mono'; line-height:1; margin-top:6px; text-align:left; font-variant-numeric:tabular-nums; color:{{ c.totalColor }}; text-shadow:0 0 34px rgba(34,197,94,.55);">{{ c.totalText }}</div>
+            </div>
+            <!-- stats like B -->
+            <div style="display:flex; margin-top:20px; border-top:1px solid rgba(34,197,94,.16); padding-top:14px;">
+              <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                <div style="font:700 24px 'JetBrains Mono'; color:#eef5f0;">{{ c.count }}</div>
+                <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Operações</div>
+              </div>
+              <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                <div style="font:700 24px 'JetBrains Mono'; color:#34d77a;">{{ c.winRate }}</div>
+                <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Acerto</div>
+              </div>
+              <div style="flex:1; text-align:center;">
+                <div style="font:700 24px 'JetBrains Mono'; color:#eef5f0;">{{ c.wins }}</div>
+                <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Wins</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list header (Operações ao vivo + buscando) -->
+          <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 4px 10px;">
+            <span style="font:600 10px 'Sora'; letter-spacing:.2em; color:#4a5b52; text-transform:uppercase;">Operações ao vivo</span>
+            <sc-if value="{{ c.searching }}" hint-placeholder-val="{{ true }}">
+              <span style="display:inline-flex; align-items:center; gap:7px;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:tv-dotBlink 1s infinite;"></span>
+                <span style="font:500 12px 'Sora'; letter-spacing:.02em; color:#86b59a;">buscando…</span>
+              </span>
+            </sc-if>
+            <sc-if value="{{ c.paused }}" hint-placeholder-val="{{ false }}">
+              <span style="font:600 10px 'Sora'; letter-spacing:.1em; color:#e0a93c;">PAUSADO</span>
+            </sc-if>
+          </div>
+
+          <!-- live ticker list -->
+          <div style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:7px; scrollbar-width:thin; scrollbar-color:rgba(34,197,94,.35) transparent; -webkit-overflow-scrolling:touch;">
+            <sc-if value="{{ c.searching }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; align-items:center; justify-content:center; gap:11px; padding:14px; border-radius:14px; border:1px dashed rgba(34,197,94,.25);">
+                <span style="position:relative; width:16px; height:16px;">
+                  <span style="position:absolute; inset:0; border-radius:50%; border:2px solid rgba(34,197,94,.25); border-top-color:#22c55e; animation:tv-radar .9s linear infinite;"></span>
+                </span>
+                <span style="font:600 12px 'Sora'; letter-spacing:.06em; color:#7fae93;">procurando próxima entrada…</span>
+              </div>
+            </sc-if>
+            <sc-for list="{{ c.rows }}" as="row" hint-placeholder-count="4">
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:14px; background:linear-gradient(100deg, {{ row.glowBg }}, rgba(255,255,255,.02)); border:1px solid {{ row.cardBorder }}; animation:{{ row.anim }};">
+                <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:rgba(6,12,8,.6); border:1px solid {{ row.cardBorder }}; font:700 14px 'Sora'; color:{{ row.amountColor }};">{{ row.glyph }}</span>
+                <div style="flex:1;">
+                  <div style="font:700 14px 'Sora'; color:#eef5f0;">{{ row.pair }}</div>
+                  <div style="font:600 9px 'Sora'; letter-spacing:.12em; color:{{ row.badgeColor }}; text-transform:uppercase; margin-top:2px;">{{ row.badge }}</div>
+                </div>
+                <span style="font:700 16px 'JetBrains Mono'; color:{{ row.amountColor }}; font-variant-numeric:tabular-nums;">{{ row.amountText }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ c.paused }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; justify-content:center; gap:10px; padding:14px; border-radius:14px; background:rgba(224,169,60,.08); border:1px solid rgba(224,169,60,.3);">
+                <span style="font:700 12px 'Sora'; letter-spacing:.1em; color:#f0bf63;">⏸ PAUSADO — IA EM ESPERA</span>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- controls -->
+          <div style="display:flex; gap:12px; padding:14px 0 30px;">
+            <button onClick="{{ c.onPause }}" style="flex:1; height:56px; border-radius:16px; border:1px solid {{ c.pauseBorder }}; background:{{ c.pauseBg }}; color:{{ c.pauseColor }}; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer; backdrop-filter:blur(4px);">{{ c.pauseLabel }}</button>
+            <button onClick="{{ c.onStop }}" style="flex:1; height:56px; border-radius:16px; border:1px solid rgba(239,68,68,.5); background:rgba(239,68,68,.12); color:#ff8077; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer; backdrop-filter:blur(4px);">PARAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    frames: [
+      this.seed(),
+      this.seed(),
+      this.seed(),
+    ],
+  };
+
+  seed() {
+    return { trades: [], count: 0, wins: 0, total: 0, paused: false, stopped: false };
+  }
+
+  componentDidMount() {
+    // prime each frame with a couple of trades so it never looks empty
+    this.setState(s => ({ frames: s.frames.map(f => {
+      let g = { ...f, trades: [] };
+      for (let i = 0; i < 3; i++) g = this.addTrade(g, true);
+      return g;
+    }) }));
+    this._tick = 0;
+    this._iv = setInterval(() => {
+      this._tick++;
+      const cadence = [3, 2, 2]; // frame C/B livelier than A
+      this.setState(s => ({
+        frames: s.frames.map((f, i) => {
+          if (f.paused || f.stopped) return f;
+          if (this._tick % cadence[i] !== 0) return f;
+          // loop the session so a single live session stays believable (no runaway totals/overflow)
+          if (f.count >= 12) {
+            let g = this.seed();
+            for (let k = 0; k < 2; k++) g = this.addTrade(g, true);
+            return g;
+          }
+          return this.addTrade(f, false);
+        }),
+      }));
+    }, 950);
+  }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  addTrade(f, silentSeed) {
+    const pairs = ['EUR/USD', 'GBP/USD', 'EUR/GBP', 'AUD/USD', 'NZD/USD', 'USD/JPY', 'EUR/JPY'];
+    const pair = pairs[Math.floor(Math.random() * pairs.length)];
+    const win = Math.random() < 0.74;
+    const amount = Math.round((80 + Math.random() * 280) * 100) / 100;
+    const signed = win ? amount : -amount;
+    const t = { id: Date.now() + Math.random(), pair, win, amount, ts: Date.now() };
+    const trades = [t, ...f.trades].slice(0, 8);
+    return {
+      ...f,
+      trades,
+      count: f.count + 1,
+      wins: f.wins + (win ? 1 : 0),
+      total: f.total + signed,
+    };
+  }
+
+  fmt(n) {
+    return Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  timeOf(ts) {
+    const d = new Date(ts);
+    return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  rowsFor(f) {
+    // sc-for keys by index, so the top node persists; toggle the keyframe name
+    // each time a trade arrives to retrigger the entry effect on the NEWEST row only.
+    const glow = (f.count % 2 === 0 ? 'tv-rowGlowA' : 'tv-rowGlowB') + ' .6s cubic-bezier(.2,.75,.3,1) both';
+    return f.trades.map((t, i) => ({
+      anim: i === 0 ? glow : 'none',
+      key: t.id,
+      pair: t.pair,
+      win: t.win,
+      badge: t.win ? 'WIN' : 'LOSS',
+      glyph: t.win ? '▲' : '▼',
+      time: this.timeOf(t.ts),
+      amountText: (t.win ? '+R$ ' : '-R$ ') + this.fmt(t.amount),
+      pctText: t.win ? '+92%' : '-100%',
+      accent: t.win ? '#22c55e' : '#ef4444',
+      amountColor: t.win ? '#34d77a' : '#f0726a',
+      badge_: null,
+      badgeBg: t.win ? 'rgba(34,197,94,.14)' : 'rgba(239,68,68,.14)',
+      badgeColor: t.win ? '#4ade80' : '#f87171',
+      cardBorder: t.win ? 'rgba(34,197,94,.16)' : 'rgba(239,68,68,.16)',
+      glowBg: t.win ? 'rgba(34,197,94,.08)' : 'rgba(239,68,68,.07)',
+    }));
+  }
+
+  vm(i) {
+    const f = this.state.frames[i];
+    const pos = f.total >= 0;
+    const totalText = (pos ? '+R$ ' : '-R$ ') + this.fmt(f.total);
+    const winRate = f.count ? Math.round((f.wins / f.count) * 100) + '%' : '—';
+    const paused = f.paused;
+    return {
+      count: f.count,
+      wins: f.wins,
+      winRate,
+      totalText,
+      totalColor: pos ? '#34d77a' : '#f0726a',
+      rows: this.rowsFor(f),
+      paused,
+      searching: !paused && !f.stopped,
+      pauseLabel: paused ? 'RETOMAR' : 'PAUSAR',
+      // outline (A,C)
+      pauseBorder: paused ? 'rgba(34,197,94,.6)' : 'rgba(34,197,94,.28)',
+      pauseBg: paused ? 'rgba(34,197,94,.16)' : 'rgba(34,197,94,.06)',
+      pauseColor: paused ? '#5dffa0' : '#34d77a',
+      // solid (B)
+      pauseBgSolid: paused ? '#22c55e' : 'rgba(34,197,94,.12)',
+      pauseColorSolid: paused ? '#04140a' : '#34d77a',
+      pauseShadow: paused ? '0 0 26px -8px rgba(34,197,94,.8)' : 'none',
+      onPause: () => this.togglePause(i),
+      onStop: () => this.stop(i),
+    };
+  }
+
+  togglePause(i) {
+    this.setState(s => ({ frames: s.frames.map((f, j) => j === i ? { ...f, paused: !f.paused, stopped: false } : f) }));
+  }
+  stop(i) {
+    // OPERANDO exploration: PARAR halts the feed (leads to RESULTADO later)
+    this.setState(s => ({ frames: s.frames.map((f, j) => j === i ? { ...f, stopped: true, paused: false } : f) }));
+  }
+
+  renderVals() {
+    return { a: this.vm(0), b: this.vm(1), c: this.vm(2) };
+  }
+}
+</script>
+</body>
+</html>

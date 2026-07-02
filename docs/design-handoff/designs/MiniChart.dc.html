@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  @keyframes mc-blink {0%,100%{opacity:.25}50%{opacity:1}}
+  @keyframes mc-sweep {0%{transform:translateX(-60px)}100%{transform:translateX(440px)}}
+  @keyframes mc-ticker {0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+</style>
+</helmet>
+<div style="position:relative; width:100%; height:100%; min-height:90px; border-radius:16px; overflow:hidden; background:linear-gradient(180deg, rgba(8,20,13,.6), rgba(6,12,8,.3)); border:1px solid rgba(34,197,94,.12); font-family:'Sora',sans-serif;">
+  <div style="position:absolute; top:0; left:0; right:0; z-index:3; display:flex; align-items:center; justify-content:space-between; padding:11px 14px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:20px; background:rgba(34,197,94,.14); border:1px solid rgba(34,197,94,.4);"><span style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:mc-blink 1s infinite;box-shadow:0 0 6px #22c55e;"></span><span style="font:700 8px 'Sora'; letter-spacing:.14em; color:#34d77a;">ROBÔ CONECTADO</span></span>
+    </div>
+  </div>
+  <svg viewBox="0 0 390 180" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%;">
+    <defs><linearGradient id="mcArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22c55e" stop-opacity=".30"/><stop offset="1" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs>
+    <line x1="0" y1="60" x2="390" y2="60" stroke="rgba(255,255,255,.04)" stroke-width="1"></line>
+    <line x1="0" y1="105" x2="390" y2="105" stroke="rgba(255,255,255,.04)" stroke-width="1"></line>
+    <line x1="0" y1="150" x2="390" y2="150" stroke="rgba(255,255,255,.04)" stroke-width="1"></line>
+    {{ chartEl }}
+  </svg>
+  <div style="position:absolute; top:0; bottom:0; left:0; width:50px; z-index:2; background:linear-gradient(90deg,transparent,rgba(34,197,94,.1),transparent); animation:mc-sweep 4.2s linear infinite;"></div>
+  <div style="position:absolute; bottom:0; left:0; right:0; z-index:4; height:24px; display:flex; align-items:center; background:linear-gradient(180deg, transparent, rgba(6,12,8,.92)); border-top:1px solid rgba(34,197,94,.12);">
+    <span style="flex:none; display:inline-flex; align-items:center; gap:5px; padding:0 11px 0 13px; font:700 8px 'Sora'; letter-spacing:.12em; color:#34d77a; text-transform:uppercase;"><span style="width:4px;height:4px;border-radius:50%;background:#22c55e;animation:mc-blink 1s infinite;"></span>Monitorando</span>
+    <div style="flex:1; height:100%; display:flex; align-items:center; overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);">
+      <div style="display:inline-flex; gap:18px; white-space:nowrap; animation:mc-ticker 24s linear infinite; will-change:transform; padding-left:8px;">
+        <span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>EUR/USD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>EUR/GBP</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>EUR/JPY</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>NZD/USD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>GBP/USD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>GBP/JPY</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>USD/JPY</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>AUD/CAD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>EUR/USD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>EUR/GBP</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>EUR/JPY</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>NZD/USD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>GBP/USD</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>GBP/JPY</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>USD/JPY</span><span style="display:inline-flex;align-items:center;gap:5px;font:700 9px 'JetBrains Mono';color:#9bb0a5;"><span style="width:4px;height:4px;border-radius:50%;background:#34d77a;"></span>AUD/CAD</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:170}}">class Component extends DCLogic {
+  N = 40; W = 390; baseY = 96;
+  barMs = 5000; slideMs = 520; tickMs = 70;
+  state = { closes: this.seed(), liveY: this.baseY, sliding: false, slideOff: 0, closeVal: this.baseY };
+  seed() {
+    this._v = this.baseY; this._vel = 0;
+    const a = [];
+    for (let i = 0; i < 40; i++) a.push(this.nextClose());
+    return a;
+  }
+  nextClose() {
+    this._vel = this._vel * 0.7 + (Math.random() - 0.5) * 7 + (this.baseY - this._v) * 0.03;
+    this._v += this._vel;
+    if (this._v < 40) { this._v = 40; this._vel *= -0.4; }
+    if (this._v > 152) { this._v = 152; this._vel *= -0.4; }
+    return this._v;
+  }
+  componentDidMount() {
+    this._elapsed = 0; this._lvel = 0;
+    this._iv = setInterval(() => this.tick(), this.tickMs);
+  }
+  componentWillUnmount() { if (this._iv) clearInterval(this._iv); }
+  tick() {
+    this.setState(s => {
+      if (s.sliding) {
+        const slideOff = s.slideOff + this.tickMs / this.slideMs;
+        if (slideOff >= 1) {
+          this._elapsed = 0;
+          return { sliding: false, slideOff: 0, closes: [...s.closes.slice(1), s.closeVal], liveY: s.closeVal };
+        }
+        return { slideOff };
+      }
+      this._elapsed += this.tickMs;
+      this._lvel = this._lvel * 0.82 + (Math.random() - 0.5) * 2.6;
+      let liveY = s.liveY + this._lvel;
+      if (liveY < 42) { liveY = 42; this._lvel *= -0.4; }
+      if (liveY > 150) { liveY = 150; this._lvel *= -0.4; }
+      if (this._elapsed >= this.barMs) return { sliding: true, slideOff: 0, closeVal: liveY, liveY };
+      return { liveY };
+    });
+  }
+  renderVals() {
+    const N = this.N, W = this.W;
+    const dx = W / (N - 4);
+    const xHead = W * 0.70;
+    const { closes, liveY, sliding, slideOff, closeVal } = this.state;
+    const sh = sliding ? slideOff * dx : 0;
+    const pts = [];
+    for (let i = 0; i < N; i++) pts.push([xHead - (N - i) * dx - sh, closes[i]]);
+    if (sliding) pts.push([xHead - sh, closeVal]);
+    pts.push([xHead, liveY]);
+    const lx = xHead, ly = liveY;
+    const coord = pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1));
+    const lineStr = coord.join(' ');
+    const areaD = 'M' + coord.join(' L') + ' L' + xHead.toFixed(1) + ',180 L' + pts[0][0].toFixed(1) + ',180 Z';
+    const chartEl = React.createElement('g', null,
+      React.createElement('path', { d: areaD, fill: 'url(#mcArea)' }),
+      React.createElement('polyline', { points: lineStr, fill: 'none', stroke: '#22c55e', strokeWidth: 2, strokeLinejoin: 'round', strokeLinecap: 'round', style: { filter: 'drop-shadow(0 0 5px rgba(34,197,94,.55))' } }),
+      React.createElement('circle', { cx: lx, cy: ly, r: 7, fill: '#5dffa0', opacity: 0.16 }),
+      React.createElement('circle', { cx: lx, cy: ly, r: 3.2, fill: '#5dffa0', style: { filter: 'drop-shadow(0 0 6px #5dffa0)' } }),
+    );
+    return { chartEl };
+  }
+}</script>
+</body>
+</html>

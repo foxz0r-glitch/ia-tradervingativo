@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tv-livePulse { 0% { transform: scale(.9); opacity:.9; } 70% { transform: scale(2.4); opacity:0; } 100% { transform: scale(2.4); opacity:0; } }
+  @keyframes tv-dotBlink { 0%,100% { opacity:.25; } 50% { opacity:1; } }
+  @keyframes tv-radar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes tv-ringExpand { 0% { transform: scale(.35); opacity:.55; } 100% { transform: scale(1.55); opacity:0; } }
+  @keyframes tv-floatGlow { 0%,100% { opacity:.45; transform:scale(.92);} 50% { opacity:1; transform:scale(1);} }
+  @keyframes tv-scanY { 0% { top:-14%; } 100% { top:110%; } }
+  @keyframes tv-opInA { 0% { opacity:0; transform: translateY(15px) scale(.99); } 60% { opacity:1; } 100% { opacity:1; transform: translateY(0) scale(1); } }
+  @keyframes tv-opInB { 0% { opacity:0; transform: translateY(15px) scale(.99); } 60% { opacity:1; } 100% { opacity:1; transform: translateY(0) scale(1); } }
+  @keyframes tv-pop { 0% { transform: scale(.4); opacity:0; } 60% { transform: scale(1.08); opacity:1; } 100% { transform: scale(1); } }
+  @keyframes tv-fadeUp { from { opacity:0; transform: translateY(12px);} to { opacity:1; transform: translateY(0);} }
+</style>
+</helmet>
+
+<div style="min-width:100%; min-height:100vh; width:max-content; box-sizing:border-box; padding:56px; background:#e7e5df; font-family:'Sora',sans-serif;">
+  <div style="margin-bottom:34px;">
+    <div style="font:700 22px 'Sora',sans-serif; color:#1a1a1a; letter-spacing:-.02em;">Modal · IA Operando — fluxo completo (direção C)</div>
+    <div style="font:400 14px 'Sora',sans-serif; color:#6b6b6b; margin-top:6px;">Protótipo ao vivo: Procurando → Operando → Pausado → Resultado. Use o painel para revisar cada estado e alternar DEMO/REAL.</div>
+  </div>
+
+  <div style="display:flex; gap:48px; align-items:flex-start;">
+
+    <!-- ============ PHONE ============ -->
+    <div style="flex:none; width:390px;">
+      <div style="font:600 13px 'Sora',sans-serif; color:#1a1a1a; margin-bottom:12px;">Modal · {{ phaseLabel }}</div>
+      <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+        <!-- ambient scan beam + grid -->
+        <div style="position:absolute; left:0; right:0; height:130px; background:linear-gradient(180deg, transparent, rgba(34,197,94,.06), transparent); animation:tv-scanY 5s linear infinite; pointer-events:none;"></div>
+        <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.05) 1px,transparent 1px); background-size:34px 34px; opacity:.45; pointer-events:none;"></div>
+
+        <!-- status bar -->
+        <div style="height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 30px; color:#e8f0ea; font:600 15px 'Sora'; position:relative;">
+          <span>11:08</span>
+          <span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span>
+        </div>
+
+        <div style="position:absolute; inset:48px 0 0 0; display:flex; flex-direction:column; padding:6px 22px 0;">
+
+          <!-- ========== PROCURANDO ========== -->
+          <sc-if value="{{ showProcurando }}" hint-placeholder-val="{{ true }}">
+            <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 16px;">
+              <!-- big radar -->
+              <div style="position:relative; width:238px; height:238px; margin-bottom:40px;">
+                <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.16);"></span>
+                <span style="position:absolute; inset:40px; border-radius:50%; border:1px solid rgba(34,197,94,.13);"></span>
+                <span style="position:absolute; inset:80px; border-radius:50%; border:1px solid rgba(34,197,94,.1);"></span>
+                <span style="position:absolute; top:0; left:50%; bottom:0; width:1px; background:rgba(34,197,94,.1);"></span>
+                <span style="position:absolute; left:0; right:0; top:50%; height:1px; background:rgba(34,197,94,.1);"></span>
+                <span style="position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 0deg, rgba(34,197,94,0) 0deg, rgba(34,197,94,.28) 50deg, rgba(34,197,94,0) 85deg); animation:tv-radar 2.8s linear infinite;"></span>
+                <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.45); animation:tv-ringExpand 2.8s ease-out infinite;"></span>
+                <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.45); animation:tv-ringExpand 2.8s ease-out infinite 1.4s;"></span>
+                <span style="position:absolute; inset:50%; width:14px; height:14px; margin:-7px; border-radius:50%; background:#22c55e; box-shadow:0 0 18px #22c55e;"></span>
+                <span style="position:absolute; top:30%; left:64%; width:7px;height:7px;border-radius:50%;background:#5dffa0;box-shadow:0 0 10px #22c55e; animation:tv-floatGlow 1.6s infinite;"></span>
+                <span style="position:absolute; top:62%; left:34%; width:6px;height:6px;border-radius:50%;background:#5dffa0;box-shadow:0 0 8px #22c55e; animation:tv-floatGlow 1.6s infinite .7s;"></span>
+              </div>
+
+              <div style="display:inline-flex; align-items:center; gap:9px; padding:6px 14px; border-radius:30px; background:rgba(6,12,8,.7); border:1px solid rgba(34,197,94,.4); box-shadow:0 0 20px -6px rgba(34,197,94,.6); margin-bottom:24px;">
+                <span style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:tv-floatGlow 1.4s infinite;"></span>
+                <span style="font:700 11px 'Sora'; letter-spacing:.18em; color:#5dffa0;">IA ANALISANDO</span>
+              </div>
+              <div style="font:700 27px 'Sora'; color:#eef5f0; letter-spacing:-.01em;">Procurando operações</div>
+              <div style="font:400 14px 'Sora'; color:#8fb6a1; margin-top:10px; line-height:1.5; max-width:280px; text-wrap:pretty;">A IA está analisando o mercado em tempo real</div>
+
+              <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:9px; margin-top:32px;">
+                <sc-for list="{{ scanPairs }}" as="p" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:8px; padding:9px 14px; border-radius:11px; background:{{ p.bg }}; border:1px solid {{ p.border }}; transition:background .35s, border-color .35s;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:{{ p.dot }}; transition:background .35s;"></span>
+                    <span style="font:600 12px 'JetBrains Mono'; color:{{ p.color }}; letter-spacing:.02em; transition:color .35s;">{{ p.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ========== OPERANDO / PAUSADO ========== -->
+          <sc-if value="{{ showOperando }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1; min-height:0; display:flex; flex-direction:column;">
+              <!-- hero -->
+              <div style="position:relative; padding:14px 2px 12px;">
+                <div style="position:absolute; top:-2px; right:-26px; width:128px; height:128px; pointer-events:none; opacity:.8;">
+                  <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.16);"></span>
+                  <span style="position:absolute; inset:26px; border-radius:50%; border:1px solid rgba(34,197,94,.12);"></span>
+                  <span style="position:absolute; inset:50%; width:8px;height:8px;margin:-4px; border-radius:50%; background:#22c55e; box-shadow:0 0 12px #22c55e;"></span>
+                  <span style="position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 0deg, rgba(34,197,94,0) 0deg, rgba(34,197,94,.22) 55deg, rgba(34,197,94,0) 90deg); animation:tv-radar 3.2s linear infinite;"></span>
+                </div>
+                <div style="position:relative;">
+                  <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:inline-flex; align-items:center; gap:9px; padding:6px 14px; border-radius:30px; background:rgba(6,12,8,.7); border:1px solid rgba(34,197,94,.4); box-shadow:0 0 20px -6px rgba(34,197,94,.6);">
+                      <span style="position:relative; width:8px; height:8px;">
+                        <span style="position:absolute; inset:0; border-radius:50%; background:#22c55e;"></span>
+                        <span style="position:absolute; inset:0; border-radius:50%; background:#22c55e; animation:tv-livePulse 1.8s ease-out infinite;"></span>
+                      </span>
+                      <span style="font:700 11px 'Sora'; letter-spacing:.18em; color:#5dffa0;">IA OPERANDO AO VIVO</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ isPaused }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:inline-flex; align-items:center; gap:9px; padding:6px 14px; border-radius:30px; background:rgba(224,169,60,.12); border:1px solid rgba(224,169,60,.5);">
+                      <span style="font:700 13px 'Sora'; color:#f0bf63; line-height:1;">&#9208;</span>
+                      <span style="font:700 11px 'Sora'; letter-spacing:.18em; color:#f0bf63;">PAUSADO</span>
+                    </div>
+                  </sc-if>
+                  <div style="font:600 11px 'Sora'; letter-spacing:.22em; color:#5d8a70; text-transform:uppercase; margin-top:16px;">Resultado acumulado</div>
+                  <div style="font:700 50px 'JetBrains Mono'; line-height:1; margin-top:6px; text-align:left; font-variant-numeric:tabular-nums; color:{{ totalColor }}; text-shadow:0 0 34px rgba(34,197,94,.5);">{{ totalText }}</div>
+                </div>
+                <div style="display:flex; margin-top:18px; border-top:1px solid rgba(34,197,94,.16); padding-top:13px;">
+                  <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                    <div style="font:700 23px 'JetBrains Mono'; color:#eef5f0;">{{ count }}</div>
+                    <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Operações</div>
+                  </div>
+                  <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                    <div style="font:700 23px 'JetBrains Mono'; color:#34d77a;">{{ winRate }}</div>
+                    <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Acerto</div>
+                  </div>
+                  <div style="flex:1; text-align:center;">
+                    <div style="font:700 23px 'JetBrains Mono'; color:#eef5f0;">{{ wins }}</div>
+                    <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:3px;">Wins</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list header -->
+              <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 4px 10px;">
+                <span style="font:600 10px 'Sora'; letter-spacing:.2em; color:#4a5b52; text-transform:uppercase;">Operações ao vivo</span>
+                <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+                  <span style="display:inline-flex; align-items:center; gap:7px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:tv-dotBlink 1s infinite;"></span>
+                    <span style="font:500 12px 'Sora'; letter-spacing:.02em; color:#86b59a;">buscando…</span>
+                  </span>
+                </sc-if>
+                <sc-if value="{{ isPaused }}" hint-placeholder-val="{{ false }}">
+                  <span style="font:600 10px 'Sora'; letter-spacing:.12em; color:#e0a93c;">EM ESPERA</span>
+                </sc-if>
+              </div>
+
+              <!-- list -->
+              <div style="flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:7px; scrollbar-width:thin; scrollbar-color:rgba(34,197,94,.35) transparent; -webkit-overflow-scrolling:touch;">
+                <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex; align-items:center; justify-content:center; gap:11px; padding:14px; border-radius:14px; border:1px dashed rgba(34,197,94,.25);">
+                    <span style="position:relative; width:16px; height:16px;">
+                      <span style="position:absolute; inset:0; border-radius:50%; border:2px solid rgba(34,197,94,.25); border-top-color:#22c55e; animation:tv-radar .9s linear infinite;"></span>
+                    </span>
+                    <span style="font:600 12px 'Sora'; letter-spacing:.02em; color:#86b59a;">procurando próxima entrada…</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ isPaused }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex; align-items:center; justify-content:center; gap:10px; padding:14px; border-radius:14px; background:rgba(224,169,60,.08); border:1px solid rgba(224,169,60,.3);">
+                    <span style="font:700 12px 'Sora'; letter-spacing:.08em; color:#f0bf63;">Operações em espera — toque RETOMAR</span>
+                  </div>
+                </sc-if>
+                <sc-for list="{{ rows }}" as="row" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:14px; background:linear-gradient(100deg, {{ row.glowBg }}, rgba(255,255,255,.02)); border:1px solid {{ row.cardBorder }}; animation:{{ row.anim }};">
+                    <span style="width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:rgba(6,12,8,.6); border:1px solid {{ row.cardBorder }}; font:700 13px 'Sora'; color:{{ row.amountColor }};">{{ row.glyph }}</span>
+                    <div style="flex:1;">
+                      <div style="font:700 14px 'Sora'; color:#eef5f0;">{{ row.pair }}</div>
+                      <div style="font:600 9px 'Sora'; letter-spacing:.12em; color:{{ row.badgeColor }}; text-transform:uppercase; margin-top:2px;">{{ row.badge }}</div>
+                    </div>
+                    <span style="font:700 16px 'JetBrains Mono'; color:{{ row.amountColor }}; font-variant-numeric:tabular-nums;">{{ row.amountText }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ========== RESULTADO ========== -->
+          <sc-if value="{{ showResultado }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1; display:flex; flex-direction:column;">
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+                <div style="position:relative; width:102px; height:102px; margin-bottom:26px;">
+                  <span style="position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle, rgba(34,197,94,.32), transparent 70%);"></span>
+                  <span style="position:absolute; inset:0; border-radius:50%; border:1px solid rgba(34,197,94,.4); animation:tv-ringExpand 2.6s ease-out infinite;"></span>
+                  <div style="position:absolute; inset:19px; border-radius:50%; background:linear-gradient(160deg,#2ee06a,#15924a); display:flex; align-items:center; justify-content:center; box-shadow:0 0 34px -4px rgba(34,197,94,.75); animation:tv-pop .55s cubic-bezier(.2,1.2,.4,1) both;">
+                    <span style="font:700 32px 'Sora'; color:#04140a; line-height:1;">&#10003;</span>
+                  </div>
+                </div>
+                <div style="font:600 11px 'Sora'; letter-spacing:.22em; color:#5d8a70; text-transform:uppercase;">Sessão encerrada</div>
+                <div style="font:500 12px 'Sora'; color:#7d9488; margin-top:6px;">{{ endNote }}</div>
+                <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#5d7167; text-transform:uppercase; margin-top:26px;">Saldo final da sessão</div>
+                <div style="font:700 58px 'JetBrains Mono'; line-height:1; margin-top:8px; font-variant-numeric:tabular-nums; color:{{ totalColor }}; text-shadow:0 0 40px rgba(34,197,94,.5);">{{ totalText }}</div>
+
+                <div style="display:flex; width:100%; margin-top:34px; border-top:1px solid rgba(34,197,94,.16); border-bottom:1px solid rgba(34,197,94,.16); padding:18px 0;">
+                  <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                    <div style="font:700 26px 'JetBrains Mono'; color:#eef5f0;">{{ count }}</div>
+                    <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:4px;">Operações</div>
+                  </div>
+                  <div style="flex:1; text-align:center; border-right:1px solid rgba(34,197,94,.14);">
+                    <div style="font:700 26px 'JetBrains Mono'; color:#34d77a;">{{ winRate }}</div>
+                    <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:4px;">Acerto</div>
+                  </div>
+                  <div style="flex:1; text-align:center;">
+                    <div style="font:700 26px 'JetBrains Mono'; color:#eef5f0;">{{ wins }}</div>
+                    <div style="font:600 9px 'Sora'; letter-spacing:.16em; color:#5d7167; text-transform:uppercase; margin-top:4px;">Wins</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- footer: DEMO -> Depositar ; REAL -> Fechar -->
+              <sc-if value="{{ isDemo }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:14px 0 30px;">
+                  <div style="font:600 10px 'Sora'; letter-spacing:.18em; color:#7d9488; text-align:center; text-transform:uppercase; margin-bottom:12px;">Opere com dinheiro real</div>
+                  <div style="display:flex; gap:12px;">
+                    <button onClick="{{ onRestart }}" style="flex:1; height:56px; border-radius:16px; border:1px solid rgba(34,197,94,.28); background:rgba(34,197,94,.06); color:#34d77a; font:700 13px 'Sora'; letter-spacing:.1em; cursor:pointer;">FECHAR</button>
+                    <button onClick="{{ onDeposit }}" style="flex:1.3; height:56px; border-radius:16px; border:none; background:#22c55e; color:#04140a; font:700 13px 'Sora'; letter-spacing:.06em; cursor:pointer; box-shadow:0 0 28px -6px rgba(34,197,94,.8); display:flex; align-items:center; justify-content:center; gap:8px;"><span style="font-size:16px;">+</span> DEPOSITAR</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ isReal }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:14px 0 30px;">
+                  <button onClick="{{ onRestart }}" style="width:100%; height:56px; border-radius:16px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.1); color:#5dffa0; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer;">FECHAR</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- ========== SHARED CONTROLS (procurando + operando) ========== -->
+          <sc-if value="{{ showControls }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; gap:12px; padding:14px 0 30px;">
+              <button onClick="{{ onPause }}" style="flex:1; height:56px; border-radius:16px; border:1px solid {{ pauseBorder }}; background:{{ pauseBg }}; color:{{ pauseColor }}; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer; backdrop-filter:blur(4px);">{{ pauseLabel }}</button>
+              <button onClick="{{ onStop }}" style="flex:1; height:56px; border-radius:16px; border:1px solid rgba(239,68,68,.5); background:rgba(239,68,68,.12); color:#ff8077; font:700 13px 'Sora'; letter-spacing:.12em; cursor:pointer; backdrop-filter:blur(4px);">PARAR</button>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ REVIEW PANEL ============ -->
+    <div style="flex:none; width:268px; background:#0b0f0d; border:1px solid rgba(34,197,94,.18); border-radius:20px; padding:22px; box-shadow:0 20px 50px -22px rgba(0,0,0,.5);">
+      <div style="font:700 14px 'Sora'; color:#eef5f0; letter-spacing:.01em;">Painel de revisão</div>
+      <div style="font:400 12px 'Sora'; color:#6f8579; margin-top:4px; line-height:1.5;">Não faz parte do modal — só para navegar os estados.</div>
+
+      <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#4a5b52; text-transform:uppercase; margin:22px 0 10px;">Estado</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <div onClick="{{ goProcurando }}" style="cursor:pointer; user-select:none;">
+          <sc-if value="{{ panelProc }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(34,197,94,.55); background:rgba(34,197,94,.14); color:#86e3a8;">Procurando</div></sc-if>
+          <sc-if value="{{ panelProcOff }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">Procurando</div></sc-if>
+        </div>
+        <div onClick="{{ goOperando }}" style="cursor:pointer; user-select:none;">
+          <sc-if value="{{ panelOp }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(34,197,94,.55); background:rgba(34,197,94,.14); color:#86e3a8;">Operando</div></sc-if>
+          <sc-if value="{{ panelOpOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">Operando</div></sc-if>
+        </div>
+        <div onClick="{{ goPausado }}" style="cursor:pointer; user-select:none;">
+          <sc-if value="{{ panelPause }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(34,197,94,.55); background:rgba(34,197,94,.14); color:#86e3a8;">Pausado</div></sc-if>
+          <sc-if value="{{ panelPauseOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">Pausado</div></sc-if>
+        </div>
+        <div onClick="{{ goResultado }}" style="cursor:pointer; user-select:none;">
+          <sc-if value="{{ panelRes }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(34,197,94,.55); background:rgba(34,197,94,.14); color:#86e3a8;">Resultado</div></sc-if>
+          <sc-if value="{{ panelResOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">Resultado</div></sc-if>
+        </div>
+      </div>
+
+      <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#4a5b52; text-transform:uppercase; margin:22px 0 10px;">Conta (afeta o Resultado)</div>
+      <div style="display:flex; gap:8px;">
+        <div onClick="{{ setDemo }}" style="flex:1; cursor:pointer; user-select:none;">
+          <sc-if value="{{ panelDemo }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(34,197,94,.55); background:rgba(34,197,94,.14); color:#86e3a8;">DEMO</div></sc-if>
+          <sc-if value="{{ panelDemoOff }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">DEMO</div></sc-if>
+        </div>
+        <div onClick="{{ setReal }}" style="flex:1; cursor:pointer; user-select:none;">
+          <sc-if value="{{ panelReal }}" hint-placeholder-val="{{ false }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(34,197,94,.55); background:rgba(34,197,94,.14); color:#86e3a8;">REAL</div></sc-if>
+          <sc-if value="{{ panelRealOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px 6px; border-radius:11px; font:600 11px 'Sora'; letter-spacing:.03em; text-align:center; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">REAL</div></sc-if>
+        </div>
+      </div>
+
+      <button onClick="{{ onRestart }}" style="width:100%; margin-top:22px; height:46px; border-radius:12px; border:1px solid rgba(34,197,94,.3); background:rgba(34,197,94,.08); color:#34d77a; font:700 11px 'Sora'; letter-spacing:.12em; cursor:pointer;">↻ REINICIAR FLUXO</button>
+
+      <div style="margin-top:22px; padding-top:18px; border-top:1px solid rgba(255,255,255,.06); font:400 12px 'Sora'; color:#6f8579; line-height:1.6;">O modal ocupa a tela toda, <span style="color:#9bb0a5;">não fecha ao tocar fora</span> e não pode minimizar. <span style="color:#9bb0a5;">PAUSAR</span> e <span style="color:#9bb0a5;">PARAR</span> ficam sempre visíveis enquanto a IA opera.</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  TARGET = 9;
+  state = { phase: 'procurando', account: 'demo', paused: false, trades: [], count: 0, wins: 0, total: 0, scanT: 0, endReason: null };
+
+  componentDidMount() { this.run(); }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  run() {
+    clearInterval(this._iv);
+    this._tick = 0;
+    this._iv = setInterval(() => {
+      const s = this.state;
+      if (s.paused) return;
+      if (s.phase === 'procurando') {
+        this._tick++;
+        this.setState(st => ({ scanT: st.scanT + 1 }));
+        if (this._tick >= 4) { this._tick = 0; this.setState({ phase: 'operando' }); this.pushTrade(); }
+      } else if (s.phase === 'operando') {
+        this._tick++;
+        if (this._tick % 2 === 0) {
+          if (this.state.count >= this.TARGET) this.endSession('natural');
+          else this.pushTrade();
+        }
+      }
+    }, 850);
+  }
+
+  makeTrade() {
+    const pairs = ['EUR/USD', 'GBP/USD', 'EUR/GBP', 'AUD/USD', 'NZD/USD', 'USD/JPY', 'EUR/JPY'];
+    const pair = pairs[Math.floor(Math.random() * pairs.length)];
+    const win = Math.random() < 0.74;
+    const amount = Math.round((80 + Math.random() * 280) * 100) / 100;
+    return { id: Date.now() + Math.random(), pair, win, amount };
+  }
+  pushTrade() {
+    this.setState(s => {
+      const t = this.makeTrade();
+      const signed = t.win ? t.amount : -t.amount;
+      return { trades: [t, ...s.trades], count: s.count + 1, wins: s.wins + (t.win ? 1 : 0), total: s.total + signed };
+    });
+  }
+  buildSession(n) {
+    let trades = [], count = 0, wins = 0, total = 0;
+    for (let i = 0; i < n; i++) {
+      const t = this.makeTrade();
+      trades = [t, ...trades];
+      count++; if (t.win) wins++; total += t.win ? t.amount : -t.amount;
+    }
+    return { trades, count, wins, total };
+  }
+  endSession(reason) { this.setState({ phase: 'resultado', paused: false, endReason: reason }); }
+
+  fmt(n) { return Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  // ---- review controls ----
+  goProcurando() { this._tick = 0; this.setState({ phase: 'procurando', paused: false, trades: [], count: 0, wins: 0, total: 0, scanT: 0, endReason: null }); }
+  goOperando() { this._tick = 0; this.setState(s => (s.count >= 4 ? { phase: 'operando', paused: false } : { ...this.buildSession(6), phase: 'operando', paused: false, endReason: null })); }
+  goPausado() { this.setState(s => (s.count >= 4 ? { phase: 'operando', paused: true } : { ...this.buildSession(6), phase: 'operando', paused: true, endReason: null })); }
+  goResultado() { this.setState(s => (s.count >= 4 ? { phase: 'resultado', paused: false, endReason: 'parar' } : { ...this.buildSession(9), phase: 'resultado', paused: false, endReason: 'natural' })); }
+  onRestart() { this.goProcurando(); }
+  onDeposit() { /* upsell — sem ação no protótipo */ }
+
+  onPause() { this.setState(s => ({ paused: !s.paused })); }
+  onStop() { this.endSession('parar'); }
+  setAccount(a) { this.setState({ account: a }); }
+
+  rowsFor() {
+    const f = this.state;
+    const glow = (f.count % 2 === 0 ? 'tv-opInA' : 'tv-opInB') + ' .5s cubic-bezier(.2,.8,.3,1) both';
+    return f.trades.map((t, i) => ({
+      key: t.id,
+      pair: t.pair,
+      badge: t.win ? 'WIN' : 'LOSS',
+      glyph: t.win ? '▲' : '▼',
+      amountText: (t.win ? '+R$ ' : '-R$ ') + this.fmt(t.amount),
+      amountColor: t.win ? '#34d77a' : '#f0726a',
+      badgeColor: t.win ? '#4ade80' : '#f87171',
+      cardBorder: t.win ? 'rgba(34,197,94,.16)' : 'rgba(239,68,68,.16)',
+      glowBg: t.win ? 'rgba(34,197,94,.08)' : 'rgba(239,68,68,.07)',
+      anim: i === 0 ? glow : 'none',
+    }));
+  }
+
+  panelBtn(active) {
+    return active
+      ? { bg: 'rgba(34,197,94,.14)', border: 'rgba(34,197,94,.55)', color: '#86e3a8' }
+      : { bg: 'rgba(255,255,255,.02)', border: 'rgba(255,255,255,.08)', color: '#9bb0a5' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const isLive = s.phase === 'operando' && !s.paused;
+    const isPaused = s.phase === 'operando' && s.paused;
+    const pos = s.total >= 0;
+    const phaseLabel = s.phase === 'procurando' ? 'Procurando' : s.phase === 'resultado' ? 'Resultado' : (isPaused ? 'Pausado' : 'Operando');
+
+    const pairsList = ['EUR/USD', 'GBP/USD', 'AUD/USD', 'USD/JPY'];
+    const act = s.scanT % pairsList.length;
+    const scanPairs = pairsList.map((label, i) => {
+      const a = i === act;
+      return {
+        label,
+        bg: a ? 'rgba(34,197,94,.14)' : 'rgba(255,255,255,.02)',
+        border: a ? 'rgba(34,197,94,.5)' : 'rgba(255,255,255,.06)',
+        dot: a ? '#22c55e' : '#3a4a40',
+        color: a ? '#86e3a8' : '#6f8579',
+      };
+    });
+
+    const actOp = s.phase === 'operando' && !s.paused;
+    const actPause = s.phase === 'operando' && s.paused;
+
+    return {
+      phaseLabel,
+      showProcurando: s.phase === 'procurando',
+      showOperando: s.phase === 'operando',
+      showResultado: s.phase === 'resultado',
+      showControls: s.phase === 'procurando' || s.phase === 'operando',
+      isLive, isPaused,
+      isDemo: s.account === 'demo',
+      isReal: s.account === 'real',
+
+      totalText: (pos ? '+R$ ' : '-R$ ') + this.fmt(s.total),
+      totalColor: pos ? '#34d77a' : '#f0726a',
+      count: s.count,
+      wins: s.wins,
+      winRate: s.count ? Math.round((s.wins / s.count) * 100) + '%' : '0%',
+      rows: this.rowsFor(),
+      scanPairs,
+      endNote: s.endReason === 'parar' ? 'Encerrada manualmente' : 'Meta da sessão concluída',
+
+      pauseLabel: s.paused ? 'RETOMAR' : 'PAUSAR',
+      pauseBorder: s.paused ? 'rgba(34,197,94,.6)' : 'rgba(34,197,94,.28)',
+      pauseBg: s.paused ? 'rgba(34,197,94,.18)' : 'rgba(34,197,94,.06)',
+      pauseColor: s.paused ? '#5dffa0' : '#34d77a',
+
+      onPause: () => this.onPause(),
+      onStop: () => this.onStop(),
+      onRestart: () => this.onRestart(),
+      onDeposit: () => this.onDeposit(),
+
+      goProcurando: () => this.goProcurando(),
+      goOperando: () => this.goOperando(),
+      goPausado: () => this.goPausado(),
+      goResultado: () => this.goResultado(),
+      setDemo: () => this.setAccount('demo'),
+      setReal: () => this.setAccount('real'),
+
+      panelProc: s.phase === 'procurando', panelProcOff: s.phase !== 'procurando',
+      panelOp: actOp, panelOpOff: !actOp,
+      panelPause: actPause, panelPauseOff: !actPause,
+      panelRes: s.phase === 'resultado', panelResOff: s.phase !== 'resultado',
+      panelDemo: s.account === 'demo', panelDemoOff: s.account !== 'demo',
+      panelReal: s.account === 'real', panelRealOff: s.account !== 'real',
+    };
+  }
+}
+</script>
+</body>
+</html>

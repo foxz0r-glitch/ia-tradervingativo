@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tv-livePulse {0%{transform:scale(.9);opacity:.9}70%{transform:scale(2.4);opacity:0}100%{transform:scale(2.4);opacity:0}}
+  .tvscroll{scrollbar-width:thin;scrollbar-color:rgba(34,197,94,.3) transparent}
+  .tvscroll>*{flex-shrink:0}
+  .tvscroll::-webkit-scrollbar{width:6px;height:6px}
+  .tvscroll::-webkit-scrollbar-thumb{background:rgba(34,197,94,.3);border-radius:3px}
+</style>
+</helmet>
+
+<div style="min-width:100%; min-height:100vh; width:max-content; box-sizing:border-box; padding:56px; background:#e7e5df; font-family:'Sora',sans-serif;">
+  <div style="margin-bottom:36px; max-width:880px;">
+    <div style="font:700 22px 'Sora'; color:#1a1a1a; letter-spacing:-.02em;">Planos</div>
+    <div style="font:400 14px 'Sora'; color:#6b6b6b; margin-top:6px; line-height:1.55;">Mesma linguagem do dashboard. Cards de planos (Free / Pro / Black) com plano atual em destaque, e seção de upsells (Grupo VIP, Sinais, Mentoria) com CTA de adquirir. Desktop com nav lateral, Mobile empilhado.</div>
+  </div>
+
+  <div style="display:flex; gap:48px; align-items:flex-start;">
+
+    <!-- ============ DESKTOP ============ -->
+    <div style="flex:none;">
+      <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160</div>
+      <div style="width:1160px; height:840px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative; display:flex;">
+        <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; pointer-events:none; z-index:0;"></div>
+        <dc-import name="DeskNav" style="height:100%" hint-size="76px,100%"></dc-import>
+        <div style="position:relative; z-index:1; flex:1; min-width:0; display:flex; flex-direction:column;">
+          <div style="height:62px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-bottom:1px solid rgba(34,197,94,.1);"><span style="font:700 12px 'Sora'; letter-spacing:.26em; color:#5d8a70;">PLANOS</span><div style="display:flex; gap:10px;"><span style="width:90px;height:38px;border-radius:11px;background:rgba(34,197,94,.16);"></span><span style="width:36px;height:36px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);"></span></div></div>
+
+          <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:22px 24px 28px;">
+            <div style="text-align:center; margin-bottom:22px;"><div style="font:800 26px 'Sora'; color:#eef5f0; letter-spacing:-.01em;">Escolha o seu plano</div><div style="font:400 13px 'Sora'; color:#7d9488; margin-top:5px;">Desbloqueie todo o poder da IA Vingativa. Cancele quando quiser.</div></div>
+
+            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:stretch;">
+              <!-- FREE -->
+              <div style="border-radius:20px; padding:24px; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(6,12,8,.3)); border:1px solid rgba(255,255,255,.08); display:flex; flex-direction:column;">
+                <div style="font:700 11px 'Sora'; letter-spacing:.18em; color:#9bb0a5; text-transform:uppercase;">Free</div>
+                <div style="display:flex; align-items:baseline; gap:4px; margin-top:14px;"><span style="font:700 15px 'JetBrains Mono'; color:#7d9488;">R$</span><span style="font:800 38px 'JetBrains Mono'; color:#eef5f0; line-height:1;">0</span><span style="font:500 12px 'Sora'; color:#7d9488;">/mês</span></div>
+                <div style="font:400 12px 'Sora'; color:#7d9488; margin-top:10px; line-height:1.5;">Para conhecer a plataforma em conta demo.</div>
+                <div style="height:1px; background:rgba(255,255,255,.08); margin:20px 0;"></div>
+                <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#cfd6dd;"><span style="color:#34d77a;">✓</span> Conta demo ilimitada</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#cfd6dd;"><span style="color:#34d77a;">✓</span> 1 modelo de IA (Claude)</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#566c61;"><span style="color:#3a4b42;">✕</span> Operações em conta real</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#566c61;"><span style="color:#3a4b42;">✕</span> Grupo VIP &amp; sinais</div>
+                </div>
+                <button style="height:48px; margin-top:20px; border-radius:13px; border:1px solid rgba(255,255,255,.12); background:transparent; color:#9bb0a5; font:700 13px 'Sora'; cursor:pointer;">Plano atual</button>
+              </div>
+
+              <!-- PRO (destaque) -->
+              <div style="position:relative; border-radius:20px; padding:24px; background:linear-gradient(180deg, rgba(34,197,94,.14), rgba(6,14,9,.4)); border:1.5px solid rgba(34,197,94,.55); box-shadow:0 0 50px -16px rgba(34,197,94,.6); display:flex; flex-direction:column; transform:translateY(-8px);">
+                <span style="position:absolute; top:-1px; left:50%; transform:translate(-50%,-50%); font:700 9px 'Sora'; letter-spacing:.16em; color:#04140a; background:#22c55e; padding:6px 14px; border-radius:20px; text-transform:uppercase; box-shadow:0 0 20px -4px rgba(34,197,94,.8);">Mais popular</span>
+                <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font:700 11px 'Sora'; letter-spacing:.18em; color:#5dffa0; text-transform:uppercase;">Pro</span></div>
+                <div style="display:flex; align-items:baseline; gap:4px; margin-top:14px;"><span style="font:700 15px 'JetBrains Mono'; color:#34d77a;">R$</span><span style="font:800 38px 'JetBrains Mono'; color:#eef5f0; line-height:1;">97</span><span style="font:500 12px 'Sora'; color:#7d9488;">/mês</span></div>
+                <div style="font:400 12px 'Sora'; color:#9bb0a5; margin-top:10px; line-height:1.5;">Para operar de verdade com toda a inteligência.</div>
+                <div style="height:1px; background:rgba(34,197,94,.18); margin:20px 0;"></div>
+                <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Tudo do Free</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Conta real + saques</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Todos os modelos de IA</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Defesa Técnica (gale)</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Suporte prioritário</div>
+                </div>
+                <button style="height:48px; margin-top:20px; border-radius:13px; border:none; background:#22c55e; color:#04140a; font:700 14px 'Sora'; letter-spacing:.04em; cursor:pointer; box-shadow:0 0 30px -8px rgba(34,197,94,.85);">Assinar Pro</button>
+              </div>
+
+              <!-- BLACK -->
+              <div style="border-radius:20px; padding:24px; background:linear-gradient(180deg, rgba(240,191,99,.1), rgba(6,12,8,.35)); border:1px solid rgba(240,191,99,.32); display:flex; flex-direction:column;">
+                <div style="font:700 11px 'Sora'; letter-spacing:.18em; color:#f0bf63; text-transform:uppercase;">Black</div>
+                <div style="display:flex; align-items:baseline; gap:4px; margin-top:14px;"><span style="font:700 15px 'JetBrains Mono'; color:#f0bf63;">R$</span><span style="font:800 38px 'JetBrains Mono'; color:#eef5f0; line-height:1;">297</span><span style="font:500 12px 'Sora'; color:#7d9488;">/mês</span></div>
+                <div style="font:400 12px 'Sora'; color:#9bb0a5; margin-top:10px; line-height:1.5;">Para quem quer o topo do ranking e acesso total.</div>
+                <div style="height:1px; background:rgba(240,191,99,.2); margin:20px 0;"></div>
+                <div style="display:flex; flex-direction:column; gap:12px; flex:1;">
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Tudo do Pro</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Grupo VIP &amp; sinais exclusivos</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Mentoria em grupo</div>
+                  <div style="display:flex; align-items:center; gap:10px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Destaque no ranking</div>
+                </div>
+                <button style="height:48px; margin-top:20px; border-radius:13px; border:1px solid rgba(240,191,99,.45); background:rgba(240,191,99,.1); color:#f0bf63; font:700 14px 'Sora'; letter-spacing:.04em; cursor:pointer;">Assinar Black</button>
+              </div>
+            </div>
+
+            <!-- upsells -->
+            <div style="margin-top:30px;"><div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#5d7167; text-transform:uppercase; margin-bottom:14px;">Turbine sua conta</div>
+              <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;">
+                <div style="border-radius:16px; padding:18px; background:rgba(255,255,255,.025); border:1px solid rgba(34,197,94,.16); display:flex; flex-direction:column; gap:12px;"><div style="display:flex; align-items:center; gap:12px;"><span style="width:42px;height:42px;flex:none;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 19c0-3 2.4-5 5.5-5s5.5 2 5.5 5"></path><path d="M16 6.3a3 3 0 0 1 0 5.4"></path><path d="M17.6 14.3c2.1.5 3.9 2.3 3.9 4.7"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0;">Grupo VIP</div><div style="font:500 11px 'JetBrains Mono'; color:#34d77a;">R$ 47 <span style="color:#7d9488;">/mês</span></div></div></div><div style="font:400 12px 'Sora'; color:#7d9488; line-height:1.5;">Comunidade fechada com sinais e análises diárias.</div><button style="height:42px; border-radius:11px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#34d77a; font:700 12px 'Sora'; cursor:pointer;">Adquirir</button></div>
+                <div style="border-radius:16px; padding:18px; background:rgba(255,255,255,.025); border:1px solid rgba(34,197,94,.16); display:flex; flex-direction:column; gap:12px;"><div style="display:flex; align-items:center; gap:12px;"><span style="width:42px;height:42px;flex:none;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 3 3 5-7 5 4"></path><path d="M3 21h18"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0;">Sinais Premium</div><div style="font:500 11px 'JetBrains Mono'; color:#34d77a;">R$ 67 <span style="color:#7d9488;">/mês</span></div></div></div><div style="font:400 12px 'Sora'; color:#7d9488; line-height:1.5;">Entradas filtradas pela IA enviadas em tempo real.</div><button style="height:42px; border-radius:11px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#34d77a; font:700 12px 'Sora'; cursor:pointer;">Adquirir</button></div>
+                <div style="border-radius:16px; padding:18px; background:rgba(255,255,255,.025); border:1px solid rgba(34,197,94,.16); display:flex; flex-direction:column; gap:12px;"><div style="display:flex; align-items:center; gap:12px;"><span style="width:42px;height:42px;flex:none;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 9.3l5-.7z"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0;">Mentoria 1:1</div><div style="font:500 11px 'JetBrains Mono'; color:#34d77a;">R$ 197 <span style="color:#7d9488;">/sessão</span></div></div></div><div style="font:400 12px 'Sora'; color:#7d9488; line-height:1.5;">Sessão individual com um trader sênior da Vingativa.</div><button style="height:42px; border-radius:11px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#34d77a; font:700 12px 'Sora'; cursor:pointer;">Adquirir</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MOBILE ============ -->
+    <div style="flex:none;">
+      <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390</div>
+      <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+        <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.5; pointer-events:none; z-index:0;"></div>
+        <div style="position:relative; z-index:1; height:100%; display:flex; flex-direction:column;">
+          <div style="height:46px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 28px; color:#e8f0ea; font:600 15px 'Sora';"><span>11:08</span><span style="font:600 12px 'JetBrains Mono'; opacity:.85;">5G &#9646;&#9646;&#9646;</span></div>
+          <div style="height:52px; flex:none; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid rgba(34,197,94,.08);"><span style="width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#9bb0a5;">&#9776;</span><span style="font:700 11px 'Sora'; letter-spacing:.26em; color:#5d8a70;">PLANOS</span><span style="width:34px;height:34px;border-radius:50%;background:linear-gradient(160deg,#22c55e,#15924a);display:flex;align-items:center;justify-content:center;font:700 12px 'Sora';color:#04140a;">TM</span></div>
+
+          <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:18px 18px 26px; display:flex; flex-direction:column; gap:14px;">
+            <div style="text-align:center; margin-bottom:2px;"><div style="font:800 21px 'Sora'; color:#eef5f0;">Escolha o seu plano</div><div style="font:400 12px 'Sora'; color:#7d9488; margin-top:4px;">Cancele quando quiser.</div></div>
+
+            <!-- PRO first on mobile (destaque) -->
+            <div style="position:relative; border-radius:18px; padding:22px; background:linear-gradient(180deg, rgba(34,197,94,.14), rgba(6,14,9,.4)); border:1.5px solid rgba(34,197,94,.55); box-shadow:0 0 44px -16px rgba(34,197,94,.6); display:flex; flex-direction:column; margin-top:8px;">
+              <span style="position:absolute; top:-1px; left:22px; transform:translateY(-50%); font:700 9px 'Sora'; letter-spacing:.16em; color:#04140a; background:#22c55e; padding:5px 12px; border-radius:20px; text-transform:uppercase;">Mais popular</span>
+              <div style="font:700 11px 'Sora'; letter-spacing:.18em; color:#5dffa0; text-transform:uppercase;">Pro</div>
+              <div style="display:flex; align-items:baseline; gap:4px; margin-top:12px;"><span style="font:700 14px 'JetBrains Mono'; color:#34d77a;">R$</span><span style="font:800 34px 'JetBrains Mono'; color:#eef5f0; line-height:1;">97</span><span style="font:500 12px 'Sora'; color:#7d9488;">/mês</span></div>
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
+                <div style="display:flex; align-items:center; gap:9px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Conta real + saques</div>
+                <div style="display:flex; align-items:center; gap:9px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Todos os modelos de IA</div>
+                <div style="display:flex; align-items:center; gap:9px; font:500 13px 'Sora'; color:#eef5f0;"><span style="color:#34d77a;">✓</span> Defesa Técnica + suporte</div>
+              </div>
+              <button style="height:48px; margin-top:18px; border-radius:13px; border:none; background:#22c55e; color:#04140a; font:700 14px 'Sora'; letter-spacing:.04em; cursor:pointer; box-shadow:0 0 30px -8px rgba(34,197,94,.85);">Assinar Pro</button>
+            </div>
+
+            <!-- BLACK -->
+            <div style="border-radius:18px; padding:20px; background:linear-gradient(180deg, rgba(240,191,99,.1), rgba(6,12,8,.35)); border:1px solid rgba(240,191,99,.32); display:flex; flex-direction:column;">
+              <div style="display:flex; align-items:center; justify-content:space-between;"><span style="font:700 11px 'Sora'; letter-spacing:.18em; color:#f0bf63; text-transform:uppercase;">Black</span><div style="display:flex; align-items:baseline; gap:3px;"><span style="font:700 12px 'JetBrains Mono'; color:#f0bf63;">R$</span><span style="font:800 24px 'JetBrains Mono'; color:#eef5f0;">297</span><span style="font:500 11px 'Sora'; color:#7d9488;">/mês</span></div></div>
+              <div style="display:flex; flex-direction:column; gap:9px; margin-top:14px;">
+                <div style="display:flex; align-items:center; gap:9px; font:500 12px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Tudo do Pro</div>
+                <div style="display:flex; align-items:center; gap:9px; font:500 12px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Grupo VIP &amp; sinais exclusivos</div>
+                <div style="display:flex; align-items:center; gap:9px; font:500 12px 'Sora'; color:#eef5f0;"><span style="color:#f0bf63;">✓</span> Mentoria + destaque no ranking</div>
+              </div>
+              <button style="height:46px; margin-top:16px; border-radius:13px; border:1px solid rgba(240,191,99,.45); background:rgba(240,191,99,.1); color:#f0bf63; font:700 13px 'Sora'; cursor:pointer;">Assinar Black</button>
+            </div>
+
+            <!-- FREE (atual) -->
+            <div style="border-radius:18px; padding:18px; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(6,12,8,.3)); border:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-between;">
+              <div><div style="font:700 11px 'Sora'; letter-spacing:.16em; color:#9bb0a5; text-transform:uppercase;">Free</div><div style="font:500 11px 'Sora'; color:#7d9488; margin-top:3px;">Conta demo · seu plano atual</div></div>
+              <span style="font:700 10px 'Sora'; letter-spacing:.06em; color:#9bb0a5; padding:7px 13px; border:1px solid rgba(255,255,255,.14); border-radius:20px;">Atual</span>
+            </div>
+
+            <!-- upsells -->
+            <div style="font:600 10px 'Sora'; letter-spacing:.2em; color:#5d7167; text-transform:uppercase; margin-top:8px;">Turbine sua conta</div>
+            <div style="border-radius:16px; padding:16px; background:rgba(255,255,255,.025); border:1px solid rgba(34,197,94,.16); display:flex; align-items:center; gap:13px;"><span style="width:42px;height:42px;flex:none;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><path d="M3.5 19c0-3 2.4-5 5.5-5s5.5 2 5.5 5"></path><path d="M16 6.3a3 3 0 0 1 0 5.4"></path><path d="M17.6 14.3c2.1.5 3.9 2.3 3.9 4.7"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0;">Grupo VIP</div><div style="font:500 11px 'JetBrains Mono'; color:#34d77a;">R$ 47 <span style="color:#7d9488;">/mês</span></div></div><button style="height:38px; padding:0 16px; border-radius:11px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#34d77a; font:700 12px 'Sora'; cursor:pointer; flex:none;">Adquirir</button></div>
+            <div style="border-radius:16px; padding:16px; background:rgba(255,255,255,.025); border:1px solid rgba(34,197,94,.16); display:flex; align-items:center; gap:13px;"><span style="width:42px;height:42px;flex:none;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 3 3 5-7 5 4"></path><path d="M3 21h18"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0;">Sinais Premium</div><div style="font:500 11px 'JetBrains Mono'; color:#34d77a;">R$ 67 <span style="color:#7d9488;">/mês</span></div></div><button style="height:38px; padding:0 16px; border-radius:11px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#34d77a; font:700 12px 'Sora'; cursor:pointer; flex:none;">Adquirir</button></div>
+            <div style="border-radius:16px; padding:16px; background:rgba(255,255,255,.025); border:1px solid rgba(34,197,94,.16); display:flex; align-items:center; gap:13px;"><span style="width:42px;height:42px;flex:none;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;color:#34d77a;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 9.3l5-.7z"></path></svg></span><div style="flex:1; min-width:0;"><div style="font:700 14px 'Sora'; color:#eef5f0;">Mentoria 1:1</div><div style="font:500 11px 'JetBrains Mono'; color:#34d77a;">R$ 197 <span style="color:#7d9488;">/sessão</span></div></div><button style="height:38px; padding:0 16px; border-radius:11px; border:1px solid rgba(34,197,94,.4); background:rgba(34,197,94,.08); color:#34d77a; font:700 12px 'Sora'; cursor:pointer; flex:none;">Adquirir</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

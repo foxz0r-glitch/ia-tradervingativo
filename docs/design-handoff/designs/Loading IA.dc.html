@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tvl-draw { 0%{stroke-dashoffset:240} 45%{stroke-dashoffset:0} 100%{stroke-dashoffset:0} }
+  @keyframes tvl-glow { 0%,100%{opacity:.35; transform:scale(.92)} 50%{opacity:1; transform:scale(1.05)} }
+  @keyframes tvl-spin { to{transform:rotate(360deg)} }
+  @keyframes tvl-dots { 0%,20%{opacity:.2} 50%{opacity:1} 80%,100%{opacity:.2} }
+  @keyframes tvl-fade { from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)} }
+</style>
+</helmet>
+
+<div style="min-width:100%; min-height:100vh; width:max-content; box-sizing:border-box; padding:56px; background:#e7e5df; font-family:'Sora',sans-serif;">
+  <div style="margin-bottom:36px; max-width:880px;">
+    <div style="font:700 22px 'Sora'; color:#1a1a1a; letter-spacing:-.02em;">Loading — troca de modelo de IA (~1s)</div>
+    <div style="font:400 14px 'Sora'; color:#6b6b6b; margin-top:6px; line-height:1.55;">Overlay rápido ao trocar o modelo no cockpit — o "V" do logo desenhando-se em neon, anel girando e glow pulsante. Mesma animação para todas as IAs (Claude, GPT-5, Gemini, Grok 3), cada uma com seu nome e ícone. Desktop e Mobile.</div>
+  </div>
+
+  <sc-for list="{{ models }}" as="m" hint-placeholder-count="4">
+    <div style="margin-bottom:52px;">
+      <div style="font:700 17px 'Sora'; color:#1a1a1a; margin-bottom:16px;">{{ m.name }}</div>
+      <div style="display:flex; gap:48px; align-items:flex-start;">
+
+        <!-- DESKTOP -->
+        <div style="flex:none;">
+          <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Desktop · 1160</div>
+          <div style="width:1160px; height:680px; background:radial-gradient(120% 90% at 50% 0%, #0c1f14 0%, #060a08 60%); border-radius:24px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -22px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+            <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.04) 1px,transparent 1px); background-size:38px 38px; opacity:.5; z-index:0;"></div>
+            <div style="position:absolute; inset:0; z-index:0; opacity:.28; display:flex; flex-direction:column; padding:20px 24px; gap:16px;"><div style="height:42px; border-radius:11px; background:rgba(255,255,255,.04);"></div><div style="flex:1; display:grid; grid-template-columns:1.7fr 1fr; gap:18px;"><div style="border-radius:16px; background:rgba(255,255,255,.04);"></div><div style="border-radius:16px; background:rgba(255,255,255,.04);"></div></div></div>
+            <div style="position:absolute; inset:0; z-index:10; background:rgba(3,8,5,.78); backdrop-filter:blur(6px); display:flex; flex-direction:column; align-items:center; justify-content:center; animation:tvl-fade .3s ease both;">
+              <div style="position:relative; width:150px; height:150px; display:flex; align-items:center; justify-content:center;">
+                <span style="position:absolute; width:150px; height:150px; border-radius:50%; background:radial-gradient(circle, rgba(34,197,94,.32), transparent 68%); animation:tvl-glow 1.5s ease-in-out infinite;"></span>
+                <span style="position:absolute; width:132px; height:132px; border-radius:50%; border:2px solid transparent; border-top-color:rgba(34,197,94,.9); border-right-color:rgba(34,197,94,.35); animation:tvl-spin 1s linear infinite;"></span>
+                <span style="position:absolute; width:108px; height:108px; border-radius:50%; border:1px solid rgba(34,197,94,.18);"></span>
+                <svg width="86" height="86" viewBox="0 0 100 100" fill="none" style="position:relative;"><path d="M22 26 L50 74 L78 26" stroke="#5dffa0" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="240" style="filter:drop-shadow(0 0 10px rgba(34,197,94,.9)); animation:tvl-draw 1.5s ease-in-out infinite;"></path></svg>
+              </div>
+              <div style="display:flex; align-items:center; gap:7px; margin-top:30px; font:700 11px 'Sora'; letter-spacing:.24em; color:#5dffa0; text-transform:uppercase;">Aplicando modelo<span style="display:inline-flex; gap:3px;"><span style="width:4px;height:4px;border-radius:50%;background:#5dffa0;animation:tvl-dots 1.2s infinite;"></span><span style="width:4px;height:4px;border-radius:50%;background:#5dffa0;animation:tvl-dots 1.2s infinite .2s;"></span><span style="width:4px;height:4px;border-radius:50%;background:#5dffa0;animation:tvl-dots 1.2s infinite .4s;"></span></span></div>
+              <div style="font:500 13px 'Sora'; color:#7d9488; margin-top:12px;">Reconfigurando a IA com <span style="color:#eef5f0; font-weight:700;">{{ m.name }}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOBILE -->
+        <div style="flex:none;">
+          <div style="font:600 11px 'Sora'; letter-spacing:.14em; color:#8a8a85; text-transform:uppercase; margin-bottom:10px;">Mobile · 390</div>
+          <div style="width:390px; height:844px; background:radial-gradient(120% 80% at 50% 0%, #0c1f14 0%, #060a08 55%); border-radius:46px; border:1px solid #2a3a2e; box-shadow:0 30px 60px -18px rgba(0,0,0,.5), 0 0 50px -20px rgba(34,197,94,.4); overflow:hidden; position:relative;">
+            <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px); background-size:34px 34px; opacity:.5; z-index:0;"></div>
+            <div style="position:absolute; inset:0; z-index:0; opacity:.28; padding:60px 18px; display:flex; flex-direction:column; gap:16px;"><div style="height:90px; border-radius:16px; background:rgba(255,255,255,.04);"></div><div style="height:150px; border-radius:16px; background:rgba(255,255,255,.04);"></div><div style="flex:1; border-radius:16px; background:rgba(255,255,255,.04);"></div></div>
+            <div style="position:absolute; inset:0; z-index:10; background:rgba(3,8,5,.8); backdrop-filter:blur(6px); display:flex; flex-direction:column; align-items:center; justify-content:center; animation:tvl-fade .3s ease both;">
+              <div style="position:relative; width:140px; height:140px; display:flex; align-items:center; justify-content:center;">
+                <span style="position:absolute; width:140px; height:140px; border-radius:50%; background:radial-gradient(circle, rgba(34,197,94,.32), transparent 68%); animation:tvl-glow 1.5s ease-in-out infinite;"></span>
+                <span style="position:absolute; width:124px; height:124px; border-radius:50%; border:2px solid transparent; border-top-color:rgba(34,197,94,.9); border-right-color:rgba(34,197,94,.35); animation:tvl-spin 1s linear infinite;"></span>
+                <span style="position:absolute; width:100px; height:100px; border-radius:50%; border:1px solid rgba(34,197,94,.18);"></span>
+                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" style="position:relative;"><path d="M22 26 L50 74 L78 26" stroke="#5dffa0" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="240" style="filter:drop-shadow(0 0 10px rgba(34,197,94,.9)); animation:tvl-draw 1.5s ease-in-out infinite;"></path></svg>
+              </div>
+              <div style="display:flex; align-items:center; gap:7px; margin-top:28px; font:700 11px 'Sora'; letter-spacing:.22em; color:#5dffa0; text-transform:uppercase;">Aplicando modelo<span style="display:inline-flex; gap:3px;"><span style="width:4px;height:4px;border-radius:50%;background:#5dffa0;animation:tvl-dots 1.2s infinite;"></span><span style="width:4px;height:4px;border-radius:50%;background:#5dffa0;animation:tvl-dots 1.2s infinite .2s;"></span><span style="width:4px;height:4px;border-radius:50%;background:#5dffa0;animation:tvl-dots 1.2s infinite .4s;"></span></span></div>
+              <div style="font:500 13px 'Sora'; color:#7d9488; margin-top:12px;">Reconfigurando a IA com <span style="color:#eef5f0; font-weight:700;">{{ m.name }}</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </sc-for>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  MODELS = [
+    { name: 'Claude', icon: 'icons/claude_icon.webp' },
+    { name: 'GPT-5', icon: 'icons/chatgpt_icon.webp' },
+    { name: 'Gemini', icon: 'icons/gemini_icon.webp' },
+    { name: 'Grok 3', icon: 'icons/grok_icon.webp' },
+  ];
+  renderVals() {
+    return {
+      models: this.MODELS.map(m => ({
+        name: m.name,
+        iconEl: React.createElement('img', { src: m.icon, alt: '', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+        iconElLg: React.createElement('img', { src: m.icon, alt: '', style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' } }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

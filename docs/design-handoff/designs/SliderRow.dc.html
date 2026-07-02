@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+</helmet>
+<div style="width:100%; font-family:'Sora',sans-serif;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <span style="font:600 10px 'Sora'; letter-spacing:.18em; color:#5d7167; text-transform:uppercase;">{{ label }}</span>
+    <span style="display:inline-flex; align-items:center; gap:8px;">
+      <span style="font:700 12px 'JetBrains Mono'; color:{{ accent }};">{{ prefix }}</span>
+      <span style="font:700 13px 'JetBrains Mono'; color:{{ valueColor }}; min-width:54px; text-align:right; padding:7px 13px; border:1px solid rgba(34,197,94,.22); border-radius:9px; background:rgba(6,12,8,.4);">{{ value }}</span>
+    </span>
+  </div>
+  <div style="display:flex; align-items:center; gap:14px;">
+    <span style="width:30px; height:30px; flex:none; border-radius:9px; border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:#9bb0a5; font:400 20px 'Sora'; line-height:1;">−</span>
+    <div style="flex:1; height:5px; border-radius:3px; background:rgba(255,255,255,.08); position:relative;">
+      <div style="position:absolute; left:0; top:0; bottom:0; width:{{ fill }}; border-radius:3px; background:linear-gradient(90deg,#15924a,{{ accent }});"></div>
+      <div style="position:absolute; left:{{ fill }}; top:50%; width:18px; height:18px; margin:-9px 0 0 -9px; border-radius:50%; background:{{ accent }}; box-shadow:0 0 10px {{ accent }}, 0 0 0 4px rgba(34,197,94,.16);"></div>
+    </div>
+    <span style="width:30px; height:30px; flex:none; border-radius:9px; border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:#9bb0a5; font:400 18px 'Sora'; line-height:1;">+</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:340,&quot;height&quot;:64},
+ &quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Valor por operação&quot;,&quot;tsType&quot;:&quot;string&quot;},
+ &quot;value&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;25&quot;,&quot;tsType&quot;:&quot;string&quot;},
+ &quot;prefix&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;R$&quot;,&quot;tsType&quot;:&quot;string&quot;},
+ &quot;fill&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;40%&quot;,&quot;tsType&quot;:&quot;string&quot;},
+ &quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#22c55e&quot;,&quot;tsType&quot;:&quot;string&quot;},
+ &quot;valueColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#eef5f0&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

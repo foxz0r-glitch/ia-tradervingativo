@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  @keyframes tv-livePulse {0%{transform:scale(.9);opacity:.9}70%{transform:scale(2.4);opacity:0}100%{transform:scale(2.4);opacity:0}}
+  @keyframes tv-sheet {from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .tvscroll{scrollbar-width:thin;scrollbar-color:rgba(34,197,94,.3) transparent}
+  .tvscroll>*{flex-shrink:0}
+  .tvscroll::-webkit-scrollbar{width:6px;height:6px}
+  .tvscroll::-webkit-scrollbar-thumb{background:rgba(34,197,94,.3);border-radius:3px}
+</style>
+</helmet>
+
+<div style="position:relative; height:100%; display:flex; flex-direction:column; font-family:'Sora',sans-serif;">
+
+  <!-- ============ DESKTOP ============ -->
+  <sc-if value="{{ isDesk }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:none; padding:18px 24px 0; display:flex; gap:8px; max-width:420px;">
+      <div onClick="{{ setTabAll }}" style="flex:1; cursor:pointer;">
+        <sc-if value="{{ tabAll }}" hint-placeholder-val="{{ true }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">ALL-TIME</div></sc-if>
+        <sc-if value="{{ tabAllOff }}" hint-placeholder-val="{{ false }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">ALL-TIME</div></sc-if>
+      </div>
+      <div onClick="{{ setTabSess }}" style="flex:1; cursor:pointer;">
+        <sc-if value="{{ tabSess }}" hint-placeholder-val="{{ false }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">SESSÃO</div></sc-if>
+        <sc-if value="{{ tabSessOff }}" hint-placeholder-val="{{ true }}"><div style="padding:11px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">SESSÃO</div></sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ tabAll }}" hint-placeholder-val="{{ true }}">
+      <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:16px 24px 24px;">
+        <div style="display:grid; grid-template-columns:1.5fr 1fr 1.1fr 1fr; padding:0 16px 10px; font:600 9px 'Sora'; letter-spacing:.16em; color:#4e6b59; text-transform:uppercase;"><span>Ativo</span><span>Resultado</span><span style="text-align:right;">Payout</span><span style="text-align:right;">Horário</span></div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <sc-for list="{{ listAll }}" as="o" hint-placeholder-count="6">
+            <div onClick="{{ o.onPick }}" style="display:grid; grid-template-columns:1.5fr 1fr 1.1fr 1fr; align-items:center; padding:14px 16px; border-radius:13px; cursor:pointer; background:linear-gradient(100deg, {{ o.glowBg }}, rgba(255,255,255,.02)); border:1px solid {{ o.cardBorder }};">
+              <span style="display:flex; align-items:center; gap:10px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ o.accent }};box-shadow:0 0 8px {{ o.accent }};"></span><span style="font:700 14px 'Sora'; color:#eef5f0;">{{ o.pair }}</span></span>
+              <span><span style="font:700 9px 'Sora'; letter-spacing:.12em; padding:3px 9px; border-radius:5px; background:{{ o.badgeBg }}; color:{{ o.badgeColor }};">{{ o.badge }}</span></span>
+              <span style="text-align:right;"><span style="font:700 14px 'JetBrains Mono'; color:{{ o.amountColor }};">{{ o.amountText }}</span></span>
+              <span style="text-align:right; font:500 12px 'JetBrains Mono'; color:#7d9488;">{{ o.closeT }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSess }}" hint-placeholder-val="{{ false }}">
+      <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:16px 24px 24px; display:flex; flex-direction:column; gap:12px;">
+        <sc-for list="{{ sess }}" as="s" hint-placeholder-count="3">
+          <div style="border-radius:16px; border:1px solid {{ s.border }}; background:rgba(255,255,255,.02); overflow:hidden;">
+            <div onClick="{{ s.onToggle }}" style="display:grid; grid-template-columns:auto 1.4fr 1fr 1fr auto; align-items:center; gap:14px; padding:16px 18px; cursor:pointer;">
+              <span style="font:600 13px 'JetBrains Mono'; color:#86a596;">{{ s.caret }}</span>
+              <div><div style="font:700 14px 'Sora'; color:#eef5f0;">{{ s.name }}</div><div style="font:500 11px 'JetBrains Mono'; color:#7d9488; margin-top:2px;">{{ s.date }} · {{ s.model }}</div></div>
+              <span style="font:700 11px 'Sora'; letter-spacing:.06em; color:{{ s.wrColor }};">{{ s.wr }} WR</span>
+              <span style="font:600 11px 'JetBrains Mono'; color:#7d9488;">{{ s.opsCount }} ops · <span style="color:#34d77a;">{{ s.w }}W</span> / <span style="color:#f0726a;">{{ s.l }}L</span></span>
+              <span style="text-align:right; font:700 16px 'JetBrains Mono'; color:{{ s.totalColor }};">{{ s.totalText }}</span>
+            </div>
+            <sc-if value="{{ s.open }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 18px 16px; display:flex; flex-direction:column; gap:6px; border-top:1px solid rgba(34,197,94,.1);">
+                <sc-for list="{{ s.ops }}" as="o" hint-placeholder-count="3">
+                  <div onClick="{{ o.onPick }}" style="display:grid; grid-template-columns:1.5fr 1fr 1.1fr 1fr; align-items:center; padding:12px 14px; margin-top:8px; border-radius:11px; cursor:pointer; background:rgba(6,12,8,.4); border:1px solid {{ o.cardBorder }};">
+                    <span style="display:flex; align-items:center; gap:9px;"><span style="width:6px;height:6px;border-radius:50%;background:{{ o.accent }};"></span><span style="font:700 13px 'Sora'; color:#eef5f0;">{{ o.pair }}</span></span>
+                    <span><span style="font:700 8px 'Sora'; letter-spacing:.1em; padding:3px 8px; border-radius:5px; background:{{ o.badgeBg }}; color:{{ o.badgeColor }};">{{ o.badge }}</span></span>
+                    <span style="text-align:right; font:700 13px 'JetBrains Mono'; color:{{ o.amountColor }};">{{ o.amountText }}</span>
+                    <span style="text-align:right; font:500 11px 'JetBrains Mono'; color:#7d9488;">{{ o.closeT }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- ============ MOBILE ============ -->
+  <sc-if value="{{ isMob }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:none; padding:14px 18px 0;">
+      <div style="font:600 10px 'JetBrains Mono'; color:#7d9488; margin-bottom:12px;">13 OPS · <span style="color:#34d77a;">46% WR</span></div>
+      <div style="display:flex; gap:8px;">
+        <div onClick="{{ setTabAll }}" style="flex:1; cursor:pointer;">
+          <sc-if value="{{ tabAll }}" hint-placeholder-val="{{ true }}"><div style="padding:12px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">ALL-TIME</div></sc-if>
+          <sc-if value="{{ tabAllOff }}" hint-placeholder-val="{{ false }}"><div style="padding:12px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">ALL-TIME</div></sc-if>
+        </div>
+        <div onClick="{{ setTabSess }}" style="flex:1; cursor:pointer;">
+          <sc-if value="{{ tabSess }}" hint-placeholder-val="{{ false }}"><div style="padding:12px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(34,197,94,.5); background:rgba(34,197,94,.14); color:#5dffa0;">SESSÃO</div></sc-if>
+          <sc-if value="{{ tabSessOff }}" hint-placeholder-val="{{ true }}"><div style="padding:12px; border-radius:12px; text-align:center; font:700 12px 'Sora'; letter-spacing:.08em; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); color:#9bb0a5;">SESSÃO</div></sc-if>
+        </div>
+      </div>
+    </div>
+
+    <sc-if value="{{ tabAll }}" hint-placeholder-val="{{ true }}">
+      <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:14px 18px 24px; display:flex; flex-direction:column; gap:8px;">
+        <sc-for list="{{ listAll }}" as="o" hint-placeholder-count="6">
+          <div onClick="{{ o.onPick }}" style="display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:14px; cursor:pointer; background:linear-gradient(100deg, {{ o.glowBg }}, rgba(255,255,255,.02)); border:1px solid {{ o.cardBorder }};">
+            <span style="width:3px; height:34px; border-radius:2px; background:{{ o.accent }};"></span>
+            <div style="flex:1;"><div style="font:700 14px 'Sora'; color:#eef5f0;">{{ o.pair }}</div><div style="font:500 11px 'JetBrains Mono'; color:#7d9488; margin-top:2px;">{{ o.date }} · {{ o.closeT }}</div></div>
+            <span style="font:700 8px 'Sora'; letter-spacing:.12em; padding:3px 8px; border-radius:5px; background:{{ o.badgeBg }}; color:{{ o.badgeColor }};">{{ o.badge }}</span>
+            <div style="text-align:right; min-width:84px;"><div style="font:700 14px 'JetBrains Mono'; color:{{ o.amountColor }};">{{ o.amountText }}</div></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tabSess }}" hint-placeholder-val="{{ false }}">
+      <div class="tvscroll" style="flex:1; min-height:0; overflow-y:auto; padding:14px 18px 24px; display:flex; flex-direction:column; gap:10px;">
+        <sc-for list="{{ sess }}" as="s" hint-placeholder-count="3">
+          <div style="border-radius:15px; border:1px solid {{ s.border }}; background:rgba(255,255,255,.02); overflow:hidden;">
+            <div onClick="{{ s.onToggle }}" style="display:flex; align-items:center; gap:12px; padding:14px 15px; cursor:pointer;">
+              <span style="font:600 12px 'JetBrains Mono'; color:#86a596;">{{ s.caret }}</span>
+              <div style="flex:1;"><div style="font:700 13px 'Sora'; color:#eef5f0;">{{ s.name }} <span style="font:700 10px 'Sora'; color:{{ s.wrColor }}; letter-spacing:.04em;">{{ s.wr }} WR</span></div><div style="font:500 10px 'JetBrains Mono'; color:#7d9488; margin-top:3px;">{{ s.date }} · {{ s.model }} · {{ s.opsCount }} ops</div></div>
+              <div style="text-align:right;"><div style="font:700 14px 'JetBrains Mono'; color:{{ s.totalColor }};">{{ s.totalText }}</div><div style="font:600 9px 'JetBrains Mono'; color:#7d9488; margin-top:2px;"><span style="color:#34d77a;">{{ s.w }}W</span>/<span style="color:#f0726a;">{{ s.l }}L</span></div></div>
+            </div>
+            <sc-if value="{{ s.open }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:4px 12px 12px; display:flex; flex-direction:column; gap:7px; border-top:1px solid rgba(34,197,94,.1);">
+                <sc-for list="{{ s.ops }}" as="o" hint-placeholder-count="3">
+                  <div onClick="{{ o.onPick }}" style="display:flex; align-items:center; gap:10px; padding:11px 12px; margin-top:7px; border-radius:11px; cursor:pointer; background:rgba(6,12,8,.45); border:1px solid {{ o.cardBorder }};">
+                    <span style="width:6px;height:6px;border-radius:50%;background:{{ o.accent }};"></span>
+                    <span style="flex:1; font:700 13px 'Sora'; color:#eef5f0;">{{ o.pair }}</span>
+                    <span style="font:700 8px 'Sora'; letter-spacing:.1em; padding:2px 7px; border-radius:5px; background:{{ o.badgeBg }}; color:{{ o.badgeColor }};">{{ o.badge }}</span>
+                    <span style="font:700 13px 'JetBrains Mono'; color:{{ o.amountColor }}; min-width:74px; text-align:right;">{{ o.amountText }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- detail overlay -->
+  <sc-if value="{{ detOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDet }}" style="position:absolute; inset:0; z-index:5; background:rgba(2,6,4,.66); backdrop-filter:blur(3px); display:flex; align-items:{{ detAlign }}; justify-content:center;">
+      <div onClick="{{ stop }}" style="width:{{ detW }}; border-radius:{{ detRadius }}; padding:24px 22px 30px; background:radial-gradient(120% 90% at 50% 0%, #102a1b 0%, #08120c 70%); border:1px solid rgba(34,197,94,.3); box-shadow:0 30px 70px -20px rgba(0,0,0,.7), 0 0 50px -18px rgba(34,197,94,.5); animation:tv-sheet .3s ease both;">
+        <dc-import name="OpDetail" pair="{{ detView.pair }}" badge="{{ detView.badge }}" badge-color="{{ detView.badgeColor }}" badge-bg="{{ detView.badgeBg }}" amount-text="{{ detView.amountText }}" amount-color="{{ detView.amountColor }}" pct-text="{{ detView.pctText }}" open-t="{{ detView.openT }}" close-t="{{ detView.closeT }}" date="{{ detView.date }}" on-close="{{ closeDet }}" hint-size="100%,340px"></dc-import>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:640},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;desktop&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'all', open: 's4', det: null };
+
+  ALL = [
+    { p: 'AUD/USD', w: true, a: 213.73, pct: 92, o: '00:15:08', c: '00:16:08', d: '18 Jun' },
+    { p: 'EUR/USD', w: false, a: 284.00, pct: 100, o: '00:15:02', c: '00:16:02', d: '18 Jun' },
+    { p: 'EUR/USD', w: true, a: 124.96, pct: 88, o: '00:13:40', c: '00:14:40', d: '18 Jun' },
+    { p: 'GBP/USD', w: true, a: 199.23, pct: 92, o: '00:12:50', c: '00:13:50', d: '18 Jun' },
+    { p: 'EUR/JPY', w: false, a: 142.00, pct: 100, o: '00:12:10', c: '00:13:10', d: '18 Jun' },
+    { p: 'USD/JPY', w: true, a: 156.40, pct: 88, o: '11:40:30', c: '11:41:30', d: '16 Jun' },
+    { p: 'NZD/USD', w: true, a: 124.96, pct: 88, o: '08:14:20', c: '08:15:20', d: '16 Jun' },
+    { p: 'GBP/JPY', w: false, a: 210.00, pct: 100, o: '08:12:00', c: '08:13:00', d: '16 Jun' },
+  ];
+
+  SESS = [
+    { id: 's4', name: 'Sessão #004', d: '18 Jun · 00:12', model: 'Claude', total: 56.80, w: 4, l: 3, ops: [
+      { p: 'AUD/USD', w: true, a: 213.73, pct: 92, o: '00:15:08', c: '00:16:08', d: '18 Jun' },
+      { p: 'EUR/USD', w: false, a: 284.00, pct: 100, o: '00:15:02', c: '00:16:02', d: '18 Jun' },
+      { p: 'EUR/USD', w: true, a: 124.96, pct: 88, o: '00:13:40', c: '00:14:40', d: '18 Jun' },
+    ] },
+    { id: 's3', name: 'Sessão #003', d: '16 Jun · 11:41', model: 'Claude', total: -34830.00, w: 0, l: 4, ops: [
+      { p: 'EUR/JPY', w: false, a: 8700.00, pct: 100, o: '11:40:00', c: '11:41:00', d: '16 Jun' },
+      { p: 'USD/JPY', w: false, a: 8700.00, pct: 100, o: '11:38:00', c: '11:39:00', d: '16 Jun' },
+    ] },
+    { id: 's1', name: 'Sessão #001', d: '16 Jun · 08:15', model: 'GPT-5', total: 1548.80, w: 2, l: 0, ops: [
+      { p: 'NZD/USD', w: true, a: 124.96, pct: 88, o: '08:14:20', c: '08:15:20', d: '16 Jun' },
+      { p: 'GBP/USD', w: true, a: 199.23, pct: 92, o: '08:12:00', c: '08:13:00', d: '16 Jun' },
+    ] },
+  ];
+
+  fmt(n) { return Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  view(o) {
+    return {
+      pair: o.p, win: o.w,
+      badge: o.w ? 'WIN' : 'LOSS',
+      amountText: (o.w ? '+$ ' : '-$ ') + this.fmt(o.a),
+      pctText: (o.w ? '+' : '-') + o.pct + '%',
+      openT: o.o, closeT: o.c, date: o.d,
+      accent: o.w ? '#22c55e' : '#ef4444',
+      amountColor: o.w ? '#34d77a' : '#f0726a',
+      badgeBg: o.w ? 'rgba(34,197,94,.14)' : 'rgba(239,68,68,.14)',
+      badgeColor: o.w ? '#4ade80' : '#f87171',
+      cardBorder: o.w ? 'rgba(34,197,94,.16)' : 'rgba(239,68,68,.16)',
+      glowBg: o.w ? 'rgba(34,197,94,.07)' : 'rgba(239,68,68,.06)',
+      onPick: () => this.setState({ det: o }),
+    };
+  }
+
+  sess() {
+    const openKey = this.state.open;
+    return this.SESS.map(s => {
+      const wr = s.w + s.l ? Math.round((s.w / (s.w + s.l)) * 100) : 0;
+      const pos = s.total >= 0;
+      return {
+        id: s.id, name: s.name, date: s.d, model: s.model,
+        wr: wr + '%', wrColor: wr >= 50 ? '#34d77a' : '#f0726a',
+        w: s.w, l: s.l, opsCount: s.w + s.l,
+        totalText: (pos ? '+$ ' : '-$ ') + this.fmt(s.total),
+        totalColor: pos ? '#34d77a' : '#f0726a',
+        border: openKey === s.id ? 'rgba(34,197,94,.35)' : 'rgba(34,197,94,.12)',
+        caret: openKey === s.id ? '▾' : '▸',
+        open: openKey === s.id,
+        onToggle: () => this.setState({ open: openKey === s.id ? null : s.id }),
+        ops: s.ops.map(o => this.view(o)),
+      };
+    });
+  }
+
+  detailView(o) {
+    if (!o) return {};
+    const v = this.view(o);
+    return { pair: v.pair, badge: v.badge, badgeColor: v.badgeColor, badgeBg: v.badgeBg, amountText: v.amountText, amountColor: v.amountColor, pctText: v.pctText, openT: v.openT, closeT: v.closeT, date: o.d };
+  }
+
+  renderVals() {
+    const dev = this.props.device || 'desktop';
+    const mob = dev === 'mobile';
+    return {
+      isDesk: !mob, isMob: mob,
+      tabAll: this.state.tab === 'all', tabAllOff: this.state.tab !== 'all',
+      tabSess: this.state.tab === 'sess', tabSessOff: this.state.tab !== 'sess',
+      setTabAll: () => this.setState({ tab: 'all' }), setTabSess: () => this.setState({ tab: 'sess' }),
+      listAll: this.ALL.map(o => this.view(o)),
+      sess: this.sess(),
+      detOpen: !!this.state.det, detView: this.detailView(this.state.det), closeDet: () => this.setState({ det: null }),
+      detAlign: mob ? 'flex-end' : 'center',
+      detW: mob ? '100%' : '420px',
+      detRadius: mob ? '26px 26px 0 0' : '22px',
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+    };
+  }
+}
+</script>
+</body>
+</html>
