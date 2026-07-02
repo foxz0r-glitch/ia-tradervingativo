@@ -1,5 +1,5 @@
 // Overlay do fluxo DEMO (4 telas: Procurando → Operando → Pausado → Resultado).
-// FATIA 2b: tela "procurando" REAL (radar) portada do protótipo. Operando/Pausado/Resultado seguem placeholder.
+// Procurando = tela real (da8d3df). Operando = tela real: hero (40bfabe) + lista ao vivo (85df0f2) + list header (14fde8b). Pausado/Resultado = placeholders (Fatias 4/5 do roadmap §7).
 // NÃO fecha ao clicar fora (sem onClick no backdrop). Some quando phase === "idle". Keyframes LOCAIS (não index.css).
 import { useEffect, useState } from "react";
 import type { Operation } from "@/components/OperationsHistory";

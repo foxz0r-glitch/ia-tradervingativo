@@ -788,7 +788,7 @@ const Index = () => {
       }
     }
 
-    // Fim NATURAL do lote → tela Resultado (demoRunning só vira false no FECHAR).
+    // Fim NATURAL do lote → tela Resultado; demoRunning NÃO zera aqui (só em 4 sítios: FECHAR, catch do motor, ops vazio/null, PARAR no radar) — Modelo B.
     setDemoPhase("resultado");
   };
 
@@ -807,8 +807,8 @@ const Index = () => {
     }
   };
 
-  // FECHAR (tela Resultado): fecha o overlay. SÓ AQUI demoRunning volta a false
-  // (p/ o LIGAR IA não reabilitar com o overlay aberto).
+  // demoRunning=false: aqui (FECHAR do Resultado), no catch do motor, em ops vazio/null e no PARAR
+  // durante o radar (radar→idle) — Modelo B. (p/ o LIGAR IA não reabilitar com o overlay aberto).
   const handleDemoFechar = () => {
     demoCancelRef.current = true;
     cancelDemoTimers();
