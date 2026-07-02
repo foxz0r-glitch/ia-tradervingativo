@@ -137,13 +137,14 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
 
   return (
     <div style={{ flex: 1, minHeight: 0, width: "100%", maxWidth: 420, display: "flex", flexDirection: "column" }}>
-      {/* Keyframes LOCAIS: reusa tv-radar (spinner) + tv-floatGlow/tv-livePulse + adiciona tv-opInA/tv-opInB (entrada das linhas) */}
+      {/* Keyframes LOCAIS: reusa tv-radar (spinner) + tv-floatGlow/tv-livePulse + adiciona tv-opInA/tv-opInB (entrada das linhas) + tv-dotBlink (dot "buscando…" do list header) */}
       <style>{`
 @keyframes tv-radar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes tv-floatGlow { 0%,100% { opacity: .45; transform: scale(.92); } 50% { opacity: 1; transform: scale(1); } }
 @keyframes tv-livePulse { 0% { transform: scale(.9); opacity: .9; } 70% { transform: scale(2.4); opacity: 0; } 100% { transform: scale(2.4); opacity: 0; } }
 @keyframes tv-opInA { 0% { opacity: 0; transform: translateY(15px) scale(.99); } 60% { opacity: 1; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes tv-opInB { 0% { opacity: 0; transform: translateY(15px) scale(.99); } 60% { opacity: 1; } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes tv-dotBlink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
 `}</style>
 
       {/* ===== HERO ===== */}
@@ -191,7 +192,18 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
 
       </div>
 
-      {/* ===== LISTA AO VIVO (Fatia 3b) — só ela rola (flex:1 + overflow); hero acima é altura natural ===== */}
+      {/* ===== LIST HEADER (Fatia 3c) — entre métricas e lista; lado direito condicionado à fase (Fatia 4 troca por EM ESPERA) ===== */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 4px 10px" }}>
+        <span style={{ font: "600 10px 'Sora'", letterSpacing: ".2em", color: "#4a5b52", textTransform: "uppercase" }}>Operações ao vivo</span>
+        {phase === "operando" && (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "tv-dotBlink 1s infinite" }} />
+            <span style={{ font: "500 12px 'Sora'", letterSpacing: ".02em", color: "#86b59a" }}>buscando…</span>
+          </span>
+        )}
+      </div>
+
+      {/* ===== LISTA AO VIVO (Fatia 3b) — só ela rola (flex:1 + overflow); hero acima é altura natural; espaçamento agora vem do padding do header (como no .dc.html) ===== */}
       <div
         style={{
           flex: 1,
@@ -203,11 +215,10 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
           scrollbarWidth: "thin",
           scrollbarColor: "rgba(34,197,94,.35) transparent",
           WebkitOverflowScrolling: "touch",
-          marginTop: 16,
         }}
       >
-        {/* Cabeçalho "procurando próxima entrada" — SÓ em phase === "procurando" (ver flag no relatório) */}
-        {phase === "procurando" && (
+        {/* "procurando próxima entrada" — 1º item do scroll, visível na fase "operando" (Fatia 3c; Fatia 4 esconde no pausado) */}
+        {phase === "operando" && (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 11, padding: 14, borderRadius: 14, border: "1px dashed rgba(34,197,94,.25)", flex: "none" }}>
             <span style={{ position: "relative", width: 16, height: 16 }}>
               <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "2px solid rgba(34,197,94,.25)", borderTopColor: "#22c55e", animation: "tv-radar .9s linear infinite" }} />
