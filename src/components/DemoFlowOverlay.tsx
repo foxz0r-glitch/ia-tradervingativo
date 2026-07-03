@@ -6,7 +6,7 @@ import type { Operation } from "@/components/OperationsHistory";
 import { formatMoeda } from "@/lib/moeda";
 import { RADAR_PAIRS } from "@/lib/demoConstants";
 
-export type DemoPhase = "idle" | "procurando" | "operando" | "pausado" | "resultado";
+export type DemoPhase = "idle" | "procurando" | "operando" | "resultado";
 
 interface Props {
   phase: DemoPhase;
@@ -26,7 +26,6 @@ const PHASE_LABEL: Record<DemoPhase, string> = {
   idle: "",
   procurando: "PROCURANDO ENTRADA",
   operando: "OPERANDO",
-  pausado: "PAUSADO",
   resultado: "RESULTADO",
 };
 

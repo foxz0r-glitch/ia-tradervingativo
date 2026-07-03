@@ -150,7 +150,7 @@ const Index = () => {
   const demoDepositRef = useRef<HTMLDivElement>(null);
 
   // ---- Fluxo DEMO (4 telas) — FASE + lista/agregados PRÓPRIOS (isolados do cockpit) + cancelamento ----
-  const [demoPhase, setDemoPhase] = useState<"idle" | "procurando" | "operando" | "pausado" | "resultado">("idle");
+  const [demoPhase, setDemoPhase] = useState<"idle" | "procurando" | "operando" | "resultado">("idle");
   const [demoOps, setDemoOps] = useState<Operation[]>([]);
   const [demoSessionPnl, setDemoSessionPnl] = useState(0);
   const [demoWins, setDemoWins] = useState(0);
