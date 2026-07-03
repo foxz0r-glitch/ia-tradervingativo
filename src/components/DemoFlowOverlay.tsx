@@ -20,14 +20,8 @@ interface Props {
   onRetomar: () => void;
   onParar: () => void;
   onFechar: () => void;
+  onDeposit: () => void;
 }
-
-const PHASE_LABEL: Record<DemoPhase, string> = {
-  idle: "",
-  procurando: "PROCURANDO ENTRADA",
-  operando: "OPERANDO",
-  resultado: "RESULTADO",
-};
 
 const BTN: React.CSSProperties = {
   height: 44,
@@ -268,9 +262,73 @@ function OperandoScreen({ phase, paused, ops, sessionPnl, wins, losses }: { phas
   );
 }
 
+// ===================== Tela RESULTADO — Fatia 5 (fiel ao .dc.html L178-224) =====================
+// Reusa a MESMA lógica do OperandoScreen: winRate (wins/(wins+losses)) e saldo (formatMoeda BRL, sinal+cor).
+function ResultadoScreen({ endedManually, ops, wins, losses, sessionPnl, onFechar, onDeposit }: { endedManually: boolean; ops: Operation[]; wins: number; losses: number; sessionPnl: number; onFechar: () => void; onDeposit: () => void }) {
+  const total = wins + losses;
+  const winRate = total > 0 ? Math.round((wins / total) * 100) : 0; // = wins/ops.length (demo só gera win|loss)
+  const pos = sessionPnl >= 0;
+  const valueStr = `${pos ? "+" : "-"}${formatMoeda(Math.abs(sessionPnl), "BRL")}`; // idêntico ao OperandoScreen
+
+  return (
+    <div style={{ flex: 1, minHeight: 0, width: "100%", maxWidth: 420, display: "flex", flexDirection: "column" }}>
+      {/* Keyframes LOCAIS (Fatia 5): tv-pop (badge do ✓) + tv-ringExpand (anel) — não vivem em outra Screen montada em "resultado" */}
+      <style>{`
+@keyframes tv-pop { 0% { transform: scale(.4); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes tv-ringExpand { 0% { transform: scale(.35); opacity: .55; } 100% { transform: scale(1.55); opacity: 0; } }
+`}</style>
+
+      {/* ===== INNER: conteúdo centralizado (flex:1 empurra o rodapé pra base) ===== */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        {/* ícone ✓ + anel (tv-ringExpand) + brilho (box-shadow) */}
+        <div style={{ position: "relative", width: 102, height: 102, marginBottom: 26 }}>
+          <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "radial-gradient(circle, rgba(34,197,94,.32), transparent 70%)" }} />
+          <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "1px solid rgba(34,197,94,.4)", animation: "tv-ringExpand 2.6s ease-out infinite" }} />
+          <div style={{ position: "absolute", inset: 19, borderRadius: "50%", background: "linear-gradient(160deg,#2ee06a,#15924a)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 34px -4px rgba(34,197,94,.75)", animation: "tv-pop .55s cubic-bezier(.2,1.2,.4,1) both" }}>
+            <span style={{ font: "700 32px 'Sora'", color: "#04140a", lineHeight: 1 }}>✓</span>
+          </div>
+        </div>
+
+        <div style={{ font: "600 11px 'Sora'", letterSpacing: ".22em", color: "#5d8a70", textTransform: "uppercase" }}>Sessão encerrada</div>
+        <div style={{ font: "500 12px 'Sora'", color: "#7d9488", marginTop: 6 }}>{endedManually ? "Encerrada manualmente" : "Meta da sessão concluída"}</div>
+
+        <div style={{ font: "600 10px 'Sora'", letterSpacing: ".2em", color: "#5d7167", textTransform: "uppercase", marginTop: 26 }}>Saldo final da sessão</div>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 58, lineHeight: 1, marginTop: 8, fontVariantNumeric: "tabular-nums", color: pos ? "#34d77a" : "#f0726a", textShadow: "0 0 40px rgba(34,197,94,.5)" }}>{valueStr}</div>
+
+        {/* faixa Operações / Acerto / Wins */}
+        <div style={{ display: "flex", width: "100%", marginTop: 34, borderTop: "1px solid rgba(34,197,94,.16)", borderBottom: "1px solid rgba(34,197,94,.16)", padding: "18px 0" }}>
+          <div style={{ flex: 1, textAlign: "center", borderRight: "1px solid rgba(34,197,94,.14)" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 26, color: "#eef5f0" }}>{ops.length}</div>
+            <div style={{ font: "600 9px 'Sora'", letterSpacing: ".16em", color: "#5d7167", textTransform: "uppercase", marginTop: 4 }}>Operações</div>
+          </div>
+          <div style={{ flex: 1, textAlign: "center", borderRight: "1px solid rgba(34,197,94,.14)" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 26, color: "#34d77a" }}>{winRate}%</div>
+            <div style={{ font: "600 9px 'Sora'", letterSpacing: ".16em", color: "#5d7167", textTransform: "uppercase", marginTop: 4 }}>Acerto</div>
+          </div>
+          <div style={{ flex: 1, textAlign: "center" }}>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: 26, color: "#eef5f0" }}>{wins}</div>
+            <div style={{ font: "600 9px 'Sora'", letterSpacing: ".16em", color: "#5d7167", textTransform: "uppercase", marginTop: 4 }}>Wins</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ===== RODAPÉ (irmão do inner → ancorado embaixo): FECHAR + DEPOSITAR (rodapé DEMO do .dc.html L211-218) ===== */}
+      <div style={{ padding: "14px 0 30px" }}>
+        <div style={{ font: "600 10px 'Sora'", letterSpacing: ".18em", color: "#7d9488", textAlign: "center", textTransform: "uppercase", marginBottom: 12 }}>Opere com dinheiro real</div>
+        <div style={{ display: "flex", gap: 12 }}>
+          <button type="button" onClick={onFechar} style={{ flex: 1, height: 56, borderRadius: 16, border: "1px solid rgba(34,197,94,.28)", background: "rgba(34,197,94,.06)", color: "#34d77a", font: "700 13px 'Sora'", letterSpacing: ".1em", cursor: "pointer" }}>FECHAR</button>
+          <button type="button" onClick={onDeposit} style={{ flex: 1.3, height: 56, borderRadius: 16, border: "none", background: "#22c55e", color: "#04140a", font: "700 13px 'Sora'", letterSpacing: ".06em", cursor: "pointer", boxShadow: "0 0 28px -6px rgba(34,197,94,.8)", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <span style={{ fontSize: 16 }}>+</span> DEPOSITAR
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DemoFlowOverlay({
   phase, paused, ops, sessionPnl, wins, losses, endedManually,
-  onPausar, onRetomar, onParar, onFechar,
+  onPausar, onRetomar, onParar, onFechar, onDeposit,
 }: Props) {
   if (phase === "idle") return null;
 
@@ -300,34 +358,22 @@ export function DemoFlowOverlay({
       ) : phase === "operando" ? (
         <OperandoScreen phase={phase} paused={paused} ops={ops} sessionPnl={sessionPnl} wins={wins} losses={losses} />
       ) : (
-        /* ===== PLACEHOLDER por fase (substituído pelas telas reais nas Fatias 4-5) ===== */
-        <>
-          <div style={{ font: "700 12px 'Sora'", letterSpacing: ".28em", color: "#5d8a70" }}>
-            {PHASE_LABEL[phase]}
-            {phase === "resultado" && endedManually ? " · ENCERRADA MANUALMENTE" : ""}
-          </div>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: "#86a596" }}>
-            ops {ops.length} · wins {wins} · losses {losses} · pnl {sessionPnl}
-          </div>
-        </>
+        /* ===== RESULTADO (Fatia 5) — idle já deu return null; procurando/operando têm ramo próprio → o else é sempre "resultado" ===== */
+        <ResultadoScreen endedManually={endedManually} ops={ops} wins={wins} losses={losses} sessionPnl={sessionPnl} onFechar={onFechar} onDeposit={onDeposit} />
       )}
 
-      {/* Controles (PAUSAR/PARAR/RETOMAR/FECHAR) — infra da Fatia 2a, NÃO alterada */}
-      <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
-        {/* D3: PAUSAR só no operando ao vivo (some no radar); RETOMAR no operando pausado; PARAR em radar+operando; FECHAR no resultado */}
-        {phase === "operando" && !paused && (
-          <button type="button" onClick={onPausar} style={BTN}>PAUSAR</button>
-        )}
-        {phase === "operando" && paused && (
-          <button type="button" onClick={onRetomar} style={BTN}>RETOMAR</button>
-        )}
-        {(phase === "procurando" || phase === "operando") && (
+      {/* Controles PAUSAR/RETOMAR/PARAR — só em procurando/operando (D3). No "resultado" a ResultadoScreen tem o próprio rodapé (FECHAR + DEPOSITAR). */}
+      {(phase === "procurando" || phase === "operando") && (
+        <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+          {phase === "operando" && !paused && (
+            <button type="button" onClick={onPausar} style={BTN}>PAUSAR</button>
+          )}
+          {phase === "operando" && paused && (
+            <button type="button" onClick={onRetomar} style={BTN}>RETOMAR</button>
+          )}
           <button type="button" onClick={onParar} style={BTN_RED}>PARAR</button>
-        )}
-        {phase === "resultado" && (
-          <button type="button" onClick={onFechar} style={BTN}>FECHAR</button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

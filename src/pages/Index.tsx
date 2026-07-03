@@ -1392,6 +1392,7 @@ const Index = () => {
           onRetomar={handleDemoRetomar}
           onParar={handleDemoParar}
           onFechar={handleDemoFechar}
+          onDeposit={() => demoDepositRef.current?.querySelector("button")?.click()}
         />
 
         {aiModelLoading && <LoadingSpinner />}
