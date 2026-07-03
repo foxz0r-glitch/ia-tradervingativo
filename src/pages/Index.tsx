@@ -156,9 +156,12 @@ const Index = () => {
   const [demoWins, setDemoWins] = useState(0);
   const [demoLosses, setDemoLosses] = useState(0);
   const [demoEndedManually, setDemoEndedManually] = useState(false);
+  const [demoPaused, setDemoPaused] = useState(false); // Fatia 4: pausa PRÓPRIA da demo (≠ paused real de :255)
   const demoCancelRef = useRef(false); // PARAR/FECHAR setam true → o loop aborta sem mais setState
   const demoTimersRef = useRef<Array<{ id: ReturnType<typeof setTimeout>; resolve: (done: boolean) => void }>>([]);
   const demoOperatingRef = useRef(false); // true só quando JÁ passou do radar e tem ops válidas (está operando) → decide idle-vs-resultado no PARAR
+  const demoPausedRef = useRef(false); // Fatia 4: espelho síncrono de demoPaused (o loop lê o ref, não o state do closure)
+  const demoResumeRef = useRef<((done: boolean) => void) | null>(null); // Fatia 4: resolve do gate de pausa (RETOMAR→true, PARAR/FECHAR→false)
 
   // ---- Ativação de plano ----
   const [hasActivePlan, setHasActivePlan] = useState<boolean | null>(null);
@@ -738,6 +741,13 @@ const Index = () => {
     demoTimersRef.current = [];
   };
 
+  // Fatia 4 — GATE de pausa: segura o loop enquanto a DEMO estiver pausada. resolve(true) no RETOMAR;
+  // resolve(false) se PARAR/FECHAR durante a pausa (abort). NÃO reusa/altera o demoSleep (que é cancel-only).
+  const demoWaitWhilePaused = () => new Promise<boolean>((resolve) => {
+    if (!demoPausedRef.current) { resolve(true); return; }
+    demoResumeRef.current = resolve;
+  });
+
   const handleStartDemoSession = async () => {
     // Início SÍNCRONO no clique: fecha o gate, liga a sessão, reseta o estado PRÓPRIO da demo.
     // (NÃO toca operations/sessionPnl/ganhos/perdas do cockpit — a demo tem lista/agregados isolados.)
@@ -745,6 +755,7 @@ const Index = () => {
     setDemoRunning(true);
     demoCancelRef.current = false;
     demoOperatingRef.current = false; // ainda não passou do radar → PARAR no radar vai pra idle
+    demoPausedRef.current = false; demoResumeRef.current = null; setDemoPaused(false); // Fatia 4: nova sessão nunca começa pausada
     cancelDemoTimers();
     setDemoEndedManually(false);
     setDemoOps([]);
@@ -777,6 +788,16 @@ const Index = () => {
 
     // ── EMPILHA as ops DO MOTOR (6-8) na MESMA tela "operando", sem voltar pro radar, ~1.5-2s entre elas.
     for (let i = 0; i < ops.length; i++) {
+      // Fatia 4 — gate de pausa (2a): se pausado, segura ANTES de empilhar op[i]. Ao retomar, novo intervalo (D4) se i>0.
+      // Nenhuma op nova empilha enquanto pausado; PARAR/FECHAR na pausa → abort (resolve false) → return limpo.
+      while (demoPausedRef.current) {
+        if (!(await demoWaitWhilePaused())) return;
+        if (demoCancelRef.current) return;
+        if (i > 0) {
+          if (!(await demoSleep(1500 + Math.random() * 500))) return;
+          if (demoCancelRef.current) return;
+        }
+      }
       const op = ops[i];
       setDemoOps((prev) => [op, ...prev]);
       setDemoSessionPnl((prev) => prev + op.pnl);
@@ -788,6 +809,12 @@ const Index = () => {
       }
     }
 
+    // Fatia 4 — gate de pausa (2b): pausar na ÚLTIMA op segura a tela Pausado; NÃO pula pro Resultado.
+    // SEM novo intervalo (não há próxima op). RETOMAR → segue pra resultado; PARAR/FECHAR → abort (return).
+    while (demoPausedRef.current) {
+      if (!(await demoWaitWhilePaused())) return;
+      if (demoCancelRef.current) return;
+    }
     // Fim NATURAL do lote → tela Resultado; demoRunning NÃO zera aqui (só em 4 sítios: FECHAR, catch do motor, ops vazio/null, PARAR no radar) — Modelo B.
     setDemoPhase("resultado");
   };
@@ -798,6 +825,9 @@ const Index = () => {
   const handleDemoParar = () => {
     demoCancelRef.current = true;
     cancelDemoTimers();
+    // Fatia 4: se pausado, solta o gate com abort (resolve false) → o loop retorna sem empilhar/flip. (idle-vs-resultado por demoOperatingRef intacto.)
+    demoResumeRef.current?.(false); demoResumeRef.current = null;
+    demoPausedRef.current = false; setDemoPaused(false);
     if (!demoOperatingRef.current) {
       setDemoPhase("idle");
       setDemoRunning(false);
@@ -812,13 +842,25 @@ const Index = () => {
   const handleDemoFechar = () => {
     demoCancelRef.current = true;
     cancelDemoTimers();
+    // Fatia 4: solta o gate com abort se estiver pausado.
+    demoResumeRef.current?.(false); demoResumeRef.current = null;
+    demoPausedRef.current = false; setDemoPaused(false);
     setDemoPhase("idle");
     setDemoRunning(false);
   };
 
-  // Pausar/Retomar — stubs (Fatia 4). Não quebram nada por ora.
-  const handleDemoPausar = () => { /* TODO Fatia 4 */ };
-  const handleDemoRetomar = () => { /* TODO Fatia 4 */ };
+  // Fatia 4 — Pausar/Retomar da DEMO (fictício; NÃO toca dinheiro/paused real).
+  const handleDemoPausar = () => {
+    if (!demoOperatingRef.current || demoPhase !== "operando") return; // D3: só no operando (nunca radar/resultado/idle)
+    demoPausedRef.current = true;
+    setDemoPaused(true);
+  };
+  const handleDemoRetomar = () => {
+    demoPausedRef.current = false;
+    setDemoPaused(false);
+    demoResumeRef.current?.(true); // solta o gate → o loop segue (novo intervalo via gate 2a se i>0)
+    demoResumeRef.current = null;
+  };
 
   const handleStart = async () => {
     if (startingRef.current) return;
@@ -1340,6 +1382,7 @@ const Index = () => {
         {/* Overlay do fluxo DEMO (4 telas) — montado só quando a sessão demo está ativa (fase ≠ idle) */}
         <DemoFlowOverlay
           phase={demoPhase}
+          paused={demoPaused}
           ops={demoOps}
           sessionPnl={demoSessionPnl}
           wins={demoWins}

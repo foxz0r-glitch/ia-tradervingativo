@@ -14,6 +14,7 @@ interface Props {
   sessionPnl: number;
   wins: number;
   losses: number;
+  paused: boolean;
   endedManually: boolean;
   onPausar: () => void;
   onRetomar: () => void;
@@ -129,7 +130,7 @@ function ProcurandoScreen() {
 
 // ===================== Tela OPERANDO (hero) — Fatia 3a (lista = 3b) =====================
 // Dinheiro formatado com o formatador REAL do app (formatMoeda), moeda BRL (demo em R$).
-function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoPhase; ops: Operation[]; sessionPnl: number; wins: number; losses: number }) {
+function OperandoScreen({ phase, paused, ops, sessionPnl, wins, losses }: { phase: DemoPhase; paused: boolean; ops: Operation[]; sessionPnl: number; wins: number; losses: number }) {
   const total = wins + losses;
   const winRate = total > 0 ? Math.round((wins / total) * 100) : 0; // 0% se sem ops
   const pos = sessionPnl >= 0;
@@ -158,14 +159,21 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
         </div>
 
         <div style={{ position: "relative" }}>
-          {/* badge "IA OPERANDO AO VIVO" — dot = 2 spans (fixo + onda tv-livePulse) */}
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 14px", borderRadius: 30, background: "rgba(6,12,8,.7)", border: "1px solid rgba(34,197,94,.4)", boxShadow: "0 0 20px -6px rgba(34,197,94,.6)" }}>
-            <span style={{ position: "relative", width: 8, height: 8 }}>
-              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#22c55e" }} />
-              <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#22c55e", animation: "tv-livePulse 1.8s ease-out infinite" }} />
-            </span>
-            <span style={{ font: "700 11px 'Sora'", letterSpacing: ".18em", color: "#5dffa0" }}>IA OPERANDO AO VIVO</span>
-          </div>
+          {/* badge (Fatia 4): !paused = "IA OPERANDO AO VIVO" (dot + onda tv-livePulse); paused = "⏸ PAUSADO" (âmbar, SEM animação) — .dc.html L107 vs L111-113 */}
+          {!paused ? (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 14px", borderRadius: 30, background: "rgba(6,12,8,.7)", border: "1px solid rgba(34,197,94,.4)", boxShadow: "0 0 20px -6px rgba(34,197,94,.6)" }}>
+              <span style={{ position: "relative", width: 8, height: 8 }}>
+                <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#22c55e" }} />
+                <span style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#22c55e", animation: "tv-livePulse 1.8s ease-out infinite" }} />
+              </span>
+              <span style={{ font: "700 11px 'Sora'", letterSpacing: ".18em", color: "#5dffa0" }}>IA OPERANDO AO VIVO</span>
+            </div>
+          ) : (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "6px 14px", borderRadius: 30, background: "rgba(224,169,60,.12)", border: "1px solid rgba(224,169,60,.5)" }}>
+              <span style={{ font: "700 13px 'Sora'", color: "#f0bf63", lineHeight: 1 }}>⏸</span>
+              <span style={{ font: "700 11px 'Sora'", letterSpacing: ".18em", color: "#f0bf63" }}>PAUSADO</span>
+            </div>
+          )}
 
           {/* label + número acumulado (sessionPnl em R$ via formatMoeda, com sinal e cor runtime) */}
           <div style={{ font: "600 11px 'Sora'", letterSpacing: ".22em", color: "#5d8a70", textTransform: "uppercase", marginTop: 16 }}>Resultado acumulado</div>
@@ -195,11 +203,15 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
       {/* ===== LIST HEADER (Fatia 3c) — entre métricas e lista; lado direito condicionado à fase (Fatia 4 troca por EM ESPERA) ===== */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 4px 10px" }}>
         <span style={{ font: "600 10px 'Sora'", letterSpacing: ".2em", color: "#4a5b52", textTransform: "uppercase" }}>Operações ao vivo</span>
-        {phase === "operando" && (
+        {phase === "operando" && !paused && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", animation: "tv-dotBlink 1s infinite" }} />
             <span style={{ font: "500 12px 'Sora'", letterSpacing: ".02em", color: "#86b59a" }}>buscando…</span>
           </span>
+        )}
+        {phase === "operando" && paused && (
+          /* EM ESPERA (Fatia 4) — SEM dot tv-dotBlink; .dc.html L145 */
+          <span style={{ font: "600 10px 'Sora'", letterSpacing: ".12em", color: "#e0a93c" }}>EM ESPERA</span>
         )}
       </div>
 
@@ -217,13 +229,18 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
           WebkitOverflowScrolling: "touch",
         }}
       >
-        {/* "procurando próxima entrada" — 1º item do scroll, visível na fase "operando" (Fatia 3c; Fatia 4 esconde no pausado) */}
-        {phase === "operando" && (
+        {/* 1º item do scroll (Fatia 4): !paused = "procurando próxima entrada…" (spinner tv-radar); paused = card "em espera" (SEM spinner) — .dc.html L156 vs L159-161 */}
+        {phase === "operando" && !paused && (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 11, padding: 14, borderRadius: 14, border: "1px dashed rgba(34,197,94,.25)", flex: "none" }}>
             <span style={{ position: "relative", width: 16, height: 16 }}>
               <span style={{ position: "absolute", inset: 0, borderRadius: "50%", border: "2px solid rgba(34,197,94,.25)", borderTopColor: "#22c55e", animation: "tv-radar .9s linear infinite" }} />
             </span>
             <span style={{ font: "600 12px 'Sora'", letterSpacing: ".02em", color: "#86b59a" }}>procurando próxima entrada…</span>
+          </div>
+        )}
+        {phase === "operando" && paused && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: 14, borderRadius: 14, background: "rgba(224,169,60,.08)", border: "1px solid rgba(224,169,60,.3)", flex: "none" }}>
+            <span style={{ font: "700 12px 'Sora'", letterSpacing: ".08em", color: "#f0bf63" }}>Operações em espera — toque RETOMAR</span>
           </div>
         )}
 
@@ -253,7 +270,7 @@ function OperandoScreen({ phase, ops, sessionPnl, wins, losses }: { phase: DemoP
 }
 
 export function DemoFlowOverlay({
-  phase, ops, sessionPnl, wins, losses, endedManually,
+  phase, paused, ops, sessionPnl, wins, losses, endedManually,
   onPausar, onRetomar, onParar, onFechar,
 }: Props) {
   if (phase === "idle") return null;
@@ -282,7 +299,7 @@ export function DemoFlowOverlay({
       {phase === "procurando" ? (
         <ProcurandoScreen />
       ) : phase === "operando" ? (
-        <OperandoScreen phase={phase} ops={ops} sessionPnl={sessionPnl} wins={wins} losses={losses} />
+        <OperandoScreen phase={phase} paused={paused} ops={ops} sessionPnl={sessionPnl} wins={wins} losses={losses} />
       ) : (
         /* ===== PLACEHOLDER por fase (substituído pelas telas reais nas Fatias 4-5) ===== */
         <>
@@ -298,17 +315,15 @@ export function DemoFlowOverlay({
 
       {/* Controles (PAUSAR/PARAR/RETOMAR/FECHAR) — infra da Fatia 2a, NÃO alterada */}
       <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
-        {(phase === "procurando" || phase === "operando") && (
-          <>
-            <button type="button" onClick={onPausar} style={BTN}>PAUSAR</button>
-            <button type="button" onClick={onParar} style={BTN_RED}>PARAR</button>
-          </>
+        {/* D3: PAUSAR só no operando ao vivo (some no radar); RETOMAR no operando pausado; PARAR em radar+operando; FECHAR no resultado */}
+        {phase === "operando" && !paused && (
+          <button type="button" onClick={onPausar} style={BTN}>PAUSAR</button>
         )}
-        {phase === "pausado" && (
-          <>
-            <button type="button" onClick={onRetomar} style={BTN}>RETOMAR</button>
-            <button type="button" onClick={onParar} style={BTN_RED}>PARAR</button>
-          </>
+        {phase === "operando" && paused && (
+          <button type="button" onClick={onRetomar} style={BTN}>RETOMAR</button>
+        )}
+        {(phase === "procurando" || phase === "operando") && (
+          <button type="button" onClick={onParar} style={BTN_RED}>PARAR</button>
         )}
         {phase === "resultado" && (
           <button type="button" onClick={onFechar} style={BTN}>FECHAR</button>
