@@ -1,5 +1,5 @@
 // Overlay do fluxo DEMO (4 telas: Procurando → Operando → Pausado → Resultado).
-// Procurando = tela real (da8d3df). Operando = tela real: hero (40bfabe) + lista ao vivo (85df0f2) + list header (14fde8b). Pausado/Resultado = placeholders (Fatias 4/5 do roadmap §7).
+// Procurando = tela real (da8d3df). Operando = tela real: hero (40bfabe) + lista ao vivo (85df0f2) + list header (14fde8b). Pausado = FEITO (38d4859, Fatia 4: EM ESPERA + card RETOMAR + badge ⏸ como estado do Operando via `paused`). Resultado = placeholder (Fatia 5 do roadmap §7).
 // NÃO fecha ao clicar fora (sem onClick no backdrop). Some quando phase === "idle". Keyframes LOCAIS (não index.css).
 import { useEffect, useState } from "react";
 import type { Operation } from "@/components/OperationsHistory";

@@ -117,7 +117,7 @@ Ele cola um bloco grande pedindo "review adversarial, tentar QUEBRAR, linha a li
 
 ## 4. ESTADO ATUAL DO CÓDIGO — commits no ar (sequência)
 
-Repo do app, branch `main`. **Último commit de CÓDIGO = `14fde8b`.** (Commits de docs podem existir por cima — ex.: 2819f1b/6b8dcb8/8a12d84; `git log -1` mostrar hash de docs é ESPERADO.)
+Repo do app, branch `main`. **Último commit de CÓDIGO = `8e8672e`.** (Commits de docs podem existir por cima — ex.: 2819f1b/6b8dcb8/8a12d84; `git log -1` mostrar hash de docs é ESPERADO.)
 
 | # | Hash | O que é |
 |---|------|---------|
@@ -136,6 +136,8 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `14fde8b`.** (Commits 
 | 13 | `85df0f2` | **ativo único por sessão** (sorteado dos 4 do radar, fonte única `RADAR_PAIRS` em `src/lib/demoConstants.ts`) + **lista de operações ao vivo** (3b) na tela Operando |
 | 14 | `650c781` | **loop Modelo B** (radar só na abertura → operando fixo, sem voltar; `demoOperatingRef` síncrono; `handleDemoParar` decide por ref: radar→idle sem queimar sessão, operando→resultado) — **fluxo real intacto, money-proof vazio** |
 | 15 | `14fde8b` | **fatia 3c**: list header "Operações ao vivo" + indicador "buscando…" (`tv-dotBlink`) + linha "procurando próxima entrada…" recondicionada pra fase operando (era código morto em "procurando"); `marginTop:16` provisório da lista REMOVIDO (espaçamento agora = padding do header, fiel ao .dc.html L136/L150) |
+| 16 | `38d4859` | **Fatia 4** — tela Pausado: pausa/retomada do fluxo demo (gate de pausa, sem tocar fluxo real); badge ⏸ PAUSADO + EM ESPERA + card "Operações em espera — toque RETOMAR", fiéis ao .dc.html; animações congeladas no paused |
+| 17 | `8e8672e` | cleanup: remove enum "pausado" vestigial pós-Fatia 4 (só tipos/label; demoPhase agora "idle"\|"procurando"\|"operando"\|"resultado") |
 
 **Dashboard reconstruído = COMPLETO** (4 peças commitadas, validado com print, idêntico ao handoff). Diferenças restantes do dashboard são só no GRÁFICO (cabeçalho "Euro→Dólar"+bandeiras+"AO VIVO", candlestick vs linha, selo "ROBÔ CONECTADO") → mapeadas pra fatia do gráfico.
 
@@ -181,7 +183,7 @@ O Royal escolheu **Modelo B** (espelha o `run()` do protótipo):
 
 ## 6. ✅ Prompt 2 (loop Modelo B) — FEITO E COMMITADO (`650c781`)
 
-**Status:** o loop Modelo B foi implementado, revisado (money-proof vazio + race fechada por ref síncrono) e **commitado em `650c781`**. O próximo passo do fluxo demo é a **Fatia 4 — Pausado** (§7).
+**Status:** o loop Modelo B foi implementado, revisado (money-proof vazio + race fechada por ref síncrono) e **commitado em `650c781`**. O próximo passo do fluxo demo é a **Fatia 5 — Resultado** (§7) — Fatia 4 (Pausado) já FEITA.
 
 ### 6.1. O que o Prompt 2 entregou (já no código, `Index.tsx`)
 - Abertura: fase "procurando" + `demoSleep(3400)` (radar) **antes** de consumir a sessão.
@@ -209,15 +211,16 @@ empilha 6-8 do motor sem voltar ao radar; money-proof vazio.]
 
 ## 7. ROADMAP DAS FATIAS RESTANTES (ordem)
 
-1. ✅ **FEITO:** Dashboard · gale teto 4 · motor demo (valores) · fundação (fase+overlay+lista própria+cancelamento) · tela Procurando · hero Operando · ativo único + fonte única + lista ao vivo (`85df0f2`) · **loop Modelo B** (`650c781`). fatia 3c (`14fde8b`). **Último commit de código: `14fde8b`.**
+1. ✅ **FEITO:** Dashboard · gale teto 4 · motor demo (valores) · fundação (fase+overlay+lista própria+cancelamento) · tela Procurando · hero Operando · ativo único + fonte única + lista ao vivo (`85df0f2`) · **loop Modelo B** (`650c781`). fatia 3c (`14fde8b`). **Último commit de código: `8e8672e`.**
 2. ✅ **FEITO: Prompt 2 — loop Modelo B** (`650c781`, radar só na abertura → operando fixo, PARAR por ref síncrono).
 3. ✅ **FEITO (`14fde8b`): Fatia 3c** — list header "Operações ao vivo" + "buscando…" (`tv-dotBlink`) + linha "procurando próxima entrada…" no operando (valores na tabela §4 linha 15 e no .dc.html).
-4. ➡️ **PRÓXIMO: Fatia 4 — Pausar/Retomar + tela Pausado** (foto 04): liga os stubs `handleDemoPausar`/`handleDemoRetomar` (precisa pausar o loop de empilhamento — provavelmente um flag `demoPausedRef` que o loop checa, ou reestruturar o sleep). Tela Pausado: badge "❚❚ PAUSADO" âmbar `#f0bf63`/`#e0a93c` + "Operações em espera — toque RETOMAR" + lista congelada + botões RETOMAR/PARAR. Lado direito do list header vira "EM ESPERA" `600 10px 'Sora' .12em #e0a93c` (.dc.html L144-146); a linha "procurando" some e entra o card "Operações em espera — toque RETOMAR" (.dc.html L159-163); os dois pontos de troca já estão prontos nas condições `phase === "operando"` da 3c. **É lógica com timing → review duplo.**
-5. ⏳ **Fatia 5 — tela Resultado** (fotos 05 e 09): ✓ verde + "SESSÃO ENCERRADA" + **2 textos por `demoEndedManually`**: "Encerrada manualmente" (PARAR) / "Meta da sessão concluída" (fim natural) + "SALDO FINAL DA SESSÃO" + número grande + 3 métricas + botões **FECHAR** + **+ DEPOSITAR** (via `demoDepositRef` que já existe). Keyframe do ✓: `tv-pop` (cubic-bezier `.2,1.2,.4,1`).
+4. ✅ **FEITO (`38d4859`, cleanup `8e8672e`): Fatia 4 — Pausado** (gate de pausa D1; booleano demoPaused D2; PAUSAR só no operando D3; novo intervalo ao retomar D4; EM ESPERA/card/⏸ fiéis ao design). Print de runtime PENDENTE (1ª validação visual da pausa).
+5. ➡️ **PRÓXIMO: Fatia 5 — tela Resultado** (fotos 05 e 09): ✓ verde + "SESSÃO ENCERRADA" + **2 textos por `demoEndedManually`**: "Encerrada manualmente" (PARAR) / "Meta da sessão concluída" (fim natural) + "SALDO FINAL DA SESSÃO" + número grande + 3 métricas + botões **FECHAR** + **+ DEPOSITAR** (via `demoDepositRef` que já existe). Keyframe do ✓: `tv-pop` (cubic-bezier `.2,1.2,.4,1`).
 6. ⏳ **Painel travado sem saldo** (decisão de UI ABERTA — recomende borrado+cadeado, confirme com ele).
 7. ⏳ **Gráfico do cockpit = EXATAMENTE igual ao protótipo** (linha simples no lugar do candlestick; tirar "Euro→Dólar"; ver `Dashboard.dc.html`).
 8. ⏳ **FASE 2 (dinheiro real, gated):** mudanças no robô (`server.ts`): (a) **caça-ativos** (girar entre os 4 até achar setup → travar) — hoje é ativo FIXO; (b) **travar teto de gale 4 no robô** — hoje é gale ×2 sem cap; (c) ligar as telas Operando/Resultado no stream real que o robô JÁ emite (`operacao_fechada`). Tudo via DIAG read-only → prova → demo-antes-de-real → deploy Docker gated (host compartilhado com TapeLab — cuidado).
 9. ⏳ Testes do motor demo (invariantes do generateSessionOps: 6-8 ops, máx 2 perdas, 1ª win, sempre positivo, 1 ativo do RADAR_PAIRS, MAX_SESSIONS=1) — candidato pós-Fatia 5 / antes da Fase 2; decisão do dono (cobertura atual ~zero, vitest só com teste de exemplo).
+10. ⏳ Re-entrância do start da demo (PRÉ-EXISTENTE, fora da Fatia 4): `handleStartDemoSession` depende de `disabled={running}` + `setDemoRunning(true)` síncrono, sem um `startingRef` (que o fluxo real tem). Double-click no mesmo tick poderia iniciar 2 loops (ops/timers duplicados, nunca hang de gate). Blindar quando tocarmos o start da demo; não é regressão.
 
 ---
 
@@ -276,7 +279,7 @@ Contrato (do DIAG anterior) = 14 eventos / 5 comandos / 4 rotas HTTP. Achados:
 
 ## 11. 📡 SEMÁFORO DE PUBLISH
 
-Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido. Recomendação: commitar cada fatia gated → preview → print quando houver tela nova → fechar visual. Telas já validadas no preview: Procurando, Operando (hero+lista). Próximo print: Operando completa pós-3c = PENDENTE (1ª validação visual do Modelo B em runtime). Observar no print: a última op renderiza junto do flip pro resultado (batch React 18, pré-existente no Index — fora do 3c).
+Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido. Recomendação: commitar cada fatia gated → preview → print quando houver tela nova → fechar visual. Telas já validadas no preview: Procurando, Operando (hero+lista). Print da Operando pós-3c FEITO (validado). Print da tela Pausado (Fatia 4) PENDENTE — 1ª validação visual da pausa/retomada; testar: pausar no meio, pausar na última op (deve segurar em Pausado), PARAR pausado (deve ir a Resultado).
 
 ---
 
@@ -284,7 +287,7 @@ Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido.
 
 1. Cole este resumo (o progress doc).
 2. **Re-anexe o handoff** `Fluxo IA Operando.dc.html` (e o resto do `design_handoff_trader_vingativa/designs/`) — OU aponte pra `docs/design-handoff/` no próprio repo, onde o handoff está versionado desde `8a12d84`.
-3. Estado: **Fatia 3c commitada (`14fde8b`)**; print da Operando completa (Modelo B em runtime) = **PENDENTE**.
-4. Próximo = **Fatia 4 (Pausado — review duplo)** → depois **Fatia 5 (Resultado)**.
+3. Estado: **Fatia 3c commitada (`14fde8b`)**, Fatia 4 (Pausado) + cleanup do enum commitadas (código = `8e8672e`); print da tela Pausado (Fatia 4) = **PENDENTE**.
+4. Próximo = **Fatia 5 (Resultado)** (depois: painel travado, gráfico, Fase 2).
 
-> **Estado num cartão:** último commit de código = `14fde8b`. Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado) + **Fatia 3c FEITA** (list header "Operações ao vivo" + "buscando…" + linha "procurando próxima entrada…" no operando). Telas Procurando + Operando(hero+lista) validadas no preview (inalteradas); o **Modelo B em runtime ainda não foi previewado** (print da Operando completa pós-3c = PENDENTE). **PRÓXIMO: Fatia 4 (Pausado)**, depois Fatia 5 (Resultado), painel travado, gráfico, e Fase 2 (robô real). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
+> **Estado num cartão:** último commit de código = `8e8672e` (cleanup do enum "pausado" vestigial, pós-Fatia 4). Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado) + **Fatia 3c FEITA** (list header + "buscando…" + linha "procurando próxima entrada…" no operando) + **Fatia 4 FEITA** (`38d4859`: tela Pausado — pausa/retomada, EM ESPERA/card/⏸ via `paused`; gate de pausa D1-D4). Telas Procurando + Operando(hero+lista) validadas no preview; **print da tela Pausado (Fatia 4) PENDENTE** (1ª validação visual da pausa/retomada). **PRÓXIMO: Fatia 5 (Resultado)**, depois painel travado, gráfico, e Fase 2 (robô real). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
