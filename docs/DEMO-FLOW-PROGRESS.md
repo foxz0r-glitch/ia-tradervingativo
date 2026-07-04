@@ -117,7 +117,7 @@ Ele cola um bloco grande pedindo "review adversarial, tentar QUEBRAR, linha a li
 
 ## 4. ESTADO ATUAL DO CÓDIGO — commits no ar (sequência)
 
-Repo do app, branch `main`. **Último commit de CÓDIGO = `8e8672e`.** (Commits de docs podem existir por cima — ex.: 2819f1b/6b8dcb8/8a12d84; `git log -1` mostrar hash de docs é ESPERADO.)
+Repo do app, branch `main`. **Último commit de CÓDIGO = `b0f47c9`.** (Commits de docs podem existir por cima — ex.: 2819f1b/6b8dcb8/8a12d84; `git log -1` mostrar hash de docs é ESPERADO.)
 
 | # | Hash | O que é |
 |---|------|---------|
@@ -138,6 +138,7 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `8e8672e`.** (Commits 
 | 15 | `14fde8b` | **fatia 3c**: list header "Operações ao vivo" + indicador "buscando…" (`tv-dotBlink`) + linha "procurando próxima entrada…" recondicionada pra fase operando (era código morto em "procurando"); `marginTop:16` provisório da lista REMOVIDO (espaçamento agora = padding do header, fiel ao .dc.html L136/L150) |
 | 16 | `38d4859` | **Fatia 4** — tela Pausado: pausa/retomada do fluxo demo (gate de pausa, sem tocar fluxo real); badge ⏸ PAUSADO + EM ESPERA + card "Operações em espera — toque RETOMAR", fiéis ao .dc.html; animações congeladas no paused |
 | 17 | `8e8672e` | cleanup: remove enum "pausado" vestigial pós-Fatia 4 (só tipos/label; demoPhase agora "idle"\|"procurando"\|"operando"\|"resultado") |
+| 18 | `b0f47c9` | **Fatia 5** — tela Resultado (ResultadoScreen fiel ao design): ícone ✓, "Sessão encerrada", 2 textos por encerramento (manual="Encerrada manualmente" / natural="Meta da sessão concluída"), saldo final, faixa Operações/Acerto/Wins, rodapé FECHAR + DEPOSITAR (DEPOSITAR abre o dialog de depósito via demoDepositRef, sem tocar o fluxo real); remove PHASE_LABEL vestigial. Money-proof vazio |
 
 **Dashboard reconstruído = COMPLETO** (4 peças commitadas, validado com print, idêntico ao handoff). Diferenças restantes do dashboard são só no GRÁFICO (cabeçalho "Euro→Dólar"+bandeiras+"AO VIVO", candlestick vs linha, selo "ROBÔ CONECTADO") → mapeadas pra fatia do gráfico.
 
@@ -150,18 +151,18 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `8e8672e`.** (Commits 
 ### 5.1. Arquivos
 - **`src/hooks/useDemoMode.ts`** — o "motor": `generateSessionOps` gera o lote de operações fake. `runNextOp()` (export real do hook; `runNextDemoOp` é o alias no destructure do Index) consome a sessão (MAX_SESSIONS=1, persiste em `user_demo_state` + localStorage) e retorna as ops. Elegibilidade: `isDemoEligible` (sem depósito), `isExhausted`, `sessionsLeft`.
 - **`src/pages/Index.tsx`** — orquestra. Tem `handleStartDemoSession` (o loop das fases), os estados/refs da demo, e o `canStart` do "Ligar IA". **Também tem a lógica do FLUXO REAL** (handleStart com saldo≥2 → `iniciar()`/payload/clamp) — **NUNCA TOCAR sem money-proof**.
-- **`src/components/DemoFlowOverlay.tsx`** — o overlay tela-cheia com as 4 telas (Procurando feita; Operando hero+lista feita; Pausado/Resultado = placeholders).
+- **`src/components/DemoFlowOverlay.tsx`** — o overlay tela-cheia com as 4 telas, TODAS FEITAS: Procurando · Operando (hero+lista) · Pausado (Fatia 4, `38d4859`, variante do Operando via `paused`) · Resultado (Fatia 5, `b0f47c9`). Fluxo demo COMPLETO.
 - **`src/lib/demoConstants.ts`** — `export const RADAR_PAIRS = ["EUR/USD","GBP/USD","AUD/USD","USD/JPY"] as const;` **fonte única** dos 4 pares (usada pelo motor pra sortear o ativo E pelos chips do radar). NÃO duplicar essa lista em outro lugar.
 
 ### 5.2. Estados/refs da demo (no Index, isolados do cockpit)
-- `demoPhase`: `"idle"|"procurando"|"operando"|"pausado"|"resultado"` — governa qual tela aparece.
+- `demoPhase`: `"idle"|"procurando"|"operando"|"resultado"` — governa qual tela aparece. (O valor "pausado" foi REMOVIDO no cleanup `8e8672e`; a pausa agora é o booleano `demoPaused`, variante do "operando" — Fatia 4.)
 - `demoOps` (lista PRÓPRIA, separada de `operations` do cockpit — op fake NUNCA vaza pro histórico real).
 - Agregados PRÓPRIOS: `demoSessionPnl`, `demoWins`, `demoLosses` (NÃO usar `sessionPnl`/`ganhos`/`perdas`, que são do cockpit).
 - `demoEndedManually` (pra tela Resultado distinguir "Encerrada manualmente" vs "Meta concluída").
 - `demoCancelRef` + `demoTimersRef` + `cancelDemoTimers()` = cancelamento de timers (PARAR não deixa timer órfão).
 - `demoSleep(ms)` = sleep CANCELÁVEL (resolve `false` no cancel → o loop aborta sem setState órfão).
 - **`canStart` do Ligar IA** inclui `&& demoPhase==="idle"` → impossível reabrir o modal por cima do overlay.
-- `demoRunning=false` acontece em: `handleDemoFechar` (FECHAR do Resultado), no catch do motor, no caso ops vazio/null e no PARAR durante o radar (radar→idle, liberando o LIGAR IA) — Modelo B (`650c781`). (Comentário estale no Index ~L810 flagado para correção na micro-fatia comment-sync.)
+- `demoRunning=false` acontece em: `handleDemoFechar` (FECHAR do Resultado), no catch do motor, no caso ops vazio/null e no PARAR durante o radar (radar→idle, liberando o LIGAR IA) — Modelo B (`650c781`). (O comentário estale do Index ~L810 foi corrigido no comment-sync `60f048b`. PENDENTE: o header do overlay `DemoFlowOverlay.tsx:2` voltou a ficar estale pós-Fatia 5 — diz "Resultado = placeholder" — candidato a comment-sync.)
 
 ### 5.3. Motor (`generateSessionOps`) — regras TRAVADAS (commit `fdd2888` + `85df0f2`)
 - **win = pnl +R$445 EXATO; loss = pnl −R$500 EXATO** (constantes; `pnl` é o valor canônico que a lista exibe E que o acumulado soma — linha=acumulado batem).
@@ -183,7 +184,7 @@ O Royal escolheu **Modelo B** (espelha o `run()` do protótipo):
 
 ## 6. ✅ Prompt 2 (loop Modelo B) — FEITO E COMMITADO (`650c781`)
 
-**Status:** o loop Modelo B foi implementado, revisado (money-proof vazio + race fechada por ref síncrono) e **commitado em `650c781`**. O próximo passo do fluxo demo é a **Fatia 5 — Resultado** (§7) — Fatia 4 (Pausado) já FEITA.
+**Status:** o loop Modelo B foi implementado, revisado (money-proof vazio + race fechada por ref síncrono) e **commitado em `650c781`**. O fluxo demo está **COMPLETO** (Procurando→Operando→Pausado→Resultado). Próximo = decisão do dono (Fase 2 = robô real / dinheiro, §7; ou parqueados).
 
 ### 6.1. O que o Prompt 2 entregou (já no código, `Index.tsx`)
 - Abertura: fase "procurando" + `demoSleep(3400)` (radar) **antes** de consumir a sessão.
@@ -211,11 +212,11 @@ empilha 6-8 do motor sem voltar ao radar; money-proof vazio.]
 
 ## 7. ROADMAP DAS FATIAS RESTANTES (ordem)
 
-1. ✅ **FEITO:** Dashboard · gale teto 4 · motor demo (valores) · fundação (fase+overlay+lista própria+cancelamento) · tela Procurando · hero Operando · ativo único + fonte única + lista ao vivo (`85df0f2`) · **loop Modelo B** (`650c781`). fatia 3c (`14fde8b`). **Último commit de código: `8e8672e`.**
+1. ✅ **FEITO:** Dashboard · gale teto 4 · motor demo (valores) · fundação (fase+overlay+lista própria+cancelamento) · tela Procurando · hero Operando · ativo único + fonte única + lista ao vivo (`85df0f2`) · **loop Modelo B** (`650c781`). fatia 3c (`14fde8b`). **Último commit de código: `b0f47c9`.**
 2. ✅ **FEITO: Prompt 2 — loop Modelo B** (`650c781`, radar só na abertura → operando fixo, PARAR por ref síncrono).
 3. ✅ **FEITO (`14fde8b`): Fatia 3c** — list header "Operações ao vivo" + "buscando…" (`tv-dotBlink`) + linha "procurando próxima entrada…" no operando (valores na tabela §4 linha 15 e no .dc.html).
 4. ✅ **FEITO (`38d4859`, cleanup `8e8672e`): Fatia 4 — Pausado** (gate de pausa D1; booleano demoPaused D2; PAUSAR só no operando D3; novo intervalo ao retomar D4; EM ESPERA/card/⏸ fiéis ao design). Print de runtime PENDENTE (1ª validação visual da pausa).
-5. ➡️ **PRÓXIMO: Fatia 5 — tela Resultado** (fotos 05 e 09): ✓ verde + "SESSÃO ENCERRADA" + **2 textos por `demoEndedManually`**: "Encerrada manualmente" (PARAR) / "Meta da sessão concluída" (fim natural) + "SALDO FINAL DA SESSÃO" + número grande + 3 métricas + botões **FECHAR** + **+ DEPOSITAR** (via `demoDepositRef` que já existe). Keyframe do ✓: `tv-pop` (cubic-bezier `.2,1.2,.4,1`).
+5. ✅ **FEITO (`b0f47c9`): Fatia 5 — Resultado** (ResultadoScreen fiel ao .dc.html; 2 textos por `demoEndedManually`: "Encerrada manualmente" (PARAR) / "Meta da sessão concluída" (fim natural); rodapé FECHAR→`handleDemoFechar` + DEPOSITAR→`demoDepositRef`; reuso winRate/formatMoeda; keyframes `tv-pop`/`tv-ringExpand` locais). Print de runtime PENDENTE. — ✅ **FLUXO DEMO COMPLETO**: 4 telas Procurando (`da8d3df`) → Operando (`40bfabe`/`85df0f2`/`14fde8b`) → Pausado (`38d4859`) → Resultado (`b0f47c9`).
 6. ⏳ **Painel travado sem saldo** (decisão de UI ABERTA — recomende borrado+cadeado, confirme com ele).
 7. ⏳ **Gráfico do cockpit = EXATAMENTE igual ao protótipo** (linha simples no lugar do candlestick; tirar "Euro→Dólar"; ver `Dashboard.dc.html`).
 8. ⏳ **FASE 2 (dinheiro real, gated):** mudanças no robô (`server.ts`): (a) **caça-ativos** (girar entre os 4 até achar setup → travar) — hoje é ativo FIXO; (b) **travar teto de gale 4 no robô** — hoje é gale ×2 sem cap; (c) ligar as telas Operando/Resultado no stream real que o robô JÁ emite (`operacao_fechada`). Tudo via DIAG read-only → prova → demo-antes-de-real → deploy Docker gated (host compartilhado com TapeLab — cuidado).
@@ -279,7 +280,7 @@ Contrato (do DIAG anterior) = 14 eventos / 5 comandos / 4 rotas HTTP. Achados:
 
 ## 11. 📡 SEMÁFORO DE PUBLISH
 
-Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido. Recomendação: commitar cada fatia gated → preview → print quando houver tela nova → fechar visual. Telas já validadas no preview: Procurando, Operando (hero+lista). Print da Operando pós-3c FEITO (validado). Print da tela Pausado (Fatia 4) PENDENTE — 1ª validação visual da pausa/retomada; testar: pausar no meio, pausar na última op (deve segurar em Pausado), PARAR pausado (deve ir a Resultado).
+Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido. Recomendação: commitar cada fatia gated → preview → print quando houver tela nova → fechar visual. Telas já validadas no preview: Procurando, Operando (hero+lista). Print da Operando pós-3c FEITO (validado). Print da tela Pausado (Fatia 4) PENDENTE — 1ª validação visual da pausa/retomada; testar: pausar no meio, pausar na última op (deve segurar em Pausado), PARAR pausado (deve ir a Resultado). Print da tela Resultado (Fatia 5) PENDENTE — validar os 2 textos (fim natural="Meta da sessão concluída"; PARAR="Encerrada manualmente") e o clique DEPOSITAR abrindo o dialog. (Print da Pausado da Fatia 4 também segue pendente.)
 
 ---
 
@@ -287,7 +288,7 @@ Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido.
 
 1. Cole este resumo (o progress doc).
 2. **Re-anexe o handoff** `Fluxo IA Operando.dc.html` (e o resto do `design_handoff_trader_vingativa/designs/`) — OU aponte pra `docs/design-handoff/` no próprio repo, onde o handoff está versionado desde `8a12d84`.
-3. Estado: **Fatia 3c commitada (`14fde8b`)**, Fatia 4 (Pausado) + cleanup do enum commitadas (código = `8e8672e`); print da tela Pausado (Fatia 4) = **PENDENTE**.
-4. Próximo = **Fatia 5 (Resultado)** (depois: painel travado, gráfico, Fase 2).
+3. Estado: **Fatia 3c commitada (`14fde8b`)**, Fatia 4 (Pausado) + cleanup do enum commitadas (`8e8672e`), Fatia 5 (Resultado) commitada (`b0f47c9`); **fluxo demo COMPLETO**; prints da Pausado e da Resultado = **PENDENTES**.
+4. Próximo = decisão do dono: **Fase 2** (robô real / dinheiro; só com diagnóstico dedicado + money-proof) ou **parqueados** (painel travado, gráfico, burn-on-idle, testes do motor §7 item 9, re-entrância §7 item 10).
 
-> **Estado num cartão:** último commit de código = `8e8672e` (cleanup do enum "pausado" vestigial, pós-Fatia 4). Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado) + **Fatia 3c FEITA** (list header + "buscando…" + linha "procurando próxima entrada…" no operando) + **Fatia 4 FEITA** (`38d4859`: tela Pausado — pausa/retomada, EM ESPERA/card/⏸ via `paused`; gate de pausa D1-D4). Telas Procurando + Operando(hero+lista) validadas no preview; **print da tela Pausado (Fatia 4) PENDENTE** (1ª validação visual da pausa/retomada). **PRÓXIMO: Fatia 5 (Resultado)**, depois painel travado, gráfico, e Fase 2 (robô real). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
+> **Estado num cartão:** último commit de código = `b0f47c9`. **FLUXO DEMO COMPLETO** (4 telas: Procurando → Operando → Pausado → Resultado). Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado) + **Fatia 3c FEITA** (list header + "buscando…" + linha "procurando próxima entrada…" no operando) + **Fatia 4 FEITA** (`38d4859`: tela Pausado — pausa/retomada, EM ESPERA/card/⏸ via `paused`; gate de pausa D1-D4) + **Fatia 5 FEITA** (`b0f47c9`: tela Resultado — ResultadoScreen fiel, 2 textos por encerramento, rodapé FECHAR + DEPOSITAR via demoDepositRef; money-proof vazio). Telas Procurando + Operando(hero+lista) validadas no preview; **prints da Pausado (Fatia 4) e da Resultado (Fatia 5) PENDENTES**. **PRÓXIMO: decisão do dono** — Fase 2 (robô real / dinheiro; só com diagnóstico dedicado + money-proof) ou parqueados (painel travado, gráfico, burn-on-idle, testes do motor §7 item 9, re-entrância §7 item 10). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
