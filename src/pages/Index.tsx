@@ -1104,7 +1104,7 @@ const Index = () => {
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[1.7fr_1fr] lg:gap-[22px]">
+          <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[1.7fr_1fr] lg:gap-[22px] lg:items-start">
             {/* ===== ESQUERDA ===== */}
             <div className="flex min-w-0 flex-col gap-[18px]">
               {/* Card SALDO */}
@@ -1209,7 +1209,7 @@ const Index = () => {
                 <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 600, fontSize: 10, letterSpacing: ".18em", color: "#5d7167", textTransform: "uppercase", marginBottom: 11 }}>
                   Modelo de inteligência
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2.5">
                   {[
                     { key: "claude", label: "Claude", sub: "Anthropic", icon: claudeIcon },
                     { key: "gpt5", label: "GPT-5", sub: "OpenAI", icon: gptIcon },

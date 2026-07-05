@@ -1,7 +1,9 @@
 // Cockpit do Trader — painel direito de controles (reskin RECON-4: SliderRow.dc.html + Dashboard.dc.html).
 // ‼️ Estes controles alimentam o robô. Reskin é SÓ aparência: estados/props/handlers/clamp/min-max/gates INALTERADOS.
 // - Valor por operação / Meta / Stop loss: <Slider> shadcn (arrastar real) re-vestido por instância via CSS vars.
-// - Defesa Técnica (gale): stepper inteiro 1–4 (maxLoss) com 4 segmentos.
+// - Defesa Técnica (gale): stepper (maxLoss, clamp/range 1–4 INALTERADO) com 5 segmentos VISUAIS (Dashboard.dc.html L74).
+//   money-safety: o clamp segue 1..4; o 5º segmento é DECORATIVO (nunca preenchível com max lógico=4). Subir p/ 1–5 mudaria
+//   maxPerdasSeguidas no payload → decisão GATED, fora desta fatia (só o VISUAL segue o design).
 // - Botão "LIGAR IA" (gates inalterados: onStart/onStop/canStart/canStop).
 import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { Play, Square } from "lucide-react";
@@ -251,8 +253,9 @@ function SliderRow({
   );
 }
 
-// ===================== Defesa Técnica (gale) — stepper inteiro 1–4 (WIRING INALTERADO) =====================
+// ===================== Defesa Técnica (gale) — stepper 1–4 (WIRING INALTERADO), 5 segmentos VISUAIS =====================
 // Gale é CONTAGEM de níveis (inteiro), nunca dinheiro. money-safety: set() clampa SEMPRE 1..4 (teto = decisão de risco do dono).
+// Visual: 5 barras (Dashboard.dc.html L74). Com o clamp 1..4, o 5º nunca acende (n<=v e v<=4) — decorativo. Range/robô inalterados.
 function GaleControl({ value, setValue }: { value: number; setValue: (n: number) => void }) {
   const v = Math.max(1, Math.min(4, Math.floor(Number(value) || 1)));
   const set = (n: number) => setValue(Math.max(1, Math.min(4, Math.floor(Number(n)))));
@@ -277,7 +280,8 @@ function GaleControl({ value, setValue }: { value: number; setValue: (n: number)
           <span style={MINUS_GLYPH}>−</span>
         </button>
         <div className="flex flex-1 items-center" style={{ gap: 6 }}>
-          {[1, 2, 3, 4].map((n) => (
+          {/* 5 segmentos VISUAIS (Dashboard.dc.html L74). Preenche n<=v; com clamp 1..4 o 5º é sempre inativo (decorativo). */}
+          {[1, 2, 3, 4, 5].map((n) => (
             <span
               key={n}
               aria-hidden
