@@ -1,5 +1,5 @@
 // IA Vingativa — Dark trading dashboard wired to live WebSocket robot.
-// Connects to wss://kilobyte-romp-veto.ngrok-free.app via useRoboBot hook.
+// Connects to wss://bot.tradervingativo.pro via useRoboBot hook.
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
