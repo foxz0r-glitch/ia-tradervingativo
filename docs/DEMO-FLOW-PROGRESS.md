@@ -146,7 +146,7 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits 
 
 **Telas Procurando e hero+lista Operando: VALIDADAS no preview** (prints batem com o protótipo).
 
-**Tela "Meu Perfil" PORTADA** (`Perfil.dc.html`, row 20 = `64a0b4f`): Nome completo/E-mail/País read-only, **Telefone único editável** (grava em `profiles` + `metadata`); card Nível/Rank/Registro/ID reais; D1 telefone→profiles+metadata · D5 seta País removida · D2 avatar sync. Validada por double-checks (código); **print de runtime + validação do save em `profiles` (Admin/SQL) PENDENTES.**
+**Tela "Meu Perfil" PORTADA** (`Perfil.dc.html`, row 20 = `64a0b4f`): Nome completo/E-mail/País read-only, **Telefone único editável** (grava em `profiles` + `metadata`); card Nível/Rank/Registro/ID reais; D1 telefone→profiles+metadata · D5 seta País removida · D2 avatar sync. Validada por double-checks (código); **print de runtime + validação do save em `profiles` (Admin/SQL) PENDENTES — ver §11.**
 
 ---
 
