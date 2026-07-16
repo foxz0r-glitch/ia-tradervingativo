@@ -117,7 +117,7 @@ Ele cola um bloco grande pedindo "review adversarial, tentar QUEBRAR, linha a li
 
 ## 4. ESTADO ATUAL DO CÓDIGO — commits no ar (sequência)
 
-Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits de DOCS e de COMMENT-SYNC — só comentários, zero runtime — **não entram nesta tabela**: ex. 2819f1b/6b8dcb8/8a12d84 (docs), 60f048b/a65da80/ad691bb (comment-sync). `git log -1` mostrar hash de docs OU de comment-sync é ESPERADO — inclusive em `git log -1 -- src/`. Critério: **commit de CÓDIGO = commit que altera RUNTIME**; comment-only não conta, mesmo tocando `src/`.)
+Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits de DOCS e de COMMENT-SYNC — só comentários, zero runtime — **não entram nesta tabela**: ex. 2819f1b/6b8dcb8/8a12d84 (docs), 60f048b/365c5b3/a65da80/ad691bb (comment-sync). `git log -1` mostrar hash de docs OU de comment-sync é ESPERADO — inclusive em `git log -1 -- src/`. Critério: **commit de CÓDIGO = commit que muda o JS emitido** (não só comentários/tipos); comment-only não conta, mesmo tocando `src/`.)
 
 | # | Hash | O que é |
 |---|------|---------|
@@ -166,7 +166,7 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits 
 - `demoCancelRef` + `demoTimersRef` + `cancelDemoTimers()` = cancelamento de timers (PARAR não deixa timer órfão).
 - `demoSleep(ms)` = sleep CANCELÁVEL (resolve `false` no cancel → o loop aborta sem setState órfão).
 - **`canStart` do Ligar IA** inclui `&& demoPhase==="idle"` → impossível reabrir o modal por cima do overlay.
-- `demoRunning=false` acontece em: `handleDemoFechar` (FECHAR do Resultado), no catch do motor, no caso ops vazio/null e no PARAR durante o radar (radar→idle, liberando o LIGAR IA) — Modelo B (`650c781`). (O comentário estale `demoRunning=false: aqui` do Index foi corrigido no comment-sync `60f048b`; o header do overlay `DemoFlowOverlay.tsx:2` foi ressincronizado pós-Fatia 5 no chore `a65da80` — hoje diz "Resultado = FEITO (b0f47c9…)". Sem comment-sync pendente **no fluxo demo**. O header do `Index.tsx:2` — que citava um túnel ngrok morto — foi ressincronizado pro endpoint real `wss://bot.tradervingativo.pro` (`useRoboBot.ts:42`, desde `416bf8a`) num chore de comment-sync (`ad691bb`). Sem comment-sync pendente conhecido fora dele.)
+- `demoRunning=false` acontece em: `handleDemoFechar` (FECHAR do Resultado), no catch do motor, no caso ops vazio/null e no PARAR durante o radar (radar→idle, liberando o LIGAR IA) — Modelo B (`650c781`). (Os 2 comentários estale do Index (hoje marcados por `demoRunning=false: aqui` e `Fim NATURAL do lote`) foram corrigidos no comment-sync `60f048b`; o header do overlay `DemoFlowOverlay.tsx:2` foi ressincronizado pós-Fatia 5 no chore `a65da80` — hoje diz "Resultado = FEITO (b0f47c9…)". Sem comment-sync pendente **no fluxo demo**. O header do `Index.tsx:2` — que citava um túnel ngrok morto — foi ressincronizado pro endpoint real `wss://bot.tradervingativo.pro` (`useRoboBot.ts:42`, desde `416bf8a`) num chore de comment-sync (`ad691bb`). Sem comment-sync pendente conhecido fora dele.)
 
 ### 5.3. Motor (`generateSessionOps`) — regras TRAVADAS (commit `fdd2888` + `85df0f2`)
 - **win = pnl +R$445 EXATO; loss = pnl −R$500 EXATO** (constantes; `pnl` é o valor canônico que a lista exibe E que o acumulado soma — linha=acumulado batem).
