@@ -1,4 +1,4 @@
-# RESUMO S+ DE CONTINUIDADE — IA Vingativa (fluxo demo + reskin) — 2026-07-06
+# RESUMO S+ DE CONTINUIDADE — IA Vingativa (fluxo demo + reskin) — 2026-07-06 *(convenção: data do ÚLTIMO COMMIT DE CÓDIGO, não da sessão)*
 
 > **LEIA ESTE DOCUMENTO INTEIRO ANTES DE RESPONDER QUALQUER COISA.** Ele é a fonte de continuidade entre chats. O objetivo é zero perda de contexto: workflow, decisões travadas, estado do código, próximos passos e regras — tudo aqui. Se algo neste resumo conflitar com o código real, **o código vence** (leia-o antes de afirmar).
 
@@ -117,7 +117,7 @@ Ele cola um bloco grande pedindo "review adversarial, tentar QUEBRAR, linha a li
 
 ## 4. ESTADO ATUAL DO CÓDIGO — commits no ar (sequência)
 
-Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits de docs podem existir por cima — ex.: 2819f1b/6b8dcb8/8a12d84; `git log -1` mostrar hash de docs é ESPERADO.)
+Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits de DOCS e de COMMENT-SYNC — só comentários, zero runtime — **não entram nesta tabela**: ex. 2819f1b/6b8dcb8/8a12d84 (docs), 60f048b/a65da80 (comment-sync). `git log -1` mostrar hash de docs é ESPERADO.)
 
 | # | Hash | O que é |
 |---|------|---------|
@@ -139,14 +139,14 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits 
 | 16 | `38d4859` | **Fatia 4** — tela Pausado: pausa/retomada do fluxo demo (gate de pausa, sem tocar fluxo real); badge ⏸ PAUSADO + EM ESPERA + card "Operações em espera — toque RETOMAR", fiéis ao .dc.html; animações congeladas no paused |
 | 17 | `8e8672e` | cleanup: remove enum "pausado" vestigial pós-Fatia 4 (só tipos/label; demoPhase agora "idle"\|"procurando"\|"operando"\|"resultado") |
 | 18 | `b0f47c9` | **Fatia 5** — tela Resultado (ResultadoScreen fiel ao design): ícone ✓, "Sessão encerrada", 2 textos por encerramento (manual="Encerrada manualmente" / natural="Meta da sessão concluída"), saldo final, faixa Operações/Acerto/Wins, rodapé FECHAR + DEPOSITAR (DEPOSITAR abre o dialog de depósito via demoDepositRef, sem tocar o fluxo real); remove PHASE_LABEL vestigial. Money-proof vazio |
-| 19 | `5cbb489` | **Defesa Técnica 5 segmentos** VISUAIS (clamp 1-4 do `maxLoss` INTACTO) + fidelidade do grid (`items-start`, gap 10px) ao `Dashboard.dc.html`; toca `CockpitVariants.tsx` + `Index.tsx`; wiring do robô intacto (money-proof vazio); pushado |
-| 20 | `64a0b4f` | **PORT "MEU PERFIL"** (`Perfil.dc.html`) — **último commit de CÓDIGO**, por cima de `5cbb489`. Tela `/perfil` reescrita fiel ao design: **2 cards** — perfil (avatar radial + badge câmera reusa o fluxo de foto; **selo verificado** = `email_confirmed_at`; barras **Nível/Rank** + **Registro/ID** REAIS via `useUserXP`/`created_at`/`casatrade_user_id`) e **Dados da conta**. **Editável SÓ o Telefone** (Nome completo/E-mail/País read-only; nascimento/gênero fora da UI, dado preservado por merge do `updateUser`). **D1:** `handleSave` grava whatsapp no `user_metadata` (merge, só whatsapp) **E** na tabela `profiles` (upsert `{id,whatsapp}` espelhando o `savePhone` canônico) → chega no Admin/CRM; **updateUser primeiro** (profiles só se metadata OK); **guard** rejeita telefone parcial (<10 díg.), permite vazio (limpar → sai do CRM). **D5:** seta "▾" do País removida. **D2:** card do avatar sincroniza ao vivo (listener `avatar-updated`, espelha o UserMenu vivo, não o AppSidebar dead-code). Hardening a11y (foco + `aria-label` no Telefone) + clamp `LV≥1`; fallback ícone preservado. **Só `src/pages/Profile.tsx`** (+ este doc-sync). tsc/eslint/build verdes; money-proof vazio. Validado por 4 relatórios (RECON-port-perfil · DOUBLE-CHECK-perfil-port · RECON-perfil-d1-d5-d2 · DOUBLE-CHECK-perfil-d1d5d2). **Print de runtime + validação do save em `profiles` PENDENTES.** |
+| 19 | `5cbb489` | **Defesa Técnica 5 segmentos** VISUAIS (clamp 1-4 do `maxLoss` INTACTO) + fidelidade do grid (`items-start`, gap 10px) ao `Dashboard.dc.html`; toca `CockpitVariants.tsx` + `Index.tsx`; wiring do robô intacto (money-proof vazio); pushado. **Print de runtime PENDENTE — ver §11.** |
+| 20 | `64a0b4f` | **PORT "MEU PERFIL"** (`Perfil.dc.html`) — **último commit de CÓDIGO**, por cima de `5cbb489`. Tela `/perfil` reescrita fiel ao design: **2 cards** — perfil (avatar radial + badge câmera reusa o fluxo de foto; **selo verificado** = `email_confirmed_at`; barras **Nível/Rank** + **Registro/ID** REAIS via `useUserXP`/`created_at`/`casatrade_user_id`) e **Dados da conta**. **Editável SÓ o Telefone** (Nome completo/E-mail/País read-only; nascimento/gênero fora da UI, dado preservado por merge do `updateUser`). **D1:** `handleSave` grava whatsapp no `user_metadata` (merge, só whatsapp) **E** na tabela `profiles` (upsert `{id,whatsapp}` espelhando o `savePhone` canônico) → chega no Admin/CRM; **updateUser primeiro** (profiles só se metadata OK); **guard** rejeita telefone parcial (<10 díg.), permite vazio (limpar → sai do CRM). **D5:** seta "▾" do País removida. **D2:** card do avatar sincroniza ao vivo (listener `avatar-updated`, espelha o UserMenu vivo, não o AppSidebar dead-code). Hardening a11y (foco + `aria-label` no Telefone) + clamp `LV≥1`; fallback ícone preservado. **Só `src/pages/Profile.tsx`** (+ o doc-sync do próprio `64a0b4f`). tsc/eslint/build verdes; money-proof vazio. Validado por 4 relatórios (RECON-port-perfil · DOUBLE-CHECK-perfil-port · RECON-perfil-d1-d5-d2 · DOUBLE-CHECK-perfil-d1d5d2). **Print de runtime + validação do save em `profiles` PENDENTES — ver §11.** |
 
 **Dashboard reconstruído = COMPLETO** (4 peças commitadas, validado com print, idêntico ao handoff). Diferenças restantes do dashboard são só no GRÁFICO (cabeçalho "Euro→Dólar"+bandeiras+"AO VIVO", candlestick vs linha, selo "ROBÔ CONECTADO") → mapeadas pra fatia do gráfico.
 
 **Telas Procurando e hero+lista Operando: VALIDADAS no preview** (prints batem com o protótipo).
 
-**Tela "Meu Perfil" PORTADA** (`Perfil.dc.html`, row 20 — este doc-sync commit): Nome completo/E-mail/País read-only, **Telefone único editável** (grava em `profiles` + `metadata`); card Nível/Rank/Registro/ID reais; D1 telefone→profiles+metadata · D5 seta País removida · D2 avatar sync. Validada por double-checks (código); **print de runtime + validação do save em `profiles` (Admin/SQL) PENDENTES.**
+**Tela "Meu Perfil" PORTADA** (`Perfil.dc.html`, row 20 = `64a0b4f`): Nome completo/E-mail/País read-only, **Telefone único editável** (grava em `profiles` + `metadata`); card Nível/Rank/Registro/ID reais; D1 telefone→profiles+metadata · D5 seta País removida · D2 avatar sync. Validada por double-checks (código); **print de runtime + validação do save em `profiles` (Admin/SQL) PENDENTES.**
 
 ---
 
@@ -166,7 +166,7 @@ Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits 
 - `demoCancelRef` + `demoTimersRef` + `cancelDemoTimers()` = cancelamento de timers (PARAR não deixa timer órfão).
 - `demoSleep(ms)` = sleep CANCELÁVEL (resolve `false` no cancel → o loop aborta sem setState órfão).
 - **`canStart` do Ligar IA** inclui `&& demoPhase==="idle"` → impossível reabrir o modal por cima do overlay.
-- `demoRunning=false` acontece em: `handleDemoFechar` (FECHAR do Resultado), no catch do motor, no caso ops vazio/null e no PARAR durante o radar (radar→idle, liberando o LIGAR IA) — Modelo B (`650c781`). (O comentário estale do Index ~L810 foi corrigido no comment-sync `60f048b`. PENDENTE: o header do overlay `DemoFlowOverlay.tsx:2` voltou a ficar estale pós-Fatia 5 — diz "Resultado = placeholder" — candidato a comment-sync.)
+- `demoRunning=false` acontece em: `handleDemoFechar` (FECHAR do Resultado), no catch do motor, no caso ops vazio/null e no PARAR durante o radar (radar→idle, liberando o LIGAR IA) — Modelo B (`650c781`). (O comentário estale do Index ~L810 foi corrigido no comment-sync `60f048b`; o header do overlay `DemoFlowOverlay.tsx:2` foi ressincronizado pós-Fatia 5 no chore `a65da80` — hoje diz "Resultado = FEITO (b0f47c9…)". Sem comment-sync pendente **no fluxo demo**. ⚠️ PENDENTE fora dele: `Index.tsx:2` ainda cita `wss://kilobyte-romp-veto.ngrok-free.app`; o real é `wss://bot.tradervingativo.pro` (`useRoboBot.ts:42`, desde `416bf8a`) — candidato a comment-sync; relevante pra Fase 2 (aponta pro host errado do robô).)
 
 ### 5.3. Motor (`generateSessionOps`) — regras TRAVADAS (commit `fdd2888` + `85df0f2`)
 - **win = pnl +R$445 EXATO; loss = pnl −R$500 EXATO** (constantes; `pnl` é o valor canônico que a lista exibe E que o acumulado soma — linha=acumulado batem).
@@ -252,7 +252,7 @@ Contrato (do DIAG anterior) = 14 eventos / 5 comandos / 4 rotas HTTP. Achados:
 
 ## 9. DECISÕES DE PRODUTO/DINHEIRO TRAVADAS (não reabrir sem ordem dele)
 
-- **GALE: teto 4** (1–4 segmentos), default 2. Confirmado após você alertar do risco de banca (4 perdas = aposta 8× a inicial). Setter vivo único = GaleControl (clamp 1..4); AIConfigPanel morto foi removido.
+- **GALE: teto 4** (níveis selecionáveis 1–4; o stepper mostra **5 barras VISUAIS** desde `5cbb489` — a 5ª é DECORATIVA, nunca acende com o clamp 1..4), default 2. Confirmado após você alertar do risco de banca (4 perdas = aposta 8× a inicial). Setter vivo único = GaleControl (clamp 1..4); AIConfigPanel morto foi removido.
 - **DEMO = simulação fake no app**, não no robô, não opera CasaTrade. Gatilho: saldo<2 → Ligar IA → fluxo fake.
 - **Valores demo:** win +445 / loss −500 (o número EXIBIDO, = `pnl`), 6-8 ops, máx 2 perdas, 1ª win, saldo final sempre positivo, % acerto alto (~67-87% nas fotos — coerente com máx 2 perdas).
 - **Demo "sempre vence":** o Royal está ciente do risco regulatório (CVM/CasaTrade) e **assumiu explicitamente** após você alertar.
@@ -287,7 +287,16 @@ Contrato (do DIAG anterior) = 14 eventos / 5 comandos / 4 rotas HTTP. Achados:
 
 ## 11. 📡 SEMÁFORO DE PUBLISH
 
-Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido. Recomendação: commitar cada fatia gated → preview → print quando houver tela nova → fechar visual. Telas já validadas no preview: Procurando, Operando (hero+lista). Print da Operando pós-3c FEITO (validado). Print da tela Pausado (Fatia 4) PENDENTE — 1ª validação visual da pausa/retomada; testar: pausar no meio, pausar na última op (deve segurar em Pausado), PARAR pausado (deve ir a Resultado). Print da tela Resultado (Fatia 5) PENDENTE — validar os 2 textos (fim natural="Meta da sessão concluída"; PARAR="Encerrada manualmente") e o clique DEPOSITAR abrindo o dialog. (Print da Pausado da Fatia 4 também segue pendente.)
+Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido. Recomendação: commitar cada fatia gated → preview → print quando houver tela nova → fechar visual. Telas já validadas no preview: Procurando, Operando (hero+lista). Print da Operando pós-3c FEITO (validado).
+
+> ‼️ **Esta é a lista ÚNICA de prints/validações pendentes. As outras seções apontam pra cá e NÃO reenumeram a lista completa** (evita divergência a cada doc-sync). Ao fechar um item, marque AQUI.
+
+**PENDENTES (lista única):**
+1. **Print da tela Pausado** (Fatia 4, `38d4859`) — 1ª validação visual da pausa/retomada; testar: pausar no meio, pausar na última op (deve segurar em Pausado), PARAR pausado (deve ir a Resultado).
+2. **Print da tela Resultado** (Fatia 5, `b0f47c9`) — validar os 2 textos (fim natural="Meta da sessão concluída"; PARAR="Encerrada manualmente") e o clique DEPOSITAR abrindo o dialog.
+3. **Print do cockpit pós-`5cbb489`** — Defesa Técnica **5 barras VISUAIS** (a 5ª nunca acende: clamp 1..4) + fidelidade do grid (`items-start`, gap 10px) ao `Dashboard.dc.html`.
+4. **Print do /perfil** (`64a0b4f`) — **desktop e mobile**.
+5. **Validação do save do telefone em `profiles`** (Admin/SQL) — confirmar que o whatsapp gravado no /perfil chega na tabela `profiles` (não só no `user_metadata`).
 
 ---
 
@@ -295,7 +304,7 @@ Sem usuários, publicar não expõe ninguém. Republicar a cada marco conferido.
 
 1. Cole este resumo (o progress doc).
 2. **Re-anexe o handoff** `Fluxo IA Operando.dc.html` (e o resto do `design_handoff_trader_vingativa/designs/`) — OU aponte pra `docs/design-handoff/` no próprio repo, onde o handoff está versionado desde `8a12d84`.
-3. Estado: **Fatia 3c commitada (`14fde8b`)**, Fatia 4 (Pausado) + cleanup do enum commitadas (`8e8672e`), Fatia 5 (Resultado) commitada (`b0f47c9`); **fluxo demo COMPLETO**; prints da Pausado e da Resultado = **PENDENTES**.
+3. Estado: **fluxo demo COMPLETO** (4 telas; Fatia 5 = `b0f47c9`). Por cima: comment-sync do overlay (`a65da80`), **Defesa Técnica 5 segmentos** (`5cbb489`) e **port do Meu Perfil** (`64a0b4f` = **último commit de código**). PENDENTES: ver §11 (lista única).
 4. Próximo = decisão do dono: **Fase 2** (robô real / dinheiro; só com diagnóstico dedicado + money-proof) ou **parqueados** (painel travado, gráfico, burn-on-idle, testes do motor §7 item 9, re-entrância §7 item 10).
 
-> **Estado num cartão:** último commit de código = `64a0b4f`. **FLUXO DEMO COMPLETO** (4 telas: Procurando → Operando → Pausado → Resultado). Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado) + **Fatia 3c FEITA** (list header + "buscando…" + linha "procurando próxima entrada…" no operando) + **Fatia 4 FEITA** (`38d4859`: tela Pausado — pausa/retomada, EM ESPERA/card/⏸ via `paused`; gate de pausa D1-D4) + **Fatia 5 FEITA** (`b0f47c9`: tela Resultado — ResultadoScreen fiel, 2 textos por encerramento, rodapé FECHAR + DEPOSITAR via demoDepositRef; money-proof vazio). Telas Procurando + Operando(hero+lista) validadas no preview; **prints da Pausado (Fatia 4) e da Resultado (Fatia 5) PENDENTES**. **PRÓXIMO: decisão do dono** — Fase 2 (robô real / dinheiro; só com diagnóstico dedicado + money-proof) ou parqueados (painel travado, gráfico, burn-on-idle, testes do motor §7 item 9, re-entrância §7 item 10). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
+> **Estado num cartão:** último commit de código = `64a0b4f`. **FLUXO DEMO COMPLETO** (4 telas: Procurando → Operando → Pausado → Resultado). Motor demo fechado (1 ativo dos 4 do radar, +445/−500, 6-8 ops, máx 2 perdas, 1ª win, sempre positivo) + **loop Modelo B FEITO** (radar só na abertura → operando fixo; PARAR por ref síncrono: radar→idle sem queimar sessão, operando→resultado) + **Fatia 3c FEITA** (list header + "buscando…" + linha "procurando próxima entrada…" no operando) + **Fatia 4 FEITA** (`38d4859`: tela Pausado — pausa/retomada, EM ESPERA/card/⏸ via `paused`; gate de pausa D1-D4) + **Fatia 5 FEITA** (`b0f47c9`: tela Resultado — ResultadoScreen fiel, 2 textos por encerramento, rodapé FECHAR + DEPOSITAR via demoDepositRef; money-proof vazio). Telas Procurando + Operando(hero+lista) validadas no preview; **prints/validações pendentes: ver §11** (lista única). **PRÓXIMO: decisão do dono** — Fase 2 (robô real / dinheiro; só com diagnóstico dedicado + money-proof) ou parqueados (painel travado, gráfico, burn-on-idle, testes do motor §7 item 9, re-entrância §7 item 10). Workflow: você escreve prompts pro CC, ele roda no Windows, review adversarial em cada um, commit gated, fonte = `.dc.html` lido (não memória).
