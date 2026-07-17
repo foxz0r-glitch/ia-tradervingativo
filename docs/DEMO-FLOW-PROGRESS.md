@@ -117,7 +117,7 @@ Ele cola um bloco grande pedindo "review adversarial, tentar QUEBRAR, linha a li
 
 ## 4. ESTADO ATUAL DO CÓDIGO — commits no ar (sequência)
 
-Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits de DOCS e de COMMENT-SYNC — só comentários, zero runtime — **não entram nesta tabela**: ex. 2819f1b/6b8dcb8/8a12d84 (docs), 60f048b/365c5b3/a65da80/ad691bb (comment-sync). `git log -1` mostrar hash de docs OU de comment-sync é ESPERADO — inclusive em `git log -1 -- src/`. Critério: **commit de CÓDIGO = commit que muda o JS emitido** (não só comentários/tipos); comment-only não conta, mesmo tocando `src/`.)
+Repo do app, branch `main`. **Último commit de CÓDIGO = `64a0b4f`.** (Commits de DOCS e de COMMENT-SYNC — só comentários, zero runtime — **não entram nesta tabela**: ex. 2819f1b/6b8dcb8/8a12d84 (docs), 60f048b/365c5b3/a65da80/ad691bb (comment-sync). `git log -1` mostrar hash de docs OU de comment-sync é ESPERADO — inclusive em `git log -1 -- src/`. Critério: **commit de CÓDIGO = commit que muda algum artefato emitido pelo build** (JS, CSS ou HTML — não só comentários/tipos); comment-only não conta, mesmo tocando `src/`.)
 
 | # | Hash | O que é |
 |---|------|---------|
